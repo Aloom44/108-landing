@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة الطلبات - زيت الـ108 عشبة</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <style>
+        :root {
+            --primary-green: #4A7C59;
+            --dark-green: #2C5530;
+            --light-green: #8FBC8F;
+            --beige: #F5E6D3;
+            --gold: #D4AF37;
+            --dark-gold: #B8941C;
+            --white: #FFFFFF;
+            --light-gray: #F9F9F9;
+            --text-dark: #2C3E2C;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%);
+            min-height: 100vh;
+            padding: 15px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .header h1 {
+            color: var(--primary-green);
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .stats {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .stat-box {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            text-align: center;
+            min-width: 120px;
+        }
+        
+        .stat-box .number {
+            font-size: 1.6rem;
+            font-weight: 900;
+            display: block;
+            color: var(--gold);
+        }
+        
+        .stat-box .label {
+            font-size: 0.85rem;
+            opacity: 0.95;
+        }
+        
+        .controls {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 10px 40px 10px 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: 'Cairo', sans-serif;
+            transition: all 0.3s ease;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Cairo', sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%);
+            color: white;
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--dark-gold) 100%);
+            color: var(--dark-green);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            color: white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .orders-table {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        thead {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%);
+            color: white;
+        }
+        
+        th {
+            padding: 12px 10px;
+            text-align: right;
+            font-weight: 800;
+            font-size: 0.85rem;
+        }
+        
+        tbody tr {
+            border-bottom: 1px solid #f0f0f0;
+            transition: all 0.3s ease;
+        }
+        
+        tbody tr:hover {
+            background: rgba(74, 124, 89, 0.05);
+        }
+        
+        td {
+            padding: 12px 10px;
+            text-align: right;
+            font-size: 0.9rem;
+        }
+        
+        .order-id {
+            font-weight: 700;
+            color: var(--primary-green);
+        }
+        
+        .phone {
+            direction: ltr;
+            text-align: right;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        
+        .price {
+            font-weight: 900;
+            color: var(--gold);
+            font-size: 1rem;
+        }
+        
+        .address {
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 0.85rem;
+            color: #666;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+        
+        .btn-small {
+            padding: 5px 10px;
+            font-size: 0.8rem;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: #999;
+        }
+        
+        .empty-state i {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            opacity: 0.3;
+            color: var(--primary-green);
+        }
+        
+        .empty-state h3 {
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+        
+        .empty-state p {
+            font-size: 0.95rem;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .orders-table {
+                overflow-x: auto;
+            }
+            
+            table {
+                min-width: 900px;
+            }
+            
+            .header {
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 1.2rem;
+            }
+            
+            .stat-box {
+                padding: 10px 15px;
+                min-width: 100px;
+            }
+            
+            .stat-box .number {
+                font-size: 1.3rem;
+            }
+            
+            .stat-box .label {
+                font-size: 0.8rem;
+            }
+            
+            .controls {
+                padding: 12px;
+            }
+            
+            .btn {
+                padding: 8px 16px;
+                font-size: 0.85rem;
+            }
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .modal-content h2 {
+            color: var(--primary-green);
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+        
+        .detail-row {
+            padding: 10px;
+            background: rgba(74, 124, 89, 0.05);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-right: 3px solid var(--gold);
+        }
+        
+        .detail-row strong {
+            display: block;
+            color: var(--primary-green);
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+        }
+        
+        .close-modal {
+            margin-top: 20px;
+        }
+        
+        /* ===== Blur Overlay for Login ===== */
+        .blur-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            background: linear-gradient(135deg, rgba(44, 85, 48, 0.85) 0%, rgba(74, 124, 89, 0.85) 100%);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.5s ease;
+            transition: opacity 0.5s ease;
+        }
+        
+        .blur-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+            animation: fadeOut 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Blur Overlay (Background for login form) -->
+    <div class="blur-overlay" id="blurOverlay"></div>
+    
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>
+                <i class="fas fa-clipboard-list" style="color: var(--gold);"></i>
+                لوحة إدارة الطلبات - زيت الـ108 عشبة 🌿
+            </h1>
+            <div class="stats">
+                <div class="stat-box">
+                    <span class="number" id="totalOrders">0</span>
+                    <span class="label">إجمالي الطلبات</span>
+                </div>
+                <div class="stat-box">
+                    <span class="number" id="totalRevenue">0</span>
+                    <span class="label">الإيرادات (جنيه)</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Controls -->
+        <div class="controls">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="بحث بالاسم أو رقم الهاتف...">
+                <i class="fas fa-search"></i>
+            </div>
+            <button class="btn btn-success" onclick="exportToCSV()">
+                <i class="fas fa-download"></i>
+                تصدير Excel
+            </button>
+            <button class="btn btn-primary" onclick="refreshData()">
+                <i class="fas fa-sync-alt"></i>
+                تحديث
+            </button>
+            <button class="btn btn-danger" onclick="clearAllOrders()">
+                <i class="fas fa-trash"></i>
+                حذف الكل
+            </button>
+            <button class="btn btn-primary" onclick="logout()" style="background: linear-gradient(135deg, #6c757d 0%, #495057 100%);">
+                <i class="fas fa-sign-out-alt"></i>
+                تسجيل خروج
+            </button>
+        </div>
+        
+        <!-- Orders Table -->
+        <div class="orders-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>التاريخ</th>
+                        <th>الاسم</th>
+                        <th>الهاتف</th>
+                        <th>المحافظة</th>
+                        <th>العنوان</th>
+                        <th>الحجم</th>
+                        <th>السعر</th>
+                        <th>الإجراءات</th>
+                    </tr>
+                </thead>
+                <tbody id="ordersTableBody">
+                    <tr>
+                        <td colspan="9">
+                            <div class="empty-state">
+                                <i class="fas fa-inbox"></i>
+                                <h3>لا توجد طلبات بعد</h3>
+                                <p>سيتم عرض الطلبات هنا عند استلامها</p>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- Order Details Modal -->
+    <div class="modal" id="detailsModal">
+        <div class="modal-content">
+            <h2><i class="fas fa-file-alt"></i> تفاصيل الطلب</h2>
+            <div id="orderDetails"></div>
+            <button class="btn btn-primary close-modal" onclick="closeModal()">
+                <i class="fas fa-times"></i>
+                إغلاق
+            </button>
+        </div>
+    </div>
+    
+    <script>
+        // Authentication System
+        const ADMIN_USERNAME = "Ahmed22";
+        const ADMIN_PASSWORD = "Aloom2022@";
+        
+        async function checkAuthentication() {
+            // Check if already authenticated in this session
+            const isAuthenticated = sessionStorage.getItem('adminAuthenticated');
+            
+            if (isAuthenticated === 'true') {
+                // Remove blur overlay if already authenticated
+                const blurOverlay = document.getElementById('blurOverlay');
+                if (blurOverlay) {
+                    blurOverlay.classList.add('hidden');
+                    setTimeout(() => {
+                        blurOverlay.style.display = 'none';
+                    }, 500);
+                }
+                return true;
+            }
+            
+            // Show login form (blur stays as background)
+            let attempts = 0;
+            const maxAttempts = 3;
+            
+            while (attempts < maxAttempts) {
+                const { value: formValues } = await Swal.fire({
+                    title: '<i class="fas fa-lock" style="color: #4A7C59;"></i> تسجيل الدخول',
+                    html:
+                        '<input id="swal-username" class="swal2-input" placeholder="اسم المستخدم" style="text-align: right;">' +
+                        '<input id="swal-password" type="password" class="swal2-input" placeholder="كلمة المرور" style="text-align: right;">',
+                    confirmButtonText: 'دخول',
+                    confirmButtonColor: '#4A7C59',
+                    showCancelButton: true,
+                    cancelButtonText: 'إلغاء',
+                    cancelButtonColor: '#d33',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    preConfirm: () => {
+                        const username = document.getElementById('swal-username').value;
+                        const password = document.getElementById('swal-password').value;
+                        
+                        if (!username || !password) {
+                            Swal.showValidationMessage('يرجى إدخال اسم المستخدم وكلمة المرور');
+                            return false;
+                        }
+                        
+                        return { username, password };
+                    }
+                });
+                
+                if (!formValues) {
+                    // User cancelled
+                    await Swal.fire({
+                        icon: 'error',
+                        title: 'تم إلغاء تسجيل الدخول',
+                        text: 'سيتم تحويلك الآن...',
+                        confirmButtonColor: '#4A7C59',
+                        timer: 2000
+                    });
+                    window.location.href = "https://google.com";
+                    return false;
+                }
+                
+                if (formValues.username === ADMIN_USERNAME && formValues.password === ADMIN_PASSWORD) {
+                    // Successful login
+                    sessionStorage.setItem('adminAuthenticated', 'true');
+                    
+                    // Remove blur overlay after successful login
+                    const blurOverlay = document.getElementById('blurOverlay');
+                    if (blurOverlay) {
+                        blurOverlay.classList.add('hidden');
+                        setTimeout(() => {
+                            blurOverlay.style.display = 'none';
+                        }, 500);
+                    }
+                    
+                    await Swal.fire({
+                        icon: 'success',
+                        title: 'مرحباً بك!',
+                        text: 'تم تسجيل الدخول بنجاح',
+                        confirmButtonColor: '#4A7C59',
+                        timer: 1500,
+                        showConfirmButton: false
+                    });
+                    return true;
+                } else {
+                    attempts++;
+                    if (attempts < maxAttempts) {
+                        await Swal.fire({
+                            icon: 'error',
+                            title: 'خطأ في تسجيل الدخول',
+                            text: `اسم المستخدم أو كلمة المرور خاطئة!\nالمحاولات المتبقية: ${maxAttempts - attempts}`,
+                            confirmButtonColor: '#4A7C59'
+                        });
+                    } else {
+                        await Swal.fire({
+                            icon: 'error',
+                            title: 'تم تجاوز عدد المحاولات',
+                            text: 'سيتم تحويلك الآن...',
+                            confirmButtonColor: '#d33',
+                            timer: 2000
+                        });
+                        window.location.href = "https://google.com";
+                        return false;
+                    }
+                }
+            }
+            
+            return false;
+        }
+        
+        // Check authentication before loading page
+        checkAuthentication().then(authenticated => {
+            if (!authenticated) {
+                throw new Error("Access Denied");
+            }
+        });
+        
+        // Load orders from localStorage
+        function loadOrders() {
+            try {
+                const orders = JSON.parse(localStorage.getItem('hairOilOrders') || '[]');
+                return orders.reverse(); // Show newest first
+            } catch (e) {
+                console.error('Error loading orders:', e);
+                return [];
+            }
+        }
+        
+        // Display orders in table
+        function displayOrders(orders = null) {
+            const ordersData = orders || loadOrders();
+            const tbody = document.getElementById('ordersTableBody');
+            
+            if (ordersData.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="9">
+                            <div class="empty-state">
+                                <i class="fas fa-inbox"></i>
+                                <h3>لا توجد طلبات بعد</h3>
+                                <p>سيتم عرض الطلبات هنا عند استلامها</p>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            tbody.innerHTML = ordersData.map((order, index) => `
+                <tr>
+                    <td class="order-id">#${ordersData.length - index}</td>
+                    <td>${order.date || new Date(order.timestamp).toLocaleDateString('ar-EG')}</td>
+                    <td><strong>${order.name}</strong></td>
+                    <td class="phone">${order.phone}</td>
+                    <td>${order.governorate}</td>
+                    <td class="address" title="${order.address}">${order.address}</td>
+                    <td><span style="background: var(--primary-green); color: white; padding: 4px 10px; border-radius: 5px; font-size: 0.8rem;">${order.bottleSize}</span></td>
+                    <td class="price">${order.price} ج</td>
+                    <td class="actions">
+                        <button class="btn btn-primary btn-small" onclick="viewDetails(${ordersData.length - index - 1})" title="عرض التفاصيل">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="btn btn-success btn-small" onclick="callCustomer('${order.phone}')" title="اتصال">
+                            <i class="fas fa-phone"></i>
+                        </button>
+                        <button class="btn btn-success btn-small" onclick="whatsappCustomer('${order.phone}', '${order.name}')" title="واتساب">
+                            <i class="fab fa-whatsapp"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+            
+            updateStats(ordersData);
+        }
+        
+        // Update statistics
+        function updateStats(orders) {
+            document.getElementById('totalOrders').textContent = orders.length;
+            const totalRevenue = orders.reduce((sum, order) => sum + order.price, 0);
+            document.getElementById('totalRevenue').textContent = totalRevenue.toLocaleString();
+        }
+        
+        // View order details
+        function viewDetails(index) {
+            const orders = loadOrders().reverse();
+            const order = orders[index];
+            
+            const detailsHTML = `
+                <div class="detail-row">
+                    <strong>رقم الطلب:</strong>
+                    #${orders.length - index}
+                </div>
+                <div class="detail-row">
+                    <strong>التاريخ والوقت:</strong>
+                    ${order.date || new Date(order.timestamp).toLocaleDateString('ar-EG')} - ${order.time || new Date(order.timestamp).toLocaleTimeString('ar-EG')}
+                </div>
+                <div class="detail-row">
+                    <strong>اسم العميل:</strong>
+                    ${order.name}
+                </div>
+                <div class="detail-row">
+                    <strong>رقم الهاتف:</strong>
+                    <span style="direction: ltr; display: block;">${order.phone}</span>
+                </div>
+                <div class="detail-row">
+                    <strong>المحافظة:</strong>
+                    ${order.governorate}
+                </div>
+                <div class="detail-row">
+                    <strong>العنوان التفصيلي:</strong>
+                    ${order.address}
+                </div>
+                <div class="detail-row">
+                    <strong>المنتج:</strong>
+                    ${order.product}
+                </div>
+                <div class="detail-row">
+                    <strong>حجم الزجاجة:</strong>
+                    ${order.bottleSize}
+                </div>
+                <div class="detail-row">
+                    <strong>السعر:</strong>
+                    <span style="color: #38ef7d; font-weight: 900; font-size: 1.2rem;">${order.price} جنيه</span>
+                </div>
+            `;
+            
+            document.getElementById('orderDetails').innerHTML = detailsHTML;
+            document.getElementById('detailsModal').classList.add('active');
+        }
+        
+        // Close modal
+        function closeModal() {
+            document.getElementById('detailsModal').classList.remove('active');
+        }
+        
+        // Call customer
+        function callCustomer(phone) {
+            window.location.href = `tel:${phone}`;
+        }
+        
+        // WhatsApp customer
+        function whatsappCustomer(phone, name) {
+            const message = `مرحباً ${name}، نشكرك على طلبك لزيت الـ108 عشبة. سنقوم بالتواصل معك لتأكيد الطلب والتوصيل.`;
+            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
+        }
+        
+        // Search orders
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const orders = loadOrders();
+            
+            if (!searchTerm) {
+                displayOrders(orders);
+                return;
+            }
+            
+            const filtered = orders.filter(order => 
+                order.name.toLowerCase().includes(searchTerm) ||
+                order.phone.includes(searchTerm) ||
+                order.governorate.toLowerCase().includes(searchTerm)
+            );
+            
+            displayOrders(filtered);
+        });
+        
+        // Export to CSV
+        async function exportToCSV() {
+            const orders = loadOrders().reverse();
+            
+            if (orders.length === 0) {
+                await Swal.fire({
+                    icon: 'info',
+                    title: 'لا توجد بيانات',
+                    text: 'لا توجد طلبات للتصدير',
+                    confirmButtonColor: '#4A7C59'
+                });
+                return;
+            }
+            
+            let csv = '\uFEFF'; // BOM for Excel UTF-8
+            csv += 'رقم الطلب,التاريخ,الوقت,الاسم,الهاتف,المحافظة,العنوان,المنتج,الحجم,السعر\n';
+            
+            orders.forEach((order, index) => {
+                csv += `${index + 1},`;
+                csv += `"${order.date || new Date(order.timestamp).toLocaleDateString('ar-EG')}",`;
+                csv += `"${order.time || new Date(order.timestamp).toLocaleTimeString('ar-EG')}",`;
+                csv += `"${order.name}",`;
+                csv += `"${order.phone}",`;
+                csv += `"${order.governorate}",`;
+                csv += `"${order.address}",`;
+                csv += `"${order.product}",`;
+                csv += `"${order.bottleSize}",`;
+                csv += `${order.price}\n`;
+            });
+            
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', `orders_${new Date().toISOString().split('T')[0]}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            await Swal.fire({
+                icon: 'success',
+                title: 'تم التصدير بنجاح',
+                html: `تم تصدير <strong>${orders.length}</strong> طلب إلى ملف Excel`,
+                confirmButtonColor: '#4A7C59',
+                timer: 2000
+            });
+        }
+        
+        // Refresh data
+        function refreshData() {
+            displayOrders();
+            alert('✅ تم تحديث البيانات');
+        }
+        
+        // Clear all orders
+        async function clearAllOrders() {
+            const result = await Swal.fire({
+                title: 'تحذير!',
+                html: '<strong>هل أنت متأكد من حذف جميع الطلبات؟</strong><br><br>هذا الإجراء لا يمكن التراجع عنه!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'نعم، احذف الكل',
+                cancelButtonText: 'إلغاء',
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#4A7C59'
+            });
+            
+            if (result.isConfirmed) {
+                const finalConfirm = await Swal.fire({
+                    title: 'تأكيد نهائي',
+                    text: 'سيتم حذف جميع البيانات نهائياً!',
+                    icon: 'error',
+                    showCancelButton: true,
+                    confirmButtonText: 'نعم، متأكد',
+                    cancelButtonText: 'لا، راجع',
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#4A7C59'
+                });
+                
+                if (finalConfirm.isConfirmed) {
+                    localStorage.removeItem('hairOilOrders');
+                    displayOrders();
+                    await Swal.fire({
+                        icon: 'success',
+                        title: 'تم الحذف',
+                        text: 'تم حذف جميع الطلبات بنجاح',
+                        confirmButtonColor: '#4A7C59',
+                        timer: 2000
+                    });
+                }
+            }
+        }
+        
+        // Logout function
+        async function logout() {
+            const result = await Swal.fire({
+                title: 'تسجيل الخروج',
+                text: 'هل تريد تسجيل الخروج؟',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'نعم، تسجيل خروج',
+                cancelButtonText: 'إلغاء',
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#4A7C59'
+            });
+            
+            if (result.isConfirmed) {
+                sessionStorage.removeItem('adminAuthenticated');
+                await Swal.fire({
+                    icon: 'success',
+                    title: 'تم تسجيل الخروج',
+                    text: 'وداعاً!',
+                    confirmButtonColor: '#4A7C59',
+                    timer: 1500,
+                    showConfirmButton: false
+                });
+                window.location.href = 'https://google.com';
+            }
+        }
+        
+        // Close modal on outside click
+        document.getElementById('detailsModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+        
+        // Initial load
+        displayOrders();
+        
+        // Auto-refresh every 30 seconds
+        setInterval(() => {
+            displayOrders();
+        }, 30000);
+    </script>
+</body>
+</html>
