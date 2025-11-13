@@ -2369,7 +2369,16 @@ src="https://www.facebook.com/tr?id=24302845932725042&ev=PageView&noscript=1"
         console.log('🌿 108 Herbs Hair Oil Landing Page Loaded Successfully!');
         console.log('📊 Facebook Pixel tracking active');
     </script>
+<script>
+document.getElementById('confirmOrder').addEventListener('click', function() {
+  fbq('track', 'Purchase', {
+    value: 549.00,
+    currency: 'EGP'
+  });
+});
+</script>
 
 </body>
 </html>
+
 
