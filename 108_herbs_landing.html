@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="زيت الـ108 عشبة - سر الشعر الصحي والكثيف الطبيعي. منتج طبيعي 100% يوقف تساقط الشعر ويعزز النمو">
     <meta name="keywords" content="زيت الشعر, زيت طبيعي, تساقط الشعر, 108 عشبة, علاج تساقط الشعر">
+    <meta name="facebook-domain-verification" content="3mnclxud7sy8g74n8q7chznrzs7awa" />
     <title>زيت الـ108 عشبة - سر الشعر الصحي الطبيعي 🌿</title>
     
     <!-- Google Fonts -->
@@ -1463,6 +1464,333 @@
                 transform: translateX(100px);
             }
         }
+        
+        /* ===== Tabs System ===== */
+        .tabs-section {
+            background: var(--light-gray);
+            padding: 80px 20px;
+            position: relative;
+        }
+        
+        .tabs-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .tabs-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .tabs-header h2 {
+            font-family: 'Tajawal', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--primary-green);
+            margin-bottom: 15px;
+        }
+        
+        .tabs-header p {
+            font-size: 1.1rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .tabs-navigation {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            padding: 0 10px;
+        }
+        
+        .tab-button {
+            background: var(--white);
+            border: 2px solid var(--light-green);
+            color: var(--primary-green);
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            white-space: nowrap;
+        }
+        
+        .tab-button i {
+            font-size: 1.2rem;
+        }
+        
+        .tab-button:hover {
+            background: var(--light-green);
+            color: var(--white);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px var(--shadow);
+        }
+        
+        .tab-button.active {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%);
+            color: var(--white);
+            border-color: var(--primary-green);
+            box-shadow: 0 5px 20px var(--shadow);
+        }
+        
+        .tabs-content {
+            position: relative;
+            min-height: 400px;
+        }
+        
+        .tab-panel {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .tab-panel.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* ===== Compact Authenticity Styles ===== */
+        .authenticity-intro {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 25px;
+            background: linear-gradient(135deg, rgba(74, 124, 89, 0.05) 0%, rgba(212, 175, 55, 0.05) 100%);
+            border-radius: 15px;
+        }
+        
+        .auth-badge-main {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%);
+            color: var(--white);
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 20px rgba(74, 124, 89, 0.3);
+        }
+        
+        .auth-badge-main i {
+            font-size: 1.3rem;
+        }
+        
+        .auth-description {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: #555;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .authenticity-comparison-compact {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .comparison-grid-compact {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .comparison-card-compact {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .comparison-card-compact:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+        
+        .original-card {
+            border: 2px solid var(--primary-green);
+        }
+        
+        .fake-card {
+            border: 2px solid #dc3545;
+        }
+        
+        .comparison-card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--light-gray);
+        }
+        
+        .comparison-card-header .card-icon {
+            font-size: 2rem;
+        }
+        
+        .comparison-card-header h3 {
+            font-family: 'Tajawal', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin: 0;
+        }
+        
+        .original-card .comparison-card-header h3 {
+            color: var(--primary-green);
+        }
+        
+        .fake-card .comparison-card-header h3 {
+            color: #dc3545;
+        }
+        
+        .comparison-list-compact {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .comparison-list-compact li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            font-size: 0.95rem;
+            color: #555;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .comparison-list-compact li:last-child {
+            border-bottom: none;
+        }
+        
+        .original-card .comparison-list-compact li i {
+            color: var(--primary-green);
+            font-size: 1.1rem;
+        }
+        
+        .fake-card .comparison-list-compact li i {
+            color: #dc3545;
+            font-size: 1.1rem;
+        }
+        
+        .authenticity-notice {
+            background: linear-gradient(135deg, rgba(220, 53, 69, 0.1) 0%, rgba(255, 193, 7, 0.1) 100%);
+            border: 2px solid #ffc107;
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+        }
+        
+        .authenticity-notice i {
+            font-size: 1.5rem;
+            color: #ff9800;
+            flex-shrink: 0;
+            margin-top: 3px;
+        }
+        
+        .authenticity-notice div {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: #333;
+        }
+        
+        /* Mobile Optimization for Tabs */
+        @media (max-width: 968px) {
+            .tabs-section {
+                padding: 60px 15px;
+            }
+            
+            .comparison-grid-compact {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .auth-badge-main {
+                font-size: 1rem;
+                padding: 10px 20px;
+            }
+            
+            .authenticity-intro {
+                padding: 20px;
+                margin-bottom: 30px;
+            }
+            
+            .tabs-header h2 {
+                font-size: 2rem;
+            }
+            
+            .tabs-navigation {
+                gap: 8px;
+            }
+            
+            .tab-button {
+                padding: 12px 20px;
+                font-size: 0.9rem;
+            }
+            
+            .tab-button i {
+                font-size: 1rem;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .tabs-header h2 {
+                font-size: 1.7rem;
+            }
+            
+            .tabs-header p {
+                font-size: 1rem;
+            }
+            
+            .tab-button {
+                padding: 10px 16px;
+                font-size: 0.85rem;
+                flex: 1 1 calc(50% - 8px);
+                justify-content: center;
+            }
+            
+            .comparison-card-compact {
+                padding: 20px;
+            }
+            
+            .comparison-card-header h3 {
+                font-size: 1.1rem;
+            }
+            
+            .comparison-list-compact li {
+                font-size: 0.9rem;
+                padding: 8px 0;
+            }
+            
+            .authenticity-notice {
+                padding: 15px;
+                font-size: 0.9rem;
+            }
+            
+            .authenticity-notice i {
+                font-size: 1.3rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1511,13 +1839,40 @@
         </div>
     </section>
 
-    <!-- Benefits Section -->
-    <section class="benefits" id="benefits">
-        <div class="container">
-            <div class="section-title">
-                <h2>لماذا زيت الـ108 عشبة؟ 🌟</h2>
-                <p>فوائد مذهلة ونتائج مثبتة علمياً</p>
+    <!-- Tabs Section -->
+    <section class="tabs-section">
+        <div class="tabs-container">
+            <div class="tabs-header">
+                <h2>تعرف على المنتج 🌿</h2>
+                <p>اختر القسم لتتعرف على مميزات وفوائد زيت الـ108 عشبة</p>
             </div>
+            
+            <div class="tabs-navigation">
+                <button class="tab-button active" onclick="switchTab('benefits')">
+                    <i class="fas fa-star"></i>
+                    <span>الفوائد</span>
+                </button>
+                <button class="tab-button" onclick="switchTab('ingredients')">
+                    <i class="fas fa-leaf"></i>
+                    <span>المكونات</span>
+                </button>
+                <button class="tab-button" onclick="switchTab('testimonials')">
+                    <i class="fas fa-comments"></i>
+                    <span>آراء العملاء</span>
+                </button>
+                <button class="tab-button" onclick="switchTab('authenticity')">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>الأصالة</span>
+                </button>
+            </div>
+            
+            <div class="tabs-content">
+                <!-- Benefits Tab -->
+                <div id="benefits-tab" class="tab-panel active">
+                    <div class="section-title">
+                        <h2>لماذا زيت الـ108 عشبة؟ 🌟</h2>
+                        <p>فوائد مذهلة ونتائج مثبتة علمياً</p>
+                    </div>
             
             <div class="benefits-grid">
                 <div class="benefit-card">
@@ -1568,206 +1923,174 @@
                     <p>يحمي الشعر من العوامل الخارجية الضارة ويقلل من التقصف والجفاف.</p>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- Product Authenticity Section -->
-    <section class="authenticity" id="authenticity">
-        <div class="container">
-            <div class="authenticity-container">
-                <div class="authenticity-badge">✅ ضمان الأصالة</div>
+                </div>
+                <!-- End Benefits Tab -->
                 
-                <h2>تأكد أن الزيت الذي يصلك هو الأصلي فقط 🛡️</h2>
-                
-                <div class="authenticity-content">
-                    <div class="authenticity-text">
-                        <p>
-                            <strong>لضمان الجودة،</strong> جميع عبوات زيت الـ108 عشبة الأصلية تحمل <strong style="color: var(--gold);">علامة مائية خاصة</strong> على الزجاجة.
-                            <br><br>
-                            ⚠️ إذا لم تجد العلامة المائية على العبوة، فهذا <strong style="color: #dc3545;">ليس المنتج الأصلي</strong>.
-                        </p>
-                        
-                        <div class="authenticity-features">
-                            <div class="auth-feature">
-                                <i class="fas fa-certificate"></i>
-                                <span>شهادة أصالة مع كل عبوة</span>
-                            </div>
-                        </div>
+                <!-- Ingredients Tab -->
+                <div id="ingredients-tab" class="tab-panel">
+                    <div class="section-title">
+                        <h2>المكونات الطبيعية السحرية 🌿</h2>
+                        <p>108 عشبة مختارة بعناية لأفضل النتائج</p>
                     </div>
                     
-                    <div class="authenticity-visual">
-                        <!-- Original Product -->
-                        <div class="comparison-box original">
-                            <div class="comparison-header">
-                                <span class="comparison-title">المنتج الأصلي</span>
-                                <span class="comparison-icon">✅</span>
+                    <div class="ingredients-grid">
+                        <div class="ingredient-item">
+                            <div class="ingredient-icon">🌿</div>
+                            <h4>إكليل الجبل</h4>
+                            <p>يحفز نمو الشعر ويحسن الدورة الدموية</p>
+                        </div>
+                        
+                        <div class="ingredient-item">
+                            <div class="ingredient-icon">🥥</div>
+                            <h4>زيت جوز الهند</h4>
+                            <p>يرطب بعمق ويمنع فقدان البروتين</p>
+                        </div>
+                        
+                        <div class="ingredient-item">
+                            <div class="ingredient-icon">🫒</div>
+                            <h4>زيت الزيتون</h4>
+                            <p>يغذي ويقوي الشعر من الجذور</p>
+                        </div>
+                        
+                        <div class="ingredient-item">
+                            <div class="ingredient-icon">🌱</div>
+                            <h4>الجوجوبا</h4>
+                            <p>ينظم إفراز الزيوت ويرطب فروة الرأس</p>
+                        </div>
+                        
+                        <div class="ingredient-item">
+                            <div class="ingredient-icon">🌺</div>
+                            <h4>الحبة السوداء</h4>
+                            <p>تقوي الشعر وتمنع الشيب المبكر</p>
+                        </div>
+                        
+                        <div class="ingredient-item">
+                            <div class="ingredient-icon">🌼</div>
+                            <h4>الألوفيرا</h4>
+                            <p>تهدئ فروة الرأس وتعالج القشرة</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Ingredients Tab -->
+                
+                <!-- Testimonials Tab -->
+                <div id="testimonials-tab" class="tab-panel">
+                    <div class="section-title">
+                        <h2>ماذا يقول عملاؤنا؟ 💬</h2>
+                        <p>آلاف العملاء السعداء يشهدون بالنتائج</p>
+                    </div>
+                    
+                    <div class="testimonials-grid">
+                        <div class="testimonial-card">
+                            <div class="testimonial-header">
+                                <div class="testimonial-avatar">س.م</div>
+                                <div class="testimonial-info">
+                                    <h4>سارة محمد</h4>
+                                    <div class="testimonial-stars">
+                                        ⭐⭐⭐⭐⭐
+                                    </div>
+                                </div>
                             </div>
-                            <div class="comparison-items">
-                                <div class="comparison-item">
-                                    <i class="fas fa-check-circle" style="color: var(--primary-green);"></i>
-                                    <span>علامة مائية واضحة على الزجاجة</span>
+                            <p class="testimonial-text">
+                                "منتج رائع! استخدمته لمدة شهرين ولاحظت فرق كبير في كثافة شعري. التساقط قل بنسبة كبيرة جداً والشعر أصبح أقوى ولامع. أنصح به بشدة!"
+                            </p>
+                        </div>
+                        
+                        <div class="testimonial-card">
+                            <div class="testimonial-header">
+                                <div class="testimonial-avatar">ف.ع</div>
+                                <div class="testimonial-info">
+                                    <h4>فاطمة عبدالله</h4>
+                                    <div class="testimonial-stars">
+                                        ⭐⭐⭐⭐⭐
+                                    </div>
                                 </div>
-                                <div class="comparison-item">
-                                    <i class="fas fa-check-circle" style="color: var(--primary-green);"></i>
-                                    <span>ملصق أصلي بجودة عالية</span>
+                            </div>
+                            <p class="testimonial-text">
+                                "بعد تجارب كثيرة مع منتجات أخرى، زيت الـ108 عشبة كان الأفضل على الإطلاق! شعري رجع يطول بسرعة والتقصف اختفى تماماً."
+                            </p>
+                        </div>
+                        
+                        <div class="testimonial-card">
+                            <div class="testimonial-header">
+                                <div class="testimonial-avatar">أ.خ</div>
+                                <div class="testimonial-info">
+                                    <h4>أحمد خالد</h4>
+                                    <div class="testimonial-stars">
+                                        ⭐⭐⭐⭐⭐
+                                    </div>
                                 </div>
-                                <div class="comparison-item">
-                                    <i class="fas fa-check-circle" style="color: var(--primary-green);"></i>
-                                    <span>رائحة طبيعية مميزة</span>
+                            </div>
+                            <p class="testimonial-text">
+                                "كنت أعاني من تساقط شديد بعد الحلاقة، لكن بعد استخدام هذا الزيت لمدة 3 أسابيع الشعر بدأ ينمو بكثافة وبشكل صحي. منتج ممتاز!"
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Testimonials Tab -->
+                
+                <!-- Authenticity Tab -->
+                <div id="authenticity-tab" class="tab-panel">
+                    <div class="section-title">
+                        <h2>ازاي تعرف ان المنتج اصلي 🛡️</h2>
+                        <p>كيف تميز المنتج الأصلي من المقلد؟</p>
+                    </div>
+                    
+                    <div class="authenticity-intro">
+                        <div class="auth-badge-main">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>ضمان الأصالة 100%</span>
+                        </div>
+                        <p class="auth-description">
+                            جميع عبوات زيت الـ108 عشبة الأصلية تحمل <strong style="color: var(--gold);">علامة مائية خاصة</strong> على الزجاجة للحماية من التقليد.
+                        </p>
+                    </div>
+                    
+                    <div class="authenticity-comparison-compact">
+                        <!-- Original vs Fake Comparison -->
+                        <div class="comparison-grid-compact">
+                            <!-- Original Product -->
+                            <div class="comparison-card-compact original-card">
+                                <div class="comparison-card-header">
+                                    <span class="card-icon">✅</span>
+                                    <h3>المنتج الأصلي</h3>
                                 </div>
-                                <div class="comparison-item">
-                                    <i class="fas fa-check-circle" style="color: var(--primary-green);"></i>
-                                    <span>تاريخ الإنتاج والصلاحية واضح</span>
+                                <ul class="comparison-list-compact">
+                                    <li><i class="fas fa-check"></i> علامة مائية واضحة</li>
+                                    <li><i class="fas fa-check"></i> ملصق جودة عالية</li>
+                                    <li><i class="fas fa-check"></i> رائحة طبيعية مميزة</li>
+                                </ul>
+                            </div>
+                            
+                            <!-- Fake Product Warning -->
+                            <div class="comparison-card-compact fake-card">
+                                <div class="comparison-card-header">
+                                    <span class="card-icon">❌</span>
+                                    <h3>المنتج المقلد</h3>
                                 </div>
+                                <ul class="comparison-list-compact">
+                                    <li><i class="fas fa-times"></i> بدون علامة مائية</li>
+                                    <li><i class="fas fa-times"></i> طباعة رديئة</li>
+                                    <li><i class="fas fa-times"></i> رائحة كيميائية</li>
+                                    <li><i class="fas fa-times"></i> تاريخ غير واضح</li>
+                                </ul>
                             </div>
                         </div>
                         
-                        <!-- Fake Product Warning -->
-                        <div class="comparison-box fake">
-                            <div class="comparison-header">
-                                <span class="comparison-title">المنتج المقلد</span>
-                                <span class="comparison-icon">❌</span>
+                        <!-- Important Notice -->
+                        <div class="authenticity-notice">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <div>
+                                <strong>تحذير هام:</strong> إذا لم تجد العلامة المائية على العبوة، فهذا <strong style="color: #dc3545;">ليس المنتج الأصلي</strong>. اطلب الآن من الموقع الرسمي فقط!
                             </div>
-                            <div class="comparison-items">
-                                <div class="comparison-item">
-                                    <i class="fas fa-times-circle" style="color: #dc3545;"></i>
-                                    <span>لا يوجد علامة مائية</span>
-                                </div>
-                                <div class="comparison-item">
-                                    <i class="fas fa-times-circle" style="color: #dc3545;"></i>
-                                    <span>شعار مطبوع بجودة رديئة</span>
-                                </div>
-                                <div class="comparison-item">
-                                    <i class="fas fa-times-circle" style="color: #dc3545;"></i>
-                                    <span>بدون ختم أمان</span>
-                                </div>
-                                <div class="comparison-item">
-                                    <i class="fas fa-times-circle" style="color: #dc3545;"></i>
-                                    <span>رائحة كيميائية أو غريبة</span>
-                                </div>
-                                <div class="comparison-item">
-                                    <i class="fas fa-times-circle" style="color: #dc3545;"></i>
-                                    <span>تاريخ غير واضح أو مفقود</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Watermark Seal -->
-                        <div class="watermark-seal">
-                            <i class="fas fa-award"></i>
-                            <div>ابحث عن العلامة المائية</div>
-                            <div style="font-size: 0.9rem; margin-top: 5px;">🔍 على جانب الزجاجة</div>
                         </div>
                     </div>
                 </div>
+                <!-- End Authenticity Tab -->
             </div>
         </div>
     </section>
-
-    <!-- Ingredients Section -->
-    <section class="ingredients" id="ingredients">
-        <div class="container">
-            <div class="section-title">
-                <h2>المكونات الطبيعية السحرية 🌿</h2>
-                <p>108 عشبة مختارة بعناية لأفضل النتائج</p>
-            </div>
-            
-            <div class="ingredients-grid">
-                <div class="ingredient-item">
-                    <div class="ingredient-icon">🌿</div>
-                    <h4>إكليل الجبل</h4>
-                    <p>يحفز نمو الشعر ويحسن الدورة الدموية</p>
-                </div>
-                
-                <div class="ingredient-item">
-                    <div class="ingredient-icon">🥥</div>
-                    <h4>زيت جوز الهند</h4>
-                    <p>يرطب بعمق ويمنع فقدان البروتين</p>
-                </div>
-                
-                <div class="ingredient-item">
-                    <div class="ingredient-icon">🫒</div>
-                    <h4>زيت الزيتون</h4>
-                    <p>يغذي ويقوي الشعر من الجذور</p>
-                </div>
-                
-                <div class="ingredient-item">
-                    <div class="ingredient-icon">🌱</div>
-                    <h4>الجوجوبا</h4>
-                    <p>ينظم إفراز الزيوت ويرطب فروة الرأس</p>
-                </div>
-                
-                <div class="ingredient-item">
-                    <div class="ingredient-icon">🌺</div>
-                    <h4>الحبة السوداء</h4>
-                    <p>تقوي الشعر وتمنع الشيب المبكر</p>
-                </div>
-                
-                <div class="ingredient-item">
-                    <div class="ingredient-icon">🌼</div>
-                    <h4>الألوفيرا</h4>
-                    <p>تهدئ فروة الرأس وتعالج القشرة</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Testimonials Section -->
-    <section class="testimonials" id="testimonials">
-        <div class="container">
-            <div class="section-title">
-                <h2>ماذا يقول عملاؤنا؟ 💬</h2>
-                <p>آلاف العملاء السعداء يشهدون بالنتائج</p>
-            </div>
-            
-            <div class="testimonials-grid">
-                <div class="testimonial-card">
-                    <div class="testimonial-header">
-                        <div class="testimonial-avatar">س.م</div>
-                        <div class="testimonial-info">
-                            <h4>سارة محمد</h4>
-                            <div class="testimonial-stars">
-                                ⭐⭐⭐⭐⭐
-                            </div>
-                        </div>
-                    </div>
-                    <p class="testimonial-text">
-                        "منتج رائع! استخدمته لمدة شهرين ولاحظت فرق كبير في كثافة شعري. التساقط قل بنسبة كبيرة جداً والشعر أصبح أقوى ولامع. أنصح به بشدة!"
-                    </p>
-                </div>
-                
-                <div class="testimonial-card">
-                    <div class="testimonial-header">
-                        <div class="testimonial-avatar">ف.ع</div>
-                        <div class="testimonial-info">
-                            <h4>فاطمة عبدالله</h4>
-                            <div class="testimonial-stars">
-                                ⭐⭐⭐⭐⭐
-                            </div>
-                        </div>
-                    </div>
-                    <p class="testimonial-text">
-                        "بعد تجارب كثيرة مع منتجات أخرى، زيت الـ108 عشبة كان الأفضل على الإطلاق! شعري رجع يطول بسرعة والتقصف اختفى تماماً."
-                    </p>
-                </div>
-                
-                <div class="testimonial-card">
-                    <div class="testimonial-header">
-                        <div class="testimonial-avatar">أ.خ</div>
-                        <div class="testimonial-info">
-                            <h4>أحمد خالد</h4>
-                            <div class="testimonial-stars">
-                                ⭐⭐⭐⭐⭐
-                            </div>
-                        </div>
-                    </div>
-                    <p class="testimonial-text">
-                        "كنت أعاني من تساقط شديد بعد الحلاقة، لكن بعد استخدام هذا الزيت لمدة 3 أسابيع الشعر بدأ ينمو بكثافة وبشكل صحي. منتج ممتاز!"
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!-- End Tabs Section -->
 
     <!-- Bottle Sizes Section -->
     <section class="bottle-sizes" id="bottle-sizes">
@@ -2350,6 +2673,71 @@
         
         console.log('🌿 108 Herbs Hair Oil Landing Page Loaded Successfully!');
         console.log('📊 Facebook Pixel tracking active');
+        
+        // ===== Tabs System Functionality =====
+        function switchTab(tabName) {
+            // Hide all tab panels
+            const allPanels = document.querySelectorAll('.tab-panel');
+            allPanels.forEach(panel => {
+                panel.classList.remove('active');
+            });
+            
+            // Remove active class from all tab buttons
+            const allButtons = document.querySelectorAll('.tab-button');
+            allButtons.forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Show selected tab panel
+            const selectedPanel = document.getElementById(tabName + '-tab');
+            if (selectedPanel) {
+                selectedPanel.classList.add('active');
+            }
+            
+            // Add active class to clicked button
+            const clickedButton = event.target.closest('.tab-button');
+            if (clickedButton) {
+                clickedButton.classList.add('active');
+            }
+            
+            // Track tab switch with Facebook Pixel
+            if (typeof fbq !== 'undefined') {
+                fbq('trackCustom', 'TabSwitch', {
+                    tab_name: tabName,
+                    content_name: '108 Herbs Tab Navigation'
+                });
+            }
+            
+            // Smooth scroll to tabs section on mobile
+            if (window.innerWidth <= 968) {
+                const tabsSection = document.querySelector('.tabs-section');
+                if (tabsSection) {
+                    const offset = 80;
+                    const elementPosition = tabsSection.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - offset;
+                    
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            }
+            
+            console.log('Switched to tab:', tabName);
+        }
+        
+        // Save active tab to localStorage
+        function saveActiveTab(tabName) {
+            localStorage.setItem('activeTab', tabName);
+        }
+        
+        // Load saved tab on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            const savedTab = localStorage.getItem('activeTab');
+            if (savedTab) {
+                switchTab(savedTab);
+            }
+        });
     </script>
 
 </body>
