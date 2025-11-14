@@ -611,20 +611,45 @@
             }
         });
         
-        // Load orders from localStorage
-        function loadOrders() {
+        // Google Sheets URL
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw7nUF8Wcw8IXgXaYLgC5seP7LwHM9Qxl_h0ueAX6v5MjDKxEHlOreCNjOxfEwTCcXacg/exec';
+        
+        // Load orders from Google Sheets
+        async function loadOrders() {
             try {
-                const orders = JSON.parse(localStorage.getItem('hairOilOrders') || '[]');
-                return orders.reverse(); // Show newest first
+                // Show loading indicator
+                const tbody = document.getElementById('ordersTableBody');
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="9" style="text-align: center; padding: 40px;">
+                            <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary-green);"></i>
+                            <p style="margin-top: 15px; color: #666;">جاري تحميل الطلبات...</p>
+                        </td>
+                    </tr>
+                `;
+                
+                // Fetch from Google Sheets
+                const response = await fetch(GOOGLE_SCRIPT_URL + '?action=getOrders');
+                const data = await response.json();
+                
+                if (data.status === 'success' && data.orders) {
+                    return data.orders.reverse(); // Show newest first
+                } else {
+                    // Fallback to localStorage if Google Sheets fails
+                    const localOrders = JSON.parse(localStorage.getItem('hairOilOrders') || '[]');
+                    return localOrders.reverse();
+                }
             } catch (e) {
-                console.error('Error loading orders:', e);
-                return [];
+                console.error('Error loading orders from Google Sheets:', e);
+                // Fallback to localStorage
+                const localOrders = JSON.parse(localStorage.getItem('hairOilOrders') || '[]');
+                return localOrders.reverse();
             }
         }
         
         // Display orders in table
-        function displayOrders(orders = null) {
-            const ordersData = orders || loadOrders();
+        async function displayOrders(orders = null) {
+            const ordersData = orders || await loadOrders();
             const tbody = document.getElementById('ordersTableBody');
             
             if (ordersData.length === 0) {
