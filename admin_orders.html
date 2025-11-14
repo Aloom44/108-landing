@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    
     <style>
         :root {
             --primary-green: #4A7C59;
@@ -614,25 +618,56 @@
         // Google Sheets URL (للحفظ فقط من صفحة الهبوط)
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw7nUF8Wcw8IXgXaYLgC5seP7LwHM9Qxl_h0ueAX6v5MjDKxEHlOreCNjOxfEwTCcXacg/exec';
         
-        // Load orders from localStorage (المصدر الأساسي)
-        // ملاحظة: localStorage يعمل فقط على نفس الدومين
+        // ===== Firebase Configuration =====
+        const firebaseConfig = {
+            apiKey: "AIzaSyCVJYD2adDrZD2C7jnTjVhiewxVohZzM38",
+            authDomain: "herbs-orders.firebaseapp.com",
+            databaseURL: "https://herbs-orders-default-rtdb.firebaseio.com",
+            projectId: "herbs-orders",
+            storageBucket: "herbs-orders.firebasestorage.app",
+            messagingSenderId: "866663461200",
+            appId: "1:866663461200:web:0b891e0eb53a16c555fc55"
+        };
+        
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        console.log('🔥 Firebase initialized in admin panel!');
+        
+        // Load orders from Firebase Realtime Database
+        let ordersCache = [];
+        
         async function loadOrders() {
-            try {
-                // قراءة الطلبات من localStorage
-                const localOrders = JSON.parse(localStorage.getItem('hairOilOrders') || '[]');
-                
-                if (localOrders.length > 0) {
-                    console.log('📦 Loaded', localOrders.length, 'orders from localStorage');
-                    return localOrders.reverse(); // الأحدث أولاً
-                } else {
-                    console.log('ℹ️ No orders found');
-                    return [];
-                }
-            } catch (e) {
-                console.error('❌ Error loading orders:', e.message);
-                return [];
-            }
+            return new Promise((resolve, reject) => {
+                database.ref('orders').once('value', (snapshot) => {
+                    const orders = [];
+                    
+                    snapshot.forEach((childSnapshot) => {
+                        const order = childSnapshot.val();
+                        order.firebaseId = childSnapshot.key; // Save Firebase ID
+                        orders.push(order);
+                    });
+                    
+                    // Sort by timestamp (newest first)
+                    orders.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                    
+                    ordersCache = orders;
+                    console.log('🔥 Loaded', orders.length, 'orders from Firebase');
+                    resolve(orders);
+                }, (error) => {
+                    console.error('❌ Firebase Error:', error);
+                    // Fallback to localStorage
+                    const localOrders = JSON.parse(localStorage.getItem('hairOilOrders') || '[]');
+                    resolve(localOrders.reverse());
+                });
+            });
         }
+        
+        // Listen for real-time updates
+        database.ref('orders').on('child_added', (snapshot) => {
+            // Refresh display when new order added
+            displayOrders();
+        });
         
         // Display orders in table
         async function displayOrders(orders = null) {
@@ -852,12 +887,17 @@
                 });
                 
                 if (finalConfirm.isConfirmed) {
+                    // Clear Firebase database
+                    await database.ref('orders').remove();
+                    
+                    // Also clear localStorage as backup
                     localStorage.removeItem('hairOilOrders');
+                    
                     displayOrders();
                     await Swal.fire({
                         icon: 'success',
                         title: 'تم الحذف',
-                        text: 'تم حذف جميع الطلبات بنجاح',
+                        text: 'تم حذف جميع الطلبات بنجاح من Firebase',
                         confirmButtonColor: '#4A7C59',
                         timer: 2000
                     });

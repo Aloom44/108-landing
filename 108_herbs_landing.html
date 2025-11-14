@@ -16,6 +16,10 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    
     <!-- Facebook Pixel Code -->
     <script>
     !function(f,b,e,v,n,t,s)
@@ -2486,6 +2490,23 @@
             });
         });
         
+        // ===== Firebase Configuration =====
+        const firebaseConfig = {
+            apiKey: "AIzaSyCVJYD2adDrZD2C7jnTjVhiewxVohZzM38",
+            authDomain: "herbs-orders.firebaseapp.com",
+            databaseURL: "https://herbs-orders-default-rtdb.firebaseio.com",
+            projectId: "herbs-orders",
+            storageBucket: "herbs-orders.firebasestorage.app",
+            messagingSenderId: "866663461200",
+            appId: "1:866663461200:web:0b891e0eb53a16c555fc55"
+        };
+        
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        
+        console.log('🔥 Firebase initialized successfully!');
+        
         // ===== Form Submission with Facebook Pixel =====
         const orderForm = document.getElementById('orderForm');
         const loading = document.getElementById('loading');
@@ -2530,19 +2551,10 @@
                 currency: 'EGP'
             });
             
-            // Save to Google Sheets (requires Google Apps Script setup)
-            const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw7nUF8Wcw8IXgXaYLgC5seP7LwHM9Qxl_h0ueAX6v5MjDKxEHlOreCNjOxfEwTCcXacg/exec';
-            
             try {
-                // Save order data
-                const response = await fetch(GOOGLE_SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(formData)
-                });
+                // Save to Firebase Realtime Database
+                await database.ref('orders').push(formData);
+                console.log('✅ Order saved to Firebase successfully!');
                 
                 // Also save to localStorage as backup
                 saveOrderToLocalStorage(formData);
@@ -2555,18 +2567,10 @@
                 // Reset form
                 orderForm.reset();
                 
-                // Redirect to WhatsApp (optional)
-                const whatsappMessage = `طلب جديد من: ${formData.name}%0A` +
-                                      `الهاتف: ${formData.phone}%0A` +
-                                      `المحافظة: ${formData.governorate}%0A` +
-                                      `الحجم: ${formData.bottleSize}%0A` +
-                                      `السعر: ${formData.price} جنيه`;
-                // window.open(`https://wa.me/201557350728?text=${whatsappMessage}`, '_blank');
-                
             } catch (error) {
-                console.error('Error:', error);
+                console.error('❌ Firebase Error:', error);
                 
-                // Save to localStorage even if Google Sheets fails
+                // Save to localStorage as fallback if Firebase fails
                 saveOrderToLocalStorage(formData);
                 
                 loading.classList.remove('active');
