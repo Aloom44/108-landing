@@ -614,7 +614,7 @@
         // Google Sheets URL
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw7nUF8Wcw8IXgXaYLgC5seP7LwHM9Qxl_h0ueAX6v5MjDKxEHlOreCNjOxfEwTCcXacg/exec';
         
-        // Load orders from Google Sheets
+        // Load orders from Google Sheets with better error handling
         async function loadOrders() {
             try {
                 // Show loading indicator
@@ -623,24 +623,47 @@
                     <tr>
                         <td colspan="9" style="text-align: center; padding: 40px;">
                             <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary-green);"></i>
-                            <p style="margin-top: 15px; color: #666;">جاري تحميل الطلبات...</p>
+                            <p style="margin-top: 15px; color: #666;">جاري تحميل الطلبات من السحابة...</p>
                         </td>
                     </tr>
                 `;
                 
-                // Fetch from Google Sheets
-                const response = await fetch(GOOGLE_SCRIPT_URL + '?action=getOrders');
+                // Try to fetch from Google Sheets
+                const response = await fetch(GOOGLE_SCRIPT_URL + '?action=getOrders', {
+                    method: 'GET',
+                    redirect: 'follow',
+                    mode: 'cors'
+                });
+                
+                if (!response.ok) {
+                    throw new Error('HTTP error ' + response.status);
+                }
+                
                 const data = await response.json();
                 
-                if (data.status === 'success' && data.orders) {
-                    return data.orders.reverse(); // Show newest first
+                if (data.status === 'success' && data.orders && data.orders.length > 0) {
+                    console.log('✅ Loaded', data.orders.length, 'orders from Google Sheets');
+                    // Save to localStorage as cache
+                    localStorage.setItem('hairOilOrders', JSON.stringify(data.orders));
+                    return data.orders.reverse();
                 } else {
-                    // Fallback to localStorage if Google Sheets fails
+                    console.warn('⚠️ No orders in Google Sheets, using localStorage');
                     const localOrders = JSON.parse(localStorage.getItem('hairOilOrders') || '[]');
                     return localOrders.reverse();
                 }
             } catch (e) {
-                console.error('Error loading orders from Google Sheets:', e);
+                console.error('❌ Error loading from Google Sheets:', e.message);
+                console.log('📦 Using localStorage as fallback');
+                
+                // Show error message to user
+                Swal.fire({
+                    title: 'تنبيه',
+                    text: 'تعذر الاتصال بالسحابة. يتم عرض الطلبات المحفوظة محلياً.',
+                    icon: 'warning',
+                    confirmButtonColor: '#4A7C59',
+                    timer: 3000
+                });
+                
                 // Fallback to localStorage
                 const localOrders = JSON.parse(localStorage.getItem('hairOilOrders') || '[]');
                 return localOrders.reverse();
