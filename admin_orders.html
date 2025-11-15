@@ -465,13 +465,14 @@
                         <th>المحافظة</th>
                         <th>العنوان</th>
                         <th>الحجم</th>
+                        <th>الخصم</th>
                         <th>السعر</th>
                         <th>الإجراءات</th>
                     </tr>
                 </thead>
                 <tbody id="ordersTableBody">
                     <tr>
-                        <td colspan="9">
+                        <td colspan="10">
                             <div class="empty-state">
                                 <i class="fas fa-inbox"></i>
                                 <h3>لا توجد طلبات بعد</h3>
@@ -698,7 +699,8 @@
                     <td>${order.governorate}</td>
                     <td class="address" title="${order.address}">${order.address}</td>
                     <td><span style="background: var(--primary-green); color: white; padding: 4px 10px; border-radius: 5px; font-size: 0.8rem;">${order.bottleSize}</span></td>
-                    <td class="price">${order.price} ج</td>
+                    <td>${order.discountCode ? `<span style="background: var(--gold); color: white; padding: 4px 8px; border-radius: 5px; font-size: 0.75rem;">${order.discountCode}<br>${order.discountPercent}%</span>` : '<span style="color: #999;">-</span>'}</td>
+                    <td class="price">${order.finalPrice || order.price} ج${order.discountAmount > 0 ? `<br><small style="color: #999; text-decoration: line-through;">${order.originalPrice} ج</small>` : ''}</td>
                     <td class="actions">
                         <button class="btn btn-primary btn-small" onclick="viewDetails(${ordersData.length - index - 1})" title="عرض التفاصيل">
                             <i class="fas fa-eye"></i>
@@ -764,10 +766,29 @@
                     <strong>حجم الزجاجة:</strong>
                     ${order.bottleSize}
                 </div>
+                ${order.discountCode ? `
+                <div class="detail-row">
+                    <strong>كود الخصم:</strong>
+                    <span style="background: var(--gold); color: white; padding: 4px 12px; border-radius: 5px; font-weight: bold;">${order.discountCode} (${order.discountPercent}%)</span>
+                </div>
+                <div class="detail-row">
+                    <strong>السعر الأصلي:</strong>
+                    <span style="color: #999; text-decoration: line-through;">${order.originalPrice} جنيه</span>
+                </div>
+                <div class="detail-row">
+                    <strong>مبلغ الخصم:</strong>
+                    <span style="color: var(--primary-green); font-weight: bold;">- ${order.discountAmount} جنيه</span>
+                </div>
+                <div class="detail-row">
+                    <strong>السعر النهائي:</strong>
+                    <span style="color: #38ef7d; font-weight: 900; font-size: 1.2rem;">${order.finalPrice} جنيه</span>
+                </div>
+                ` : `
                 <div class="detail-row">
                     <strong>السعر:</strong>
                     <span style="color: #38ef7d; font-weight: 900; font-size: 1.2rem;">${order.price} جنيه</span>
                 </div>
+                `}
             `;
             
             document.getElementById('orderDetails').innerHTML = detailsHTML;

@@ -2295,6 +2295,35 @@
                         <textarea id="address" name="address" required placeholder="الشارع - رقم المبنى - أقرب معلم"></textarea>
                     </div>
                     
+                    <div class="form-group">
+                        <label for="discountCode">
+                            <i class="fas fa-tag"></i>
+                            كود الخصم (اختياري)
+                        </label>
+                        <div style="display: flex; gap: 10px;">
+                            <input type="text" id="discountCode" name="discountCode" placeholder="أدخل كود الخصم" style="flex: 1;">
+                            <button type="button" onclick="applyDiscount()" style="background: var(--gold); color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; white-space: nowrap;">
+                                تطبيق
+                            </button>
+                        </div>
+                        <div id="discountMessage" style="margin-top: 8px; font-size: 0.9rem; font-weight: bold;"></div>
+                    </div>
+                    
+                    <div id="priceBreakdown" style="background: var(--beige); padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span>السعر الأصلي:</span>
+                            <span id="originalPrice" style="font-weight: bold;">549 جنيه</span>
+                        </div>
+                        <div id="discountRow" style="display: none; justify-content: space-between; margin-bottom: 8px; color: var(--primary-green);">
+                            <span>الخصم (<span id="discountPercent"></span>):</span>
+                            <span id="discountAmount" style="font-weight: bold;">- 0 جنيه</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding-top: 10px; border-top: 2px solid var(--primary-green); font-size: 1.1rem;">
+                            <span style="font-weight: bold;">المجموع النهائي:</span>
+                            <span id="finalPrice" style="font-weight: bold; color: var(--primary-green); font-size: 1.3rem;">549 جنيه</span>
+                        </div>
+                    </div>
+                    
                     <button type="submit" class="submit-button">
                         تأكيد الطلب
                         <i class="fas fa-check-circle"></i>
@@ -2520,6 +2549,63 @@
         
         console.log('🔥 Firebase initialized successfully!');
         
+        // ===== Discount System =====
+        const discountCodes = {
+            'LOYAL10': { percent: 10, description: 'خصم الولاء 10%' },
+            'WELCOME15': { percent: 15, description: 'خصم الترحيب 15%' },
+            'SORRY15': { percent: 15, description: 'كود الاعتذار 15%' }
+        };
+        
+        let currentDiscount = 0;
+        let appliedCode = '';
+        
+        function applyDiscount() {
+            const code = document.getElementById('discountCode').value.trim().toUpperCase();
+            const messageEl = document.getElementById('discountMessage');
+            
+            if (!code) {
+                messageEl.innerHTML = '<span style="color: #dc3545;">❌ الرجاء إدخال كود الخصم</span>';
+                return;
+            }
+            
+            if (discountCodes[code]) {
+                currentDiscount = discountCodes[code].percent;
+                appliedCode = code;
+                updatePriceDisplay();
+                messageEl.innerHTML = `<span style="color: var(--primary-green);">✅ تم تطبيق ${discountCodes[code].description}</span>`;
+            } else {
+                currentDiscount = 0;
+                appliedCode = '';
+                updatePriceDisplay();
+                messageEl.innerHTML = '<span style="color: #dc3545;">❌ كود الخصم غير صحيح</span>';
+            }
+        }
+        
+        function updatePriceDisplay() {
+            const selectedOption = document.getElementById('bottleSize').value;
+            const [size, price] = selectedOption.split('-');
+            const originalPrice = parseInt(price);
+            
+            const discountAmount = Math.round((originalPrice * currentDiscount) / 100);
+            const finalPrice = originalPrice - discountAmount;
+            
+            document.getElementById('originalPrice').textContent = originalPrice + ' جنيه';
+            document.getElementById('finalPrice').textContent = finalPrice + ' جنيه';
+            
+            if (currentDiscount > 0) {
+                document.getElementById('discountRow').style.display = 'flex';
+                document.getElementById('discountPercent').textContent = currentDiscount + '%';
+                document.getElementById('discountAmount').textContent = '- ' + discountAmount + ' جنيه';
+            } else {
+                document.getElementById('discountRow').style.display = 'none';
+            }
+        }
+        
+        // Update price when bottle size changes
+        document.getElementById('bottleSize').addEventListener('change', function() {
+            updatePriceDisplay();
+        });
+        
         // ===== Form Submission with Facebook Pixel =====
         const orderForm = document.getElementById('orderForm');
         const loading = document.getElementById('loading');
@@ -2530,6 +2616,11 @@
             // Get form data
             const selectedBottleSize = document.getElementById('bottleSize').value;
             const [size, price] = selectedBottleSize.split('-');
+            const originalPrice = parseInt(price);
+            
+            // Calculate discount
+            const discountAmount = Math.round((originalPrice * currentDiscount) / 100);
+            const finalPrice = originalPrice - discountAmount;
             
             const formData = {
                 name: document.getElementById('name').value,
@@ -2538,7 +2629,12 @@
                 address: document.getElementById('address').value,
                 product: '108 Herbs Hair Oil',
                 bottleSize: size,
-                price: parseInt(price),
+                originalPrice: originalPrice,
+                discountCode: appliedCode || '',
+                discountPercent: currentDiscount,
+                discountAmount: discountAmount,
+                finalPrice: finalPrice,
+                price: finalPrice,
                 timestamp: new Date().toISOString(),
                 date: new Date().toLocaleDateString('ar-EG'),
                 time: new Date().toLocaleTimeString('ar-EG')
@@ -2579,9 +2675,6 @@
                 // Show success message
                 alert('🎉 تم استلام طلبك بنجاح!\n\nسيتم التواصل معك خلال 24 ساعة لتأكيد الطلب.\n\nشكراً لثقتك! 🌿');
                 
-                // إرسال رسالة واتساب للعميل بتفاصيل الطلب
-                sendWhatsAppConfirmation(formData);
-                
                 // Reset form
                 orderForm.reset();
                 
@@ -2593,10 +2686,6 @@
                 
                 loading.classList.remove('active');
                 alert('🎉 تم استلام طلبك بنجاح!\n\nسيتم التواصل معك قريباً.');
-                
-                // إرسال رسالة واتساب للعميل حتى لو فشل Firebase
-                sendWhatsAppConfirmation(formData);
-                
                 orderForm.reset();
             }
         });
@@ -2610,51 +2699,6 @@
             } catch (e) {
                 console.error('Error saving to localStorage:', e);
             }
-        }
-        
-        // Send WhatsApp confirmation to customer
-        function sendWhatsAppConfirmation(orderData) {
-            // تجهيز رسالة الواتساب بتفاصيل الطلب
-            const message = `
-🎉 *تم تأكيد طلبك بنجاح!*
-
-📦 *تفاصيل الطلب:*
-━━━━━━━━━━━━━━━━
-👤 *الاسم:* ${orderData.name}
-📱 *الهاتف:* ${orderData.phone}
-📍 *المحافظة:* ${orderData.governorate}
-🏠 *العنوان:* ${orderData.address}
-
-🌿 *المنتج:* ${orderData.product}
-💧 *الحجم:* ${orderData.bottleSize}
-💰 *السعر:* ${orderData.price} جنيه مصري
-
-📅 *تاريخ الطلب:* ${orderData.date}
-⏰ *الوقت:* ${orderData.time}
-
-━━━━━━━━━━━━━━━━
-✅ سيتم التواصل معك خلال 24 ساعة لتأكيد الطلب والشحن.
-
-🚚 الشحن لجميع محافظات مصر
-💳 الدفع عند الاستلام
-
-شكراً لثقتك في زيت الـ108 عشبة! 🌿
-            `.trim();
-            
-            // تحويل الرسالة لـ URL encoded
-            const encodedMessage = encodeURIComponent(message);
-            
-            // رقم الواتساب الخاص بك (يمكن تغييره)
-            const whatsappNumber = '201557350728';
-            
-            // فتح واتساب في نافذة جديدة
-            const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
-            
-            // تأخير بسيط قبل فتح الواتساب
-            setTimeout(() => {
-                window.open(whatsappURL, '_blank');
-                console.log('✅ WhatsApp confirmation message opened');
-            }, 1000);
         }
         
         // ===== Track CTA Clicks =====
