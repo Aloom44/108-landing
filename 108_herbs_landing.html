@@ -34,8 +34,9 @@
     // Meta Pixel ID
     fbq('init', '24302845932725042');
     fbq('track', 'PageView');
+    console.log('✅ FB Pixel: PageView tracked');
     
-    // تتبع عرض المحتوى
+    // تتبع عرض المحتوى فوراً
     fbq('track', 'ViewContent', {
         content_name: '108 Herbs Hair Oil',
         content_category: 'Hair Care',
@@ -43,6 +44,18 @@
         value: 549,
         currency: 'EGP'
     });
+    console.log('✅ FB Pixel: ViewContent tracked');
+    
+    // تتبع الاهتمام (Lead) عند دخول الصفحة
+    setTimeout(function() {
+        fbq('track', 'Lead', {
+            content_name: '108 Herbs Hair Oil - Page Visit',
+            content_category: 'Hair Care',
+            value: 549,
+            currency: 'EGP'
+        });
+        console.log('✅ FB Pixel: Lead (Page Visit) tracked');
+    }, 3000);
     </script>
     <noscript>
         <img height="1" width="1" style="display:none"
@@ -2543,6 +2556,7 @@
                 currency: 'EGP',
                 num_items: 1
             });
+            console.log('✅ FB Pixel: Purchase tracked - ' + formData.price + ' EGP');
             
             // Track Lead Event
             fbq('track', 'Lead', {
@@ -2550,6 +2564,7 @@
                 value: formData.price,
                 currency: 'EGP'
             });
+            console.log('✅ FB Pixel: Lead (Form Submit) tracked - ' + formData.bottleSize);
             
             try {
                 // Save to Firebase Realtime Database
@@ -2599,6 +2614,7 @@
                 currency: 'EGP',
                 source: location
             });
+            console.log('✅ FB Pixel: InitiateCheckout tracked from ' + location);
             
             console.log('CTA clicked from:', location);
         }
@@ -2617,6 +2633,7 @@
                         value: 1000,
                         currency: 'EGP'
                     });
+                    console.log('✅ FB Pixel: AddToCart tracked (Benefits viewed)');
                     benefitsTracked = true;
                     console.log('User engaged with benefits section');
                 }
@@ -2740,6 +2757,23 @@
             const savedTab = localStorage.getItem('activeTab');
             if (savedTab) {
                 switchTab(savedTab);
+            }
+        });
+        
+        // ===== Facebook Pixel Health Check =====
+        window.addEventListener('load', function() {
+            if (typeof fbq !== 'undefined') {
+                console.log('✅ Facebook Pixel is ACTIVE and ready');
+                console.log('📊 Pixel ID: 24302845932725042');
+                
+                // Test custom event
+                fbq('trackCustom', 'PixelHealthCheck', {
+                    status: 'active',
+                    timestamp: new Date().toISOString()
+                });
+                console.log('✅ FB Pixel: Custom HealthCheck event sent');
+            } else {
+                console.error('❌ Facebook Pixel NOT loaded - Check Ad Blockers or Internet Connection');
             }
         });
     </script>
