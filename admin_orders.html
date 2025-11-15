@@ -832,7 +832,19 @@ ${governorate} - ${address}
 للاستفسار: 01557350728
             `.trim();
             
-            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
+            // إضافة كود الدولة +20 إذا لم يكن موجوداً
+            let formattedPhone = phone.toString().replace(/\D/g, ''); // إزالة أي رموز غير رقمية
+            
+            // إذا الرقم يبدأ بـ 0، نستبدله بـ 20
+            if (formattedPhone.startsWith('0')) {
+                formattedPhone = '20' + formattedPhone.substring(1);
+            }
+            // إذا لم يبدأ بـ 20، نضيفه
+            else if (!formattedPhone.startsWith('20')) {
+                formattedPhone = '20' + formattedPhone;
+            }
+            
+            window.open(`https://wa.me/${formattedPhone}?text=${encodeURIComponent(message)}`, '_blank');
         }
         
         // Search orders
