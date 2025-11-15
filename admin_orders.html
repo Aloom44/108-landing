@@ -783,8 +783,21 @@
         
         // WhatsApp customer with full order details
         function whatsappCustomer(phone, name, governorate, address, bottleSize, price, date, time) {
-            const message = `
-مرحباً *${name}* 👋
+            // إضافة كود الدولة +20 إذا لم يكن موجوداً
+            let formattedPhone = phone.toString().replace(/\D/g, ''); // إزالة أي رموز غير رقمية
+            
+            // إذا الرقم يبدأ بـ 0، نستبدله بـ 20
+            if (formattedPhone.startsWith('0')) {
+                formattedPhone = '20' + formattedPhone.substring(1);
+            }
+            // إذا لم يبدأ بـ 20، نضيفه
+            else if (!formattedPhone.startsWith('20')) {
+                formattedPhone = '20' + formattedPhone;
+            }
+            
+            // بناء الرسالة بطريقة URL-friendly
+            const message = 
+`مرحباً *${name}* 👋
 
 🎉 *تم تأكيد طلبك بنجاح!*
 
@@ -829,22 +842,12 @@ ${governorate} - ${address}
 نتمنى لك شعر صحي وقوي! 💪✨
 
 فريق زيت الـ108 عشبة
-للاستفسار: 01557350728
-            `.trim();
+للاستفسار: 01557350728`;
             
-            // إضافة كود الدولة +20 إذا لم يكن موجوداً
-            let formattedPhone = phone.toString().replace(/\D/g, ''); // إزالة أي رموز غير رقمية
+            // استخدام encodeURIComponent بشكل صحيح
+            const encodedMessage = encodeURIComponent(message);
             
-            // إذا الرقم يبدأ بـ 0، نستبدله بـ 20
-            if (formattedPhone.startsWith('0')) {
-                formattedPhone = '20' + formattedPhone.substring(1);
-            }
-            // إذا لم يبدأ بـ 20، نضيفه
-            else if (!formattedPhone.startsWith('20')) {
-                formattedPhone = '20' + formattedPhone;
-            }
-            
-            window.open(`https://wa.me/${formattedPhone}?text=${encodeURIComponent(message)}`, '_blank');
+            window.open(`https://wa.me/${formattedPhone}?text=${encodedMessage}`, '_blank');
         }
         
         // Search orders
