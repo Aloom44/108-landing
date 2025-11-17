@@ -8,6 +8,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
     <style>
         :root {
             --brand-red: #E81D25;
@@ -697,8 +700,6 @@
                 <label>العنوان بالتفصيل:</label>
                 <input type="text" id="addressInput" placeholder="المنطقة - الشارع - علامة مميزة" required>
             </div>
-
-            <button type="submit" id="hiddenSubmit" style="display:none;"></button>
         </form>
 
         <div style="text-align:center; margin-top:15px; opacity:0.7; font-size:0.75rem;">
@@ -720,7 +721,7 @@
     </div>
 
     <div class="sticky-bar">
-        <button class="btn-main" onclick="triggerOrder()">أكدلي الطلب يا معلم 🛒</button>
+        <button class="btn-main" type="button" onclick="document.getElementById('orderForm').requestSubmit()">أكدلي الطلب يا معلم 🛒</button>
     </div>
 
     <script>
@@ -827,24 +828,34 @@
         }
 
         function triggerOrder() {
-            const form = document.getElementById('order-form');
+            // Pixel Event - InitiateCheckout
+            const totalPrice = parseInt(document.getElementById('totalPrice').textContent);
+            fbq('track', 'InitiateCheckout', {
+                content_name: currentOffer === 'offer2' ? '6 قطع بوكسرات' : '3 قطع بوكسرات',
+                content_category: 'بوكسرات كالفين كلاين',
+                content_ids: [currentOffer === 'offer2' ? 'boxer_6pc' : 'boxer_3pc'],
+                content_type: 'product',
+                value: totalPrice,
+                currency: 'EGP',
+                num_items: quantity
+            });
+            
+            const form = document.getElementById('orderForm');
             const rect = form.getBoundingClientRect();
+            
+            // التمرير إلى النموذج إذا كان خارج الشاشة
             if (rect.top < 0 || rect.bottom > window.innerHeight) {
-                form.scrollIntoView({behavior: 'smooth'});
-                
-                // Pixel Event - InitiateCheckout
-                const totalPrice = parseInt(document.getElementById('totalPrice').textContent);
-                fbq('track', 'InitiateCheckout', {
-                    content_name: currentOffer === 'offer2' ? '6 قطع بوكسرات' : '3 قطع بوكسرات',
-                    content_category: 'بوكسرات كالفين كلاين',
-                    content_ids: [currentOffer === 'offer2' ? 'boxer_6pc' : 'boxer_3pc'],
-                    content_type: 'product',
-                    value: totalPrice,
-                    currency: 'EGP',
-                    num_items: quantity
-                });
+                form.scrollIntoView({behavior: 'smooth', block: 'center'});
+                setTimeout(() => {
+                    form.querySelector('input[type="text"]').focus();
+                }, 500);
             } else {
-                document.getElementById('hiddenSubmit').click();
+                // محاولة إرسال النموذج
+                if (form.checkValidity()) {
+                    form.requestSubmit();
+                } else {
+                    form.reportValidity();
+                }
             }
         }
 
@@ -924,32 +935,40 @@
                 await newOrderRef.set(orderData);
                 console.log('✅ Order saved to Firebase:', newOrderRef.key);
                 
-                // Create WhatsApp message
-                const message = `
-🛍️ *طلب جديد - بوكسرات كالفين كلاين*
-
-📦 العرض: ${offerText}
-🔢 الكمية: ${quantity}
-📏 المقاس: ${size}
-
-👤 الاسم: ${name}
-📱 الموبايل: ${phone}
-📍 المحافظة: ${governorate}
-🏠 العنوان: ${address}
-
-💰 المجموع: ${totalPrice} جنيه
-🚚 الشحن: ${shipping} جنيه
-💵 *الإجمالي الكلي: ${totalWithShipping} جنيه*
-
-✅ الدفع عند الاستلام
-                `.trim();
-                
-                // Redirect to WhatsApp
-                const whatsappURL = `https://wa.me/201557350728?text=${encodeURIComponent(message)}`;
-                window.open(whatsappURL, '_blank');
-                
-                // Confirmation
-                alert('تمام! 👌\nتم حفظ طلبك بنجاح\nهيتم تحويلك لواتساب لتأكيد الطلب.');
+                // عرض رسالة نجاح مع تفاصيل الطلب
+                await Swal.fire({
+                    icon: 'success',
+                    title: 'تم تأكيد طلبك بنجاح! 🎉',
+                    html: `
+                        <div style="text-align: right; direction: rtl; padding: 20px; font-family: 'Cairo', sans-serif;">
+                            <h3 style="color: #4A7C59; margin-bottom: 15px;">👕 تفاصيل طلبك</h3>
+                            <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 10px;">
+                                <p style="margin: 5px 0;"><strong>📦 العرض:</strong> ${offerText}</p>
+                                <p style="margin: 5px 0;"><strong>🔢 الكمية:</strong> ${quantity}</p>
+                                <p style="margin: 5px 0;"><strong>📏 المقاس:</strong> ${size}</p>
+                            </div>
+                            <div style="background: #fff3cd; padding: 15px; border-radius: 10px; margin-bottom: 10px;">
+                                <p style="margin: 5px 0;"><strong>👤 الاسم:</strong> ${name}</p>
+                                <p style="margin: 5px 0;"><strong>📱 الموبايل:</strong> ${phone}</p>
+                                <p style="margin: 5px 0;"><strong>📍 المحافظة:</strong> ${governorate}</p>
+                            </div>
+                            <div style="background: #d4edda; padding: 15px; border-radius: 10px;">
+                                <p style="margin: 5px 0;"><strong>💰 المجموع:</strong> ${totalPrice} جنيه</p>
+                                <p style="margin: 5px 0;"><strong>🚚 الشحن:</strong> ${shipping} جنيه</p>
+                                <p style="margin: 5px 0; font-size: 1.2rem; color: #4A7C59;"><strong>💵 الإجمالي:</strong> ${totalWithShipping} جنيه</p>
+                            </div>
+                            <p style="margin-top: 15px; color: #666; font-size: 0.9rem;">✅ الدفع عند الاستلام</p>
+                            <p style="margin-top: 10px; color: #4A7C59; font-weight: bold;">📦 هيتم التواصل معاك قريباً لتأكيد الطلب</p>
+                        </div>
+                    `,
+                    confirmButtonText: 'تمام 👌',
+                    confirmButtonColor: '#4A7C59',
+                    width: '90%',
+                    padding: '1rem',
+                    customClass: {
+                        popup: 'cairo-font'
+                    }
+                });
                 
                 // إعادة تعيين النموذج
                 document.getElementById('orderForm').reset();
@@ -960,7 +979,13 @@
                 
             } catch (error) {
                 console.error('❌ Error saving order:', error);
-                alert('⚠️ حدث خطأ في حفظ الطلب. من فضلك حاول مرة أخرى.');
+                await Swal.fire({
+                    icon: 'error',
+                    title: 'حدث خطأ!',
+                    text: 'عذراً، حدث خطأ في حفظ الطلب. من فضلك حاول مرة أخرى.',
+                    confirmButtonColor: '#d33',
+                    confirmButtonText: 'حسناً'
+                });
             }
         }
         
