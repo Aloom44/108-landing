@@ -638,14 +638,16 @@
         // Load orders from Firebase Realtime Database
         let ordersCache = [];
         let karseellOrdersCache = [];
+        let boxersOrdersCache = [];
         
         async function loadOrders() {
             return new Promise((resolve, reject) => {
-                // Load both 108 herbs orders and Karseell orders
+                // Load 108 herbs, Karseell, and Boxers orders
                 Promise.all([
                     database.ref('orders').once('value'),
-                    database.ref('karseell-orders').once('value')
-                ]).then(([herbsSnapshot, karseellSnapshot]) => {
+                    database.ref('karseell-orders').once('value'),
+                    database.ref('boxers-orders').once('value')
+                ]).then(([herbsSnapshot, karseellSnapshot, boxersSnapshot]) => {
                     const orders = [];
                     
                     // Load 108 herbs orders
@@ -664,15 +666,22 @@
                         orders.push(order);
                     });
                     
+                    // Load Boxers orders
+                    boxersSnapshot.forEach((childSnapshot) => {
+                        const order = childSnapshot.val();
+                        order.firebaseId = childSnapshot.key;
+                        order.productType = '👕 بوكسرات كالفين كلاين';
+                        orders.push(order);
+                    });
+                    
                     // Sort by timestamp (newest first)
                     orders.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
                     
                     ordersCache = orders;
-                    console.log('🔥 Loaded', orders.length, 'orders from Firebase (Herbs + Karseell)');
+                    console.log('🔥 Loaded', orders.length, 'orders from Firebase (Herbs + Karseell + Boxers)');
                     resolve(orders);
                 }).catch((error) => {
                     console.error('❌ Firebase Error:', error);
-                    // Fallback to localStorage
                     const localOrders = JSON.parse(localStorage.getItem('hairOilOrders') || '[]');
                     resolve(localOrders.reverse());
                 });
@@ -688,6 +697,10 @@
             displayOrders();
         });
         
+        database.ref('boxers-orders').on('child_added', (snapshot) => {
+            displayOrders();
+        });
+        
         // Display orders in table
         async function displayOrders(orders = null) {
             const ordersData = orders || await loadOrders();
@@ -696,7 +709,7 @@
             if (ordersData.length === 0) {
                 tbody.innerHTML = `
                     <tr>
-                        <td colspan="9">
+                        <td colspan="10">
                             <div class="empty-state">
                                 <i class="fas fa-inbox"></i>
                                 <h3>لا توجد طلبات بعد</h3>
@@ -708,18 +721,27 @@
                 return;
             }
             
-            tbody.innerHTML = ordersData.map((order, index) => `
+            tbody.innerHTML = ordersData.map((order, index) => {
+                // تحديد لون المنتج
+                let productColor = '#4A7C59'; // default green
+                if (order.productType?.includes('Karseell')) {
+                    productColor = '#e67e22';
+                } else if (order.productType?.includes('بوكسرات')) {
+                    productColor = '#3498db';
+                }
+                
+                return `
                 <tr>
                     <td class="order-id">#${ordersData.length - index}</td>
                     <td>${order.date || new Date(order.timestamp).toLocaleDateString('ar-EG')}</td>
                     <td>
                         <strong>${order.name}</strong><br>
-                        <small style="color: ${order.productType?.includes('Karseell') ? '#e67e22' : '#4A7C59'}; font-weight: 600;">${order.productType || '🌿 زيت 108 عشبة'}</small>
+                        <small style="color: ${productColor}; font-weight: 600;">${order.productType || '🌿 زيت 108 عشبة'}</small>
                     </td>
                     <td class="phone">${order.phone}</td>
                     <td>${order.governorate}</td>
                     <td class="address" title="${order.address}">${order.address}</td>
-                    <td><span style="background: ${order.productType?.includes('Karseell') ? '#e67e22' : 'var(--primary-green)'}; color: white; padding: 4px 10px; border-radius: 5px; font-size: 0.8rem;">${order.bottleSize}</span></td>
+                    <td><span style="background: ${productColor}; color: white; padding: 4px 10px; border-radius: 5px; font-size: 0.8rem;">${order.bottleSize || order.size || '-'}</span></td>
                     <td>${order.discountCode ? `<span style="background: var(--gold); color: white; padding: 4px 8px; border-radius: 5px; font-size: 0.75rem;">${order.discountCode}<br>${order.discountPercent}%</span>` : '<span style="color: #999;">-</span>'}</td>
                     <td class="price">${order.finalPrice || order.price} ج${order.discountAmount > 0 ? `<br><small style="color: #999; text-decoration: line-through;">${order.originalPrice} ج</small>` : ''}</td>
                     <td class="actions">
@@ -729,7 +751,7 @@
                         <button class="btn btn-success btn-small" onclick="callCustomer('${order.phone}')" title="اتصال">
                             <i class="fas fa-phone"></i>
                         </button>
-                        <button class="btn btn-success btn-small" onclick="whatsappCustomer('${order.phone}', '${order.name}', '${order.governorate}', '${order.address}', '${order.bottleSize}', ${order.price}, '${order.date}', '${order.time}', '${order.productType || '🌿 زيت 108 عشبة'}')" title="تأكيد الطلب">
+                        <button class="btn btn-success btn-small" onclick="whatsappCustomer('${order.phone}', '${order.name}', '${order.governorate}', '${order.address}', '${order.bottleSize || order.size || ''}', ${order.price}, '${order.date}', '${order.time}', '${order.productType || '🌿 زيت 108 عشبة'}')" title="تأكيد الطلب">
                             <i class="fab fa-whatsapp"></i>
                         </button>
                         <button class="btn btn-danger btn-small" onclick="cancelOrderMessage('${order.phone}', '${order.name}')" title="إلغاء الطلب" style="background: #dc3545;">
@@ -737,7 +759,7 @@
                         </button>
                     </td>
                 </tr>
-            `).join('');
+            `}).join('');
             
             updateStats(ordersData);
         }
@@ -1056,10 +1078,13 @@
                 });
                 
                 if (finalConfirm.isConfirmed) {
-                    // Clear Firebase database
-                    await database.ref('orders').remove();
+                    // Clear Firebase databases
+                    await Promise.all([
+                        database.ref('orders').remove(),
+                        database.ref('karseell-orders').remove(),
+                        database.ref('boxers-orders').remove()
+                    ]);
                     
-                    // Also clear localStorage as backup
                     localStorage.removeItem('hairOilOrders');
                     
                     displayOrders();
