@@ -931,43 +931,41 @@
             
             try {
                 // حفظ الطلب في Firebase
+                console.log('📝 Attempting to save order to Firebase...');
+                console.log('Order data:', orderData);
+                
                 const newOrderRef = database.ref('boxers-orders').push();
                 await newOrderRef.set(orderData);
-                console.log('✅ Order saved to Firebase:', newOrderRef.key);
+                console.log('✅ Order saved to Firebase successfully:', newOrderRef.key);
+                
+                // حفظ نسخة احتياطية في localStorage
+                const localOrders = JSON.parse(localStorage.getItem('boxers-orders') || '[]');
+                localOrders.push({...orderData, firebaseId: newOrderRef.key});
+                localStorage.setItem('boxers-orders', JSON.stringify(localOrders));
+                console.log('💾 Order backed up to localStorage');
                 
                 // عرض رسالة نجاح مع تفاصيل الطلب
                 await Swal.fire({
                     icon: 'success',
-                    title: 'تم تأكيد طلبك بنجاح! 🎉',
+                    title: 'تم تأكيد طلبك! 🎉',
                     html: `
-                        <div style="text-align: right; direction: rtl; padding: 20px; font-family: 'Cairo', sans-serif;">
-                            <h3 style="color: #4A7C59; margin-bottom: 15px;">👕 تفاصيل طلبك</h3>
-                            <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 10px;">
-                                <p style="margin: 5px 0;"><strong>📦 العرض:</strong> ${offerText}</p>
-                                <p style="margin: 5px 0;"><strong>🔢 الكمية:</strong> ${quantity}</p>
-                                <p style="margin: 5px 0;"><strong>📏 المقاس:</strong> ${size}</p>
+                        <div style="text-align: center; padding: 10px; font-family: 'Cairo', sans-serif; font-size: 0.85rem;">
+                            <div style="background: #f0f0f0; padding: 8px; border-radius: 8px; margin: 8px 0;">
+                                <p style="margin: 3px 0; color: #333;"><strong>${offerText}</strong> × ${quantity}</p>
+                                <p style="margin: 3px 0; color: #666;">📏 ${size}</p>
                             </div>
-                            <div style="background: #fff3cd; padding: 15px; border-radius: 10px; margin-bottom: 10px;">
-                                <p style="margin: 5px 0;"><strong>👤 الاسم:</strong> ${name}</p>
-                                <p style="margin: 5px 0;"><strong>📱 الموبايل:</strong> ${phone}</p>
-                                <p style="margin: 5px 0;"><strong>📍 المحافظة:</strong> ${governorate}</p>
+                            <div style="background: #e8f5e9; padding: 8px; border-radius: 8px; margin: 8px 0;">
+                                <p style="margin: 3px 0; color: #2e7d32; font-size: 1rem;"><strong>💵 ${totalWithShipping} جنيه</strong></p>
+                                <p style="margin: 3px 0; color: #666; font-size: 0.75rem;">(${totalPrice} + ${shipping} شحن)</p>
                             </div>
-                            <div style="background: #d4edda; padding: 15px; border-radius: 10px;">
-                                <p style="margin: 5px 0;"><strong>💰 المجموع:</strong> ${totalPrice} جنيه</p>
-                                <p style="margin: 5px 0;"><strong>🚚 الشحن:</strong> ${shipping} جنيه</p>
-                                <p style="margin: 5px 0; font-size: 1.2rem; color: #4A7C59;"><strong>💵 الإجمالي:</strong> ${totalWithShipping} جنيه</p>
-                            </div>
-                            <p style="margin-top: 15px; color: #666; font-size: 0.9rem;">✅ الدفع عند الاستلام</p>
-                            <p style="margin-top: 10px; color: #4A7C59; font-weight: bold;">📦 هيتم التواصل معاك قريباً لتأكيد الطلب</p>
+                            <p style="margin: 8px 0; color: #666; font-size: 0.8rem;">✅ الدفع عند الاستلام</p>
+                            <p style="margin: 5px 0; color: #4A7C59; font-size: 0.8rem;">📞 هنكلمك قريباً!</p>
                         </div>
                     `,
                     confirmButtonText: 'تمام 👌',
                     confirmButtonColor: '#4A7C59',
-                    width: '90%',
-                    padding: '1rem',
-                    customClass: {
-                        popup: 'cairo-font'
-                    }
+                    width: '85%',
+                    padding: '0.5rem'
                 });
                 
                 // إعادة تعيين النموذج
