@@ -637,15 +637,30 @@
         
         // Load orders from Firebase Realtime Database
         let ordersCache = [];
+        let karseellOrdersCache = [];
         
         async function loadOrders() {
             return new Promise((resolve, reject) => {
-                database.ref('orders').once('value', (snapshot) => {
+                // Load both 108 herbs orders and Karseell orders
+                Promise.all([
+                    database.ref('orders').once('value'),
+                    database.ref('karseell-orders').once('value')
+                ]).then(([herbsSnapshot, karseellSnapshot]) => {
                     const orders = [];
                     
-                    snapshot.forEach((childSnapshot) => {
+                    // Load 108 herbs orders
+                    herbsSnapshot.forEach((childSnapshot) => {
                         const order = childSnapshot.val();
-                        order.firebaseId = childSnapshot.key; // Save Firebase ID
+                        order.firebaseId = childSnapshot.key;
+                        order.productType = '🌿 زيت 108 عشبة';
+                        orders.push(order);
+                    });
+                    
+                    // Load Karseell orders
+                    karseellSnapshot.forEach((childSnapshot) => {
+                        const order = childSnapshot.val();
+                        order.firebaseId = childSnapshot.key;
+                        order.productType = '💆 Karseell';
                         orders.push(order);
                     });
                     
@@ -653,9 +668,9 @@
                     orders.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
                     
                     ordersCache = orders;
-                    console.log('🔥 Loaded', orders.length, 'orders from Firebase');
+                    console.log('🔥 Loaded', orders.length, 'orders from Firebase (Herbs + Karseell)');
                     resolve(orders);
-                }, (error) => {
+                }).catch((error) => {
                     console.error('❌ Firebase Error:', error);
                     // Fallback to localStorage
                     const localOrders = JSON.parse(localStorage.getItem('hairOilOrders') || '[]');
@@ -666,7 +681,10 @@
         
         // Listen for real-time updates
         database.ref('orders').on('child_added', (snapshot) => {
-            // Refresh display when new order added
+            displayOrders();
+        });
+        
+        database.ref('karseell-orders').on('child_added', (snapshot) => {
             displayOrders();
         });
         
@@ -694,11 +712,14 @@
                 <tr>
                     <td class="order-id">#${ordersData.length - index}</td>
                     <td>${order.date || new Date(order.timestamp).toLocaleDateString('ar-EG')}</td>
-                    <td><strong>${order.name}</strong></td>
+                    <td>
+                        <strong>${order.name}</strong><br>
+                        <small style="color: ${order.productType?.includes('Karseell') ? '#e67e22' : '#4A7C59'}; font-weight: 600;">${order.productType || '🌿 زيت 108 عشبة'}</small>
+                    </td>
                     <td class="phone">${order.phone}</td>
                     <td>${order.governorate}</td>
                     <td class="address" title="${order.address}">${order.address}</td>
-                    <td><span style="background: var(--primary-green); color: white; padding: 4px 10px; border-radius: 5px; font-size: 0.8rem;">${order.bottleSize}</span></td>
+                    <td><span style="background: ${order.productType?.includes('Karseell') ? '#e67e22' : 'var(--primary-green)'}; color: white; padding: 4px 10px; border-radius: 5px; font-size: 0.8rem;">${order.bottleSize}</span></td>
                     <td>${order.discountCode ? `<span style="background: var(--gold); color: white; padding: 4px 8px; border-radius: 5px; font-size: 0.75rem;">${order.discountCode}<br>${order.discountPercent}%</span>` : '<span style="color: #999;">-</span>'}</td>
                     <td class="price">${order.finalPrice || order.price} ج${order.discountAmount > 0 ? `<br><small style="color: #999; text-decoration: line-through;">${order.originalPrice} ج</small>` : ''}</td>
                     <td class="actions">
@@ -708,7 +729,7 @@
                         <button class="btn btn-success btn-small" onclick="callCustomer('${order.phone}')" title="اتصال">
                             <i class="fas fa-phone"></i>
                         </button>
-                        <button class="btn btn-success btn-small" onclick="whatsappCustomer('${order.phone}', '${order.name}', '${order.governorate}', '${order.address}', '${order.bottleSize}', ${order.price}, '${order.date}', '${order.time}')" title="تأكيد الطلب">
+                        <button class="btn btn-success btn-small" onclick="whatsappCustomer('${order.phone}', '${order.name}', '${order.governorate}', '${order.address}', '${order.bottleSize}', ${order.price}, '${order.date}', '${order.time}', '${order.productType || '🌿 زيت 108 عشبة'}')" title="تأكيد الطلب">
                             <i class="fab fa-whatsapp"></i>
                         </button>
                         <button class="btn btn-danger btn-small" onclick="cancelOrderMessage('${order.phone}', '${order.name}')" title="إلغاء الطلب" style="background: #dc3545;">
@@ -806,7 +827,7 @@
         }
         
         // WhatsApp customer with full order details
-        function whatsappCustomer(phone, name, governorate, address, bottleSize, price, date, time) {
+        function whatsappCustomer(phone, name, governorate, address, bottleSize, price, date, time, productType = '🌿 زيت 108 عشبة') {
             // إضافة كود الدولة +20
             let formattedPhone = phone.toString().replace(/\D/g, '');
             
@@ -824,13 +845,25 @@
             const confirmed = confirm('سيتم فتح واتساب للعميل: ' + name + '\nهل تريد نسخ الرسالة أولاً؟');
             
             if (confirmed) {
+                // تحديد نوع المنتج
+                const isKarseell = productType && productType.includes('Karseell');
+                
                 // بناء الرسالة للنسخ
                 let msg = 'مرحباً *' + name + '* 👋\n\n';
                 msg += '🎉 *تم تأكيد طلبك بنجاح!*\n\n';
-                msg += 'نشكرك على ثقتك في زيت الـ108 عشبة الطبيعي 🌿\n\n';
-                msg += '📦 *تفاصيل طلبك:*\n';
-                msg += '────────────────────\n';
-                msg += '🌿 المنتج: زيت الـ108 عشبة للشعر\n';
+                
+                if (isKarseell) {
+                    msg += 'نشكرك على ثقتك في Karseell Hair Care 💆‍♀️\n\n';
+                    msg += '📦 *تفاصيل طلبك:*\n';
+                    msg += '────────────────────\n';
+                    msg += '💆 المنتج: Karseell Hair Set (ماسك + سيرم)\n';
+                } else {
+                    msg += 'نشكرك على ثقتك في زيت الـ108 عشبة الطبيعي 🌿\n\n';
+                    msg += '📦 *تفاصيل طلبك:*\n';
+                    msg += '────────────────────\n';
+                    msg += '🌿 المنتج: زيت الـ108 عشبة للشعر\n';
+                }
+                
                 msg += '💧 الحجم: ' + bottleSize + '\n';
                 msg += '💰 السعر: ' + price + ' جنيه\n';
                 msg += '📅 التاريخ: ' + date + '\n';
@@ -841,14 +874,26 @@
                 msg += '✅ طلبك الآن قيد التجهيز\n';
                 msg += '🚚 سيتم الشحن خلال 24-48 ساعة\n';
                 msg += '💳 الدفع عند الاستلام\n\n';
-                msg += '💚 *نصائح الاستخدام:*\n';
-                msg += '• استخدم الزيت 2-3 مرات أسبوعياً\n';
-                msg += '• دلك فروة الرأس بلطف\n';
-                msg += '• اترك الزيت ساعتين على الأقل\n\n';
-                msg += '🎁 *عرض خاص:*\n';
-                msg += 'كود الخصم *LOYAL10* للطلب التالي (خصم 10%) 🎊\n\n';
-                msg += 'شكراً لاختيارك زيت الـ108 عشبة 🌿\n';
-                msg += 'فريق زيت الـ108 عشبة\n';
+                
+                if (isKarseell) {
+                    msg += '💆‍♀️ *نصائح الاستخدام:*\n';
+                    msg += '• استخدم الماسك 2-3 مرات أسبوعياً\n';
+                    msg += '• ضع السيرم على الشعر المبلل\n';
+                    msg += '• للنتائج المثالية استخدمهم معاً\n\n';
+                    msg += '🎁 *عرض خاص:*\n';
+                    msg += 'كود الخصم *KARSEELL10* للطلب التالي (خصم 10%) 🎊\n\n';
+                    msg += 'شكراً لاختيارك Karseell Hair Care 💆‍♀️\n';
+                } else {
+                    msg += '💚 *نصائح الاستخدام:*\n';
+                    msg += '• استخدم الزيت 2-3 مرات أسبوعياً\n';
+                    msg += '• دلك فروة الرأس بلطف\n';
+                    msg += '• اترك الزيت ساعتين على الأقل\n\n';
+                    msg += '🎁 *عرض خاص:*\n';
+                    msg += 'كود الخصم *LOYAL10* للطلب التالي (خصم 10%) 🎊\n\n';
+                    msg += 'شكراً لاختيارك زيت الـ108 عشبة 🌿\n';
+                    msg += 'فريق زيت الـ108 عشبة\n';
+                }
+                
                 msg += '📞 01557350728';
                 
                 // نسخ الرسالة للحافظة
