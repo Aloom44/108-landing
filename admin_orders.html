@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إدارة الطلبات - زيت الـ108 عشبة</title>
+    <title>لوحة إدارة الطلبات - جميع المنتجات</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -14,15 +14,15 @@
     
     <style>
         :root {
-            --primary-green: #4A7C59;
-            --dark-green: #2C5530;
-            --light-green: #8FBC8F;
+            --primary-color: #2c3e50;
+            --dark-color: #1a252f;
+            --light-color: #5d6d7e;
             --beige: #F5E6D3;
             --gold: #D4AF37;
             --dark-gold: #B8941C;
             --white: #FFFFFF;
             --light-gray: #F9F9F9;
-            --text-dark: #2C3E2C;
+            --text-dark: #2c3e50;
         }
         
         * {
@@ -33,7 +33,7 @@
         
         body {
             font-family: 'Cairo', sans-serif;
-            background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%);
+            background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1e 100%);
             min-height: 100vh;
             padding: 15px;
         }
@@ -57,7 +57,7 @@
         }
         
         .header h1 {
-            color: var(--primary-green);
+            color: var(--primary-color);
             font-size: 1.5rem;
             display: flex;
             align-items: center;
@@ -71,7 +71,7 @@
         }
         
         .stat-box {
-            background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--dark-color) 100%);
             color: white;
             padding: 12px 20px;
             border-radius: 10px;
@@ -148,7 +148,7 @@
         }
         
         .btn-primary {
-            background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--dark-color) 100%);
             color: white;
         }
         
@@ -180,12 +180,12 @@
         }
         
         thead {
-            background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--dark-color) 100%);
             color: white;
         }
         
         th {
-            padding: 12px 10px;
+            padding: 12px 2px;
             text-align: right;
             font-weight: 800;
             font-size: 0.85rem;
@@ -201,14 +201,14 @@
         }
         
         td {
-            padding: 12px 10px;
+            padding: 12px 2px;
             text-align: right;
             font-size: 0.9rem;
         }
         
         .order-id {
             font-weight: 700;
-            color: var(--primary-green);
+            color: var(--primary-color);
         }
         
         .phone {
@@ -225,12 +225,19 @@
         }
         
         .address {
-            max-width: 200px;
+            max-width: 120px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
             font-size: 0.85rem;
             color: #666;
+            padding-left: 1px !important;
+            padding-right: 1px !important;
+        }
+        
+        .price {
+            padding-left: 1px !important;
+            padding-right: 1px !important;
         }
         
         .actions {
@@ -254,7 +261,7 @@
             font-size: 3.5rem;
             margin-bottom: 15px;
             opacity: 0.3;
-            color: var(--primary-green);
+            color: var(--primary-color);
         }
         
         .empty-state h3 {
@@ -339,7 +346,7 @@
         }
         
         .modal-content h2 {
-            color: var(--primary-green);
+            color: var(--primary-color);
             margin-bottom: 20px;
             font-size: 1.5rem;
         }
@@ -354,7 +361,7 @@
         
         .detail-row strong {
             display: block;
-            color: var(--primary-green);
+            color: var(--primary-color);
             font-size: 0.85rem;
             margin-bottom: 5px;
         }
@@ -372,7 +379,7 @@
             bottom: 0;
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            background: linear-gradient(135deg, rgba(44, 85, 48, 0.85) 0%, rgba(74, 124, 89, 0.85) 100%);
+            background: linear-gradient(135deg, rgba(44, 62, 80, 0.85) 0%, rgba(26, 37, 47, 0.85) 100%);
             z-index: 1000;
             display: flex;
             align-items: center;
@@ -414,8 +421,8 @@
         <!-- Header -->
         <div class="header">
             <h1>
-                <i class="fas fa-clipboard-list" style="color: var(--gold);"></i>
-                لوحة إدارة الطلبات - زيت الـ108 عشبة 🌿
+                <i class="fas fa-boxes" style="color: var(--gold);"></i>
+                لوحة إدارة الطلبات 📦
             </h1>
             <div class="stats">
                 <div class="stat-box">
@@ -464,15 +471,14 @@
                         <th>الهاتف</th>
                         <th>المحافظة</th>
                         <th>العنوان</th>
-                        <th>الحجم</th>
-                        <th>الخصم</th>
                         <th>السعر</th>
+                        <th>الحجم/المقاس</th>
                         <th>الإجراءات</th>
                     </tr>
                 </thead>
                 <tbody id="ordersTableBody">
                     <tr>
-                        <td colspan="10">
+                        <td colspan="9">
                             <div class="empty-state">
                                 <i class="fas fa-inbox"></i>
                                 <h3>لا توجد طلبات بعد</h3>
@@ -482,6 +488,11 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+        
+        <!-- Footer -->
+        <div style="text-align: center; padding: 20px; margin-top: 20px; color: white; font-size: 0.9rem; opacity: 0.8;">
+            <p style="margin: 0;">جميع الحقوق محفوظة © A.Ala3m</p>
         </div>
     </div>
     
@@ -524,12 +535,12 @@
             
             while (attempts < maxAttempts) {
                 const { value: formValues } = await Swal.fire({
-                    title: '<i class="fas fa-lock" style="color: #4A7C59;"></i> تسجيل الدخول',
+                    title: '<i class="fas fa-lock" style="color: #2c3e50;"></i> تسجيل الدخول',
                     html:
                         '<input id="swal-username" class="swal2-input" placeholder="اسم المستخدم" style="text-align: right;">' +
                         '<input id="swal-password" type="password" class="swal2-input" placeholder="كلمة المرور" style="text-align: right;">',
                     confirmButtonText: 'دخول',
-                    confirmButtonColor: '#4A7C59',
+                    confirmButtonColor: '#2c3e50',
                     showCancelButton: true,
                     cancelButtonText: 'إلغاء',
                     cancelButtonColor: '#d33',
@@ -712,7 +723,7 @@
             if (ordersData.length === 0) {
                 tbody.innerHTML = `
                     <tr>
-                        <td colspan="10">
+                        <td colspan="9">
                             <div class="empty-state">
                                 <i class="fas fa-inbox"></i>
                                 <h3>لا توجد طلبات بعد</h3>
@@ -743,12 +754,15 @@
                     </td>
                     <td class="phone" onclick="copyToClipboard('${order.phone}', 'رقم الهاتف')" style="cursor: pointer;" title="انقر للنسخ">${order.phone}</td>
                     <td>${order.governorate}</td>
-                    <td class="address" onclick="copyToClipboard('${order.address.replace(/'/g, "\\'").replace(/"/g, '&quot;')}', 'العنوان')" title="${order.address} (انقر للنسخ)" style="cursor: pointer;">${order.address}</td>
-                    <td><span style="background: ${productColor}; color: white; padding: 4px 10px; border-radius: 5px; font-size: 0.8rem;">${order.bottleSize || order.size || '-'}</span></td>
-                    <td>${order.discountCode ? `<span style="background: var(--gold); color: white; padding: 4px 8px; border-radius: 5px; font-size: 0.75rem;">${order.discountCode}<br>${order.discountPercent}%</span>` : '<span style="color: #999;">-</span>'}</td>
-                    <td class="price">${order.finalPrice || order.price} ج${order.discountAmount > 0 ? `<br><small style="color: #999; text-decoration: line-through;">${order.originalPrice} ج</small>` : ''}</td>
+                    <td onclick="copyToClipboard('${order.address.replace(/'/g, "\\'").replace(/"/g, '&quot;')}', 'العنوان')" title="${order.address} (انقر للنسخ)" style="cursor: pointer;">${order.address}</td>
+                    <td class="price">
+                        ${order.finalPrice || order.price} ج
+                        ${order.discountAmount > 0 ? `<br><small style="color: #999; text-decoration: line-through;">${order.originalPrice} ج</small>` : ''}
+                        ${order.productType?.includes('بوكسرات') && order.bottleSize ? `<br><span style="background: #9b59b6; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; display: inline-block; margin-top: 3px;">${order.bottleSize}</span>` : ''}
+                    </td>
+                    <td><span style="background: ${productColor}; color: white; padding: 4px 10px; border-radius: 5px; font-size: 0.8rem;">${order.productType?.includes('بوكسرات') ? (order.size || '-') : (order.bottleSize || order.size || '-')}</span></td>
                     <td class="actions">
-                        <button class="btn btn-primary btn-small" onclick="viewDetails(${ordersData.length - index - 1})" title="عرض التفاصيل">
+                        <button class="btn btn-primary btn-small" onclick="viewDetails(${index})" title="عرض التفاصيل">
                             <i class="fas fa-eye"></i>
                         </button>
                         <button class="btn btn-success btn-small" onclick="callCustomer('${order.phone}')" title="اتصال">
@@ -775,8 +789,8 @@
         }
         
         // View order details
-        function viewDetails(index) {
-            const orders = loadOrders().reverse();
+        async function viewDetails(index) {
+            const orders = await loadOrders();
             const order = orders[index];
             
             const detailsHTML = `
@@ -806,11 +820,11 @@
                 </div>
                 <div class="detail-row">
                     <strong>المنتج:</strong>
-                    ${order.product}
+                    ${order.product || order.productType || '-'}
                 </div>
                 <div class="detail-row">
-                    <strong>حجم الزجاجة:</strong>
-                    ${order.bottleSize}
+                    <strong>${order.productType?.includes('بوكسرات') ? 'المقاس' : 'حجم الزجاجة'}:</strong>
+                    ${order.productType?.includes('بوكسرات') ? (order.size || '-') : (order.bottleSize || order.size || '-')}
                 </div>
                 ${order.discountCode ? `
                 <div class="detail-row">
@@ -1002,9 +1016,10 @@
         
         // Export to CSV
         async function exportToCSV() {
-            const orders = loadOrders().reverse();
+            const orders = await loadOrders();
+            const reversedOrders = [...orders].reverse();
             
-            if (orders.length === 0) {
+            if (reversedOrders.length === 0) {
                 await Swal.fire({
                     icon: 'info',
                     title: 'لا توجد بيانات',
@@ -1017,7 +1032,7 @@
             let csv = '\uFEFF'; // BOM for Excel UTF-8
             csv += 'رقم الطلب,التاريخ,الوقت,الاسم,الهاتف,المحافظة,العنوان,المنتج,الحجم,السعر\n';
             
-            orders.forEach((order, index) => {
+            reversedOrders.forEach((order, index) => {
                 csv += `${index + 1},`;
                 csv += `"${order.date || new Date(order.timestamp).toLocaleDateString('ar-EG')}",`;
                 csv += `"${order.time || new Date(order.timestamp).toLocaleTimeString('ar-EG')}",`;
@@ -1025,9 +1040,9 @@
                 csv += `"${order.phone}",`;
                 csv += `"${order.governorate}",`;
                 csv += `"${order.address}",`;
-                csv += `"${order.product}",`;
-                csv += `"${order.bottleSize}",`;
-                csv += `${order.price}\n`;
+                csv += `"${order.product || order.productType}",`;
+                csv += `"${order.bottleSize || order.size}",`;
+                csv += `${order.finalPrice || order.price}\n`;
             });
             
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
@@ -1043,7 +1058,7 @@
             await Swal.fire({
                 icon: 'success',
                 title: 'تم التصدير بنجاح',
-                html: `تم تصدير <strong>${orders.length}</strong> طلب إلى ملف Excel`,
+                html: `تم تصدير <strong>${reversedOrders.length}</strong> طلب إلى ملف Excel`,
                 confirmButtonColor: '#4A7C59',
                 timer: 2000
             });
