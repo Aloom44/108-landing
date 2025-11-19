@@ -690,15 +690,18 @@
         
         // Listen for real-time updates
         database.ref('orders').on('child_added', (snapshot) => {
-            displayOrders();
+            if (ordersCache.length > 0) displayOrders();
         });
         
         database.ref('karseell-orders').on('child_added', (snapshot) => {
-            displayOrders();
+            if (ordersCache.length > 0) displayOrders();
         });
         
         database.ref('boxers-orders').on('child_added', (snapshot) => {
-            displayOrders();
+            if (ordersCache.length > 0) {
+                console.log('🔔 New boxer order detected:', snapshot.key);
+                displayOrders();
+            }
         });
         
         // Display orders in table
@@ -734,13 +737,13 @@
                 <tr>
                     <td class="order-id">#${ordersData.length - index}</td>
                     <td>${order.date || new Date(order.timestamp).toLocaleDateString('ar-EG')}</td>
-                    <td>
+                    <td onclick="copyToClipboard('${order.name.replace(/'/g, "\\'").replace(/"/g, '&quot;')}', 'الاسم')" style="cursor: pointer;" title="انقر للنسخ">
                         <strong>${order.name}</strong><br>
                         <small style="color: ${productColor}; font-weight: 600;">${order.productType || '🌿 زيت 108 عشبة'}</small>
                     </td>
-                    <td class="phone">${order.phone}</td>
+                    <td class="phone" onclick="copyToClipboard('${order.phone}', 'رقم الهاتف')" style="cursor: pointer;" title="انقر للنسخ">${order.phone}</td>
                     <td>${order.governorate}</td>
-                    <td class="address" title="${order.address}">${order.address}</td>
+                    <td class="address" onclick="copyToClipboard('${order.address.replace(/'/g, "\\'").replace(/"/g, '&quot;')}', 'العنوان')" title="${order.address} (انقر للنسخ)" style="cursor: pointer;">${order.address}</td>
                     <td><span style="background: ${productColor}; color: white; padding: 4px 10px; border-radius: 5px; font-size: 0.8rem;">${order.bottleSize || order.size || '-'}</span></td>
                     <td>${order.discountCode ? `<span style="background: var(--gold); color: white; padding: 4px 8px; border-radius: 5px; font-size: 0.75rem;">${order.discountCode}<br>${order.discountPercent}%</span>` : '<span style="color: #999;">-</span>'}</td>
                     <td class="price">${order.finalPrice || order.price} ج${order.discountAmount > 0 ? `<br><small style="color: #999; text-decoration: line-through;">${order.originalPrice} ج</small>` : ''}</td>
@@ -1124,6 +1127,58 @@
                 });
                 window.location.href = 'https://google.com';
             }
+        }
+        
+        // Copy to clipboard function
+        function copyToClipboard(text, fieldName) {
+            // Decode HTML entities if any
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = text;
+            const decodedText = tempDiv.textContent || tempDiv.innerText || text;
+            
+            navigator.clipboard.writeText(decodedText).then(function() {
+                // Show success notification
+                Swal.fire({
+                    icon: 'success',
+                    title: 'تم النسخ!',
+                    text: `تم نسخ ${fieldName} بنجاح`,
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    timerProgressBar: true
+                });
+            }).catch(function(err) {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = decodedText;
+                textArea.style.position = 'fixed';
+                textArea.style.opacity = '0';
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'تم النسخ!',
+                        text: `تم نسخ ${fieldName} بنجاح`,
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 1500,
+                        timerProgressBar: true
+                    });
+                } catch (copyErr) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'فشل النسخ',
+                        text: 'لم يتمكن من نسخ النص. جرب يدوياً.',
+                        confirmButtonColor: '#4A7C59'
+                    });
+                }
+                document.body.removeChild(textArea);
+            });
         }
         
         // Close modal on outside click
