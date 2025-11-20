@@ -708,7 +708,6 @@
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
-        console.log('🔥 Firebase initialized in admin panel!');
         
         // Load orders from Firebase Realtime Database
         let ordersCache = [];
@@ -753,7 +752,6 @@
                     orders.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
                     
                     ordersCache = orders;
-                    console.log('🔥 Loaded', orders.length, 'orders from Firebase (Herbs + Karseell + Boxers)');
                     resolve(orders);
                 }).catch((error) => {
                     console.error('❌ Firebase Error:', error);
@@ -764,20 +762,22 @@
         }
         
         // Listen for real-time updates
+        let isInitialLoad = true;
+        
         database.ref('orders').on('child_added', (snapshot) => {
-            if (ordersCache.length > 0) displayOrders();
+            if (!isInitialLoad && ordersCache.length > 0) displayOrders();
         });
         
         database.ref('karseell-orders').on('child_added', (snapshot) => {
-            if (ordersCache.length > 0) displayOrders();
+            if (!isInitialLoad && ordersCache.length > 0) displayOrders();
         });
         
         database.ref('boxers-orders').on('child_added', (snapshot) => {
-            if (ordersCache.length > 0) {
-                console.log('🔔 New boxer order detected:', snapshot.key);
-                displayOrders();
-            }
+            if (!isInitialLoad && ordersCache.length > 0) displayOrders();
         });
+        
+        // After first load, enable real-time updates
+        setTimeout(() => { isInitialLoad = false; }, 2000);
         
         // Display orders in table
         async function displayOrders(orders = null) {
