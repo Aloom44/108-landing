@@ -1315,6 +1315,16 @@
             });
             
             try {
+                // طباعة البيانات المُرسلة للتأكد
+                console.log('📤 إرسال الطلبات إلى API:');
+                selectedOrders.forEach((order, idx) => {
+                    console.log(`   الطلب ${idx + 1}:`, {
+                        product_type: order.productType,
+                        size: order.size,
+                        bottle_size: order.bottleSize
+                    });
+                });
+                
                 // إرسال الطلبات إلى Django API
                 const response = await fetch('http://127.0.0.1:8000/api/import-firebase-orders/', {
                     method: 'POST',
@@ -1330,7 +1340,7 @@
                             total_price: order.finalPrice || order.price,
                             product_type: order.productType,
                             size: order.size || order.bottleSize,
-                            notes: `طلب Firebase - ${order.productType}`,
+                            bottle_size: order.bottleSize,
                             firebase_id: order.firebaseId,
                             date: order.date,
                             time: order.time,
