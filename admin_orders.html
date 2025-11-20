@@ -814,7 +814,7 @@
                 
                 return `
                 <tr class="${exportedClass}">
-                    <td><input type="checkbox" class="order-checkbox" data-order-index="${index}" onchange="updateSelectedCount()"></td>
+                    <td><input type="checkbox" class="order-checkbox" data-firebase-id="${order.firebaseId}" onchange="updateSelectedCount()"></td>
                     <td class="order-id">#${ordersData.length - index}${isExported ? '<span class="exported-badge">✓ تم الإضافة</span>' : ''}</td>
                     <td onclick="copyToClipboard('${order.name.replace(/'/g, "\\'").replace(/"/g, '&quot;')}', 'الاسم')" style="cursor: pointer;" title="انقر للنسخ">
                         <strong>${order.name}</strong><br>
@@ -1279,8 +1279,9 @@
             const selectedOrders = [];
             
             selected.forEach(checkbox => {
-                const index = parseInt(checkbox.getAttribute('data-order-index'));
-                selectedOrders.push(orders[index]);
+                const firebaseId = checkbox.getAttribute('data-firebase-id');
+                const order = orders.find(o => o.firebaseId === firebaseId);
+                if (order) selectedOrders.push(order);
             });
             
             // تأكيد العملية
@@ -1426,8 +1427,9 @@
             const selectedOrders = [];
             
             selected.forEach(checkbox => {
-                const index = parseInt(checkbox.getAttribute('data-order-index'));
-                selectedOrders.push(orders[index]);
+                const firebaseId = checkbox.getAttribute('data-firebase-id');
+                const order = orders.find(o => o.firebaseId === firebaseId);
+                if (order) selectedOrders.push(order);
             });
             
             // تأكيد الحذف
