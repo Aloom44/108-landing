@@ -514,7 +514,7 @@
             </button>
             <button class="btn btn-export-to-system" id="exportToSystemBtn" onclick="exportSelectedToSystem()">
                 <i class="fas fa-truck"></i>
-                إضافة إلى نظام الشحن
+                إضافة إلى Logexa
                 <span class="selected-count" id="selectedCount">0</span>
             </button>
             <button class="btn btn-danger" id="deleteSelectedBtn" onclick="deleteSelectedOrders()" style="display: none;">
@@ -814,7 +814,7 @@
                 
                 return `
                 <tr class="${exportedClass}">
-                    <td><input type="checkbox" class="order-checkbox" data-order-index="${index}" onchange="updateSelectedCount()" ${isExported ? 'disabled' : ''}></td>
+                    <td><input type="checkbox" class="order-checkbox" data-order-index="${index}" onchange="updateSelectedCount()"></td>
                     <td class="order-id">#${ordersData.length - index}${isExported ? '<span class="exported-badge">✓ تم الإضافة</span>' : ''}</td>
                     <td onclick="copyToClipboard('${order.name.replace(/'/g, "\\'").replace(/"/g, '&quot;')}', 'الاسم')" style="cursor: pointer;" title="انقر للنسخ">
                         <strong>${order.name}</strong><br>
@@ -1286,7 +1286,7 @@
             // تأكيد العملية
             const result = await Swal.fire({
                 title: 'تأكيد الإضافة',
-                html: `هل تريد إضافة <strong>${selectedOrders.length}</strong> طلب إلى نظام الشحن؟`,
+                html: `هل تريد إضافة <strong>${selectedOrders.length}</strong> طلب إلى Logexa؟`,
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonText: 'نعم، أضف',
@@ -1357,8 +1357,8 @@
                     await Swal.fire({
                         icon: 'success',
                         title: 'تمت الإضافة بنجاح',
-                        html: `تم إضافة <strong>${data.success_count}</strong> طلب إلى نظام الشحن<br>
-                               ${data.failed_count > 0 ? `<span style="color: #dc3545;">فشل: ${data.failed_count}</span>` : ''}`,
+                        html: `تم إضافة <strong>${data.success_count}</strong> طلب إلى Logexa<br>
+                               ${data.failed_count > 0 ? `<span style="color: #dc3545;">فشل: ${data.failed_count}</span>` : ''}>`,
                         confirmButtonColor: '#28a745',
                         timer: 3000
                     });
