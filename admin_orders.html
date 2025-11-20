@@ -1227,11 +1227,6 @@
         // Initial load
         displayOrders();
         
-        // Auto-refresh every 30 seconds
-        setInterval(() => {
-            displayOrders();
-        }, 30000);
-        
         // تحديد/إلغاء تحديد الكل
         function toggleSelectAll(checkbox) {
             const checkboxes = document.querySelectorAll('.order-checkbox');
