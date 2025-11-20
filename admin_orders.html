@@ -502,11 +502,16 @@
                 <i class="fas fa-download"></i>
                 تصدير Excel
             </button>
-            <select id="productFilter" class="btn" style="padding: 10px 15px; cursor: pointer; background: white; border: 2px solid var(--gold); color: var(--primary-color); font-weight: 700;" onchange="filterByProduct()">
+            <select id="productFilter" class="btn" style="padding: 10px 15px; cursor: pointer; background: white; border: 2px solid var(--gold); color: var(--primary-color); font-weight: 700;" onchange="applyFilters()">
                 <option value="all">جميع المنتجات</option>
                 <option value="boxers">بوكسرات</option>
                 <option value="karseell">Karseell</option>
                 <option value="herbs">زيت 108 عشبة</option>
+            </select>
+            <select id="exportFilter" class="btn" style="padding: 10px 15px; cursor: pointer; background: white; border: 2px solid #28a745; color: var(--primary-color); font-weight: 700;" onchange="applyFilters()">
+                <option value="all">جميع الطلبات</option>
+                <option value="exported">مُضافة إلى Logexa ✓</option>
+                <option value="not-exported">غير مُضافة</option>
             </select>
             <button class="btn btn-primary" onclick="logout()" style="background: linear-gradient(135deg, #6c757d 0%, #495057 100%);">
                 <i class="fas fa-sign-out-alt"></i>
@@ -1385,19 +1390,28 @@
             }
         }
         
-        // فلترة الطلبات حسب نوع المنتج
-        async function filterByProduct() {
-            const filter = document.getElementById('productFilter').value;
+        // فلترة الطلبات حسب نوع المنتج وحالة التصدير
+        async function applyFilters() {
+            const productFilter = document.getElementById('productFilter').value;
+            const exportFilter = document.getElementById('exportFilter').value;
             const orders = await loadOrders();
             
             let filteredOrders = orders;
             
-            if (filter === 'boxers') {
-                filteredOrders = orders.filter(order => order.productType?.includes('بوكسرات'));
-            } else if (filter === 'karseell') {
-                filteredOrders = orders.filter(order => order.productType?.includes('Karseell'));
-            } else if (filter === 'herbs') {
-                filteredOrders = orders.filter(order => order.productType?.includes('زيت 108 عشبة'));
+            // تطبيق فلتر نوع المنتج
+            if (productFilter === 'boxers') {
+                filteredOrders = filteredOrders.filter(order => order.productType?.includes('بوكسرات'));
+            } else if (productFilter === 'karseell') {
+                filteredOrders = filteredOrders.filter(order => order.productType?.includes('Karseell'));
+            } else if (productFilter === 'herbs') {
+                filteredOrders = filteredOrders.filter(order => order.productType?.includes('زيت 108 عشبة'));
+            }
+            
+            // تطبيق فلتر حالة التصدير
+            if (exportFilter === 'exported') {
+                filteredOrders = filteredOrders.filter(order => order.exportedToSystem === true);
+            } else if (exportFilter === 'not-exported') {
+                filteredOrders = filteredOrders.filter(order => !order.exportedToSystem);
             }
             
             await displayOrders(filteredOrders);
@@ -1406,6 +1420,11 @@
             document.getElementById('totalOrders').textContent = filteredOrders.length;
             const totalRevenue = filteredOrders.reduce((sum, order) => sum + order.price, 0);
             document.getElementById('totalRevenue').textContent = totalRevenue.toLocaleString();
+        }
+        
+        // فلترة الطلبات حسب نوع المنتج (الدالة القديمة - للتوافق)
+        async function filterByProduct() {
+            await applyFilters();
         }
         
         // حذف الطلبات المحددة
