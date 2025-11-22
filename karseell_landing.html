@@ -28,9 +28,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    <!-- Preload LCP Image -->
+    <link rel="preload" as="image" href="https://i.ibb.co/fzXzcyzV/Whats-App-Image-2025-11-10-at-03-45-56-5c1b868c.jpg">
+    
+    <!-- Firebase SDK with defer -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js" defer></script>
     
     <style>
         :root {
@@ -1367,7 +1370,7 @@
             
             <div style="display: flex; gap: 30px; align-items: center; flex-wrap: wrap;">
                 <div class="ba-comparison" style="flex: 1; min-width: 300px;">
-                    <img src="https://i.ibb.co/7xG01xdM/karseell-collagen-hair-maskhair-oil-set-6.png" alt="قبل وبعد استخدام Karseell" style="max-width: 100%; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.2);">
+                    <img src="https://i.ibb.co/7xG01xdM/karseell-collagen-hair-maskhair-oil-set-6.png" alt="قبل وبعد استخدام Karseell" loading="lazy" style="max-width: 100%; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.2);">
                 </div>
                 
                 <div class="ba-grid" style="flex: 1; min-width: 300px; margin-top: 0; display: flex; flex-direction: column; gap: 20px;">
@@ -1402,14 +1405,14 @@
             
             <div class="product-grid">
                 <div class="product-item">
-                    <img src="https://i.ibb.co/VYTjTj9v/karseell-mask.png" alt="ماسك">
+                    <img src="https://i.ibb.co/VYTjTj9v/karseell-mask.png" alt="ماسك" loading="lazy">
                     <h3>ماسك الكولاجين</h3>
                     <p class="size">500 مل</p>
                     <p>تغذية عميقة وترطيب مكثف</p>
                 </div>
                 
                 <div class="product-item">
-                    <img src="https://i.ibb.co/kg8gxBnz/karseell-serum.png" alt="سيرم">
+                    <img src="https://i.ibb.co/kg8gxBnz/karseell-serum.png" alt="سيرم" loading="lazy">
                     <h3>سيرم الماكا</h3>
                     <p class="size">50 مل</p>
                     <p>لمعة فورية وحماية يومية</p>
@@ -1426,7 +1429,7 @@
             <div class="reviews-grid">
                 <div class="review-card">
                     <div class="review-header">
-                        <img src="https://via.placeholder.com/50x50/E8C36C/7A1E1A?text=M" alt="مريم" class="review-avatar">
+                        <img src="https://via.placeholder.com/50x50/E8C36C/7A1E1A?text=M" alt="مريم" class="review-avatar" loading="lazy">
                         <div class="review-info">
                             <h4>مريم أحمد</h4>
                             <div class="stars">★★★★★</div>
@@ -1437,7 +1440,7 @@
                 
                 <div class="review-card">
                     <div class="review-header">
-                        <img src="https://via.placeholder.com/50x50/E8C36C/7A1E1A?text=S" alt="سارة" class="review-avatar">
+                        <img src="https://via.placeholder.com/50x50/E8C36C/7A1E1A?text=S" alt="سارة" class="review-avatar" loading="lazy">
                         <div class="review-info">
                             <h4>سارة محمد</h4>
                             <div class="stars">★★★★★</div>
@@ -1448,7 +1451,7 @@
                 
                 <div class="review-card">
                     <div class="review-header">
-                        <img src="https://via.placeholder.com/50x50/E8C36C/7A1E1A?text=N" alt="نور" class="review-avatar">
+                        <img src="https://via.placeholder.com/50x50/E8C36C/7A1E1A?text=N" alt="نور" class="review-avatar" loading="lazy">
                         <div class="review-info">
                             <h4>نور علي</h4>
                             <div class="stars">★★★★★</div>
