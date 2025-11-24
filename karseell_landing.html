@@ -27,6 +27,8 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://connect.facebook.net">
+    <link rel="preconnect" href="https://i.ibb.co">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
     
@@ -1672,10 +1674,17 @@
             
             <div style="display: flex; gap: 25px; align-items: stretch; flex-wrap: wrap; justify-content: center;">
                 <div class="ba-comparison" style="flex: 1; min-width: 280px; max-width: 500px; display: flex; flex-direction: column; gap: 25px;">
-                    <img src="https://i.ibb.co/7xG01xdM/karseell-collagen-hair-maskhair-oil-set-6.png" alt="قبل وبعد استخدام Karseell" loading="lazy" style="width: 100%; height: auto; border-radius: 20px; box-shadow: 0 10px 40px rgba(255, 107, 53, 0.3); border: 3px solid rgba(255, 140, 66, 0.4);">
+                    <img src="https://i.ibb.co/7xG01xdM/karseell-collagen-hair-maskhair-oil-set-6.png" 
+                         alt="قبل وبعد استخدام Karseell" 
+                         width="500" 
+                         height="500" 
+                         loading="lazy" 
+                         style="width: 100%; height: auto; border-radius: 20px; box-shadow: 0 10px 40px rgba(255, 107, 53, 0.3); border: 3px solid rgba(255, 140, 66, 0.4);">
                     
                     <img src="https://i.ibb.co/JRXQsdw5/karseell-official-store-1-600x600-11zon.webp" 
                          alt="نتائج قبل وبعد استخدام Karseell" 
+                         width="600" 
+                         height="600" 
                          loading="lazy" 
                          style="width: 100%; height: auto; border-radius: 20px; box-shadow: 0 10px 40px rgba(255, 107, 53, 0.3); border: 3px solid rgba(255, 140, 66, 0.4);">
                 </div>
@@ -1864,18 +1873,18 @@
             
             <form class="checkout-form" id="orderForm">
                 <div class="form-group">
-                    <label>اسمك الكريم *</label>
-                    <input type="text" name="name" required placeholder="اكتبي اسمك">
+                    <label for="customerName">اسمك الكريم *</label>
+                    <input type="text" id="customerName" name="name" required placeholder="اكتبي اسمك">
                 </div>
                 
                 <div class="form-group">
-                    <label>رقم الموبايل *</label>
-                    <input type="tel" name="phone" required placeholder="01xxxxxxxxx">
+                    <label for="customerPhone">رقم الموبايل *</label>
+                    <input type="tel" id="customerPhone" name="phone" required placeholder="01xxxxxxxxx">
                 </div>
                 
                 <div class="form-group">
-                    <label>المحافظة *</label>
-                    <select name="governorate" required>
+                    <label for="customerGovernorate">المحافظة *</label>
+                    <select id="customerGovernorate" name="governorate" required>
                         <option value="">اختاري المحافظة</option>
                         <option value="القاهرة">القاهرة</option>
                         <option value="الجيزة">الجيزة</option>
@@ -1908,17 +1917,17 @@
                 </div>
                 
                 <div class="form-group">
-                    <label>العنوان بالتفصيل *</label>
-                    <textarea name="address" required placeholder="اكتبي عنوانك بالتفصيل (الشارع، المنطقة، علامات مميزة)"></textarea>
+                    <label for="customerAddress">العنوان بالتفصيل *</label>
+                    <textarea id="customerAddress" name="address" required placeholder="اكتبي عنوانك بالتفصيل (الشارع، المنطقة، علامات مميزة)"></textarea>
                 </div>
                 
                 <div class="form-group">
-                    <label>ملاحظات إضافية (اختياري)</label>
-                    <textarea name="notes" placeholder="أي ملاحظات أو تعليمات خاصة للتوصيل" rows="3"></textarea>
+                    <label for="customerNotes">ملاحظات إضافية (اختياري)</label>
+                    <textarea id="customerNotes" name="notes" placeholder="أي ملاحظات أو تعليمات خاصة للتوصيل" rows="3"></textarea>
                 </div>
                 
                 <div class="form-group">
-                    <label>اختاري العرض *</label>
+                    <label for="quantity">اختاري العرض *</label>
                     <div class="quantity-selector">
                         <button type="button" class="quantity-btn" onclick="decreaseQuantity()">-</button>
                         <input type="number" id="quantity" name="quantity" class="quantity-input" value="1" min="1" readonly>
