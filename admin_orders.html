@@ -714,6 +714,10 @@
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
         
+        // Notification sound for new orders
+        const notificationSound = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBTGH0fPTgjMGHm7A7+OZURE');
+        notificationSound.volume = 0.5;
+        
         // Load orders from Firebase Realtime Database
         let ordersCache = [];
         let karseellOrdersCache = [];
@@ -769,16 +773,45 @@
         // Listen for real-time updates
         let isInitialLoad = true;
         
+        // Function to play notification and show alert
+        function notifyNewOrder(productType) {
+            // Play sound
+            notificationSound.play().catch(e => console.log('Could not play sound:', e));
+            
+            // Show notification
+            if (!document.hidden) {
+                Swal.fire({
+                    title: '🔔 طلب جديد!',
+                    text: `تم استلام طلب جديد: ${productType}`,
+                    icon: 'info',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true
+                });
+            }
+        }
+        
         database.ref('orders').on('child_added', (snapshot) => {
-            if (!isInitialLoad && ordersCache.length > 0) displayOrders();
+            if (!isInitialLoad && ordersCache.length > 0) {
+                notifyNewOrder('🌿 زيت 108 عشبة');
+                displayOrders();
+            }
         });
         
         database.ref('karseell-orders').on('child_added', (snapshot) => {
-            if (!isInitialLoad && ordersCache.length > 0) displayOrders();
+            if (!isInitialLoad && ordersCache.length > 0) {
+                notifyNewOrder('💆 Karseell');
+                displayOrders();
+            }
         });
         
         database.ref('boxers-orders').on('child_added', (snapshot) => {
-            if (!isInitialLoad && ordersCache.length > 0) displayOrders();
+            if (!isInitialLoad && ordersCache.length > 0) {
+                notifyNewOrder('🩲 Boxers');
+                displayOrders();
+            }
         });
         
         // After first load, enable real-time updates
