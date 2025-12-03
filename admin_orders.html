@@ -467,6 +467,17 @@
                 opacity: 0;
             }
         }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 8px 25px rgba(255, 107, 107, 0.6);
+            }
+        }
     </style>
 </head>
 <body>
@@ -494,6 +505,10 @@
         
         <!-- Controls -->
         <div class="controls">
+            <button class="btn btn-primary" id="enableSoundBtn" onclick="enableSound()" style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%); animation: pulse 2s infinite;">
+                <i class="fas fa-volume-up"></i>
+                تفعيل الصوت 🔔
+            </button>
             <div class="search-box">
                 <input type="text" id="searchInput" placeholder="بحث بالاسم أو رقم الهاتف...">
                 <i class="fas fa-search"></i>
@@ -729,6 +744,50 @@
         const localBeep = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBTGH0fPTgjMGHm7A7+OZURE');
         localBeep.volume = 0.8;
         
+        // متغير لتتبع تفعيل الصوت
+        let soundEnabled = false;
+        
+        // دالة تفعيل الصوت (تحتاج تفاعل المستخدم)
+        async function enableSound() {
+            const btn = document.getElementById('enableSoundBtn');
+            
+            try {
+                // محاولة تشغيل الأصوات لتفعيلها
+                await Promise.all([
+                    notificationSound.play().then(() => notificationSound.pause()),
+                    backupSound.play().then(() => backupSound.pause()),
+                    localBeep.play().then(() => localBeep.pause())
+                ]);
+                
+                soundEnabled = true;
+                btn.style.background = 'linear-gradient(135deg, #28a745 0%, #20c997 100%)';
+                btn.innerHTML = '<i class="fas fa-volume-up"></i> الصوت مُفعّل ✓';
+                btn.style.animation = 'none';
+                btn.disabled = true;
+                
+                await Swal.fire({
+                    icon: 'success',
+                    title: 'تم تفعيل الصوت!',
+                    text: 'سيتم تشغيل صوت تنبيه عند وصول طلب جديد',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: true
+                });
+                
+                console.log('✅ تم تفعيل الصوت بنجاح');
+            } catch (e) {
+                console.error('❌ فشل تفعيل الصوت:', e);
+                await Swal.fire({
+                    icon: 'warning',
+                    title: 'تعذر تفعيل الصوت',
+                    text: 'حاول مرة أخرى أو تحقق من إعدادات المتصفح',
+                    confirmButtonColor: '#ff6b6b'
+                });
+            }
+        }
+        
         // Load orders from Firebase Realtime Database
         let ordersCache = [];
         let karseellOrdersCache = [];
@@ -786,24 +845,28 @@
         
         // Function to play notification and show alert
         async function notifyNewOrder(productType) {
-            // محاولة تشغيل الصوت مع خيارات احتياطية
-            try {
-                await notificationSound.play();
-                console.log('✅ تم تشغيل الصوت الأساسي');
-            } catch (e) {
-                console.log('⚠️ فشل الصوت الأساسي، محاولة الصوت الاحتياطي...', e);
+            // محاولة تشغيل الصوت فقط إذا تم تفعيله
+            if (soundEnabled) {
                 try {
-                    await backupSound.play();
-                    console.log('✅ تم تشغيل الصوت الاحتياطي');
-                } catch (e2) {
-                    console.log('⚠️ فشل الصوت الاحتياطي، محاولة الصوت المحلي...', e2);
+                    await notificationSound.play();
+                    console.log('✅ تم تشغيل الصوت الأساسي');
+                } catch (e) {
+                    console.log('⚠️ فشل الصوت الأساسي، محاولة الصوت الاحتياطي...', e);
                     try {
-                        await localBeep.play();
-                        console.log('✅ تم تشغيل الصوت المحلي');
-                    } catch (e3) {
-                        console.log('❌ فشل تشغيل جميع الأصوات', e3);
+                        await backupSound.play();
+                        console.log('✅ تم تشغيل الصوت الاحتياطي');
+                    } catch (e2) {
+                        console.log('⚠️ فشل الصوت الاحتياطي، محاولة الصوت المحلي...', e2);
+                        try {
+                            await localBeep.play();
+                            console.log('✅ تم تشغيل الصوت المحلي');
+                        } catch (e3) {
+                            console.log('❌ فشل تشغيل جميع الأصوات', e3);
+                        }
                     }
                 }
+            } else {
+                console.log('🔇 الصوت غير مُفعّل - اضغط زر "تفعيل الصوت"');
             }
             
             // تحديد الأيقونة والرسالة حسب نوع المنتج
