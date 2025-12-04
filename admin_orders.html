@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إدارة الطلبات - زيت الـ108 عشبة</title>
+    <title>لوحة إدارة الطلبات - جميع المنتجات</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -14,15 +14,15 @@
     
     <style>
         :root {
-            --primary-green: #4A7C59;
-            --dark-green: #2C5530;
-            --light-green: #8FBC8F;
+            --primary-color: #2c3e50;
+            --dark-color: #1a252f;
+            --light-color: #5d6d7e;
             --beige: #F5E6D3;
             --gold: #D4AF37;
             --dark-gold: #B8941C;
             --white: #FFFFFF;
             --light-gray: #F9F9F9;
-            --text-dark: #2C3E2C;
+            --text-dark: #2c3e50;
         }
         
         * {
@@ -33,7 +33,7 @@
         
         body {
             font-family: 'Cairo', sans-serif;
-            background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%);
+            background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1e 100%);
             min-height: 100vh;
             padding: 15px;
         }
@@ -57,7 +57,7 @@
         }
         
         .header h1 {
-            color: var(--primary-green);
+            color: var(--primary-color);
             font-size: 1.5rem;
             display: flex;
             align-items: center;
@@ -71,7 +71,7 @@
         }
         
         .stat-box {
-            background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--dark-color) 100%);
             color: white;
             padding: 12px 20px;
             border-radius: 10px;
@@ -101,6 +101,44 @@
             gap: 12px;
             flex-wrap: wrap;
             align-items: center;
+        }
+        
+        .btn-export-to-system {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            display: none;
+        }
+        
+        .btn-export-to-system.show {
+            display: inline-flex;
+        }
+        
+        .btn-export-to-system:hover {
+            background: linear-gradient(135deg, #218838 0%, #1aa179 100%);
+        }
+        
+        .order-checkbox {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--gold);
+        }
+        
+        #selectAll {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--gold);
+        }
+        
+        .selected-count {
+            background: var(--gold);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-left: 8px;
         }
         
         .search-box {
@@ -148,7 +186,7 @@
         }
         
         .btn-primary {
-            background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--dark-color) 100%);
             color: white;
         }
         
@@ -180,13 +218,13 @@
         }
         
         thead {
-            background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--dark-color) 100%);
             color: white;
         }
         
         th {
-            padding: 12px 10px;
-            text-align: right;
+            padding: 12px 8px;
+            text-align: center;
             font-weight: 800;
             font-size: 0.85rem;
         }
@@ -201,19 +239,20 @@
         }
         
         td {
-            padding: 12px 10px;
-            text-align: right;
+            padding: 12px 8px;
+            text-align: center;
             font-size: 0.9rem;
         }
         
         .order-id {
             font-weight: 700;
-            color: var(--primary-green);
+            color: var(--primary-color);
+            text-align: center;
         }
         
         .phone {
             direction: ltr;
-            text-align: right;
+            text-align: center;
             font-weight: 600;
             color: var(--text-dark);
         }
@@ -222,26 +261,50 @@
             font-weight: 900;
             color: var(--gold);
             font-size: 1rem;
+            text-align: center;
         }
         
         .address {
-            max-width: 200px;
+            max-width: 150px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
             font-size: 0.85rem;
             color: #666;
+            text-align: center;
         }
         
         .actions {
             display: flex;
             gap: 5px;
             flex-wrap: wrap;
+            justify-content: center;
+            padding: 8px;
         }
         
         .btn-small {
             padding: 5px 10px;
             font-size: 0.8rem;
+        }
+        
+        .order-exported {
+            background: rgba(40, 167, 69, 0.1) !important;
+            border-right: 4px solid #28a745 !important;
+        }
+        
+        .order-exported .order-id {
+            color: #28a745 !important;
+        }
+        
+        .exported-badge {
+            background: #28a745;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            display: inline-block;
+            margin-right: 5px;
         }
         
         .empty-state {
@@ -254,7 +317,7 @@
             font-size: 3.5rem;
             margin-bottom: 15px;
             opacity: 0.3;
-            color: var(--primary-green);
+            color: var(--primary-color);
         }
         
         .empty-state h3 {
@@ -339,7 +402,7 @@
         }
         
         .modal-content h2 {
-            color: var(--primary-green);
+            color: var(--primary-color);
             margin-bottom: 20px;
             font-size: 1.5rem;
         }
@@ -354,7 +417,7 @@
         
         .detail-row strong {
             display: block;
-            color: var(--primary-green);
+            color: var(--primary-color);
             font-size: 0.85rem;
             margin-bottom: 5px;
         }
@@ -372,7 +435,7 @@
             bottom: 0;
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            background: linear-gradient(135deg, rgba(44, 85, 48, 0.85) 0%, rgba(74, 124, 89, 0.85) 100%);
+            background: linear-gradient(135deg, rgba(44, 62, 80, 0.85) 0%, rgba(26, 37, 47, 0.85) 100%);
             z-index: 1000;
             display: flex;
             align-items: center;
@@ -404,6 +467,17 @@
                 opacity: 0;
             }
         }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 8px 25px rgba(255, 107, 107, 0.6);
+            }
+        }
     </style>
 </head>
 <body>
@@ -414,8 +488,8 @@
         <!-- Header -->
         <div class="header">
             <h1>
-                <i class="fas fa-clipboard-list" style="color: var(--gold);"></i>
-                لوحة إدارة الطلبات - زيت الـ108 عشبة 🌿
+                <i class="fas fa-boxes" style="color: var(--gold);"></i>
+                لوحة إدارة الطلبات 📦
             </h1>
             <div class="stats">
                 <div class="stat-box">
@@ -431,6 +505,10 @@
         
         <!-- Controls -->
         <div class="controls">
+            <button class="btn btn-primary" id="enableSoundBtn" onclick="enableSound()" style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%); animation: pulse 2s infinite;">
+                <i class="fas fa-volume-up"></i>
+                تفعيل الصوت 🔔
+            </button>
             <div class="search-box">
                 <input type="text" id="searchInput" placeholder="بحث بالاسم أو رقم الهاتف...">
                 <i class="fas fa-search"></i>
@@ -439,17 +517,30 @@
                 <i class="fas fa-download"></i>
                 تصدير Excel
             </button>
-            <button class="btn btn-primary" onclick="refreshData()">
-                <i class="fas fa-sync-alt"></i>
-                تحديث
-            </button>
-            <button class="btn btn-danger" onclick="clearAllOrders()">
-                <i class="fas fa-trash"></i>
-                حذف الكل
-            </button>
+            <select id="productFilter" class="btn" style="padding: 10px 15px; cursor: pointer; background: white; border: 2px solid var(--gold); color: var(--primary-color); font-weight: 700;" onchange="applyFilters()">
+                <option value="all">جميع المنتجات</option>
+                <option value="boxers">بوكسرات</option>
+                <option value="karseell">Karseell</option>
+                <option value="herbs">زيت 108 عشبة</option>
+            </select>
+            <select id="exportFilter" class="btn" style="padding: 10px 15px; cursor: pointer; background: white; border: 2px solid #28a745; color: var(--primary-color); font-weight: 700;" onchange="applyFilters()">
+                <option value="all">جميع الطلبات</option>
+                <option value="exported">مُضافة إلى Logexa ✓</option>
+                <option value="not-exported">غير مُضافة</option>
+            </select>
             <button class="btn btn-primary" onclick="logout()" style="background: linear-gradient(135deg, #6c757d 0%, #495057 100%);">
                 <i class="fas fa-sign-out-alt"></i>
                 تسجيل خروج
+            </button>
+            <button class="btn btn-export-to-system" id="exportToSystemBtn" onclick="exportSelectedToSystem()">
+                <i class="fas fa-truck"></i>
+                إضافة إلى Logexa
+                <span class="selected-count" id="selectedCount">0</span>
+            </button>
+            <button class="btn btn-danger" id="deleteSelectedBtn" onclick="deleteSelectedOrders()" style="display: none;">
+                <i class="fas fa-trash-alt"></i>
+                حذف المحدد
+                <span class="selected-count" id="deleteCount">0</span>
             </button>
         </div>
         
@@ -458,21 +549,20 @@
             <table>
                 <thead>
                     <tr>
+                        <th><input type="checkbox" id="selectAll" onchange="toggleSelectAll(this)"></th>
                         <th>#</th>
-                        <th>التاريخ</th>
                         <th>الاسم</th>
                         <th>الهاتف</th>
                         <th>المحافظة</th>
                         <th>العنوان</th>
-                        <th>الحجم</th>
-                        <th>الخصم</th>
                         <th>السعر</th>
-                        <th>الإجراءات</th>
+                        <th style="min-width: 100px;">الحجم/المقاس</th>
+                        <th style="min-width: 180px;">الإجراءات</th>
                     </tr>
                 </thead>
                 <tbody id="ordersTableBody">
                     <tr>
-                        <td colspan="10">
+                        <td colspan="9">
                             <div class="empty-state">
                                 <i class="fas fa-inbox"></i>
                                 <h3>لا توجد طلبات بعد</h3>
@@ -482,6 +572,11 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+        
+        <!-- Footer -->
+        <div style="text-align: center; padding: 20px; margin-top: 20px; color: white; font-size: 0.9rem; opacity: 0.8;">
+            <p style="margin: 0;">جميع الحقوق محفوظة © A.Ala3m</p>
         </div>
     </div>
     
@@ -524,12 +619,12 @@
             
             while (attempts < maxAttempts) {
                 const { value: formValues } = await Swal.fire({
-                    title: '<i class="fas fa-lock" style="color: #4A7C59;"></i> تسجيل الدخول',
+                    title: '<i class="fas fa-lock" style="color: #2c3e50;"></i> تسجيل الدخول',
                     html:
                         '<input id="swal-username" class="swal2-input" placeholder="اسم المستخدم" style="text-align: right;">' +
                         '<input id="swal-password" type="password" class="swal2-input" placeholder="كلمة المرور" style="text-align: right;">',
                     confirmButtonText: 'دخول',
-                    confirmButtonColor: '#4A7C59',
+                    confirmButtonColor: '#2c3e50',
                     showCancelButton: true,
                     cancelButtonText: 'إلغاء',
                     cancelButtonColor: '#d33',
@@ -633,19 +728,131 @@
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
-        console.log('🔥 Firebase initialized in admin panel!');
+        
+        // متغير لتتبع تفعيل الصوت
+        let soundEnabled = false;
+        let audioContext = null;
+        
+        // دالة إنشاء صوت beep باستخدام Web Audio API
+        function playBeep() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            
+            // إنشاء oscillator (مولد الصوت)
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            // إعدادات الصوت
+            oscillator.frequency.value = 800; // تردد عالي (صوت واضح)
+            oscillator.type = 'sine'; // نوع الموجة
+            
+            // تأثير fade in/out
+            gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+            gainNode.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.01);
+            gainNode.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.2);
+            gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + 0.3);
+            
+            // تشغيل الصوت
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.3);
+            
+            // صوت ثاني (نغمة أعلى) بعد قليل
+            setTimeout(() => {
+                const oscillator2 = audioContext.createOscillator();
+                const gainNode2 = audioContext.createGain();
+                
+                oscillator2.connect(gainNode2);
+                gainNode2.connect(audioContext.destination);
+                
+                oscillator2.frequency.value = 1000;
+                oscillator2.type = 'sine';
+                
+                gainNode2.gain.setValueAtTime(0, audioContext.currentTime);
+                gainNode2.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.01);
+                gainNode2.gain.linearRampToValueAtTime(0, audioContext.currentTime + 0.2);
+                
+                oscillator2.start(audioContext.currentTime);
+                oscillator2.stop(audioContext.currentTime + 0.2);
+            }, 100);
+        }
+        
+        // دالة تفعيل الصوت (تحتاج تفاعل المستخدم)
+        async function enableSound() {
+            const btn = document.getElementById('enableSoundBtn');
+            
+            try {
+                // تشغيل صوت تجريبي
+                playBeep();
+                
+                soundEnabled = true;
+                btn.style.background = 'linear-gradient(135deg, #28a745 0%, #20c997 100%)';
+                btn.innerHTML = '<i class="fas fa-volume-up"></i> الصوت مُفعّل ✓';
+                btn.style.animation = 'none';
+                btn.disabled = true;
+                
+                await Swal.fire({
+                    icon: 'success',
+                    title: 'تم تفعيل الصوت!',
+                    text: 'سيتم تشغيل صوت تنبيه عند وصول طلب جديد',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: true
+                });
+                
+                console.log('✅ تم تفعيل الصوت بنجاح');
+            } catch (e) {
+                console.error('❌ فشل تفعيل الصوت:', e);
+                await Swal.fire({
+                    icon: 'warning',
+                    title: 'تعذر تفعيل الصوت',
+                    text: 'حاول مرة أخرى أو تحقق من إعدادات المتصفح',
+                    confirmButtonColor: '#ff6b6b'
+                });
+            }
+        }
         
         // Load orders from Firebase Realtime Database
         let ordersCache = [];
+        let karseellOrdersCache = [];
+        let boxersOrdersCache = [];
         
         async function loadOrders() {
             return new Promise((resolve, reject) => {
-                database.ref('orders').once('value', (snapshot) => {
+                // Load 108 herbs, Karseell, and Boxers orders
+                Promise.all([
+                    database.ref('orders').once('value'),
+                    database.ref('karseell-orders').once('value'),
+                    database.ref('boxers-orders').once('value')
+                ]).then(([herbsSnapshot, karseellSnapshot, boxersSnapshot]) => {
                     const orders = [];
                     
-                    snapshot.forEach((childSnapshot) => {
+                    // Load 108 herbs orders
+                    herbsSnapshot.forEach((childSnapshot) => {
                         const order = childSnapshot.val();
-                        order.firebaseId = childSnapshot.key; // Save Firebase ID
+                        order.firebaseId = childSnapshot.key;
+                        order.productType = '🌿 زيت 108 عشبة';
+                        orders.push(order);
+                    });
+                    
+                    // Load Karseell orders
+                    karseellSnapshot.forEach((childSnapshot) => {
+                        const order = childSnapshot.val();
+                        order.firebaseId = childSnapshot.key;
+                        order.productType = '💆 Karseell';
+                        orders.push(order);
+                    });
+                    
+                    // Load Boxers orders
+                    boxersSnapshot.forEach((childSnapshot) => {
+                        const order = childSnapshot.val();
+                        order.firebaseId = childSnapshot.key;
+                        order.productType = '👕 بوكسرات كالفين كلاين';
                         orders.push(order);
                     });
                     
@@ -653,11 +860,9 @@
                     orders.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
                     
                     ordersCache = orders;
-                    console.log('🔥 Loaded', orders.length, 'orders from Firebase');
                     resolve(orders);
-                }, (error) => {
+                }).catch((error) => {
                     console.error('❌ Firebase Error:', error);
-                    // Fallback to localStorage
                     const localOrders = JSON.parse(localStorage.getItem('hairOilOrders') || '[]');
                     resolve(localOrders.reverse());
                 });
@@ -665,10 +870,111 @@
         }
         
         // Listen for real-time updates
+        let isInitialLoad = true;
+        
+        // Function to play notification and show alert
+        async function notifyNewOrder(productType) {
+            // تشغيل الصوت فقط إذا تم تفعيله
+            if (soundEnabled) {
+                try {
+                    playBeep();
+                    console.log('✅ تم تشغيل صوت التنبيه');
+                } catch (e) {
+                    console.log('⚠️ فشل تشغيل الصوت:', e);
+                }
+            } else {
+                console.log('🔇 الصوت غير مُفعّل - اضغط زر "تفعيل الصوت"');
+            }
+            
+            // تحديد الأيقونة والرسالة حسب نوع المنتج
+            let icon = '🎉';
+            let bgColor = '#28a745';
+            if (productType.includes('Karseell')) {
+                icon = '💆‍♀️';
+                bgColor = '#e67e22';
+            } else if (productType.includes('بوكسرات')) {
+                icon = '🩲';
+                bgColor = '#3498db';
+            } else if (productType.includes('زيت')) {
+                icon = '🌿';
+                bgColor = '#27ae60';
+            }
+            
+            // Show notification with animation
+            if (!document.hidden) {
+                Swal.fire({
+                    title: `<strong style="font-size: 1.4rem;">${icon} طلب جديد! ${icon}</strong>`,
+                    html: `
+                        <div style="text-align: center; padding: 10px;">
+                            <div style="font-size: 1.3rem; color: ${bgColor}; font-weight: bold; margin: 15px 0; animation: pulse 1s infinite;">
+                                ${productType}
+                            </div>
+                            <div style="font-size: 1rem; color: #666; margin-top: 10px;">
+                                🎯 استلم الطلب الآن وتواصل مع العميل!
+                            </div>
+                        </div>
+                        <style>
+                            @keyframes pulse {
+                                0%, 100% { transform: scale(1); }
+                                50% { transform: scale(1.05); }
+                            }
+                        </style>
+                    `,
+                    icon: 'success',
+                    iconColor: bgColor,
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 5000,
+                    timerProgressBar: true,
+                    background: '#fff',
+                    customClass: {
+                        popup: 'animated-notification',
+                        title: 'notification-title'
+                    },
+                    didOpen: (toast) => {
+                        toast.style.borderLeft = `5px solid ${bgColor}`;
+                        toast.style.boxShadow = '0 8px 30px rgba(0,0,0,0.3)';
+                    }
+                });
+            }
+            
+            // تحديث عنوان الصفحة للفت الانتباه
+            let originalTitle = document.title;
+            let blinkCount = 0;
+            const blinkInterval = setInterval(() => {
+                document.title = blinkCount % 2 === 0 ? `${icon} طلب جديد! ${icon}` : originalTitle;
+                blinkCount++;
+                if (blinkCount >= 10) {
+                    clearInterval(blinkInterval);
+                    document.title = originalTitle;
+                }
+            }, 500);
+        }
+        
         database.ref('orders').on('child_added', (snapshot) => {
-            // Refresh display when new order added
-            displayOrders();
+            if (!isInitialLoad && ordersCache.length > 0) {
+                notifyNewOrder('🌿 زيت 108 عشبة');
+                displayOrders();
+            }
         });
+        
+        database.ref('karseell-orders').on('child_added', (snapshot) => {
+            if (!isInitialLoad && ordersCache.length > 0) {
+                notifyNewOrder('💆 Karseell');
+                displayOrders();
+            }
+        });
+        
+        database.ref('boxers-orders').on('child_added', (snapshot) => {
+            if (!isInitialLoad && ordersCache.length > 0) {
+                notifyNewOrder('🩲 Boxers');
+                displayOrders();
+            }
+        });
+        
+        // After first load, enable real-time updates
+        setTimeout(() => { isInitialLoad = false; }, 2000);
         
         // Display orders in table
         async function displayOrders(orders = null) {
@@ -690,25 +996,44 @@
                 return;
             }
             
-            tbody.innerHTML = ordersData.map((order, index) => `
-                <tr>
-                    <td class="order-id">#${ordersData.length - index}</td>
-                    <td>${order.date || new Date(order.timestamp).toLocaleDateString('ar-EG')}</td>
-                    <td><strong>${order.name}</strong></td>
-                    <td class="phone">${order.phone}</td>
+            tbody.innerHTML = ordersData.map((order, index) => {
+                // تحديد لون المنتج
+                let productColor = '#4A7C59'; // default green
+                if (order.productType?.includes('Karseell')) {
+                    productColor = '#e67e22';
+                } else if (order.productType?.includes('بوكسرات')) {
+                    productColor = '#3498db';
+                }
+                
+                // التحقق إذا كان الطلب تم تصديره
+                const isExported = order.exportedToSystem === true;
+                const exportedClass = isExported ? 'order-exported' : '';
+                
+                return `
+                <tr class="${exportedClass}">
+                    <td><input type="checkbox" class="order-checkbox" data-firebase-id="${order.firebaseId}" onchange="updateSelectedCount()"></td>
+                    <td class="order-id">#${ordersData.length - index}${isExported ? '<span class="exported-badge">✓ تم الإضافة</span>' : ''}</td>
+                    <td onclick="copyToClipboard('${order.name.replace(/'/g, "\\'").replace(/"/g, '&quot;')}', 'الاسم')" style="cursor: pointer;" title="انقر للنسخ">
+                        <strong>${order.name}</strong><br>
+                        <small style="color: ${productColor}; font-weight: 600;">${order.productType || '🌿 زيت 108 عشبة'}</small>
+                    </td>
+                    <td class="phone" onclick="copyToClipboard('${order.phone}', 'رقم الهاتف')" style="cursor: pointer;" title="انقر للنسخ">${order.phone}</td>
                     <td>${order.governorate}</td>
-                    <td class="address" title="${order.address}">${order.address}</td>
-                    <td><span style="background: var(--primary-green); color: white; padding: 4px 10px; border-radius: 5px; font-size: 0.8rem;">${order.bottleSize}</span></td>
-                    <td>${order.discountCode ? `<span style="background: var(--gold); color: white; padding: 4px 8px; border-radius: 5px; font-size: 0.75rem;">${order.discountCode}<br>${order.discountPercent}%</span>` : '<span style="color: #999;">-</span>'}</td>
-                    <td class="price">${order.finalPrice || order.price} ج${order.discountAmount > 0 ? `<br><small style="color: #999; text-decoration: line-through;">${order.originalPrice} ج</small>` : ''}</td>
+                    <td onclick="copyToClipboard('${order.address.replace(/'/g, "\\'").replace(/"/g, '&quot;')}', 'العنوان')" title="${order.address} (انقر للنسخ)" style="cursor: pointer;">${order.address}</td>
+                    <td class="price">
+                        ${order.finalPrice || order.price} ج
+                        ${order.discountAmount > 0 ? `<br><small style="color: #999; text-decoration: line-through;">${order.originalPrice} ج</small>` : ''}
+                        ${order.productType?.includes('بوكسرات') && order.bottleSize ? `<br><span style="background: #9b59b6; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; display: inline-block; margin-top: 3px;">${order.bottleSize}</span>` : ''}
+                    </td>
+                    <td><span style="background: ${productColor}; color: white; padding: 4px 10px; border-radius: 5px; font-size: 0.8rem;">${order.productType?.includes('بوكسرات') ? (order.size || '-') : (order.bottleSize || order.size || '-')}</span></td>
                     <td class="actions">
-                        <button class="btn btn-primary btn-small" onclick="viewDetails(${ordersData.length - index - 1})" title="عرض التفاصيل">
+                        <button class="btn btn-primary btn-small" onclick="viewDetails(${index})" title="عرض التفاصيل">
                             <i class="fas fa-eye"></i>
                         </button>
                         <button class="btn btn-success btn-small" onclick="callCustomer('${order.phone}')" title="اتصال">
                             <i class="fas fa-phone"></i>
                         </button>
-                        <button class="btn btn-success btn-small" onclick="whatsappCustomer('${order.phone}', '${order.name}', '${order.governorate}', '${order.address}', '${order.bottleSize}', ${order.price}, '${order.date}', '${order.time}')" title="تأكيد الطلب">
+                        <button class="btn btn-success btn-small" onclick="whatsappCustomer('${order.phone}', '${order.name}', '${order.governorate}', '${order.address}', '${order.bottleSize || order.size || ''}', ${order.price}, '${order.date}', '${order.time}', '${order.productType || '🌿 زيت 108 عشبة'}')" title="تأكيد الطلب">
                             <i class="fab fa-whatsapp"></i>
                         </button>
                         <button class="btn btn-danger btn-small" onclick="cancelOrderMessage('${order.phone}', '${order.name}')" title="إلغاء الطلب" style="background: #dc3545;">
@@ -716,7 +1041,7 @@
                         </button>
                     </td>
                 </tr>
-            `).join('');
+            `}).join('');
             
             updateStats(ordersData);
         }
@@ -729,8 +1054,8 @@
         }
         
         // View order details
-        function viewDetails(index) {
-            const orders = loadOrders().reverse();
+        async function viewDetails(index) {
+            const orders = await loadOrders();
             const order = orders[index];
             
             const detailsHTML = `
@@ -760,11 +1085,11 @@
                 </div>
                 <div class="detail-row">
                     <strong>المنتج:</strong>
-                    ${order.product}
+                    ${order.product || order.productType || '-'}
                 </div>
                 <div class="detail-row">
-                    <strong>حجم الزجاجة:</strong>
-                    ${order.bottleSize}
+                    <strong>${order.productType?.includes('بوكسرات') ? 'المقاس' : 'حجم الزجاجة'}:</strong>
+                    ${order.productType?.includes('بوكسرات') ? (order.size || '-') : (order.bottleSize || order.size || '-')}
                 </div>
                 ${order.discountCode ? `
                 <div class="detail-row">
@@ -806,7 +1131,7 @@
         }
         
         // WhatsApp customer with full order details
-        function whatsappCustomer(phone, name, governorate, address, bottleSize, price, date, time) {
+        function whatsappCustomer(phone, name, governorate, address, bottleSize, price, date, time, productType = '🌿 زيت 108 عشبة') {
             // إضافة كود الدولة +20
             let formattedPhone = phone.toString().replace(/\D/g, '');
             
@@ -824,32 +1149,79 @@
             const confirmed = confirm('سيتم فتح واتساب للعميل: ' + name + '\nهل تريد نسخ الرسالة أولاً؟');
             
             if (confirmed) {
+                // تحديد نوع المنتج
+                const isKarseell = productType && productType.includes('Karseell');
+                
                 // بناء الرسالة للنسخ
                 let msg = 'مرحباً *' + name + '* 👋\n\n';
-                msg += '🎉 *تم تأكيد طلبك بنجاح!*\n\n';
-                msg += 'نشكرك على ثقتك في زيت الـ108 عشبة الطبيعي 🌿\n\n';
-                msg += '📦 *تفاصيل طلبك:*\n';
-                msg += '────────────────────\n';
-                msg += '🌿 المنتج: زيت الـ108 عشبة للشعر\n';
-                msg += '💧 الحجم: ' + bottleSize + '\n';
-                msg += '💰 السعر: ' + price + ' جنيه\n';
-                msg += '📅 التاريخ: ' + date + '\n';
-                msg += '⏰ الوقت: ' + time + '\n\n';
-                msg += '📍 عنوان التوصيل:\n';
-                msg += governorate + ' - ' + address + '\n';
-                msg += '────────────────────\n\n';
-                msg += '✅ طلبك الآن قيد التجهيز\n';
-                msg += '🚚 سيتم الشحن خلال 24-48 ساعة\n';
-                msg += '💳 الدفع عند الاستلام\n\n';
-                msg += '💚 *نصائح الاستخدام:*\n';
-                msg += '• استخدم الزيت 2-3 مرات أسبوعياً\n';
-                msg += '• دلك فروة الرأس بلطف\n';
-                msg += '• اترك الزيت ساعتين على الأقل\n\n';
-                msg += '🎁 *عرض خاص:*\n';
-                msg += 'كود الخصم *LOYAL10* للطلب التالي (خصم 10%) 🎊\n\n';
-                msg += 'شكراً لاختيارك زيت الـ108 عشبة 🌿\n';
-                msg += 'فريق زيت الـ108 عشبة\n';
-                msg += '📞 01557350728';
+                
+                if (isKarseell) {
+                    msg += '🎉 *تم تأكيد طلبك بنجاح من Karseell Egypt!* ✨\n\n';
+                    msg += '💆‍♀️ شكراً لثقتك في منتجات *Karseell* الطبيعية للعناية بالشعر\n\n';
+                    msg += '📦 *تفاصيل طلبك:*\n';
+                    msg += '═══════════════════\n';
+                    msg += '✨ المنتج: *Karseell Hair Care Set*\n';
+                    msg += '   • ماسك كولاجين 500 مل 💧\n';
+                    msg += '   • سيرم أرجان طبيعي 50 مل 💎\n';
+                    msg += '💰 الإجمالي: *' + price + ' جنيه*\n';
+                    msg += '📅 تاريخ الطلب: ' + date + ' - ' + time + '\n';
+                    msg += '📍 عنوان التوصيل: ' + governorate + '\n';
+                    msg += '   ' + address + '\n';
+                    msg += '═══════════════════\n\n';
+                    msg += '🚚 *معلومات الشحن:*\n';
+                    msg += '• ⏱️ سيتم الشحن خلال 24-48 ساعة\n';
+                    msg += '• 📦 معاينة المنتج قبل الدفع\n';
+                    msg += '• 💳 الدفع عند الاستلام فقط\n';
+                    msg += '• 🚛 التوصيل خلال 2-4 أيام عمل\n\n';
+                    msg += '💆‍♀️ *طريقة الاستخدام للنتائج المثالية:*\n\n';
+                    msg += '🧴 *الماسك (2-3 مرات أسبوعياً):*\n';
+                    msg += '1️⃣ اغسلي شعرك بالشامبو\n';
+                    msg += '2️⃣ ضعي الماسك على الشعر المبلل\n';
+                    msg += '3️⃣ اتركيه 20-30 دقيقة\n';
+                    msg += '4️⃣ اشطفيه بالماء الفاتر\n\n';
+                    msg += '💧 *السيرم (يومياً):*\n';
+                    msg += '1️⃣ ضعيه على الشعر المبلل أو الجاف\n';
+                    msg += '2️⃣ وزعيه من المنتصف للأطراف\n';
+                    msg += '3️⃣ لا يحتاج للشطف\n';
+                    msg += '4️⃣ صففي شعرك كالمعتاد\n\n';
+                    msg += '🎯 *النتائج المتوقعة:*\n';
+                    msg += '✅ شعر ناعم كالحرير من أول استخدام\n';
+                    msg += '✅ علاج التقصف والهيشان\n';
+                    msg += '✅ لمعان طبيعي ملحوظ\n';
+                    msg += '✅ شعر صحي وقوي خلال أسبوعين\n\n';
+                    msg += '⭐ *نصيحة ذهبية:*\n';
+                    msg += 'استخدمي الماسك والسيرم معاً للحصول على\n';
+                    msg += 'أفضل النتائج وشعر مثالي خلال أسبوعين! 💁‍♀️\n\n';
+                    msg += '═══════════════════\n';
+                    msg += '💖 شكراً لاختيارك *Karseell Egypt*\n';
+                    msg += 'للاستفسار: 📞 01557350728\n';
+                    msg += '🌟 نتمنى لك تجربة رائعة\n';
+                } else {
+                    msg += '🎉 *تم تأكيد طلبك بنجاح!*\n\n';
+                    msg += 'نشكرك على ثقتك في زيت الـ108 عشبة الطبيعي 🌿\n\n';
+                    msg += '📦 *تفاصيل طلبك:*\n';
+                    msg += '────────────────────\n';
+                    msg += '🌿 المنتج: زيت الـ108 عشبة للشعر\n';
+                    msg += '💧 الحجم: ' + bottleSize + '\n';
+                    msg += '💰 السعر: ' + price + ' جنيه\n';
+                    msg += '📅 التاريخ: ' + date + '\n';
+                    msg += '⏰ الوقت: ' + time + '\n\n';
+                    msg += '📍 عنوان التوصيل:\n';
+                    msg += governorate + ' - ' + address + '\n';
+                    msg += '────────────────────\n\n';
+                    msg += '✅ طلبك الآن قيد التجهيز\n';
+                    msg += '🚚 سيتم الشحن خلال 24-48 ساعة\n';
+                    msg += '💳 الدفع عند الاستلام\n\n';
+                    msg += '💚 *نصائح الاستخدام:*\n';
+                    msg += '• استخدم الزيت 2-3 مرات أسبوعياً\n';
+                    msg += '• دلك فروة الرأس بلطف\n';
+                    msg += '• اترك الزيت ساعتين على الأقل\n\n';
+                    msg += '🎁 *عرض خاص:*\n';
+                    msg += 'كود الخصم *LOYAL10* للطلب التالي (خصم 10%) 🎊\n\n';
+                    msg += 'شكراً لاختيارك زيت الـ108 عشبة 🌿\n';
+                    msg += 'فريق زيت الـ108 عشبة\n';
+                    msg += '📞 01557350728';
+                }
                 
                 // نسخ الرسالة للحافظة
                 navigator.clipboard.writeText(msg).then(function() {
@@ -912,9 +1284,9 @@
         }
         
         // Search orders
-        document.getElementById('searchInput').addEventListener('input', function(e) {
+        document.getElementById('searchInput').addEventListener('input', async function(e) {
             const searchTerm = e.target.value.toLowerCase();
-            const orders = loadOrders();
+            const orders = await loadOrders();
             
             if (!searchTerm) {
                 displayOrders(orders);
@@ -932,9 +1304,10 @@
         
         // Export to CSV
         async function exportToCSV() {
-            const orders = loadOrders().reverse();
+            const orders = await loadOrders();
+            const reversedOrders = [...orders].reverse();
             
-            if (orders.length === 0) {
+            if (reversedOrders.length === 0) {
                 await Swal.fire({
                     icon: 'info',
                     title: 'لا توجد بيانات',
@@ -947,7 +1320,7 @@
             let csv = '\uFEFF'; // BOM for Excel UTF-8
             csv += 'رقم الطلب,التاريخ,الوقت,الاسم,الهاتف,المحافظة,العنوان,المنتج,الحجم,السعر\n';
             
-            orders.forEach((order, index) => {
+            reversedOrders.forEach((order, index) => {
                 csv += `${index + 1},`;
                 csv += `"${order.date || new Date(order.timestamp).toLocaleDateString('ar-EG')}",`;
                 csv += `"${order.time || new Date(order.timestamp).toLocaleTimeString('ar-EG')}",`;
@@ -955,9 +1328,9 @@
                 csv += `"${order.phone}",`;
                 csv += `"${order.governorate}",`;
                 csv += `"${order.address}",`;
-                csv += `"${order.product}",`;
-                csv += `"${order.bottleSize}",`;
-                csv += `${order.price}\n`;
+                csv += `"${order.product || order.productType}",`;
+                csv += `"${order.bottleSize || order.size}",`;
+                csv += `${order.finalPrice || order.price}\n`;
             });
             
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
@@ -973,7 +1346,7 @@
             await Swal.fire({
                 icon: 'success',
                 title: 'تم التصدير بنجاح',
-                html: `تم تصدير <strong>${orders.length}</strong> طلب إلى ملف Excel`,
+                html: `تم تصدير <strong>${reversedOrders.length}</strong> طلب إلى ملف Excel`,
                 confirmButtonColor: '#4A7C59',
                 timer: 2000
             });
@@ -983,50 +1356,6 @@
         function refreshData() {
             displayOrders();
             alert('✅ تم تحديث البيانات');
-        }
-        
-        // Clear all orders
-        async function clearAllOrders() {
-            const result = await Swal.fire({
-                title: 'تحذير!',
-                html: '<strong>هل أنت متأكد من حذف جميع الطلبات؟</strong><br><br>هذا الإجراء لا يمكن التراجع عنه!',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'نعم، احذف الكل',
-                cancelButtonText: 'إلغاء',
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#4A7C59'
-            });
-            
-            if (result.isConfirmed) {
-                const finalConfirm = await Swal.fire({
-                    title: 'تأكيد نهائي',
-                    text: 'سيتم حذف جميع البيانات نهائياً!',
-                    icon: 'error',
-                    showCancelButton: true,
-                    confirmButtonText: 'نعم، متأكد',
-                    cancelButtonText: 'لا، راجع',
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#4A7C59'
-                });
-                
-                if (finalConfirm.isConfirmed) {
-                    // Clear Firebase database
-                    await database.ref('orders').remove();
-                    
-                    // Also clear localStorage as backup
-                    localStorage.removeItem('hairOilOrders');
-                    
-                    displayOrders();
-                    await Swal.fire({
-                        icon: 'success',
-                        title: 'تم الحذف',
-                        text: 'تم حذف جميع الطلبات بنجاح من Firebase',
-                        confirmButtonColor: '#4A7C59',
-                        timer: 2000
-                    });
-                }
-            }
         }
         
         // Logout function
@@ -1056,6 +1385,58 @@
             }
         }
         
+        // Copy to clipboard function
+        function copyToClipboard(text, fieldName) {
+            // Decode HTML entities if any
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = text;
+            const decodedText = tempDiv.textContent || tempDiv.innerText || text;
+            
+            navigator.clipboard.writeText(decodedText).then(function() {
+                // Show success notification
+                Swal.fire({
+                    icon: 'success',
+                    title: 'تم النسخ!',
+                    text: `تم نسخ ${fieldName} بنجاح`,
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    timerProgressBar: true
+                });
+            }).catch(function(err) {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = decodedText;
+                textArea.style.position = 'fixed';
+                textArea.style.opacity = '0';
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'تم النسخ!',
+                        text: `تم نسخ ${fieldName} بنجاح`,
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 1500,
+                        timerProgressBar: true
+                    });
+                } catch (copyErr) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'فشل النسخ',
+                        text: 'لم يتمكن من نسخ النص. جرب يدوياً.',
+                        confirmButtonColor: '#4A7C59'
+                    });
+                }
+                document.body.removeChild(textArea);
+            });
+        }
+        
         // Close modal on outside click
         document.getElementById('detailsModal').addEventListener('click', function(e) {
             if (e.target === this) {
@@ -1066,10 +1447,311 @@
         // Initial load
         displayOrders();
         
-        // Auto-refresh every 30 seconds
-        setInterval(() => {
-            displayOrders();
-        }, 30000);
+        // تحديد/إلغاء تحديد الكل
+        function toggleSelectAll(checkbox) {
+            const checkboxes = document.querySelectorAll('.order-checkbox');
+            checkboxes.forEach(cb => cb.checked = checkbox.checked);
+            updateSelectedCount();
+        }
+        
+        // تحديث عدد الطلبات المحددة
+        function updateSelectedCount() {
+            const selected = document.querySelectorAll('.order-checkbox:checked');
+            const count = selected.length;
+            const exportBtn = document.getElementById('exportToSystemBtn');
+            const deleteBtn = document.getElementById('deleteSelectedBtn');
+            const countSpan = document.getElementById('selectedCount');
+            const deleteCountSpan = document.getElementById('deleteCount');
+            
+            countSpan.textContent = count;
+            deleteCountSpan.textContent = count;
+            
+            if (count > 0) {
+                exportBtn.classList.add('show');
+                deleteBtn.style.display = 'inline-flex';
+            } else {
+                exportBtn.classList.remove('show');
+                deleteBtn.style.display = 'none';
+            }
+            
+            // تحديث حالة checkbox "تحديد الكل"
+            const allCheckboxes = document.querySelectorAll('.order-checkbox');
+            const selectAllCheckbox = document.getElementById('selectAll');
+            selectAllCheckbox.checked = allCheckboxes.length > 0 && count === allCheckboxes.length;
+        }
+        
+        // تصدير الطلبات المحددة إلى نظام الشحن
+        async function exportSelectedToSystem() {
+            const selected = document.querySelectorAll('.order-checkbox:checked');
+            
+            if (selected.length === 0) {
+                await Swal.fire({
+                    icon: 'warning',
+                    title: 'لم يتم التحديد',
+                    text: 'يرجى تحديد طلبات أولاً',
+                    confirmButtonColor: '#2c3e50'
+                });
+                return;
+            }
+            
+            // الحصول على الطلبات المحددة
+            const orders = await loadOrders();
+            const selectedOrders = [];
+            
+            selected.forEach(checkbox => {
+                const firebaseId = checkbox.getAttribute('data-firebase-id');
+                const order = orders.find(o => o.firebaseId === firebaseId);
+                if (order) selectedOrders.push(order);
+            });
+            
+            // تأكيد العملية
+            const result = await Swal.fire({
+                title: 'تأكيد الإضافة',
+                html: `هل تريد إضافة <strong>${selectedOrders.length}</strong> طلب إلى Logexa؟`,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'نعم، أضف',
+                cancelButtonText: 'إلغاء',
+                confirmButtonColor: '#28a745',
+                cancelButtonColor: '#6c757d'
+            });
+            
+            if (!result.isConfirmed) return;
+            
+            // عرض مؤشر التحميل
+            Swal.fire({
+                title: 'جاري الإضافة...',
+                html: 'يرجى الانتظار',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+            
+            try {
+                // طباعة البيانات المُرسلة للتأكد
+                console.log('📤 إرسال الطلبات إلى API:');
+                selectedOrders.forEach((order, idx) => {
+                    console.log(`   الطلب ${idx + 1}:`, {
+                        product_type: order.productType,
+                        size: order.size,
+                        bottle_size: order.bottleSize
+                    });
+                });
+                
+                // إرسال الطلبات إلى Django API
+                const response = await fetch('http://127.0.0.1:8000/api/import-firebase-orders/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        orders: selectedOrders.map(order => ({
+                            customer_name: order.name,
+                            phone_number: order.phone,
+                            province: order.governorate,
+                            address: order.address,
+                            total_price: order.finalPrice || order.price,
+                            product_type: order.productType,
+                            size: order.size || order.bottleSize,
+                            bottle_size: order.bottleSize,
+                            firebase_id: order.firebaseId,
+                            date: order.date,
+                            time: order.time,
+                            discount_amount: order.discountAmount || 0,
+                            original_price: order.originalPrice || order.price
+                        }))
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // تمييز الطلبات المصدرة في Firebase
+                    for (const order of selectedOrders) {
+                        try {
+                            let dbRef;
+                            if (order.productType?.includes('Karseell')) {
+                                dbRef = database.ref('karseell-orders').child(order.firebaseId);
+                            } else if (order.productType?.includes('بوكسرات')) {
+                                dbRef = database.ref('boxers-orders').child(order.firebaseId);
+                            } else {
+                                dbRef = database.ref('orders').child(order.firebaseId);
+                            }
+                            await dbRef.update({ exportedToSystem: true });
+                        } catch (error) {
+                            console.error('Error marking order as exported:', error);
+                        }
+                    }
+                    
+                    await Swal.fire({
+                        icon: 'success',
+                        title: 'تمت الإضافة بنجاح',
+                        html: `تم إضافة <strong>${data.success_count}</strong> طلب إلى Logexa<br>
+                               ${data.failed_count > 0 ? `<span style="color: #dc3545;">فشل: ${data.failed_count}</span>` : ''}>`,
+                        confirmButtonColor: '#28a745',
+                        timer: 3000
+                    });
+                    
+                    // إلغاء تحديد الطلبات المضافة
+                    selected.forEach(cb => cb.checked = false);
+                    document.getElementById('selectAll').checked = false;
+                    updateSelectedCount();
+                    
+                    // تحديث العرض مع الحفاظ على الفلترة الحالية
+                    await filterByProduct();
+                } else {
+                    throw new Error(data.error || 'حدث خطأ أثناء الإضافة');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                await Swal.fire({
+                    icon: 'error',
+                    title: 'فشلت العملية',
+                    text: error.message || 'حدث خطأ أثناء إضافة الطلبات',
+                    confirmButtonColor: '#dc3545'
+                });
+            }
+        }
+        
+        // فلترة الطلبات حسب نوع المنتج وحالة التصدير
+        async function applyFilters() {
+            const productFilter = document.getElementById('productFilter').value;
+            const exportFilter = document.getElementById('exportFilter').value;
+            const orders = await loadOrders();
+            
+            let filteredOrders = orders;
+            
+            // تطبيق فلتر نوع المنتج
+            if (productFilter === 'boxers') {
+                filteredOrders = filteredOrders.filter(order => order.productType?.includes('بوكسرات'));
+            } else if (productFilter === 'karseell') {
+                filteredOrders = filteredOrders.filter(order => order.productType?.includes('Karseell'));
+            } else if (productFilter === 'herbs') {
+                filteredOrders = filteredOrders.filter(order => order.productType?.includes('زيت 108 عشبة'));
+            }
+            
+            // تطبيق فلتر حالة التصدير
+            if (exportFilter === 'exported') {
+                filteredOrders = filteredOrders.filter(order => order.exportedToSystem === true);
+            } else if (exportFilter === 'not-exported') {
+                filteredOrders = filteredOrders.filter(order => !order.exportedToSystem);
+            }
+            
+            await displayOrders(filteredOrders);
+            
+            // تحديث عدد الطلبات في الإحصائيات
+            document.getElementById('totalOrders').textContent = filteredOrders.length;
+            const totalRevenue = filteredOrders.reduce((sum, order) => sum + order.price, 0);
+            document.getElementById('totalRevenue').textContent = totalRevenue.toLocaleString();
+        }
+        
+        // فلترة الطلبات حسب نوع المنتج (الدالة القديمة - للتوافق)
+        async function filterByProduct() {
+            await applyFilters();
+        }
+        
+        // حذف الطلبات المحددة
+        async function deleteSelectedOrders() {
+            const selected = document.querySelectorAll('.order-checkbox:checked');
+            
+            if (selected.length === 0) {
+                await Swal.fire({
+                    icon: 'warning',
+                    title: 'لم يتم التحديد',
+                    text: 'يرجى تحديد طلبات أولاً',
+                    confirmButtonColor: '#2c3e50'
+                });
+                return;
+            }
+            
+            // الحصول على الطلبات المحددة
+            const orders = await loadOrders();
+            const selectedOrders = [];
+            
+            selected.forEach(checkbox => {
+                const firebaseId = checkbox.getAttribute('data-firebase-id');
+                const order = orders.find(o => o.firebaseId === firebaseId);
+                if (order) selectedOrders.push(order);
+            });
+            
+            // تأكيد الحذف
+            const result = await Swal.fire({
+                title: 'تحذير!',
+                html: `<strong>هل أنت متأكد من حذف ${selectedOrders.length} طلب؟</strong><br><br>هذا الإجراء لا يمكن التراجع عنه!`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'نعم، احذف',
+                cancelButtonText: 'إلغاء',
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#4A7C59'
+            });
+            
+            if (!result.isConfirmed) return;
+            
+            // عرض مؤشر التحميل
+            Swal.fire({
+                title: 'جاري الحذف...',
+                html: 'يرجى الانتظار',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+            
+            try {
+                let successCount = 0;
+                let failedCount = 0;
+                
+                // حذف كل طلب من Firebase
+                for (const order of selectedOrders) {
+                    try {
+                        // تحديد المرجع الصحيح بناءً على نوع المنتج
+                        let dbRef;
+                        if (order.productType?.includes('Karseell')) {
+                            dbRef = database.ref('karseell-orders').child(order.firebaseId);
+                        } else if (order.productType?.includes('بوكسرات')) {
+                            dbRef = database.ref('boxers-orders').child(order.firebaseId);
+                        } else {
+                            dbRef = database.ref('orders').child(order.firebaseId);
+                        }
+                        
+                        await dbRef.remove();
+                        successCount++;
+                    } catch (error) {
+                        console.error('Error deleting order:', order.firebaseId, error);
+                        failedCount++;
+                    }
+                }
+                
+                // إلغاء تحديد الكل
+                selected.forEach(cb => cb.checked = false);
+                document.getElementById('selectAll').checked = false;
+                updateSelectedCount();
+                
+                // تحديث العرض مع الحفاظ على الفلترة الحالية
+                await filterByProduct();
+                
+                // إظهار النتيجة
+                await Swal.fire({
+                    icon: successCount > 0 ? 'success' : 'error',
+                    title: successCount > 0 ? 'تم الحذف بنجاح' : 'فشل الحذف',
+                    html: `تم حذف <strong>${successCount}</strong> طلب${failedCount > 0 ? `<br><span style="color: #dc3545;">فشل: ${failedCount}</span>` : ''}`,
+                    confirmButtonColor: '#4A7C59',
+                    timer: 3000
+                });
+            } catch (error) {
+                console.error('Error:', error);
+                await Swal.fire({
+                    icon: 'error',
+                    title: 'فشلت العملية',
+                    text: 'حدث خطأ أثناء حذف الطلبات',
+                    confirmButtonColor: '#dc3545'
+                });
+            }
+        }
     </script>
 </body>
 </html>
