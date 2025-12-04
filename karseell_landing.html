@@ -1,0 +1,2395 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>كارسيل كولاجين – ماسك + سيروم لعلاج الشعر التالف</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="وداعاً للشعر التالف والهايش مع مجموعة كارسيل كولاجين الطبيعية – ماسك + سيروم لعلاج التلف، التقصف والهيشان في أيام قليلة فقط."
+  />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="https://i.ibb.co/1fHj8NND/cropped-karseell-logo-400x100-1.png" />
+  <link rel="shortcut icon" type="image/png" href="https://i.ibb.co/1fHj8NND/cropped-karseell-logo-400x100-1.png" />
+
+  <!-- OG -->
+  <meta property="og:title" content="كارسيل كولاجين – وداعاً للشعر التالف" />
+  <meta property="og:description" content="ماسك + سيروم كولاجين وأرجان طبيعي لترميم الشعر وإرجاع اللمعة والنعومة." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://i.ibb.co/fzXzcyzV/Whats-App-Image-2025-11-10-at-03-45-56-5c1b868c.jpg" />
+
+  <!-- Meta Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '25914318858170088');
+  fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=25914318858170088&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- End Meta Pixel Code -->
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" />
+
+  <style>
+    :root {
+      --bg: #f6f1e8;
+      --primary: #f59e0b;
+      --primary-dark: #d97706;
+      --accent: #b45309;
+      --text-main: #111827;
+      --text-muted: #6b7280;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --shadow-soft: 0 8px 25px rgba(0, 0, 0, 0.08);
+      --container: 1100px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .container {
+      width: 100%;
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    header {
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      border-bottom: 2px solid #f59e0b;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: 0 2px 12px rgba(245, 158, 11, 0.2);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 18px;
+      color: #92400e;
+    }
+
+    .badge-small {
+      background: #f97316;
+      color: #fff;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border-radius: 999px;
+      padding: 10px 22px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      outline: none;
+      transition: transform 0.1s ease, box-shadow 0.1s ease,
+        background 0.1s ease;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: #fff;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 30px rgba(249, 115, 22, 0.4);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid #fecf8c;
+      color: #92400e;
+    }
+
+    .hero {
+      background: linear-gradient(180deg, #fff7ed 0%, #fef3c7 60%, #fefce8 100%);
+      padding: 22px 0 30px 0;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 24px;
+      align-items: center;
+    }
+
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 16px;
+      border-radius: 999px;
+      background: rgba(252, 211, 77, 0.3);
+      font-size: 14px;
+      font-weight: 700;
+      color: #92400e;
+      margin-bottom: 12px;
+      border: 2px solid #fbbf24;
+    }
+
+    .hero-title {
+      font-size: 28px;
+      font-weight: 900;
+      margin-bottom: 8px;
+      line-height: 1.3;
+      color: #1f2937;
+    }
+
+    .hero-title span {
+      color: #ea580c;
+      font-size: 30px;
+    }
+
+    .hero-sub {
+      font-size: 15px;
+      color: #4b5563;
+      margin-bottom: 18px;
+      line-height: 1.7;
+      font-weight: 500;
+    }
+
+    .hero-benefits {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .hero-benefits span {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #fef3c7;
+      padding: 10px 12px;
+      border-radius: 8px;
+      color: #78350f;
+      border: 1px solid #fbbf24;
+    }
+
+    .hero-benefits i {
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      background: #22c55e;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .hero-cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .price-box {
+      background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 100%);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: 0 6px 20px rgba(234, 88, 12, 0.3);
+      font-size: 14px;
+      border: 3px solid #ea580c;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .price-box::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      width: 100px;
+      height: 100px;
+      background: radial-gradient(circle, rgba(234, 88, 12, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .price-old {
+      font-size: 16px;
+      color: #9ca3af;
+      text-decoration: line-through;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .price-new {
+      font-size: 28px;
+      font-weight: 900;
+      color: #ea580c;
+      text-shadow: 0 2px 4px rgba(234, 88, 12, 0.2);
+      line-height: 1;
+    }
+
+    .price-tagline {
+      font-size: 12px;
+      color: #78350f;
+      font-weight: 600;
+      margin-top: 4px;
+      line-height: 1.3;
+    }
+
+    .limited {
+      font-size: 12px;
+      color: #dc2626;
+      font-weight: 700;
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    .hero-img-card {
+      background: #fff;
+      border-radius: var(--radius-lg);
+      padding: 14px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .hero-img-card img {
+      border-radius: var(--radius-md);
+      width: 100%;
+      height: auto;
+    }
+
+    /* Carousel Styles */
+    .carousel {
+      position: relative;
+      border-radius: var(--radius-md);
+      height: 450px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fafaf9;
+    }
+
+    .carousel-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .carousel-item {
+      display: none;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .carousel-item.active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .carousel-item img {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: var(--radius-md);
+    }
+
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .carousel-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #d1d5db;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .carousel-dot.active {
+      background: var(--primary);
+      width: 24px;
+      border-radius: 5px;
+    }
+
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.9);
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 18px;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      z-index: 10;
+    }
+
+    .carousel-btn:hover {
+      background: #fff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .carousel-btn.prev {
+      left: 10px;
+    }
+
+    .carousel-btn.next {
+      right: 10px;
+    }
+
+    .sec {
+      padding: 26px 0;
+    }
+
+    .sec-title {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 6px;
+      text-align: center;
+    }
+
+    .sec-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-align: center;
+      margin-bottom: 18px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: var(--radius-md);
+      padding: 14px;
+      box-shadow: var(--shadow-soft);
+      font-size: 13px;
+    }
+
+    .card-badge {
+      font-size: 11px;
+      color: #92400e;
+      margin-bottom: 6px;
+    }
+
+    .card-title {
+      font-weight: 700;
+      margin-bottom: 4px;
+      font-size: 14px;
+    }
+
+    .card ul {
+      padding-right: 18px;
+      margin-top: 6px;
+      color: var(--text-muted);
+    }
+
+    .card ul li {
+      margin-bottom: 4px;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .product-card img {
+      border-radius: 12px;
+      margin-bottom: 8px;
+    }
+
+    .product-name {
+      font-weight: 700;
+      margin-bottom: 2px;
+      font-size: 14px;
+    }
+
+    .product-size {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .before-after {
+      display: grid;
+      grid-template-columns: 1fr 400px;
+      gap: 30px;
+      align-items: start;
+    }
+
+    .ba-video {
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+      width: 400px;
+      height: 350px;
+    }
+
+    .ba-video video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: var(--radius-lg);
+    }
+
+    .ba-content {
+      padding: 10px 0;
+    }
+
+    .ba-content h3 {
+      font-size: 26px;
+      font-weight: 900;
+      color: #1f2937;
+      margin-bottom: 14px;
+      line-height: 1.3;
+    }
+
+    .ba-content p {
+      font-size: 16px;
+      color: #4b5563;
+      line-height: 1.8;
+      margin-bottom: 20px;
+      font-weight: 500;
+    }
+
+    .ba-benefits {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .ba-benefit {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 15px;
+      color: #1f2937;
+      line-height: 1.6;
+    }
+
+    .ba-benefit i {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #22c55e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      color: #fff;
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+
+    .ba-benefit strong {
+      color: #ea580c;
+      font-weight: 700;
+    }
+
+    .how-steps {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    .how-steps .card {
+      position: relative;
+      padding: 20px;
+      border: 2px solid #fde68a;
+      transition: all 0.3s ease;
+    }
+
+    .how-steps .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(234, 88, 12, 0.15);
+      border-color: #fbbf24;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+      color: #fff;
+      margin-bottom: 10px;
+      font-weight: 700;
+      box-shadow: 0 2px 8px rgba(251, 191, 36, 0.3);
+    }
+
+    .how-steps .card-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: #1f2937;
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+
+    .how-steps .card p {
+      font-size: 14px;
+      line-height: 1.7;
+      color: #4b5563;
+    }
+
+    .testimonials {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .t-card {
+      background: linear-gradient(135deg, #fff 0%, #fefce8 100%);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      border: 2px solid #fef3c7;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .t-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 30px rgba(234, 88, 12, 0.2);
+      border-color: #fbbf24;
+    }
+
+    .t-card::before {
+      content: '"';
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      font-size: 45px;
+      color: rgba(251, 191, 36, 0.2);
+      font-family: Georgia, serif;
+      line-height: 1;
+    }
+
+    .t-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .t-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 16px;
+      color: #fff;
+      box-shadow: 0 3px 10px rgba(251, 191, 36, 0.3);
+    }
+
+    .t-info {
+      flex: 1;
+    }
+
+    .t-name {
+      font-weight: 700;
+      font-size: 14px;
+      color: #1f2937;
+      margin-bottom: 2px;
+    }
+
+    .t-meta {
+      font-size: 11px;
+      color: #6b7280;
+    }
+
+    .stars {
+      color: #fbbf24;
+      font-size: 14px;
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .t-card p {
+      font-size: 13px;
+      line-height: 1.6;
+      color: #374151;
+      font-style: italic;
+    }
+
+    .faq {
+      max-width: 720px;
+      margin: 0 auto;
+      font-size: 13px;
+    }
+
+    .faq-item {
+      background: #fff;
+      border-radius: var(--radius-md);
+      padding: 0;
+      box-shadow: var(--shadow-soft);
+      margin-bottom: 10px;
+      overflow: hidden;
+      border: 1px solid #e5e7eb;
+      transition: all 0.3s ease;
+    }
+
+    .faq-item:hover {
+      border-color: #fbbf24;
+      box-shadow: 0 4px 15px rgba(251, 191, 36, 0.2);
+    }
+
+    .faq-q {
+      font-weight: 600;
+      padding: 14px 16px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+      transition: background 0.2s ease;
+      font-size: 14px;
+      color: #1f2937;
+    }
+
+    .faq-q:hover {
+      background: #fef3c7;
+    }
+
+    .faq-q::after {
+      content: '▼';
+      font-size: 12px;
+      color: #f59e0b;
+      transition: transform 0.3s ease;
+    }
+
+    .faq-item.active .faq-q::after {
+      transform: rotate(180deg);
+    }
+
+    .faq-a {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      font-size: 13px;
+      line-height: 1.7;
+      color: #4b5563;
+    }
+
+    .faq-a-content {
+      padding: 0 16px 14px 16px;
+    }
+
+    .faq-item.active .faq-a {
+      max-height: 1000px;
+    }
+
+    .guarantee {
+      background: #ecfdf5;
+      border-radius: var(--radius-lg);
+      padding: 14px;
+      font-size: 13px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-top: 14px;
+    }
+
+    .order-section {
+      background: linear-gradient(180deg, #fff7ed 0%, #fef3c7 60%, #fefce8 100%);
+      color: #1f2937;
+      padding: 30px 0;
+    }
+
+    .order-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+      gap: 24px;
+      align-items: flex-start;
+    }
+
+    .order-title {
+      font-size: 24px;
+      font-weight: 900;
+      margin-bottom: 8px;
+      color: #1f2937;
+    }
+
+    .order-sub {
+      font-size: 14px;
+      color: #6b7280;
+      margin-bottom: 10px;
+    }
+
+    form {
+      display: grid;
+      gap: 8px;
+      font-size: 13px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 4px;
+      font-weight: 600;
+      color: #374151;
+      font-size: 14px;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 2px solid #e5e7eb;
+      background: #fff;
+      color: #1f2937;
+      font-family: inherit;
+      font-size: 14px;
+      transition: border-color 0.2s ease;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #fbbf24;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #9ca3af;
+    }
+
+    .order-note {
+      font-size: 12px;
+      color: #6b7280;
+      margin-top: 8px;
+      text-align: center;
+    }
+
+    .offers-section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .offers-row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .offer-card {
+      background: linear-gradient(135deg, #fff 0%, #fef3c7 100%);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      border: 2px solid #fbbf24;
+      box-shadow: 0 4px 15px rgba(234, 88, 12, 0.12);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .offer-card.contact-offer {
+      cursor: default;
+    }
+
+    .offer-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(234, 88, 12, 0.2);
+      border-color: #f59e0b;
+    }
+
+    .offer-card.popular {
+      border-color: #ea580c;
+      background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 100%);
+    }
+
+    .offer-card.selected {
+      border-color: #16a34a;
+      border-width: 3px;
+      background: linear-gradient(135deg, #f0fdf4 0%, #d1fae5 100%);
+      box-shadow: 0 8px 25px rgba(22, 163, 74, 0.3);
+      transform: scale(1.02);
+    }
+
+    .offer-card.selected::before {
+      content: '✓';
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: #16a34a;
+      color: white;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 14px;
+      box-shadow: 0 2px 8px rgba(22, 163, 74, 0.4);
+    }
+
+    .offer-badge {
+      display: inline-block;
+      background: #22c55e;
+      color: #fff;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+
+    .offer-card.popular .offer-badge {
+      background: #ea580c;
+    }
+
+    .offer-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #1f2937;
+      margin-bottom: 6px;
+    }
+
+    .offer-price {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .offer-price-old {
+      font-size: 13px;
+      color: #9ca3af;
+      text-decoration: line-through;
+    }
+
+    .offer-price-new {
+      font-size: 22px;
+      font-weight: 900;
+      color: #ea580c;
+    }
+
+    .offer-save {
+      display: inline-block;
+      background: rgba(34, 197, 94, 0.15);
+      color: #166534;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .offer-motivation {
+      background: rgba(234, 88, 12, 0.1);
+      color: #9a3412;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-top: 6px;
+      text-align: center;
+    }
+
+    .offer-features {
+      display: none;
+    }
+
+    .contact-offer {
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      border: 2px dashed #f59e0b;
+      text-align: center;
+      padding: 14px;
+    }
+
+    .contact-offer-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: #92400e;
+      margin-bottom: 8px;
+    }
+
+    .contact-offer p {
+      font-size: 12px;
+      color: #78350f;
+      margin-bottom: 10px;
+    }
+
+    .whatsapp-contact {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #22c55e;
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 13px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .whatsapp-contact:hover {
+      background: #16a34a;
+      transform: scale(1.05);
+    }
+
+    .list-check {
+      font-size: 13px;
+      color: #e5e7eb;
+    }
+
+    .list-check li {
+      margin-bottom: 4px;
+    }
+
+    .whatsapp-box {
+      background: #f0fdf4;
+      border-radius: var(--radius-md);
+      padding: 10px 12px;
+      font-size: 13px;
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .whatsapp-btn {
+      background: #22c55e;
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 600;
+    }
+
+    footer {
+      font-size: 11px;
+      color: #6b7280;
+      text-align: center;
+      padding: 10px 16px 18px;
+      background: #020617;
+      color: #9ca3af;
+    }
+
+    .sticky-cta {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(15, 23, 42, 0.98);
+      padding: 8px 12px;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      z-index: 40;
+    }
+
+    .sticky-cta p {
+      font-size: 12px;
+      color: #e5e7eb;
+    }
+
+    .sticky-cta .btn {
+      padding-inline: 16px;
+      font-size: 12px;
+    }
+
+    /* Floating WhatsApp Button */
+    .whatsapp-float {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      left: 25px;
+      z-index: 999;
+      animation: pulse-whatsapp 2s infinite;
+    }
+
+    .whatsapp-float a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+      border-radius: 50%;
+      box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .whatsapp-float a:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 30px rgba(37, 211, 102, 0.6);
+    }
+
+    .whatsapp-float svg {
+      width: 32px;
+      height: 32px;
+      fill: white;
+    }
+
+    @keyframes pulse-whatsapp {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid,
+      .order-grid,
+      .grid-3,
+      .product-grid,
+      .before-after,
+      .how-steps,
+      .testimonials {
+        grid-template-columns: 1fr;
+      }
+
+      /* Header & Navigation */
+      .nav {
+        padding: 12px 0;
+      }
+
+      .logo img {
+        height: 35px !important;
+      }
+
+      .nav .btn {
+        font-size: 0.9rem !important;
+        padding: 8px 16px !important;
+      }
+
+      /* Hero Section */
+      .hero {
+        padding-top: 12px;
+        padding-bottom: 24px;
+      }
+
+      .hero-grid {
+        display: flex;
+        flex-direction: column-reverse;
+      }
+
+      .hero-kicker {
+        font-size: 13px;
+        padding: 6px 14px;
+        margin-bottom: 12px;
+      }
+
+      .hero-title {
+        font-size: 22px;
+        line-height: 1.3;
+        margin-bottom: 14px;
+      }
+
+      .hero-title span {
+        font-size: 24px;
+      }
+
+      .hero-sub {
+        font-size: 14px;
+        line-height: 1.6;
+        margin-bottom: 16px;
+      }
+
+      .hero-benefits {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 18px;
+      }
+
+      .hero-benefits span {
+        font-size: 13px;
+        padding: 10px 14px;
+        text-align: right;
+        width: 100%;
+        display: block;
+      }
+
+      .hero-benefits i {
+        font-size: 14px;
+      }
+
+      .cta-group {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .cta-group .btn {
+        width: 100%;
+        font-size: 15px;
+        padding: 14px 20px;
+      }
+
+      /* Price Box */
+      .price-box {
+        padding: 14px;
+        margin-top: 16px;
+      }
+
+      .price-old {
+        font-size: 13px;
+      }
+
+      .price-old span {
+        font-size: 15px;
+      }
+
+      .price-new {
+        font-size: 26px;
+      }
+
+      .price-urgency {
+        font-size: 12px;
+        padding: 6px 10px;
+        margin-top: 8px;
+      }
+
+      /* Carousel */
+      .carousel {
+        height: 350px;
+        margin-top: 0;
+        margin-bottom: 0;
+        padding: 0;
+        background: #fafaf9;
+        width: 100%;
+      }
+
+      .carousel-inner {
+        height: 100%;
+        width: 100%;
+      }
+
+      .carousel-item {
+        height: 100%;
+        width: 100%;
+      }
+
+      .carousel-item img {
+        max-height: 100%;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
+      .hero-img-card {
+        padding: 10px;
+        background: #fff;
+        box-shadow: var(--shadow-soft);
+        border-radius: var(--radius-lg);
+        margin-bottom: 20px;
+        width: 100%;
+      }
+
+      .carousel-dots {
+        bottom: 10px;
+      }
+
+      .carousel-dot {
+        width: 8px;
+        height: 8px;
+      }
+
+      .carousel-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 16px;
+      }
+
+      /* Sections */
+      .sec {
+        padding: 28px 0;
+      }
+
+      .sec-title {
+        font-size: 24px;
+        margin-bottom: 10px;
+      }
+
+      .sec-sub {
+        font-size: 14px;
+        margin-bottom: 20px;
+      }
+
+      /* Product Cards */
+      .p-card {
+        padding: 16px;
+      }
+
+      .p-card img {
+        max-height: 180px;
+      }
+
+      .p-card h3 {
+        font-size: 18px;
+        margin: 12px 0 8px;
+      }
+
+      .p-card p {
+        font-size: 13px;
+      }
+
+      /* Before/After Video */
+      .before-after-video {
+        width: 100%;
+        height: 280px;
+        margin-bottom: 20px;
+      }
+
+      .before-after-content h3 {
+        font-size: 20px;
+        margin-bottom: 12px;
+      }
+
+      .before-after-content p {
+        font-size: 14px;
+      }
+
+      /* Usage Steps */
+      .how-steps {
+        gap: 12px;
+      }
+
+      .step-card {
+        padding: 16px;
+      }
+
+      .step-num {
+        font-size: 15px;
+        padding: 4px 12px;
+      }
+
+      .step-card h3 {
+        font-size: 16px;
+        margin: 10px 0 8px;
+      }
+
+      .step-card p {
+        font-size: 13px;
+      }
+
+      /* Testimonials */
+      .testimonials {
+        gap: 12px;
+      }
+
+      .t-card {
+        padding: 14px;
+      }
+
+      .t-avatar {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+      }
+
+      .t-name {
+        font-size: 13px;
+      }
+
+      .t-location {
+        font-size: 11px;
+      }
+
+      .t-stars {
+        font-size: 12px;
+      }
+
+      .t-card p {
+        font-size: 12px;
+        line-height: 1.5;
+      }
+
+      /* Order Section */
+      .order-section {
+        padding: 24px 0 60px;
+      }
+
+      .order-title {
+        font-size: 22px;
+        margin-bottom: 16px;
+      }
+
+      .order-grid {
+        gap: 20px;
+      }
+
+      /* Offers */
+      .offers-section {
+        gap: 10px;
+      }
+
+      .offers-row {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .offer-card {
+        padding: 14px 16px;
+      }
+
+      .offer-badge {
+        font-size: 10px;
+        padding: 4px 10px;
+      }
+
+      .offer-title {
+        font-size: 17px;
+        margin-bottom: 8px;
+      }
+
+      .offer-price {
+        margin-bottom: 6px;
+      }
+
+      .offer-price-old {
+        font-size: 13px;
+      }
+
+      .offer-price-new {
+        font-size: 22px;
+      }
+
+      .offer-save {
+        font-size: 11px;
+        padding: 4px 10px;
+      }
+
+      .offer-motivation {
+        font-size: 11px;
+        padding: 8px 12px;
+        margin-top: 8px;
+      }
+
+      .contact-offer-title {
+        font-size: 14px;
+      }
+
+      .contact-offer p {
+        font-size: 12px;
+      }
+
+      .whatsapp-contact {
+        font-size: 16px;
+        padding: 10px 16px;
+      }
+
+      /* Order Form */
+      #orderForm label {
+        font-size: 13px;
+        margin-bottom: 6px;
+      }
+
+      #orderForm input,
+      #orderForm select,
+      #orderForm textarea {
+        font-size: 14px;
+        padding: 10px 12px;
+      }
+
+      #orderForm .btn {
+        font-size: 16px;
+        padding: 14px 24px;
+        margin-top: 16px;
+      }
+
+      .order-note {
+        font-size: 11px;
+        margin-top: 10px;
+      }
+
+      /* Order Form Separator */
+      .order-form-separator {
+        display: block;
+        text-align: center;
+        margin: 25px 0 20px;
+        position: relative;
+      }
+
+      .order-form-separator::before,
+      .order-form-separator::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        width: 35%;
+        height: 2px;
+        background: linear-gradient(to right, transparent, #fbbf24, transparent);
+      }
+
+      .order-form-separator::before {
+        left: 0;
+      }
+
+      .order-form-separator::after {
+        right: 0;
+      }
+
+      .order-form-separator span {
+        background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+        color: white;
+        padding: 10px 24px;
+        border-radius: 25px;
+        font-size: 16px;
+        font-weight: 700;
+        box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+        display: inline-block;
+      }
+
+      /* FAQ */
+      .faq {
+        font-size: 13px;
+      }
+
+      .faq-item {
+        margin-bottom: 10px;
+      }
+
+      .faq-q {
+        font-size: 13px;
+        padding: 12px 14px;
+      }
+
+      .faq-q::after {
+        font-size: 11px;
+      }
+
+      .faq-a-content {
+        font-size: 12px;
+        line-height: 1.6;
+        padding: 12px 14px;
+      }
+
+      .faq-a-content img {
+        max-width: 200px !important;
+        margin-top: 8px;
+      }
+
+      /* Footer */
+      footer {
+        padding: 20px 0;
+        font-size: 12px;
+      }
+
+      /* WhatsApp Float */
+      .whatsapp-float {
+        left: 15px;
+      }
+
+      .whatsapp-float a {
+        width: 50px;
+        height: 50px;
+      }
+
+      .whatsapp-float svg {
+        width: 26px;
+        height: 26px;
+      }
+
+      .order-section {
+        padding-bottom: 54px;
+      }
+
+      .sticky-cta {
+        display: flex;
+      }
+
+      .sticky-cta p {
+        font-size: 11px;
+      }
+
+      .sticky-cta .btn {
+        font-size: 13px;
+        padding: 10px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <div class="container">
+      <nav class="nav">
+        <div class="logo">
+          <img src="https://i.ibb.co/1fHj8NND/cropped-karseell-logo-400x100-1.png" alt="Karseell Egypt" style="height: 45px; width: auto;">
+        </div>
+        <button class="btn btn-primary" onclick="scrollToOrder()" style="font-size: 1.1rem; padding: 12px 28px;">
+          اطلب الآن
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div>
+          <div class="hero-kicker">
+            ✨ الحل الأكيد لكل مشاكل شعرِك
+          </div>
+          <h1 class="hero-title">
+            شعرك تالف ومتقصف وهايش؟ 
+            <span>كارسيل كولاجين</span> هيرجعه ناعم وحيوي في أسبوعين بس!
+          </h1>
+          <p class="hero-sub">
+            ماسك + سيروم كولاجين وزيوت طبيعية 100% بيعالج التقصف والهيشان من أول استخدام، 
+            ويحمي شعرك من الحرارة والتصفيف اليومي. مش هتصدقي الفرق!
+          </p>
+
+          <div class="hero-benefits">
+            <span><i>✔</i> <strong>يصلح التلف</strong> من الجذور للأطراف</span>
+            <span><i>✔</i> <strong>ينفع لكل أنواع الشعر</strong> حتى المصبوغ</span>
+            <span><i>✔</i> <strong>نعومة ولمعان فوري</strong> من أول مرة</span>
+            <span><i>✔</i> <strong>طبيعي وآمن 100%</strong> بدون كيماويات</span>
+          </div>
+
+          <div class="hero-cta-row">
+            <button class="btn btn-primary" onclick="scrollToOrder()">
+              اطلبي دلوقتي واستلمي بكرة
+            </button>
+            <button
+              class="btn btn-outline"
+              onclick="scrollToFaq()"
+              type="button"
+              style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border: 2px solid #f59e0b; color: #92400e; font-weight: 700; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);"
+            >
+              ❓ عندك أسئلة؟ اقري هنا
+            </button>
+          </div>
+
+          <div class="price-box">
+            <div>
+              <div class="price-old">بدلًا من <span>950 ج.م</span></div>
+              <div class="price-new">650 ج.م فقط</div>
+            </div>
+            <div>
+              <div class="price-tagline">
+                ماسك 500 مل + سيروم 50 مل + شحن مجاني
+              </div>
+              <div class="limited">⏰ الحق قبل نفاذ الكمية – العرض لفترة محدودة!</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-img-card">
+          <div class="carousel" id="heroCarousel">
+            <button class="carousel-btn prev" onclick="changeSlide(-1)" aria-label="Previous">❮</button>
+            <button class="carousel-btn next" onclick="changeSlide(1)" aria-label="Next">❯</button>
+            
+            <div class="carousel-inner" id="carouselInner">
+              <div class="carousel-item active">
+                <img
+                  src="https://i.ibb.co/Y4bnRN4z/karseell-collagen-hair-maskhair-oil-set-8.png"
+                  alt="مجموعة كارسيل كولاجين ماسك وسيروم"
+                />
+              </div>
+              <div class="carousel-item">
+                <img
+                  src="https://i.ibb.co/fzXzcyzV/Whats-App-Image-2025-11-10-at-03-45-56-5c1b868c.jpg"
+                  alt="كارسيل كولاجين - صورة المنتج"
+                />
+              </div>
+              <div class="carousel-item">
+                <img
+                  src="https://i.ibb.co/fzvKjnzm/71-Jl0-PLe7s-L-768x1024.png"
+                  alt="كارسيل كولاجين - تفاصيل المنتج"
+                />
+              </div>
+            </div>
+          </div>
+          
+          <div class="carousel-dots" id="carouselDots"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT'S INSIDE -->
+  <section class="sec">
+    <div class="container">
+      <h2 class="sec-title">إيه اللي جوا البوكس؟</h2>
+      <p class="sec-sub">
+        تحصلين على مجموعة كاملة لعناية عميقة بالشعر – مش مجرد ماسك سريع.
+      </p>
+      <div class="product-grid">
+        <div class="card product-card">
+          <img
+            src="https://i.ibb.co/ZzwCxjbq/karseell-collagen-hair-mask-5.png"
+            alt="ماسك كارسيل كولاجين"
+            loading="lazy"
+            width="400"
+            height="400"
+          />
+          <div class="product-name">ماسك كولاجين لعلاج التلف</div>
+          <div class="product-size">500 مل – تغذية عميقة وترطيب مكثف</div>
+        </div>
+        <div class="card product-card">
+          <img
+            src="https://i.ibb.co/Q7d4Brkm/Karseell-Moroccan-Argan-Oil-for-Hair-Healing-4.png"
+            alt="سيروم كارسيل أرجان"
+            loading="lazy"
+            width="400"
+            height="400"
+          />
+          <div class="product-name">سيروم أرجان للحماية واللمعة</div>
+          <div class="product-size">50 مل – حماية من الحرارة ولمعة حرير</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BEFORE / AFTER -->
+  <section class="sec">
+    <div class="container">
+      <div class="before-after">
+        <div class="ba-content">
+          <h2 class="sec-title" style="text-align: right; margin-bottom: 16px;">قبل وبعد استخدام كارسيل</h2>
+          <h3>نتائج واضحة من أول استخدام! 🌟</h3>
+          <p>
+            شاهدي التحول الحقيقي للشعر من تالف وهايش لناعم وحيوي بعد استخدام مجموعة كارسيل كولاجين
+          </p>
+          <div class="ba-benefits">
+            <div class="ba-benefit">
+              <i>✔</i>
+              <span><strong>شعر أنعم وأكثر حيوية</strong> – ملمس حريري من أول مرة</span>
+            </div>
+            <div class="ba-benefit">
+              <i>✔</i>
+              <span><strong>تقليل الهيشان والتقصف</strong> – شعر منضبط وسهل التصفيف</span>
+            </div>
+            <div class="ba-benefit">
+              <i>✔</i>
+              <span><strong>لمعان ونعومة طبيعية</strong> – بدون مواد كيميائية ضارة</span>
+            </div>
+            <div class="ba-benefit">
+              <i>✔</i>
+              <span><strong>نتائج تدوم طويلاً</strong> – تحسن مستمر مع كل استخدام</span>
+            </div>
+          </div>
+        </div>
+        <div class="ba-video">
+          <video controls autoplay muted loop playsinline>
+            <source src="https://d.top4top.io/m_36240p8p51.mp4" type="video/mp4">
+            متصفحك لا يدعم عرض الفيديو
+          </video>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW TO USE -->
+  <section class="sec">
+    <div class="container">
+      <h2 class="sec-title">طريقة الاستخدام الصحيحة</h2>
+      <p class="sec-sub">
+        3 خطوات بسيطة للحصول على أفضل نتيجة من مجموعة كارسيل كولاجين
+      </p>
+
+      <div class="how-steps">
+        <div class="card">
+          <div class="chip">💧 الخطوة 1</div>
+          <div class="card-title">غسيل وتجهيز الشعر</div>
+          <p>
+            اغسلي شعرك بشامبو مناسب واشطفيه كويس، ثم نشّفيه بالفوطة برفق لحد ما يبقى رطب مش مبلول.
+          </p>
+        </div>
+        <div class="card">
+          <div class="chip">✨ الخطوة 2</div>
+          <div class="card-title">خلط الماسك مع السيروم</div>
+          <p>
+            حطّي كمية مناسبة من الماسك في كف إيدك، ثم <strong style="color: #ea580c;">ضيفي 3 نقط من السيروم</strong> عليه واخلطيهم كويس. وزّعي الخليط من منتصف الشعر للأطراف.
+          </p>
+        </div>
+        <div class="card">
+          <div class="chip">⏳ الخطوة 3</div>
+          <div class="card-title">الانتظار والشطف</div>
+          <p>
+            سيبي الخليط على شعرك من <strong>10 – 15 دقيقة</strong>، ثم اشطفيه كويس بمياه فاترة. هتلاحظي نعومة ولمعان من أول استخدام!
+          </p>
+        </div>
+      </div>
+
+      <div class="guarantee">
+        <strong>💚 نصيحة مهمة:</strong>
+        <span>
+          للحصول على أفضل نتيجة، استخدمي المجموعة 2–3 مرات أسبوعياً. النتائج بتبدأ تظهر من أول مرة، وبتتحسّن مع كل استخدام!
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="sec">
+    <div class="container">
+      <h2 class="sec-title">رأي عملائنا الكرام</h2>
+      <p class="sec-sub">
+        شوفي تجربة العميلات مع مجموعة كارسيل كولاجين
+      </p>
+
+      <div class="testimonials">
+        <div class="t-card">
+          <div class="t-header">
+            <div class="t-avatar">م</div>
+            <div class="t-info">
+              <div class="t-name">مروة أحمد</div>
+              <div class="t-meta">القاهرة • شعر مصبوغ</div>
+            </div>
+          </div>
+          <div class="stars">★★★★★</div>
+          <p>
+            ماشاء الله المنتج روعة! شعري كان تالف جداً من الصبغات والفرد، بس بعد استخدام الماسك والسيروم لمدة أسبوعين بقى ناعم ولامع بشكل ملحوظ. الهيشان قل كتير والشعر بقى أسهل في التصفيف. صراحة مبسوطة جداً وهرشحه لكل صحباتي!
+          </p>
+        </div>
+
+        <div class="t-card">
+          <div class="t-header">
+            <div class="t-avatar">ن</div>
+            <div class="t-info">
+              <div class="t-name">نورهان محمد</div>
+              <div class="t-meta">الإسكندرية • شعر جاف</div>
+            </div>
+          </div>
+          <div class="stars">★★★★★</div>
+          <p>
+            المنتج ده فعلاً غيّر شعري! كان عندي مشكلة تقصف رهيبة وجفاف، بس الماسك بيرطب بعمق والسيروم بيحمي من الحرارة. النتيجة واضحة من أول استخدام - شعري بقى أكثر حيوية ولمعان. الريحة كمان لطيفة جداً مش زي المنتجات التانية.
+          </p>
+        </div>
+
+        <div class="t-card">
+          <div class="t-header">
+            <div class="t-avatar">ه</div>
+            <div class="t-info">
+              <div class="t-name">هدى حسن</div>
+              <div class="t-meta">الجيزة • صاحبة صالون تجميل</div>
+            </div>
+          </div>
+          <div class="stars">★★★★★</div>
+          <p>
+            كصاحبة صالون وبشتغل مع عميلات كتير، المنتج ده من أفضل المنتجات اللي جربتها! بستخدمه في الصالون مع العميلات وبوصي بيه دايماً. النتائج واضحة وسريعة، خصوصاً للشعر التالف من الصبغات والبروتين. العميلات كلهم راضيين ومعظمهم بيرجعوا يشتروه تاني. منتج موثوق وجودة ممتازة، أنصح بيه بقوة! 💯
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ORDER -->
+  <section class="order-section" id="order">
+    <div class="container">
+      <div class="order-grid">
+        <div class="offers-section">
+          <h2 class="order-title">اختاري العرض المناسب ليكي</h2>
+          <p class="order-sub" style="color: #6b7280; margin-bottom: 16px;">
+            كل العروض شاملة الشحن مع إمكانية الدفع عند الاستلام
+          </p>
+
+          <div class="offers-row">
+            <div class="offer-card" data-quantity="1">
+              <span class="offer-badge">عرض واحد</span>
+              <div class="offer-title">بوكس واحد</div>
+              <div class="offer-price">
+                <span class="offer-price-old">800 ج.م</span>
+                <span class="offer-price-new">650 ج.م</span>
+              </div>
+              <span class="offer-save">✨ وفّري 150 جنيه</span>
+            </div>
+
+            <div class="offer-card popular" data-quantity="2">
+              <span class="offer-badge">🔥 الأكثر طلباً</span>
+              <div class="offer-title">عرض 2 بوكس</div>
+              <div class="offer-price">
+                <span class="offer-price-old">1600 ج.م</span>
+                <span class="offer-price-new">1150 ج.م</span>
+              </div>
+              <span class="offer-save">💰 وفّري 450 جنيه</span>
+              <div class="offer-motivation">
+                🎁 الخيار الأفضل! يكفي 3-4 شهور
+              </div>
+            </div>
+          </div>
+
+          <div class="offers-row">
+            <div class="offer-card popular" data-quantity="3">
+              <span class="offer-badge">⚡ توفير أكبر</span>
+              <div class="offer-title">عرض 3 بوكسات</div>
+              <div class="offer-price">
+                <span class="offer-price-old">2400 ج.م</span>
+                <span class="offer-price-new">1600 ج.م</span>
+              </div>
+              <span class="offer-save">🎉 وفّري 800 جنيه</span>
+              <div class="offer-motivation">
+                👑 أفضل قيمة! يكفي 6 شهور + هدية
+              </div>
+            </div>
+
+            <div class="offer-card contact-offer">
+              <div class="contact-offer-title">🛍️ محتاجة أكثر من 3 بوكسات؟</div>
+              <p>تواصلي معنا للحصول على عرض خاص</p>
+              <a href="https://wa.me/201557350728?text=عايزة%20أطلب%20أكتر%20من%203%20بوكسات" 
+                 class="whatsapp-contact" 
+                 target="_blank">
+                📱 01557350728
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="order-form-separator">
+            <span>🛍️ اطلب الآن</span>
+          </div>
+
+          <form id="orderForm">
+            <div>
+              <label for="name">الاسم الكامل</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                required
+                placeholder="اكتبي اسمك كما هو في بطاقة الاستلام"
+              />
+            </div>
+            <div>
+              <label for="phone">رقم الموبايل</label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                required
+                placeholder="01xxxxxxxxx"
+              />
+            </div>
+            <div>
+              <label for="governorate">المحافظة</label>
+              <select id="governorate" name="governorate" required>
+                <option value="">اختاري المحافظة</option>
+                <option value="القاهرة">القاهرة</option>
+                <option value="الجيزة">الجيزة</option>
+                <option value="الإسكندرية">الإسكندرية</option>
+                <option value="الدقهلية">الدقهلية</option>
+                <option value="الشرقية">الشرقية</option>
+                <option value="القليوبية">القليوبية</option>
+                <option value="البحيرة">البحيرة</option>
+                <option value="الغربية">الغربية</option>
+                <option value="المنوفية">المنوفية</option>
+                <option value="كفر الشيخ">كفر الشيخ</option>
+                <option value="دمياط">دمياط</option>
+                <option value="بورسعيد">بورسعيد</option>
+                <option value="الإسماعيلية">الإسماعيلية</option>
+                <option value="السويس">السويس</option>
+                <option value="المنيا">المنيا</option>
+                <option value="أسيوط">أسيوط</option>
+                <option value="سوهاج">سوهاج</option>
+                <option value="قنا">قنا</option>
+                <option value="أسوان">أسوان</option>
+                <option value="الأقصر">الأقصر</option>
+              </select>
+            </div>
+            <div>
+              <label for="address">العنوان بالتفصيل</label>
+              <textarea
+                id="address"
+                name="address"
+                rows="2"
+                required
+                placeholder="الشارع، رقم البيت / العمارة، العلامة المميزة"
+              ></textarea>
+            </div>
+            <div>
+              <label for="quantity">الكمية</label>
+              <select id="quantity" name="quantity">
+                <option value="1">بوكس واحد – 650 ج.م (شامل الشحن)</option>
+                <option value="2">بوكسين – 1200 ج.م (وفّري 500 ج.م + شحن مجاني)</option>
+                <option value="3">3 بوكسات – 1750 ج.م (وفّري 1100 ج.م + شحن مجاني)</option>
+              </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+              تأكيد طلبي الآن
+            </button>
+
+            <div class="order-note">
+              بالضغط على "تأكيد طلبي" أنتِ توافقين على تواصل فريق خدمة العملاء
+              معكِ لتأكيد البيانات.
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="sec" id="faq">
+    <div class="container">
+      <h2 class="sec-title">الأسئلة الشائعة</h2>
+      <p class="sec-sub">
+        لو لسه عندِك سؤال، ممكن تلاقي إجابته هنا أو تكلمينا على واتساب.
+      </p>
+
+      <div class="faq">
+        <div class="faq-item">
+          <div class="faq-q">
+            <span>خايفة أستلم المنتج ويطلع مش أصلي؟</span>
+          </div>
+          <div class="faq-a">
+            <div class="faq-a-content">
+              نتفهم قلقك تماماً! 💚 لكن خليني أطمنك.. المنتج عليه علامة مائية أصلية من الشركة المصنعة، وده بيأكد إنه 100% أصلي. كمان عندنا خدمة <strong>المعاينة قبل الاستلام</strong> - يعني تقدري تتأكدي من المنتج وتشوفي العلامة الأصلية قبل ما تدفعي أي فلوس! لو لقيتي أي شك إنه مش أصلي، ارجعيه على طول وهتدفعي مصاريف الشحن بس للمندوب. احنا واثقين في جودة منتجاتنا 🌟
+              <br><br>
+              <strong>شوفي الباركود الأصلي على المنتج:</strong><br>
+              <a href="https://ibb.co/kbGMxn0" target="_blank" style="display: inline-block; margin-top: 10px;">
+                <img src="https://i.ibb.co/4vFJ7yM/karseell-collagen-hair-mask-2.png" alt="الباركود الأصلي لمنتج كارسيل" style="max-width: 250px; height: auto; border: 2px solid #fbbf24; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">
+            <span>خايفة أستخدمه وميجيبش نتيجة؟</span>
+          </div>
+          <div class="faq-a">
+            <div class="faq-a-content">
+              احنا فاهمينك جداً ومقدّرين قلقك! 💖 بس تعالي نطمنك بالحقائق.. المنتج ده مش بس كلام فاضي، ده عنده فوايد مثبتة علمياً: <strong>يصلح التقصف</strong> من أول استخدام، <strong>يرطب بعمق</strong> لمدة 48 ساعة، <strong>يعيد بناء البروتين</strong> في الشعر التالف، و<strong>يحمي من الحرارة والكيماويات</strong>. وأهم حاجة؟ شوفي <strong>مراجعات العميلات</strong> فوق كلهم مبسوطين جداً بالنتيجة! لو بعد استخدام صحيح لمدة أسبوعين مشفتيش أي تحسن (وده نادر جداً!)، كلمينا وهنساعدك نعرف السبب. النتيجة مضمونة بإذن الله 🌟
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">
+            <span>حاسة إن السعر غالي شوية؟</span>
+          </div>
+          <div class="faq-a">
+            <div class="faq-a-content">
+              نتفهم تماماً! 💚 بس تعالي نحسبها سوا بكل شفافية:<br><br>
+              
+              <strong>🔸 المنتج ده = 2 في 1:</strong><br>
+              لو اشتريتي ماسك لوحده بـ 450 جنيه + سيرم لوحده بـ 350 جنيه = 800 جنيه<br>
+              <strong>احنا بنديكي الاتنين بـ 650 جنيه فقط شامل الشحن!</strong> (وفرتي 150 جنيه) 🎉<br><br>
+              
+              <strong>🔸 مقارنة مع الصالونات:</strong><br>
+              جلسة علاج واحدة في الصالون = 300-500 جنيه<br>
+              المنتج ده هيكفيكي <strong>3-4 شهور</strong> من الاستخدام!<br>
+              يعني السعر = <strong>حوالي 50 جنيه بس في الشهر</strong> ⚡<br><br>
+              
+              <strong>🔸 جودة عالمية:</strong><br>
+              ده مش منتج محلي عادي، ده منتج مستورد بمكونات طبيعية 100% (كولاجين + زيت الماكا + الأرجان) بتشتغل على حل <strong>كل مشاكل الشعر</strong> (التقصف، الهيشان، التساقط، الجفاف) في منتج واحد!<br><br>
+              
+              لو قسمتي السعر على 4 شهور = <strong>162 جنيه في الشهر</strong><br>
+              لو قسمتيه على 30 يوم = <strong>أقل من 22 جنيه في اليوم!</strong><br>
+              يعني أقل من سعر كوباية قهوة ☕ مقابل شعر صحي ولامع كل يوم! 💁‍♀️✨<br><br>
+              
+              <strong>الاستثمار في شعرك = استثمار في ثقتك بنفسك 💖</strong>
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">
+            <span>إزاي أستخدمه صح؟</span>
+          </div>
+          <div class="faq-a">
+            <div class="faq-a-content">
+              <strong>الطريقة المثالية (خلط المنتجين):</strong><br>
+              بعد غسل الشعر بالشامبو، حطّي كمية مناسبة من الماسك في كف إيدك، ثم ضيفي <strong>3 نقط من السيرم</strong> عليه واخلطيهم كويس. وزّعي الخليط من منتصف الشعر للأطراف، سيبيه 10-15 دقيقة، ثم اشطفيه بالمياه الفاترة.<br><br>
+              <strong>التكرار:</strong> استخدمي المجموعة 2-3 مرات أسبوعياً للحصول على أفضل نتيجة! 💫<br><br>
+              <strong>نصيحة ذهبية:</strong> خلط السيرم مع الماسك بيعطي نتيجة أفضل وأسرع من استخدامهم منفصلين! ✨
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">
+            <span>هيوصل في كام يوم؟</span>
+          </div>
+          <div class="faq-a">
+            <div class="faq-a-content">
+              من 2 لـ 4 أيام عمل في كل المحافظات. الشحن مجاني تماماً 🚚 والدفع عند الاستلام! 💰
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STICKY CTA MOBILE -->
+  <div class="sticky-cta">
+    <div>
+      <p>عرض كارسيل كولاجين – ماسك + سيروم بـ 650 ج.م فقط</p>
+    </div>
+    <button class="btn btn-primary" onclick="scrollToOrder()">
+      اطلب الآن
+    </button>
+  </div>
+
+  <footer>
+    © 2025 Karseell Egypt – جميع الحقوق محفوظة. هذا المنتج للاستخدام التجميلي
+    فقط.
+  </footer>
+
+  <!-- Floating WhatsApp Button -->
+  <div class="whatsapp-float">
+    <a href="https://wa.me/201557350728?text=مرحباً%20عندي%20استفسار%20عن%20منتج%20كارسيل" target="_blank" aria-label="تواصل معنا على واتساب">
+      <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 0c-8.837 0-16 7.163-16 16 0 2.825 0.737 5.607 2.137 8.048l-2.137 7.952 8.135-2.135c2.369 1.228 5.021 1.885 7.865 1.885 8.837 0 16-7.163 16-16s-7.163-16-16-16zM16 29.333c-2.547 0-5.043-0.716-7.193-2.056l-0.517-0.323-5.365 1.408 1.44-5.365-0.36-0.557c-1.463-2.267-2.339-4.955-2.339-7.773 0-7.364 5.991-13.355 13.333-13.355s13.333 5.991 13.333 13.355-5.991 13.333-13.333 13.333zM22.853 19.48c-0.391-0.195-2.315-1.141-2.672-1.271s-0.619-0.195-0.88 0.195c-0.261 0.391-1.011 1.271-1.239 1.531s-0.456 0.293-0.847 0.099c-0.391-0.195-1.651-0.609-3.144-1.94-1.163-1.036-1.948-2.317-2.176-2.708s-0.024-0.601 0.171-0.796c0.176-0.175 0.391-0.456 0.587-0.684s0.261-0.391 0.391-0.651c0.13-0.261 0.065-0.489-0.033-0.684s-0.88-2.119-1.205-2.901c-0.317-0.765-0.64-0.661-0.88-0.673-0.228-0.011-0.489-0.013-0.749-0.013s-0.684 0.097-1.041 0.489c-0.358 0.391-1.368 1.337-1.368 3.261s1.401 3.783 1.596 4.043c0.195 0.261 2.749 4.196 6.659 5.881 0.931 0.401 1.659 0.641 2.224 0.82 0.936 0.297 1.787 0.255 2.461 0.155 0.751-0.112 2.315-0.947 2.641-1.86s0.326-1.697 0.228-1.86c-0.097-0.163-0.358-0.261-0.749-0.456z"/>
+      </svg>
+    </a>
+  </div>
+
+  <script>
+    function scrollToOrder() {
+      const el = document.getElementById("order");
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    }
+    function scrollToFaq() {
+      const el = document.getElementById("faq");
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    }
+
+    // Carousel functionality - Simple version
+    let currentSlide = 0;
+    let totalSlides = 0;
+    let autoplayInterval = null;
+
+    // Initialize carousel after DOM is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      const slides = document.querySelectorAll('.carousel-item');
+      totalSlides = slides.length;
+      const dotsContainer = document.getElementById('carouselDots');
+
+      // Create dots
+      for (let i = 0; i < totalSlides; i++) {
+        const dot = document.createElement('button');
+        dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+        dot.onclick = () => goToSlide(i);
+        dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+        dotsContainer.appendChild(dot);
+      }
+
+      // Start autoplay
+      startAutoplay();
+
+      // Initialize FAQ accordion
+      document.querySelectorAll('.faq-item').forEach(item => {
+        item.querySelector('.faq-q').addEventListener('click', function() {
+          const isActive = item.classList.contains('active');
+          
+          // Close all other items
+          document.querySelectorAll('.faq-item').forEach(i => {
+            i.classList.remove('active');
+          });
+          
+          // Toggle current item
+          if (!isActive) {
+            item.classList.add('active');
+          }
+        });
+      });
+
+      // Pause autoplay on hover
+      const carousel = document.getElementById('heroCarousel');
+      carousel.addEventListener('mouseenter', () => {
+        clearInterval(autoplayInterval);
+      });
+      carousel.addEventListener('mouseleave', () => {
+        startAutoplay();
+      });
+    });
+
+    function updateCarousel() {
+      const slides = document.querySelectorAll('.carousel-item');
+      const dots = document.querySelectorAll('.carousel-dot');
+      
+      slides.forEach((slide, index) => {
+        slide.classList.toggle('active', index === currentSlide);
+      });
+      
+      dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentSlide);
+      });
+    }
+
+    function changeSlide(direction) {
+      currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
+      updateCarousel();
+    }
+
+    function goToSlide(index) {
+      currentSlide = index;
+      updateCarousel();
+    }
+
+    function startAutoplay() {
+      clearInterval(autoplayInterval);
+      autoplayInterval = setInterval(() => {
+        changeSlide(1);
+      }, 4000);
+    }
+
+    // Offer Selection
+    document.querySelectorAll('.offer-card[data-quantity]').forEach(card => {
+      card.addEventListener('click', function() {
+        const quantity = this.getAttribute('data-quantity');
+        
+        // Remove selected class from all offers
+        document.querySelectorAll('.offer-card').forEach(c => c.classList.remove('selected'));
+        
+        // Add selected class to clicked offer
+        this.classList.add('selected');
+        
+        // Update quantity select
+        const quantitySelect = document.getElementById('quantity');
+        quantitySelect.value = quantity;
+        
+        // Smooth scroll to form
+        document.getElementById('orderForm').scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'center' 
+        });
+        
+        console.log('✅ Selected offer:', quantity + ' box(es)');
+      });
+    });
+
+    // Meta Pixel Events
+    function trackEvent(eventName, data = {}) {
+      if (typeof fbq !== 'undefined') {
+        fbq('track', eventName, data);
+        console.log('✅ Pixel Event:', eventName, data);
+      }
+    }
+
+    // Track ViewContent
+    setTimeout(function() {
+      trackEvent('ViewContent', {
+        content_name: 'Karseell Hair Set',
+        content_category: 'Hair Care',
+        content_ids: ['karseell-set'],
+        content_type: 'product',
+        value: 650,
+        currency: 'EGP'
+      });
+    }, 1000);
+
+    // Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCVJYD2adDrZD2C7jnTjVhiewxVohZzM38",
+      authDomain: "herbs-orders.firebaseapp.com",
+      databaseURL: "https://herbs-orders-default-rtdb.firebaseio.com",
+      projectId: "herbs-orders",
+      storageBucket: "herbs-orders.firebasestorage.app",
+      messagingSenderId: "866663461200",
+      appId: "1:866663461200:web:0b891e0eb53a16c555fc55"
+    };
+
+    // Initialize Firebase
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+    const database = firebase.database();
+    console.log('🔥 Firebase initialized for Karseell orders!');
+
+    // Form Submission
+    document.getElementById('orderForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const formData = new FormData(this);
+      const now = new Date();
+      const dateStr = now.toLocaleDateString('ar-EG');
+      const timeStr = now.toLocaleTimeString('ar-EG');
+
+      const quantity = formData.get('quantity');
+      const prices = { '1': 650, '2': 1200, '3': 1750 };
+      const price = prices[quantity];
+
+      // Get bottle size text
+      const quantityOptions = {
+        '1': '1 قطعة',
+        '2': '2 قطعة',
+        '3': '3 قطع'
+      };
+
+      const orderData = {
+        name: formData.get('name'),
+        phone: formData.get('phone'),
+        governorate: formData.get('governorate'),
+        address: formData.get('address'),
+        quantity: quantity,
+        price: price,
+        product: 'Karseell Hair Set - ماسك + سيرم',
+        bottleSize: quantityOptions[quantity],
+        date: dateStr,
+        time: timeStr,
+        timestamp: now.getTime()
+      };
+
+      // Track Purchase
+      trackEvent('Purchase', {
+        content_name: orderData.product,
+        content_ids: ['karseell-set-' + quantity],
+        content_type: 'product',
+        value: price,
+        currency: 'EGP',
+        num_items: parseInt(quantity)
+      });
+
+      try {
+        await database.ref('karseell-orders').push(orderData);
+        console.log('✅ Order saved to Firebase!');
+
+        Swal.fire({
+          title: '🎉 تم تأكيد طلبك بنجاح!',
+          html: `
+            <div style="text-align: right; padding: 15px;">
+              <p style="font-size: 0.95rem; margin-bottom: 12px;"><strong>📋 بيانات الطلب:</strong></p>
+              <p style="margin: 6px 0; font-size: 0.9rem;"><strong>👤 الاسم:</strong> ${orderData.name}</p>
+              <p style="margin: 6px 0; font-size: 0.9rem;"><strong>📱 الهاتف:</strong> ${orderData.phone}</p>
+              <p style="margin: 6px 0; font-size: 0.9rem;"><strong>📍 المحافظة:</strong> ${orderData.governorate}</p>
+              <p style="margin: 6px 0; font-size: 0.9rem;"><strong>📦 المنتج:</strong> ${orderData.product}</p>
+              <p style="margin: 6px 0; font-size: 0.9rem;"><strong>🔢 الكمية:</strong> ${orderData.quantity} عبوة</p>
+              <p style="margin: 6px 0; font-size: 0.9rem;"><strong>💰 الإجمالي:</strong> ${orderData.price} جنيه</p>
+              <p style="margin: 6px 0; font-size: 0.9rem;"><strong>📅 التاريخ:</strong> ${orderData.date} - ${orderData.time}</p>
+              <hr style="margin: 15px 0;">
+              <p style="font-size: 1rem; font-weight: 700; color: #16a34a;">✅ تم تأكيد الطلب بنجاح</p>
+              <p style="font-size: 0.85rem; margin-top: 8px;">🚚 هيتم التواصل معاكي من شركة الشحن لتسليم الطلب في خلال يومين</p>
+            </div>
+          `,
+          icon: 'success',
+          confirmButtonText: 'تمام، شكراً! 💖',
+          confirmButtonColor: '#f59e0b',
+          width: window.innerWidth <= 768 ? '95%' : '600px',
+          showClass: {
+            popup: 'animate__animated animate__fadeInDown'
+          }
+        });
+
+        this.reset();
+      } catch (error) {
+        console.error('❌ Firebase Error:', error);
+        Swal.fire({
+          title: '✅ تم حفظ طلبك!',
+          text: 'سيتم التواصل معك قريباً 💖',
+          icon: 'success',
+          confirmButtonText: 'تمام',
+          confirmButtonColor: '#f59e0b'
+        });
+        this.reset();
+      }
+    });
+
+    // Track Lead when phone number entered
+    let leadTracked = false;
+    document.querySelector('input[name="phone"]').addEventListener('input', function(e) {
+      if (!leadTracked && e.target.value.length >= 10) {
+        trackEvent('Lead', {
+          content_name: 'Karseell Hair Set',
+          content_category: 'Hair Care',
+          currency: 'EGP'
+        });
+        leadTracked = true;
+      }
+    });
+  </script>
+</body>
+</html>
