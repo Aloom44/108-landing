@@ -1497,17 +1497,46 @@
             // الحصول على الطلبات المحددة
             const orders = await loadOrders();
             const selectedOrders = [];
+            const invalidOrders = [];
             
             selected.forEach(checkbox => {
                 const firebaseId = checkbox.getAttribute('data-firebase-id');
                 const order = orders.find(o => o.firebaseId === firebaseId);
-                if (order) selectedOrders.push(order);
+                if (order) {
+                    // التحقق من البيانات الأساسية
+                    if (!order.name || !order.phone || order.name.trim() === '' || order.phone.trim() === '') {
+                        invalidOrders.push(order);
+                        console.warn('⚠️ طلب ببيانات ناقصة:', order.firebaseId, {name: order.name, phone: order.phone});
+                    } else {
+                        selectedOrders.push(order);
+                    }
+                }
             });
+            
+            // تحذير إذا كان هناك طلبات غير صالحة
+            if (invalidOrders.length > 0) {
+                await Swal.fire({
+                    icon: 'warning',
+                    title: 'تحذير: بيانات ناقصة',
+                    html: `<strong>${invalidOrders.length}</strong> طلب يحتوي على بيانات ناقصة (الاسم أو الهاتف فارغ)<br><br>سيتم تجاهلهم والمتابعة مع الطلبات الصحيحة فقط (${selectedOrders.length} طلب)`,
+                    confirmButtonColor: '#ff9800'
+                });
+            }
+            
+            if (selectedOrders.length === 0) {
+                await Swal.fire({
+                    icon: 'error',
+                    title: 'لا توجد طلبات صالحة',
+                    text: 'جميع الطلبات المحددة تحتوي على بيانات ناقصة (الاسم أو الهاتف)',
+                    confirmButtonColor: '#dc3545'
+                });
+                return;
+            }
             
             // تأكيد العملية
             const result = await Swal.fire({
                 title: 'تأكيد الإضافة',
-                html: `هل تريد إضافة <strong>${selectedOrders.length}</strong> طلب إلى Logexa؟`,
+                html: `هل تريد إضافة <strong>${selectedOrders.length}</strong> طلب صالح إلى Logexa؟${invalidOrders.length > 0 ? `<br><small style="color: #dc3545;">(${invalidOrders.length} طلب سيتم تجاهله)</small>` : ''}`,
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonText: 'نعم، أضف',
