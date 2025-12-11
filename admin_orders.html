@@ -1547,21 +1547,26 @@
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        orders: selectedOrders.map(order => ({
-                            customer_name: order.name,
-                            phone_number: order.phone,
-                            province: order.governorate,
-                            address: order.address,
-                            total_price: order.finalPrice || order.price,
-                            product_type: order.productType,
-                            size: order.size || order.bottleSize,
-                            bottle_size: order.bottleSize,
-                            firebase_id: order.firebaseId,
-                            date: order.date,
-                            time: order.time,
-                            discount_amount: order.discountAmount || 0,
-                            original_price: order.originalPrice || order.price
-                        }))
+                        orders: selectedOrders.map(order => {
+                            // توحيد حقل الحجم/المقاس
+                            const unifiedSize = order.bottleSize || order.size || '1 قطعة';
+                            
+                            return {
+                                customer_name: order.name,
+                                phone_number: order.phone,
+                                province: order.governorate,
+                                address: order.address,
+                                total_price: order.finalPrice || order.price,
+                                product_type: order.productType,
+                                size: unifiedSize,  // ✅ استخدام القيمة الموحدة
+                                bottleSize: unifiedSize,  // ✅ نفس القيمة
+                                firebase_id: order.firebaseId,
+                                date: order.date,
+                                time: order.time,
+                                discount_amount: order.discountAmount || 0,
+                                original_price: order.originalPrice || order.price
+                            };
+                        })
                     })
                 });
                 
