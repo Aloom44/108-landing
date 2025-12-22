@@ -503,6 +503,12 @@
             </div>
         </div>
         
+        <!-- Ad Blocker Warning (initially hidden) -->
+        <div id="adBlockerWarning" style="display: none; background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%); color: white; padding: 12px 20px; border-radius: 10px; margin-bottom: 15px; text-align: center; box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);">
+            <i class="fas fa-exclamation-triangle"></i>
+            <strong>تنبيه:</strong> إذا واجهت مشكلة في إضافة الطلبات، قم بإيقاف Ad Blocker على localhost أو استخدم التصفح الخفي
+        </div>
+        
         <!-- Controls -->
         <div class="controls">
             <button class="btn btn-primary" id="enableSoundBtn" onclick="enableSound()" style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%); animation: pulse 2s infinite;">
@@ -593,6 +599,23 @@
     </div>
     
     <script>
+        // Detect Ad Blocker
+        function detectAdBlocker() {
+            // محاولة كشف Ad Blocker من خلال عدة طرق
+            const adBlockDetected = 
+                typeof window.google_ad_client === 'undefined' || 
+                document.querySelector('.adsbygoogle') === null;
+            
+            // يمكن أيضاً محاولة fetch لمورد معروف بأنه يُحظر
+            fetch('https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js', {
+                method: 'HEAD',
+                mode: 'no-cors'
+            }).catch(() => {
+                // Ad blocker detected
+                document.getElementById('adBlockerWarning').style.display = 'block';
+            });
+        }
+        
         // Authentication System
         const ADMIN_USERNAME = "Ahmed22";
         const ADMIN_PASSWORD = "Aloom2022@";
@@ -708,6 +731,9 @@
         checkAuthentication().then(authenticated => {
             if (!authenticated) {
                 throw new Error("Access Denied");
+            } else {
+                // بعد تسجيل الدخول، جرب كشف Ad Blocker
+                setTimeout(detectAdBlocker, 1000);
             }
         });
         
@@ -1620,35 +1646,62 @@
             });
             
             try {
-                // إرسال الطلبات إلى Django API
-                const response = await fetch('http://127.0.0.1:8000/api/import-firebase-orders/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        orders: selectedOrders.map(order => {
-                            // توحيد حقل الحجم/المقاس
-                            const unifiedSize = order.bottleSize || order.size || '1 قطعة';
-                            
-                            return {
-                                customer_name: order.name,
-                                phone_number: order.phone,
-                                province: order.governorate,
-                                address: order.address,
-                                total_price: order.finalPrice || order.price,
-                                product_type: order.productType,
-                                size: unifiedSize,  // ✅ استخدام القيمة الموحدة
-                                bottleSize: unifiedSize,  // ✅ نفس القيمة
-                                firebase_id: order.firebaseId,
-                                date: order.date,
-                                time: order.time,
-                                discount_amount: order.discountAmount || 0,
-                                original_price: order.originalPrice || order.price
-                            };
-                        })
+                // إعداد بيانات الطلبات
+                const orderData = {
+                    orders: selectedOrders.map(order => {
+                        // توحيد حقل الحجم/المقاس
+                        const unifiedSize = order.bottleSize || order.size || '1 قطعة';
+                        
+                        return {
+                            customer_name: order.name,
+                            phone_number: order.phone,
+                            province: order.governorate,
+                            address: order.address,
+                            total_price: order.finalPrice || order.price,
+                            product_type: order.productType,
+                            size: unifiedSize,  // ✅ استخدام القيمة الموحدة
+                            bottleSize: unifiedSize,  // ✅ نفس القيمة
+                            firebase_id: order.firebaseId,
+                            date: order.date,
+                            time: order.time,
+                            discount_amount: order.discountAmount || 0,
+                            original_price: order.originalPrice || order.price
+                        };
                     })
-                });
+                };
+                
+                // محاولة الإرسال باستخدام الرابط البديل أولاً (لتجنب حظر Ad Blocker)
+                let response;
+                let lastError;
+                
+                // المحاولة الأولى: استخدام الرابط البديل (sync-orders)
+                try {
+                    response = await fetch('http://127.0.0.1:8000/api/sync-orders/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(orderData)
+                    });
+                } catch (error) {
+                    console.warn('⚠️ فشل الرابط البديل، محاولة الرابط الأصلي...', error);
+                    lastError = error;
+                    
+                    // المحاولة الثانية: استخدام الرابط الأصلي
+                    try {
+                        response = await fetch('http://127.0.0.1:8000/api/import-firebase-orders/', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(orderData)
+                        });
+                    } catch (error2) {
+                        console.error('❌ فشلت كل المحاولات');
+                        // إذا فشلت كل المحاولات، نعرض رسالة توضيحية
+                        throw new Error('ERR_BLOCKED: الطلب محظور من Ad Blocker. الرجاء إيقاف Ad Blocker أو استخدام المتصفح في وضع التصفح الخفي.');
+                    }
+                }
                 
                 const data = await response.json();
                 
@@ -1691,12 +1744,36 @@
                 }
             } catch (error) {
                 console.error('Error:', error);
-                await Swal.fire({
-                    icon: 'error',
-                    title: 'فشلت العملية',
-                    text: error.message || 'حدث خطأ أثناء إضافة الطلبات',
-                    confirmButtonColor: '#dc3545'
-                });
+                
+                // رسالة خاصة إذا كان الخطأ بسبب Ad Blocker
+                if (error.message?.includes('ERR_BLOCKED') || error.message?.includes('Failed to fetch')) {
+                    await Swal.fire({
+                        icon: 'warning',
+                        title: '⚠️ الطلب محظور',
+                        html: `
+                            <div style="text-align: right; line-height: 1.8;">
+                                <p><strong>يبدو أن Ad Blocker يحظر الاتصال بالنظام</strong></p>
+                                <p>الحلول الممكنة:</p>
+                                <ol style="text-align: right;">
+                                    <li>✅ أوقف تشغيل Ad Blocker على localhost/127.0.0.1</li>
+                                    <li>✅ أو افتح الصفحة في وضع التصفح الخفي (Incognito)</li>
+                                    <li>✅ أو أضف localhost إلى القائمة البيضاء في Ad Blocker</li>
+                                </ol>
+                                <p style="color: #666; font-size: 0.9em;">الخطأ التقني: ${error.message}</p>
+                            </div>
+                        `,
+                        confirmButtonText: 'فهمت',
+                        confirmButtonColor: '#ff9800',
+                        width: 600
+                    });
+                } else {
+                    await Swal.fire({
+                        icon: 'error',
+                        title: 'فشلت العملية',
+                        text: error.message || 'حدث خطأ أثناء إضافة الطلبات',
+                        confirmButtonColor: '#dc3545'
+                    });
+                }
             }
         }
         
