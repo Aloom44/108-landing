@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Curvy | جينز الأناقة والثقة</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+
+    <!-- Meta Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1173998588237226');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1173998588237226&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        :root {
+            --primary-gold: #c5a059;
+            --soft-nude: rgba(243, 233, 220, 0.95);
+            --glass: rgba(255, 255, 255, 0.12);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --dark: #121212;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent; /* يمنع الوميض عند الضغط في الموبايل */
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            color: #fff;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                        url('https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=1200&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            line-height: 1.4;
+            overflow-x: hidden; /* يمنع التمرير العرضي */
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* Navbar المتجاوب */
+        .navbar {
+            padding: 10px 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            color: var(--soft-nude);
+        }
+
+        /* Hero Section للموبايل */
+        .hero {
+            padding: 20px 0 40px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 28px; /* حجم خط مثالي للموبايل */
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            font-size: 15px;
+            color: #ddd;
+            margin-bottom: 25px;
+            font-weight: 300;
+        }
+
+        /* Image Carousel */
+        .carousel-container {
+            position: relative;
+            width: 85%;
+            max-width: 320px;
+            margin: 0 auto 30px;
+            border-radius: var(--radius-lg);
+            background: transparent;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .carousel {
+            position: relative;
+            border-radius: 15px;
+            height: 320px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: transparent;
+        }
+
+        .carousel-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .carousel-slide {
+            display: none;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .carousel-slide.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-slide img {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            border-radius: 15px;
+        }
+
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 10px;
+            pointer-events: none;
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            color: #000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+            transition: all 0.3s;
+        }
+
+        .carousel-btn:hover {
+            background: var(--primary-gold);
+            color: #000;
+        }
+
+        .carousel-btn.prev {
+            left: 10px;
+        }
+
+        .carousel-btn.next {
+            right: 10px;
+        }
+
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #d1d5db;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: var(--primary-gold);
+            width: 24px;
+            border-radius: 5px;
+        }
+
+        /* إخفاء الكاروسيل على الشاشات الكبيرة */
+        @media (min-width: 768px) {
+            .carousel-container {
+                display: none;
+            }
+        }
+
+        /* إظهار الكاروسيل والبطاقات على الموبايل */
+        @media (max-width: 767px) {
+            .hero {
+                padding: 10px 0 30px;
+            }
+            .product-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+                padding: 0 5px;
+            }
+            .product-card {
+                padding: 6px;
+                animation: fadeInUp 0.6s ease;
+            }
+        }
+
+        /* كروت المنتجات - شبكة مرنة */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .product-card {
+            background: var(--glass);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(197, 160, 89, 0.15) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .product-card:hover::before {
+            opacity: 1;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(197, 160, 89, 0.4);
+            border-color: var(--primary-gold);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .product-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .product-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .product-card:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .product-card img {
+            width: 100%;
+            aspect-ratio: 3/4;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .product-card h3 {
+            font-size: 15px;
+            margin-bottom: 4px;
+            color: var(--soft-nude);
+            font-weight: 700;
+            transition: color 0.3s ease;
+        }
+
+        .product-card:hover h3 {
+            color: var(--primary-gold);
+        }
+
+        .product-card .price {
+            font-weight: 700;
+            color: var(--primary-gold);
+            font-size: 14px;
+        }
+
+        @media (max-width: 767px) {
+            .product-card h3 {
+                font-size: 12px;
+            }
+            .product-card .price {
+                font-size: 13px;
+            }
+        }
+
+        /* المقاسات */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 20px;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .sizes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .size-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--primary-gold);
+            padding: 12px 8px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .size-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(197, 160, 89, 0.1) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .size-item:hover::before {
+            opacity: 1;
+        }
+
+        .size-number {
+            font-size: 24px;
+            font-weight: 900;
+            color: var(--primary-gold);
+            margin-bottom: 4px;
+        }
+
+        .size-weight {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .size-item:hover {
+            background: rgba(197, 160, 89, 0.2);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 8px 20px rgba(197, 160, 89, 0.4);
+        }
+
+        .size-item.selected {
+            background: var(--primary-gold);
+            border-width: 3px;
+            box-shadow: 0 8px 25px rgba(197, 160, 89, 0.6);
+            transform: scale(1.05);
+        }
+
+        .size-item.selected .size-number {
+            color: #000;
+        }
+
+        .size-item.selected .size-weight {
+            color: #000;
+            font-weight: 700;
+        }
+
+        .size-item.selected::after {
+            content: '✓';
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background: #000;
+            color: var(--primary-gold);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 12px;
+        }
+
+        @media (max-width: 767px) {
+            .sizes-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            .size-number {
+                font-size: 20px;
+            }
+            .size-weight {
+                font-size: 10px;
+            }
+        }
+
+        .product-card.selected {
+            border-color: var(--primary-gold);
+            border-width: 3px;
+            box-shadow: 0 12px 30px rgba(197, 160, 89, 0.6);
+        }
+
+        .product-card.selected::after {
+            content: '✓';
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: var(--primary-gold);
+            color: #000;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 14px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Features Section */
+        .features-section {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 15px 20px;
+            margin: 20px 0 30px;
+        }
+
+        .feature-card {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+            margin-bottom: 8px;
+            padding-right: 20px;
+            position: relative;
+        }
+
+        .feature-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .feature-card::before {
+            content: '\2713';
+            position: absolute;
+            right: 0;
+            color: var(--primary-gold);
+            font-weight: 900;
+            font-size: 14px;
+        }
+
+        .feature-icon,
+        .feature-title,
+        .feature-desc {
+            display: inline;
+        }
+
+        .feature-icon {
+            display: none;
+        }
+
+        @media (max-width: 767px) {
+            .features-section {
+                padding: 12px 15px;
+                margin: 15px 0 20px;
+            }
+            .feature-card {
+                font-size: 12px;
+            }
+        }
+
+        /* الزرار الرئيسي */
+        .cta-btn {
+            background: var(--primary-gold);
+            color: #000;
+            padding: 10px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            display: inline-block;
+        }
+
+        /* فورم الطلب للموبايل */
+        .order-section {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            border: 2px solid var(--glass-border);
+            padding: 18px 15px;
+            border-radius: 20px;
+            color: #fff;
+            margin: 30px 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .order-section h2 {
+            font-size: 18px;
+            text-align: center;
+            margin-bottom: 15px;
+            color: var(--primary-gold);
+            font-weight: 900;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--soft-nude);
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 9px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            font-family: 'Cairo';
+            font-size: 13px;
+            color: #fff;
+            transition: all 0.3s ease;
+            -webkit-appearance: none;
+        }
+
+        input::placeholder,
+        select option:first-child,
+        textarea::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        select option {
+            background: #1a1a1a;
+            color: #fff;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.2);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .price-display {
+            background: rgba(197, 160, 89, 0.2);
+            border: 2px solid var(--primary-gold);
+            border-radius: 10px;
+            padding: 10px;
+            margin: 12px 0;
+            text-align: center;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 12px;
+            color: #fff;
+        }
+
+        .price-row.total {
+            font-size: 15px;
+            font-weight: 900;
+            color: var(--primary-gold);
+            border-top: 2px solid rgba(255, 255, 255, 0.3);
+            padding-top: 8px;
+            margin-top: 8px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background: var(--primary-gold);
+            color: #000;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 900;
+            margin-top: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(197, 160, 89, 0.4);
+        }
+
+        .submit-btn:hover {
+            background: #d4a758;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(197, 160, 89, 0.6);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        /* WhatsApp Floating Button */
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 25px;
+            left: 25px;
+            background-color: #25d366;
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.3);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            animation: pulse-whatsapp 2s infinite;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            box-shadow: 2px 2px 25px rgba(37, 211, 102, 0.6);
+        }
+
+        @keyframes pulse-whatsapp {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+            }
+            50% {
+                box-shadow: 0 0 0 15px rgba(37, 211, 102, 0);
+            }
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 0 20px;
+            font-size: 12px;
+            opacity: 0.6;
+        }
+
+        .footer-features {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-feature {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+            position: relative;
+            padding-right: 18px;
+        }
+
+        .footer-feature::before {
+            content: '\2713';
+            position: absolute;
+            right: 0;
+            color: var(--primary-gold);
+            font-weight: 900;
+            font-size: 14px;
+        }
+
+        @media (max-width: 767px) {
+            .footer-features {
+                flex-direction: column;
+                gap: 12px;
+                align-items: center;
+            }
+            .footer-feature {
+                font-size: 12px;
+            }
+        }
+
+        /* تعديلات الموبايل الإضافية */
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 24px; }
+            .product-grid { gap: 10px; }
+            .product-card { padding: 8px; }
+            .product-card h3 { font-size: 13px; }
+            .order-section { padding: 20px 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">CURVY</div>
+            <a href="#order" class="cta-btn">اطلبي الآن</a>
+        </div>
+    </nav>
+
+    <header class="container hero">
+        <!-- Carousel للموبايل -->
+        <div class="carousel-container">
+            <div class="carousel">
+                <div class="carousel-inner" id="carousel">
+                    <div class="carousel-slide active">
+                        <img src="https://i.ibb.co/PvwKsnq0/Premium-Blue-Jeans-Fashion-Display.png" alt="جينز">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="https://i.ibb.co/S7JrhXgz/Professional-Jeans-Product-Photography.png" alt="جينز">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="https://i.ibb.co/GfFNhBnG/image.png" alt="جينز أسود">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="https://i.ibb.co/VYGLyBWq/20251226-0323-remix-01kdc40tbgf0h8e1asvfbc6wvp.png" alt="جينز أزرق غامق">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="https://i.ibb.co/dsM5gyQX/20251226-0321-remix-01kdc3y15hfm6vgppm3xc1yh1y.png" alt="جينز أزرق فاتح">
+                    </div>
+                </div>
+                
+                <button class="carousel-btn prev" id="prevBtn">❮</button>
+                <button class="carousel-btn next" id="nextBtn">❯</button>
+            </div>
+            
+            <div class="carousel-dots" id="dots"></div>
+        </div>
+
+        <h1>جينز "كيرفي" يظبط جسمك</h1>
+        <p>الراحة والأناقة في بنطلون واحد مصمم ليناسب يومك.</p>
+        <a href="#order" class="cta-btn">تسوقي المجموعة</a>
+    </header>
+
+    <main class="container">
+        <!-- Features Section -->
+        <div class="features-section">
+            <div class="feature-card">قصة مضبوطة بتشد الجسم وتدي شكل متناسق من غير ما تضغط</div>
+            <div class="feature-card">خامة جينز تقيلة ومتماسكة، ما بتوسعش ولا بتفقد شكلها مع اللبس</div>
+            <div class="feature-card">تفصيل عملي ومريح يناسب الحركة اليومية ويعيش معاكي فترة طويلة</div>
+        </div>
+
+        <div class="product-grid">
+            <div class="product-card" data-color="أسود">
+                <img src="https://i.ibb.co/GfFNhBnG/image.png" alt="جينز أسود">
+                <h3>أسود</h3>
+                <p class="price">600 ج.م</p>
+            </div>
+            <div class="product-card" data-color="أزرق غامق">
+                <img src="https://i.ibb.co/VYGLyBWq/20251226-0323-remix-01kdc40tbgf0h8e1asvfbc6wvp.png" alt="جينز أزرق غامق">
+                <h3>أزرق غامق</h3>
+                <p class="price">600 ج.م</p>
+            </div>
+            <div class="product-card" data-color="أزرق فاتح">
+                <img src="https://i.ibb.co/dsM5gyQX/20251226-0321-remix-01kdc3y15hfm6vgppm3xc1yh1y.png" alt="جينز أزرق فاتح">
+                <h3>أزرق فاتح</h3>
+                <p class="price">600 ج.م</p>
+            </div>
+        </div>
+
+        <section class="glass-panel">
+            <h2 style="font-size: 18px; margin-bottom: 10px;">🎯 اختاري المقاس المناسب</h2>
+            <div class="sizes-grid">
+                <div class="size-item" data-size="30">
+                    <div class="size-number">30</div>
+                    <div class="size-weight">من 40 لـ 55 كجم</div>
+                </div>
+                <div class="size-item" data-size="32">
+                    <div class="size-number">32</div>
+                    <div class="size-weight">من 55 لـ 65 كجم</div>
+                </div>
+                <div class="size-item" data-size="34">
+                    <div class="size-number">34</div>
+                    <div class="size-weight">من 65 لـ 75 كجم</div>
+                </div>
+                <div class="size-item" data-size="36">
+                    <div class="size-number">36</div>
+                    <div class="size-weight">من 75 لـ 85 كجم</div>
+                </div>
+                <div class="size-item" data-size="38">
+                    <div class="size-number">38</div>
+                    <div class="size-weight">من 85 لـ 95 كجم</div>
+                </div>
+                <div class="size-item" data-size="40">
+                    <div class="size-number">40</div>
+                    <div class="size-weight">من 95 لـ 110 كجم</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="order" class="order-section">
+            <h2>✨ أكملي طلبك الآن</h2>
+            <form id="purchase">
+                <label class="form-label">الاسم بالكامل</label>
+                <input type="text" name="name" placeholder="أدخلي اسمك" required>
+
+                <label class="form-label">رقم الهاتف</label>
+                <input type="tel" name="phone" placeholder="01XXXXXXXXX" required>
+
+                <label class="form-label">رقم هاتف احتياطي</label>
+                <input type="tel" name="phone2" placeholder="01XXXXXXXXX (اختياري)">
+
+                <label class="form-label">المحافظة</label>
+                <select name="governorate" required>
+                    <option value="">اختاري المحافظة</option>
+                    <option>القاهرة</option>
+                    <option>الجيزة</option>
+                    <option>الإسكندرية</option>
+                    <option>الدقهلية</option>
+                    <option>الشرقية</option>
+                    <option>القليوبية</option>
+                    <option>المنوفية</option>
+                    <option>الغربية</option>
+                    <option>البحيرة</option>
+                    <option>كفر الشيخ</option>
+                    <option>دمياط</option>
+                    <option>بورسعيد</option>
+                    <option>السويس</option>
+                    <option>الإسماعيلية</option>
+                    <option>الفيوم</option>
+                    <option>بني سويف</option>
+                    <option>المنيا</option>
+                    <option>أسيوط</option>
+                    <option>سوهاج</option>
+                    <option>قنا</option>
+                    <option>الأقصر</option>
+                    <option>أسوان</option>
+                    <option>البحر الأحمر</option>
+                    <option>الوادي الجديد</option>
+                    <option>مطروح</option>
+                    <option>شمال سيناء</option>
+                    <option>جنوب سيناء</option>
+                </select>
+
+                <label class="form-label">العنوان التفصيلي</label>
+                <textarea name="address" rows="3" placeholder="المدينة - الشارع - رقم المبنى - معالم قريبة" required></textarea>
+
+                <div class="form-row">
+                    <div>
+                        <label class="form-label">اللون</label>
+                        <select name="color" required>
+                            <option value="">اختاري اللون</option>
+                            <option>أسود</option>
+                            <option>أزرق غامق</option>
+                            <option>أزرق فاتح</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label">المقاس</label>
+                        <select name="size" required>
+                            <option value="">اختاري المقاس</option>
+                            <option>30</option>
+                            <option>32</option>
+                            <option>34</option>
+                            <option>36</option>
+                            <option>38</option>
+                            <option>40</option>
+                        </select>
+                    </div>
+                </div>
+
+                <label class="form-label">عدد القطع</label>
+                <select name="quantity" id="quantity" required>
+                    <option value="">اختاري العدد</option>
+                    <option value="1">قطعة واحدة - 600 ج.م</option>
+                    <option value="2">قطعتين - 1150 ج.م</option>
+                    <option value="3">3 قطع - 1700 ج.م</option>
+                </select>
+
+                <div class="price-display" id="priceDisplay" style="display: none;">
+                    <div class="price-row">
+                        <span>سعر المنتج:</span>
+                        <span id="productPrice">0 ج.م</span>
+                    </div>
+                    <div class="price-row">
+                        <span>الشحن:</span>
+                        <span>50 ج.م</span>
+                    </div>
+                    <div class="price-row total">
+                        <span>الإجمالي:</span>
+                        <span id="totalPrice">0 ج.م</span>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">🛒 تأكيد الطلب</button>
+            </form>
+        </section>
+    </main>
+
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/201557350728" class="whatsapp-float" target="_blank" title="تواصل معنا عبر واتساب">
+        <span>💬</span>
+    </a>
+
+    <footer>
+        <div class="container">
+            <div class="footer-features">
+                <div class="footer-feature">التوصيل في خلال 3 أيام</div>
+                <div class="footer-feature">متاح معاينة قبل الاستلام</div>
+            </div>
+            <p>جميع الحقوق محفوظة &copy; 2024 Curvy Egypt</p>
+        </div>
+    </footer>
+
+    <script>
+        // ===== Firebase Configuration =====
+        const firebaseConfig = {
+            apiKey: "AIzaSyCVJYD2adDrZD2C7jnTjVhiewxVohZzM38",
+            authDomain: "herbs-orders.firebaseapp.com",
+            databaseURL: "https://herbs-orders-default-rtdb.firebaseio.com",
+            projectId: "herbs-orders",
+            storageBucket: "herbs-orders.firebasestorage.app",
+            messagingSenderId: "866663461200",
+            appId: "1:866663461200:web:0b891e0eb53a16c555fc55"
+        };
+        
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // Meta Pixel Events Tracking
+        
+        // Color and Size Selection
+        const productCards = document.querySelectorAll('.product-card');
+        const sizeItems = document.querySelectorAll('.size-item');
+        const colorSelect = document.querySelector('select[name="color"]');
+        const sizeSelect = document.querySelector('select[name="size"]');
+
+        // Track ViewContent when page loads
+        fbq('track', 'ViewContent', {
+            content_name: 'Curvy Jeans Collection',
+            content_category: 'Jeans',
+            content_ids: ['curvy-jeans'],
+            content_type: 'product',
+            value: 600,
+            currency: 'EGP'
+        });
+
+        // Handle color card selection
+        productCards.forEach(card => {
+            card.addEventListener('click', function() {
+                const color = this.getAttribute('data-color');
+                
+                // Remove selected class from all cards
+                productCards.forEach(c => c.classList.remove('selected'));
+                
+                // Add selected class to clicked card
+                this.classList.add('selected');
+                
+                // Update color select in form
+                colorSelect.value = color;
+                
+                // Track AddToCart event
+                fbq('track', 'AddToCart', {
+                    content_name: 'Curvy Jeans - ' + color,
+                    content_category: 'Jeans',
+                    content_ids: ['curvy-jeans-' + color],
+                    content_type: 'product',
+                    value: 600,
+                    currency: 'EGP'
+                });
+                
+                // Scroll to form smoothly
+                document.querySelector('#order').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            });
+        });
+
+        // Handle size selection
+        sizeItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const size = this.getAttribute('data-size');
+                
+                // Remove selected class from all sizes
+                sizeItems.forEach(s => s.classList.remove('selected'));
+                
+                // Add selected class to clicked size
+                this.classList.add('selected');
+                
+                // Update size select in form
+                sizeSelect.value = size;
+                
+                // Scroll to form smoothly
+                document.querySelector('#order').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            });
+        });
+
+        // Price calculation
+        const quantitySelect = document.getElementById('quantity');
+        const priceDisplay = document.getElementById('priceDisplay');
+        const productPriceSpan = document.getElementById('productPrice');
+        const totalPriceSpan = document.getElementById('totalPrice');
+
+        const prices = {
+            '1': 600,
+            '2': 1150,
+            '3': 1700
+        };
+
+        const shippingCost = 50;
+
+        quantitySelect.addEventListener('change', function() {
+            const quantity = this.value;
+            
+            if (quantity && prices[quantity]) {
+                const productPrice = prices[quantity];
+                const total = productPrice + shippingCost;
+                
+                productPriceSpan.textContent = productPrice + ' ج.م';
+                totalPriceSpan.textContent = total + ' ج.م';
+                priceDisplay.style.display = 'block';
+            } else {
+                priceDisplay.style.display = 'none';
+            }
+        });
+
+        // Carousel functionality
+        const carousel = document.getElementById('carousel');
+        const slides = carousel.querySelectorAll('.carousel-slide');
+        const dotsContainer = document.getElementById('dots');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        
+        let currentSlide = 0;
+        const totalSlides = slides.length;
+
+        // Create dots
+        slides.forEach((_, index) => {
+            const dot = document.createElement('button');
+            dot.className = 'dot';
+            if (index === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => goToSlide(index));
+            dotsContainer.appendChild(dot);
+        });
+
+        const dots = document.querySelectorAll('.dot');
+
+        function updateCarousel() {
+            slides.forEach((slide, index) => {
+                slide.classList.toggle('active', index === currentSlide);
+            });
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateCarousel();
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateCarousel();
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            updateCarousel();
+        }
+
+        nextBtn.addEventListener('click', nextSlide);
+        prevBtn.addEventListener('click', prevSlide);
+
+        // Auto slide every 3 seconds
+        let autoSlide = setInterval(nextSlide, 3000);
+
+        // Pause auto slide on hover
+        carousel.addEventListener('mouseenter', () => clearInterval(autoSlide));
+        carousel.addEventListener('mouseleave', () => {
+            autoSlide = setInterval(nextSlide, 3000);
+        });
+
+        // Touch swipe support
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        carousel.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        carousel.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchStartX - touchEndX > 50) {
+                nextSlide();
+            } else if (touchEndX - touchStartX > 50) {
+                prevSlide();
+            }
+        }
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = this.getAttribute('href');
+                document.querySelector(target).scrollIntoView({ behavior: 'smooth' });
+                
+                // Track InitiateCheckout when user clicks order button
+                if (target === '#order') {
+                    fbq('track', 'InitiateCheckout', {
+                        content_name: 'Curvy Jeans',
+                        content_category: 'Jeans',
+                        num_items: 1,
+                        value: 600,
+                        currency: 'EGP'
+                    });
+                }
+            });
+        });
+
+        // Form submission
+        document.getElementById('purchase').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+            
+            const quantity = data.quantity;
+            const productPrice = prices[quantity];
+            const total = productPrice + shippingCost;
+            
+            // إعداد البيانات للحفظ في Firebase
+            const orderData = {
+                name: data.name,
+                phone: data.phone + (data.phone2 ? ' / ' + data.phone2 : ''), // دمج رقمي الهاتف
+                governorate: data.governorate,
+                address: data.address,
+                size: `${data.color} - مقاس ${data.size} - عدد ${quantity}`, // دمج اللون والمقاس والعدد
+                productPrice: productPrice,
+                shipping: shippingCost,
+                total: total,
+                product: 'Curvy Jeans',
+                status: 'جديد',
+                timestamp: Date.now(),
+                date: new Date().toLocaleString('ar-EG', { 
+                    year: 'numeric', 
+                    month: '2-digit', 
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                })
+            };
+            
+            // حفظ الطلب في Firebase
+            const newOrderRef = database.ref('orders').push();
+            newOrderRef.set(orderData)
+                .then(() => {
+                    // Track Lead/Purchase event
+                    fbq('track', 'Lead', {
+                        content_name: 'Curvy Jeans - ' + data.color + ' - Size ' + data.size,
+                        content_category: 'Jeans',
+                        content_ids: ['curvy-jeans'],
+                        value: total,
+                        currency: 'EGP',
+                        predicted_ltv: total
+                    });
+                    
+                    fbq('track', 'Purchase', {
+                        content_name: 'Curvy Jeans',
+                        content_category: 'Jeans',
+                        content_ids: ['curvy-jeans'],
+                        content_type: 'product',
+                        value: total,
+                        currency: 'EGP',
+                        num_items: parseInt(quantity)
+                    });
+                    
+                    // عرض رسالة تأكيد بسيطة
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'تم استلام طلبك بنجاح ✨',
+                        html: `
+                            <div style="font-family: Cairo; text-align: center; padding: 10px;">
+                                <p style="font-size: 15px; color: #333; margin: 10px 0;">سنتواصل معكِ خلال دقائق للتأكيد</p>
+                                <p style="font-size: 18px; font-weight: 600; color: #c5a059; margin: 15px 0;">
+                                    المبلغ الإجمالي: ${total} جنيه
+                                </p>
+                            </div>
+                        `,
+                        confirmButtonText: 'حسناً',
+                        confirmButtonColor: '#c5a059',
+                        background: 'linear-gradient(135deg, #fdfbf7 0%, #fff 100%)',
+                        width: '350px'
+                    });
+                    
+                    this.reset();
+                    priceDisplay.style.display = 'none';
+                    
+                    // Clear selections
+                    productCards.forEach(c => c.classList.remove('selected'));
+                    sizeItems.forEach(s => s.classList.remove('selected'));
+                })
+                .catch((error) => {
+                    console.error('Error saving order:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'خطأ',
+                        text: 'حدث خطأ أثناء حفظ الطلب. يرجى المحاولة مرة أخرى.',
+                        confirmButtonText: 'حسناً',
+                        confirmButtonColor: '#c5a059'
+                    });
+                });
+        });
+    </script>
+</body>
+</html>
