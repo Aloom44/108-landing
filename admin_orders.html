@@ -895,7 +895,16 @@
                     herbsSnapshot.forEach((childSnapshot) => {
                         const order = childSnapshot.val();
                         order.firebaseId = childSnapshot.key;
-                        order.productType = '🌿 زيت 108 عشبة';
+                        // تحديد نوع المنتج بناءً على البيانات
+                        if (order.product && order.product.includes('Curvy')) {
+                            order.productType = '👖 بنطلون جينز';
+                            // تعيين السعر من total بدلاً من price لطلبات Curvy
+                            if (!order.price && order.total) {
+                                order.price = order.total;
+                            }
+                        } else {
+                            order.productType = '🌿 زيت 108 عشبة';
+                        }
                         orders.push(order);
                     });
                     
