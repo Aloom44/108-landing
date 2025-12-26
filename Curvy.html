@@ -1007,20 +1007,16 @@
         const colorSelect = document.querySelector('select[name="color"]');
         const sizeSelect = document.querySelector('select[name="size"]');
 
-        // Track ViewContent when page loads - wait for pixel to be ready
-        setTimeout(function() {
-            if (typeof fbq !== 'undefined') {
-                fbq('track', 'ViewContent', {
-                    content_name: 'Curvy Jeans Collection',
-                    content_category: 'Jeans',
-                    content_ids: ['curvy-jeans'],
-                    content_type: 'product',
-                    value: 600,
-                    currency: 'EGP'
-                });
-                console.log('✅ ViewContent event sent');
-            }
-        }, 1000);
+        // Track ViewContent when page loads
+        fbq('track', 'ViewContent', {
+            content_name: 'Curvy Jeans Collection',
+            content_category: 'Jeans',
+            content_ids: ['curvy-jeans'],
+            content_type: 'product',
+            value: 600,
+            currency: 'EGP'
+        });
+        console.log('✅ ViewContent event sent');
 
         // Handle color card selection
         productCards.forEach(card => {
@@ -1037,17 +1033,15 @@
                 colorSelect.value = color;
                 
                 // Track AddToCart event
-                if (typeof fbq !== 'undefined') {
-                    fbq('track', 'AddToCart', {
-                        content_name: 'Curvy Jeans - ' + color,
-                        content_category: 'Jeans',
-                        content_ids: ['curvy-jeans-' + color],
-                        content_type: 'product',
-                        value: 600,
-                        currency: 'EGP'
-                    });
-                    console.log('✅ AddToCart event sent for color: ' + color);
-                }
+                fbq('track', 'AddToCart', {
+                    content_name: 'Curvy Jeans - ' + color,
+                    content_category: 'Jeans',
+                    content_ids: ['curvy-jeans-' + color],
+                    content_type: 'product',
+                    value: 600,
+                    currency: 'EGP'
+                });
+                console.log('✅ AddToCart event sent for color: ' + color);
                 
                 // Scroll to form smoothly
                 document.querySelector('#order').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -1189,16 +1183,14 @@
                 
                 // Track InitiateCheckout when user clicks order button
                 if (target === '#order') {
-                    if (typeof fbq !== 'undefined') {
-                        fbq('track', 'InitiateCheckout', {
-                            content_name: 'Curvy Jeans',
-                            content_category: 'Jeans',
-                            num_items: 1,
-                            value: 600,
-                            currency: 'EGP'
-                        });
-                        console.log('✅ InitiateCheckout event sent');
-                    }
+                    fbq('track', 'InitiateCheckout', {
+                        content_name: 'Curvy Jeans',
+                        content_category: 'Jeans',
+                        num_items: 1,
+                        value: 600,
+                        currency: 'EGP'
+                    });
+                    console.log('✅ InitiateCheckout event sent');
                 }
             });
         });
@@ -1244,28 +1236,26 @@
             newOrderRef.set(orderData)
                 .then(() => {
                     // Track Lead/Purchase event
-                    if (typeof fbq !== 'undefined') {
-                        fbq('track', 'Lead', {
-                            content_name: 'Curvy Jeans - ' + data.color + ' - Size ' + data.size,
-                            content_category: 'Jeans',
-                            content_ids: ['curvy-jeans'],
-                            value: total,
-                            currency: 'EGP',
-                            predicted_ltv: total
-                        });
-                        console.log('✅ Lead event sent');
-                        
-                        fbq('track', 'Purchase', {
-                            content_name: 'Curvy Jeans',
-                            content_category: 'Jeans',
-                            content_ids: ['curvy-jeans'],
-                            content_type: 'product',
-                            value: total,
-                            currency: 'EGP',
-                            num_items: parseInt(quantity)
-                        });
-                        console.log('✅ Purchase event sent');
-                    }
+                    fbq('track', 'Lead', {
+                        content_name: 'Curvy Jeans - ' + data.color + ' - Size ' + data.size,
+                        content_category: 'Jeans',
+                        content_ids: ['curvy-jeans'],
+                        value: total,
+                        currency: 'EGP',
+                        predicted_ltv: total
+                    });
+                    console.log('✅ Lead event sent');
+                    
+                    fbq('track', 'Purchase', {
+                        content_name: 'Curvy Jeans',
+                        content_category: 'Jeans',
+                        content_ids: ['curvy-jeans'],
+                        content_type: 'product',
+                        value: total,
+                        currency: 'EGP',
+                        num_items: parseInt(quantity)
+                    });
+                    console.log('✅ Purchase event sent');
                     
                     // عرض رسالة تأكيد بسيطة
                     Swal.fire({
