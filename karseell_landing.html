@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
@@ -158,6 +158,17 @@
       color: #92400e;
     }
 
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     .hero {
       background: linear-gradient(180deg, #fff7ed 0%, #fef3c7 60%, #fefce8 100%);
       padding: 22px 0 30px 0;
@@ -249,15 +260,16 @@
     .price-box {
       background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 100%);
       border-radius: var(--radius-md);
-      padding: 16px 20px;
-      display: inline-flex;
+      padding: 12px 20px;
+      display: flex;
+      flex-direction: row;
       align-items: center;
-      gap: 14px;
+      gap: 16px;
       box-shadow: 0 6px 20px rgba(234, 88, 12, 0.3);
-      font-size: 14px;
       border: 3px solid #ea580c;
       position: relative;
       overflow: hidden;
+      max-width: fit-content;
     }
 
     .price-box::before {
@@ -265,25 +277,79 @@
       position: absolute;
       top: -2px;
       right: -2px;
-      width: 100px;
-      height: 100px;
+      width: 80px;
+      height: 80px;
       background: radial-gradient(circle, rgba(234, 88, 12, 0.15) 0%, transparent 70%);
       pointer-events: none;
     }
 
+    .price-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      padding-left: 16px;
+      border-left: 2px solid #f59e0b;
+    }
+
     .price-old {
-      font-size: 16px;
+      font-size: 12px;
       color: #9ca3af;
       text-decoration: line-through;
       font-weight: 600;
-      margin-bottom: 2px;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .price-old span {
+      font-size: 14px;
+      font-weight: 700;
     }
 
     .price-new {
       font-size: 28px;
       font-weight: 900;
       color: #ea580c;
-      text-shadow: 0 2px 4px rgba(234, 88, 12, 0.2);
+      text-shadow: 0 2px 4px rgba(234, 88, 12, 0.3);
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .products-included {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .product-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255, 255, 255, 0.8);
+      padding: 6px 12px;
+      border-radius: 10px;
+      border: 2px solid #fbbf24;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    }
+
+    .product-icon {
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .product-text {
+      font-size: 11px;
+      font-weight: 700;
+      color: #92400e;
+      white-space: nowrap;
+      line-height: 1.2;
+    }
+
+    .plus-sign {
+      font-size: 22px;
+      font-weight: 900;
+      color: #ea580c;
       line-height: 1;
     }
 
@@ -296,12 +362,13 @@
     }
 
     .limited {
-      font-size: 12px;
+      font-size: 11px;
       color: #dc2626;
       font-weight: 700;
-      margin-top: 4px;
+      text-align: center;
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: 4px;
       animation: pulse 2s ease-in-out infinite;
     }
@@ -860,6 +927,116 @@
       text-align: center;
     }
 
+    .order-warning {
+      background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 100%);
+      border: 3px solid #f59e0b;
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin: 25px 0;
+      box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .order-warning::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #f59e0b 0%, #ea580c 50%, #f59e0b 100%);
+      animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    .order-warning-header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 15px;
+      padding: 14px 16px;
+      background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+      border-radius: 10px 10px 0 0;
+      border: 2px solid #fb923c;
+      border-bottom: none;
+      box-shadow: 0 -2px 8px rgba(251, 146, 60, 0.15);
+    }
+
+    .order-warning-icon {
+      font-size: 36px;
+      flex-shrink: 0;
+      line-height: 1;
+      animation: pulse 2s infinite;
+      filter: drop-shadow(0 2px 4px rgba(251, 146, 60, 0.3));
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+    }
+
+    .order-warning-content h4 {
+      font-size: 17px;
+      font-weight: 800;
+      color: #92400e;
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+      line-height: 1.4;
+    }
+
+    .order-warning-body {
+      background: rgba(255, 255, 255, 0.7);
+      padding: 18px;
+      border-radius: 0 0 10px 10px;
+      border: 2px solid #fb923c;
+      border-top: none;
+      box-shadow: 0 4px 12px rgba(251, 146, 60, 0.15);
+    }
+
+    .order-warning-body p {
+      font-size: 14px;
+      color: #78350f;
+      line-height: 1.8;
+      margin: 0;
+      font-weight: 500;
+    }
+
+    .order-warning-body p strong {
+      color: #92400e;
+      font-weight: 700;
+    }
+
+    .order-warning-note {
+      display: flex;
+      align-items: start;
+      gap: 8px;
+      margin-top: 12px;
+      padding: 10px;
+      background: rgba(239, 68, 68, 0.1);
+      border-radius: 6px;
+      border-right: 3px solid #dc2626;
+    }
+
+    .order-warning-note-icon {
+      font-size: 16px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .order-warning-note p {
+      font-size: 13px;
+      color: #991b1b;
+      margin: 0;
+      font-weight: 600;
+    }
+
     .offers-section {
       display: flex;
       flex-direction: column;
@@ -1029,6 +1206,265 @@
     .whatsapp-contact:hover {
       background: #16a34a;
       transform: scale(1.05);
+    }
+
+    /* Products Grid */
+    .products-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr 1fr;
+      gap: 15px;
+      margin-bottom: 25px;
+      align-items: stretch;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: var(--radius-md);
+      padding: 15px;
+      border: 2px solid #e5e7eb;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .product-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(245, 158, 11, 0.2);
+      border-color: #f59e0b;
+    }
+
+    .product-card.popular {
+      border-color: #ea580c;
+      background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 100%);
+      transform: scale(1.05);
+      box-shadow: 0 12px 35px rgba(234, 88, 12, 0.35);
+      border-width: 3px;
+      z-index: 2;
+    }
+
+    .product-card.selected,
+    .offer-card.selected {
+      border-color: #16a34a;
+      border-width: 3px;
+      background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+      box-shadow: 0 8px 25px rgba(34, 197, 94, 0.3);
+    }
+
+    .product-card.selected::after,
+    .offer-card.selected::after {
+      content: '✓ محدد';
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: #16a34a;
+      color: white;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      z-index: 2;
+    }
+
+    .product-image {
+      width: 100%;
+      height: 180px;
+      overflow: hidden;
+      border-radius: 8px;
+      background: #f9fafb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .product-image img {
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .product-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+      color: white;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      box-shadow: 0 2px 8px rgba(234, 88, 12, 0.3);
+      z-index: 1;
+    }
+
+    .product-badge.popular-badge {
+      background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+      animation: productPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes productPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .product-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: #111827;
+      text-align: center;
+    }
+
+    .product-desc {
+      font-size: 13px;
+      color: #6b7280;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    .product-price {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 8px;
+      margin: 5px 0;
+    }
+
+    .product-price .price-old {
+      font-size: 14px;
+      color: #9ca3af;
+      text-decoration: line-through;
+    }
+
+    .product-price .price-new {
+      font-size: 24px;
+      font-weight: 900;
+      color: #ea580c;
+    }
+
+    .product-save {
+      text-align: center;
+      background: rgba(34, 197, 94, 0.15);
+      color: #166534;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .product-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: auto;
+    }
+
+    .product-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(234, 88, 12, 0.4);
+    }
+
+    .product-btn:active {
+      transform: translateY(0);
+    }
+
+    /* Special Offers Title */
+    .special-offers-title {
+      text-align: center;
+      margin: 30px 0 20px;
+      position: relative;
+    }
+
+    .special-offers-title::before,
+    .special-offers-title::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 30%;
+      height: 2px;
+      background: linear-gradient(to right, transparent, #fbbf24, transparent);
+    }
+
+    .special-offers-title::before {
+      left: 0;
+    }
+
+    .special-offers-title::after {
+      right: 0;
+    }
+
+    .special-offers-title span {
+      background: linear-gradient(135deg, #ea580c 0%, #dc2626 100%);
+      color: white;
+      padding: 10px 25px;
+      border-radius: 25px;
+      font-size: 16px;
+      font-weight: 800;
+      box-shadow: 0 4px 15px rgba(234, 88, 12, 0.4);
+      display: inline-block;
+    }
+
+    .offer-content {
+      font-size: 12px;
+      color: #6b7280;
+      margin: 5px 0;
+      text-align: center;
+    }
+
+    /* Custom Order Box */
+    .custom-order-box {
+      background: linear-gradient(135deg, #fff 0%, #f0fdf4 100%);
+      border: 3px dashed #10b981;
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.1);
+    }
+
+    .custom-icon {
+      font-size: 48px;
+      flex-shrink: 0;
+    }
+
+    .custom-content h3 {
+      font-size: 18px;
+      font-weight: 800;
+      color: #065f46;
+      margin-bottom: 5px;
+    }
+
+    .custom-content p {
+      font-size: 13px;
+      color: #047857;
+      margin-bottom: 10px;
+    }
+
+    .whatsapp-btn {
+      display: inline-block;
+      background: #25d366;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 15px;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 10px rgba(37, 211, 102, 0.3);
+    }
+
+    .whatsapp-btn:hover {
+      background: #1da851;
+      transform: scale(1.05);
+      box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
     }
 
     .list-check {
@@ -1234,16 +1670,207 @@
         margin-top: 16px;
       }
 
+      .price-box {
+        padding: 10px 12px;
+        gap: 10px;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .price-section {
+        gap: 2px;
+        padding-left: 10px;
+        padding-bottom: 0;
+        border-left: 2px solid #f59e0b;
+        border-bottom: none;
+        width: auto;
+      }
+
       .price-old {
-        font-size: 13px;
+        font-size: 10px;
       }
 
       .price-old span {
-        font-size: 15px;
+        font-size: 12px;
       }
 
       .price-new {
-        font-size: 26px;
+        font-size: 22px;
+      }
+
+      .products-included {
+        gap: 6px;
+        flex: 1;
+      }
+
+      .product-item {
+        padding: 5px 8px;
+      }
+
+      .product-icon {
+        font-size: 16px;
+      }
+
+      .product-text {
+        font-size: 9px;
+      }
+
+      .plus-sign {
+        font-size: 16px;
+      }
+
+      .limited {
+        font-size: 9px;
+        width: 100%;
+        text-align: center;
+      }
+
+      .products-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .product-card {
+        padding: 8px;
+      }
+
+      .product-card.popular {
+        transform: scale(1);
+        padding: 10px;
+      }
+
+      .product-image {
+        height: 130px;
+      }
+
+      .product-title {
+        font-size: 15px !important;
+      }
+
+      .product-desc {
+        font-size: 12px;
+      }
+
+      .product-price .price-new {
+        font-size: 20px !important;
+      }
+
+      .product-price .price-old {
+        font-size: 13px !important;
+      }
+
+      .product-card ul {
+        font-size: 11px !important;
+        margin: 6px 0 !important;
+        padding-right: 16px !important;
+      }
+
+      .product-card ul li {
+        margin-bottom: 2px;
+      }
+
+      .product-save {
+        font-size: 10px !important;
+        padding: 2px 6px !important;
+        margin: 6px 0;
+      }
+
+      .product-btn {
+        padding: 9px !important;
+        font-size: 12px !important;
+        margin-top: 8px;
+      }
+
+      .product-badge {
+        font-size: 9px;
+        padding: 4px 8px;
+      }
+
+      .offer-card {
+        padding: 10px;
+      }
+
+      .offer-title {
+        font-size: 14px;
+        margin-bottom: 6px;
+      }
+
+      .offer-content {
+        font-size: 11px;
+        margin: 4px 0;
+      }
+
+      .offer-price {
+        margin: 6px 0;
+      }
+
+      .offer-price-new {
+        font-size: 18px !important;
+      }
+
+      .offer-price-old {
+        font-size: 11px !important;
+      }
+
+      .offer-save {
+        font-size: 9px !important;
+        padding: 2px 6px !important;
+      }
+
+      .offer-badge {
+        font-size: 8px;
+        padding: 2px 7px;
+      }
+
+      .offer-motivation,
+      .offer-card div[style*="font-size"] {
+        font-size: 10px !important;
+        padding: 6px 8px !important;
+        margin-top: 6px;
+      }
+
+      .order-title {
+        font-size: 20px;
+      }
+
+      .order-sub {
+        font-size: 12px;
+      }
+
+      .product-desc {
+        font-size: 12px;
+      }
+
+      .product-price .price-new {
+        font-size: 20px;
+      }
+
+      .product-card ul {
+        font-size: 11px !important;
+        margin: 8px 0 !important;
+      }
+
+      .product-btn {
+        padding: 10px;
+        font-size: 13px;
+      }
+
+      .offer-card {
+        padding: 12px;
+      }
+
+      .offer-title {
+        font-size: 15px;
+      }
+
+      .offer-price-new {
+        font-size: 20px !important;
+      }
+
+      .offer-card ul,
+      .offer-card div[style*="font-size: 13px"] {
+        font-size: 11px !important;
       }
 
       .price-urgency {
@@ -1431,6 +2058,70 @@
         gap: 10px;
       }
 
+      /* Products Grid Mobile */
+      .products-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+
+      .product-card {
+        padding: 15px;
+      }
+
+      .product-image {
+        height: 200px;
+      }
+
+      .product-title {
+        font-size: 16px;
+      }
+
+      .product-desc {
+        font-size: 12px;
+      }
+
+      .product-price .price-new {
+        font-size: 22px;
+      }
+
+      .product-btn {
+        padding: 12px 18px;
+        font-size: 14px;
+      }
+
+      .special-offers-title span {
+        font-size: 14px;
+        padding: 8px 20px;
+      }
+
+      .special-offers-title::before,
+      .special-offers-title::after {
+        width: 20%;
+      }
+
+      .custom-order-box {
+        flex-direction: column;
+        text-align: center;
+        padding: 15px;
+      }
+
+      .custom-icon {
+        font-size: 40px;
+      }
+
+      .custom-content h3 {
+        font-size: 16px;
+      }
+
+      .custom-content p {
+        font-size: 12px;
+      }
+
+      .whatsapp-btn {
+        font-size: 14px;
+        padding: 10px 18px;
+      }
+
       .offer-card {
         padding: 14px 16px;
       }
@@ -1503,6 +2194,94 @@
       .order-note {
         font-size: 11px;
         margin-top: 10px;
+      }
+
+      .order-warning {
+        padding: 16px;
+        margin: 20px 0;
+      }
+
+      .order-warning-header {
+        gap: 12px;
+        margin-bottom: 0;
+        padding: 12px 14px;
+      }
+
+      .order-warning-icon {
+        font-size: 30px;
+      }
+
+      .order-warning-content h4 {
+        font-size: 14.5px;
+        letter-spacing: 0.3px;
+        line-height: 1.5;
+      }
+
+      .order-warning-body {
+        padding: 14px;
+      }
+
+      .order-warning-body p {
+        font-size: 13px;
+        line-height: 1.7;
+      }
+
+      .order-warning-note {
+        padding: 8px;
+        margin-top: 10px;
+      }
+
+      .order-warning-note p {
+        font-size: 12px;
+      }
+
+      /* Track Order Mobile Styles */
+      .track-order-form {
+        padding: 20px !important;
+      }
+
+      .track-search-container {
+        flex-direction: column !important;
+        gap: 0 !important;
+      }
+
+      .track-search-container > div:first-child {
+        width: 100%;
+      }
+
+      .track-search-container > div:last-child {
+        width: 100%;
+        margin-top: 16px;
+      }
+
+      .track-search-btn {
+        width: 100% !important;
+        height: auto !important;
+        padding: 16px !important;
+        font-size: 17px !important;
+      }
+
+      .track-actions-grid {
+        gap: 10px !important;
+      }
+
+      .track-action-btn {
+        padding: 14px 8px !important;
+        font-size: 14px !important;
+      }
+
+      .track-action-btn span:first-child {
+        font-size: 16px !important;
+      }
+
+      #trackResults,
+      #trackNoResults {
+        margin-top: 20px !important;
+      }
+
+      #orderDetails {
+        padding: 14px !important;
+        font-size: 14px;
       }
 
       /* Order Form Separator */
@@ -1665,16 +2444,22 @@
           </div>
 
           <div class="price-box">
-            <div>
+            <div class="price-section">
               <div class="price-old">بدلًا من <span>800 ج.م</span></div>
-              <div class="price-new">650 ج.م فقط</div>
+              <div class="price-new">650 ج.م</div>
             </div>
-            <div>
-              <div class="price-tagline">
-                ماسك 500 مل + سيروم 50 مل + شحن مجاني
+            <div class="products-included">
+              <div class="product-item">
+                <span class="product-icon">💆‍♀️</span>
+                <span class="product-text">ماسك 500 مل</span>
               </div>
-              <div class="limited">⏰ الحق قبل نفاذ الكمية – العرض لفترة محدودة!</div>
+              <span class="plus-sign">+</span>
+              <div class="product-item">
+                <span class="product-icon">✨</span>
+                <span class="product-text">سيروم 50 مل</span>
+              </div>
             </div>
+            <div class="limited">⏰ الحق قبل نفاذ الكمية!</div>
           </div>
         </div>
 
@@ -1711,40 +2496,6 @@
     </div>
   </section>
 
-  <!-- WHAT'S INSIDE -->
-  <section class="sec">
-    <div class="container">
-      <h2 class="sec-title">إيه اللي جوا البوكس؟</h2>
-      <p class="sec-sub">
-        تحصلين على مجموعة كاملة لعناية عميقة بالشعر – مش مجرد ماسك سريع.
-      </p>
-      <div class="product-grid">
-        <div class="card product-card">
-          <img
-            src="https://i.ibb.co/ZzwCxjbq/karseell-collagen-hair-mask-5.png"
-            alt="ماسك كارسيل كولاجين"
-            loading="lazy"
-            width="400"
-            height="400"
-          />
-          <div class="product-name">ماسك كولاجين لعلاج التلف</div>
-          <div class="product-size">500 مل – تغذية عميقة وترطيب مكثف</div>
-        </div>
-        <div class="card product-card">
-          <img
-            src="https://i.ibb.co/Q7d4Brkm/Karseell-Moroccan-Argan-Oil-for-Hair-Healing-4.png"
-            alt="سيروم كارسيل أرجان"
-            loading="lazy"
-            width="400"
-            height="400"
-          />
-          <div class="product-name">سيروم أرجان للحماية واللمعة</div>
-          <div class="product-size">50 مل – حماية من الحرارة ولمعة حرير</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- BEFORE / AFTER -->
   <section class="sec">
     <div class="container">
@@ -1776,7 +2527,7 @@
         </div>
         <div class="ba-video">
           <video controls autoplay muted loop playsinline>
-            <source src="https://d.top4top.io/m_36240p8p51.mp4" type="video/mp4">
+            <source src="https://f.top4top.io/m_3688uljsx1.mp4" type="video/mp4">
             متصفحك لا يدعم عرض الفيديو
           </video>
         </div>
@@ -1784,43 +2535,386 @@
     </div>
   </section>
 
-  <!-- HOW TO USE -->
-  <section class="sec">
+  <!-- ORDER -->
+  <section class="order-section" id="order">
     <div class="container">
-      <h2 class="sec-title">طريقة الاستخدام الصحيحة</h2>
-      <p class="sec-sub">
-        3 خطوات بسيطة للحصول على أفضل نتيجة من مجموعة كارسيل كولاجين
-      </p>
+      <div class="order-grid">
+        <div class="offers-section">
+          <h2 class="order-title">اختاري المنتج المناسب ليكي</h2>
+          <p class="order-sub" style="color: #6b7280; margin-bottom: 20px;">
+            كل العروض شاملة الشحن مع إمكانية الدفع عند الاستلام
+          </p>
 
-      <div class="how-steps">
-        <div class="card">
-          <div class="chip">💧 الخطوة 1</div>
-          <div class="card-title">غسيل وتجهيز الشعر</div>
-          <p>
-            اغسلي شعرك بشامبو مناسب واشطفيه كويس، ثم نشّفيه بالفوطة برفق لحد ما يبقى رطب مش مبلول.
-          </p>
+          <!-- Single Products Section -->
+          <div class="products-grid">
+            <!-- Mask Only -->
+            <!-- كريم فقط -->
+            <div class="product-card" onclick="selectOffer('كريم كولاجين 500 مل', 450)">
+              <div class="product-image">
+                <img src="https://i.ibb.co/23LBd9pG/karseell-collagen-hair-mask-5.png" alt="كارسيل ماسك كولاجين" style="width: 100%; height: auto;">
+              </div>
+              <span class="product-badge">💆‍♀️ كريم فقط</span>
+              <div class="product-title">كريم كارسيل</div>
+              <div class="product-desc">علاج عميق للشعر التالف والمتقصف 500 مل</div>
+              <div class="product-price">
+                <span class="price-new">450 ج.م</span>
+              </div>
+              <ul style="text-align: right; font-size: 12px; color: #374151; margin: 10px 0; padding-right: 20px;">
+                <li>مناسب للاستخدام الفردي</li>
+              </ul>
+              <button class="product-btn">
+                اختر هذا العرض
+              </button>
+            </div>
+
+            <!-- الباندل - العرض المميز -->
+            <div class="product-card popular" onclick="selectOffer('كريم + سيروم (العرض المميز)', 650)">
+              <div class="product-image">
+                <img src="https://i.ibb.co/Y4bnRN4z/karseell-collagen-hair-maskhair-oil-set-8.png" alt="مجموعة كارسيل كاملة" style="width: 100%; height: auto;">
+              </div>
+              <span class="product-badge popular-badge">🔥 الأكثر طلبًا</span>
+              <div class="product-title" style="font-size: 18px;">⭐ كريم + سيروم</div>
+              <div class="product-desc" style="font-weight: 700; color: #ea580c;">العرض المميز - الأفضل قيمة</div>
+              <div class="product-price">
+                <span class="price-old" style="font-size: 15px;">750 ج.م</span>
+                <span class="price-new" style="font-size: 26px;">650 ج.م فقط</span>
+              </div>
+              <div class="product-save" style="font-size: 13px; font-weight: 800;">💰 وفّر 100 جنيه</div>
+              <ul style="text-align: right; font-size: 12px; color: #374151; margin: 10px 0; padding-right: 20px;">
+                <li><strong>نتائج أسرع</strong> عند الاستخدام معًا</li>
+                <li>توفير 100 جنيه</li>
+              </ul>
+              <button class="product-btn" style="font-size: 15px; padding: 12px;">
+                🔥 اطلب الآن
+              </button>
+            </div>
+
+            <!-- سيروم فقط -->
+            <div class="product-card" onclick="selectOffer('سيروم زيوت طبيعية 50 مل', 300)">
+              <div class="product-image">
+                <img src="https://i.ibb.co/qL5vGkC1/Karseell-Moroccan-Argan-Oil-for-Hair-Healing-4.png" alt="كارسيل سيروم" style="width: 100%; height: auto;">
+              </div>
+              <span class="product-badge">✨ سيروم فقط</span>
+              <div class="product-title">سيروم كارسيل</div>
+              <div class="product-desc">حماية وترطيب فوري للشعر 50 مل</div>
+              <div class="product-price">
+                <span class="price-new">300 ج.م</span>
+              </div>
+              <ul style="text-align: right; font-size: 12px; color: #374151; margin: 10px 0; padding-right: 20px;">
+                <li>حل سريع للعناية</li>
+              </ul>
+              <button class="product-btn">
+                اختر هذا العرض
+              </button>
+            </div>
+          </div>
+
+          <!-- عرض توفير أكبر -->
+          <div style="margin-top: 20px;">
+            <div style="text-align: center; margin-bottom: 12px;">
+              <span style="background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); color: white; padding: 6px 16px; border-radius: 999px; font-weight: 800; font-size: 14px; display: inline-block; box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3);">💎 عرض توفير أكبر</span>
+            </div>
+            <div class="offer-card" style="max-width: 500px; margin: 0 auto; text-align: center;" onclick="selectOffer('2× باكدج (2 كريم + 2 سيروم)', 1200)">
+              <span class="offer-badge" style="background: #7c3aed;">⚡ عرض حصري</span>
+              <div class="offer-title" style="font-size: 18px;">2 × باكدج كامل</div>
+              <div style="font-size: 14px; color: #6b7280; margin: 8px 0;">
+                2 كريم + 2 سيروم
+              </div>
+              <div class="offer-price" style="justify-content: center;">
+                <span class="offer-price-old" style="font-size: 16px;">1500 ج.م</span>
+                <span class="offer-price-new" style="font-size: 28px;">1200 ج.م</span>
+              </div>
+              <span class="offer-save" style="font-size: 13px;">💰 وفّر 300 جنيه</span>
+              <div style="background: rgba(124, 58, 237, 0.1); color: #5b21b6; padding: 10px; border-radius: 8px; font-size: 13px; font-weight: 600; margin-top: 12px;">
+                ✅ يكفي 4-6 شهور استخدام
+              </div>
+              <button class="product-btn" style="margin-top: 12px; background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);">
+                اطلب الآن
+              </button>
+            </div>
+          </div>
         </div>
-        <div class="card">
-          <div class="chip">✨ الخطوة 2</div>
-          <div class="card-title">خلط الماسك مع السيروم</div>
-          <p>
-            حطّي كمية مناسبة من الماسك في كف إيدك، ثم <strong style="color: #ea580c;">ضيفي 3 نقط من السيروم</strong> عليه واخلطيهم كويس. وزّعي الخليط من منتصف الشعر للأطراف.
-          </p>
-        </div>
-        <div class="card">
-          <div class="chip">⏳ الخطوة 3</div>
-          <div class="card-title">الانتظار والشطف</div>
-          <p>
-            سيبي الخليط على شعرك من <strong>10 – 15 دقيقة</strong>، ثم اشطفيه كويس بمياه فاترة. هتلاحظي نعومة ولمعان من أول استخدام!
-          </p>
+
+        <div>
+          <div class="order-form-separator">
+            <span>🛍️ اطلب الآن</span>
+          </div>
+
+          <form id="orderForm">
+            <!-- Hidden inputs للعرض المختار -->
+            <input type="hidden" id="offer_type" name="offer_type">
+            <input type="hidden" id="offer_price" name="offer_price">
+            <input type="hidden" id="base_price" name="base_price">
+            
+            <!-- رسالة تأكيد العرض المختار -->
+            <div id="selectedOfferDisplay" style="display: none; background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border: 3px solid #16a34a; border-radius: 12px; padding: 16px; margin-bottom: 20px; box-shadow: 0 8px 25px rgba(22, 163, 74, 0.3); animation: slideDown 0.4s ease;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <span style="font-size: 32px;">✅</span>
+                <div style="flex: 1;">
+                  <div style="font-size: 13px; color: #047857; font-weight: 700; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px;">تم اختيار العرض:</div>
+                  <div id="offerNameDisplay" style="font-size: 17px; font-weight: 900; color: #065f46; margin-bottom: 2px;"></div>
+                  <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                    <div id="offerPriceDisplay" style="font-size: 22px; font-weight: 900; color: #16a34a;"></div>
+                    <div id="shippingInfo" style="font-size: 12px; color: #047857; background: rgba(16, 185, 129, 0.1); padding: 4px 10px; border-radius: 6px; font-weight: 600;">+ 50 ج.م شحن</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div>
+              <label for="quantity">الكمية</label>
+              <div style="display: flex; align-items: center; gap: 8px; max-width: 200px; margin: 0 auto;">
+                <button type="button" onclick="decreaseQuantity()" style="background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%); color: white; border: none; border-radius: 8px; width: 45px; height: 45px; font-size: 24px; font-weight: 700; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                  −
+                </button>
+                <input
+                  type="number"
+                  id="quantity"
+                  name="quantity"
+                  min="1"
+                  value="1"
+                  required
+                  readonly
+                  style="text-align: center; font-weight: 800; font-size: 20px; flex: 1; border: 3px solid #fbbf24; border-radius: 8px; padding: 10px; background: white; color: #ea580c;"
+                />
+                <button type="button" onclick="increaseQuantity()" style="background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); color: white; border: none; border-radius: 8px; width: 45px; height: 45px; font-size: 24px; font-weight: 700; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(22, 163, 74, 0.3);" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                  +
+                </button>
+              </div>
+              <div style="font-size: 11px; color: #6b7280; margin-top: 6px; text-align: center;">📦 مصاريف الشحن 50 جنيه ثابتة لأي كمية</div>
+            </div>
+            
+            <div>
+              <label for="name">الاسم الكامل</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                required
+                placeholder="اكتبي اسمك كما هو في بطاقة الاستلام"
+              />
+            </div>
+            <div>
+              <label for="phone">رقم الموبايل الأساسي</label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                required
+                placeholder="01xxxxxxxxx"
+              />
+            </div>
+            <div>
+              <label for="phone2">رقم موبايل بديل (اختياري)</label>
+              <input
+                type="tel"
+                id="phone2"
+                name="phone2"
+                placeholder="01xxxxxxxxx"
+              />
+            </div>
+            <div>
+              <label for="governorate">المحافظة</label>
+              <select id="governorate" name="governorate" required>
+                <option value="">اختاري المحافظة</option>
+                <option value="القاهرة">القاهرة</option>
+                <option value="الجيزة">الجيزة</option>
+                <option value="الإسكندرية">الإسكندرية</option>
+                <option value="الدقهلية">الدقهلية</option>
+                <option value="الشرقية">الشرقية</option>
+                <option value="القليوبية">القليوبية</option>
+                <option value="البحيرة">البحيرة</option>
+                <option value="الغربية">الغربية</option>
+                <option value="المنوفية">المنوفية</option>
+                <option value="كفر الشيخ">كفر الشيخ</option>
+                <option value="دمياط">دمياط</option>
+                <option value="بورسعيد">بورسعيد</option>
+                <option value="الإسماعيلية">الإسماعيلية</option>
+                <option value="السويس">السويس</option>
+                <option value="المنيا">المنيا</option>
+                <option value="أسيوط">أسيوط</option>
+                <option value="سوهاج">سوهاج</option>
+                <option value="قنا">قنا</option>
+                <option value="أسوان">أسوان</option>
+                <option value="الأقصر">الأقصر</option>
+              </select>
+            </div>
+            <div>
+              <label for="address">العنوان بالتفصيل</label>
+              <textarea
+                id="address"
+                name="address"
+                rows="2"
+                required
+                placeholder="الشارع، رقم البيت / العمارة، العلامة المميزة"
+              ></textarea>
+            </div>
+            <!-- Hidden inputs للعرض المختار -->
+            <input type="hidden" id="offer_type" name="offer_type">
+            <input type="hidden" id="offer_price" name="offer_price">
+            
+            <!-- رسالة تأكيد العرض المختار -->
+            <div id="selectedOfferDisplay" style="display: none; background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border: 3px solid #16a34a; border-radius: 12px; padding: 16px; margin-bottom: 20px; box-shadow: 0 8px 25px rgba(22, 163, 74, 0.3); animation: slideDown 0.4s ease;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <span style="font-size: 32px;">✅</span>
+                <div style="flex: 1;">
+                  <div style="font-size: 13px; color: #047857; font-weight: 700; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px;">تم اختيار العرض:</div>
+                  <div id="offerNameDisplay" style="font-size: 17px; font-weight: 900; color: #065f46; margin-bottom: 2px;"></div>
+                  <div id="offerPriceDisplay" style="font-size: 22px; font-weight: 900; color: #16a34a;"></div>
+                </div>
+              </div>
+            </div>
+            
+            <style>
+              @keyframes slideDown {
+                from {
+                  opacity: 0;
+                  transform: translateY(-20px);
+                }
+                to {
+                  opacity: 1;
+                  transform: translateY(0);
+                }
+              }
+            </style>
+            <div>
+              <label for="notes">ملاحظات إضافية (اختياري)</label>
+              <textarea
+                id="notes"
+                name="notes"
+                rows="2"
+                placeholder="مواعيد الاستلام المفضلة، تعليمات خاصة، وغير ذلك..."
+              ></textarea>
+            </div>
+
+            <div class="order-warning">
+              <div class="order-warning-header">
+                <div class="order-warning-icon">⚠️</div>
+                <div class="order-warning-content">
+                  <h4>📌 تنبيه هام - يُرجى القراءة بعناية</h4>
+                </div>
+              </div>
+              <div class="order-warning-body">
+                <p>
+                  <strong>🔴 قبل تأكيد طلبك:</strong> يُرجى التأكد من <strong>جديتك الكاملة في استلام المنتج</strong>، حيث نقوم بدفع تكاليف الشحن مقدمًا للشركة فور تأكيد طلبك.
+                </p>
+                <div class="order-warning-note">
+                  <span class="order-warning-note-icon">❌</span>
+                  <p>
+                    <strong>تحذير:</strong> عدم الاستلام أو رفض الطلب دون سبب جدي يتسبب في خسائر مالية مباشرة لنا، ويؤثر سلباً على خدماتنا لعملائنا الآخرين.
+                  </p>
+                </div>
+                <p style="margin-top: 12px; padding-top: 12px; border-top: 1px dashed #f59e0b;">
+                  ✅ <strong>نثق بك!</strong> إذا كنت جادًا في الطلب، فلا تتردد - نحن في خدمتك! 💚
+                </p>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+              تأكيد طلبي الآن
+            </button>
+
+            <div class="order-note">
+              بالضغط على "تأكيد طلبي" أنتِ توافقين على تواصل فريق خدمة العملاء
+              معكِ لتأكيد البيانات.
+            </div>
+          </form>
         </div>
       </div>
+    </div>
+  </section>
 
-      <div class="guarantee">
-        <strong>💚 نصيحة مهمة:</strong>
-        <span>
-          للحصول على أفضل نتيجة، استخدمي المجموعة 2–3 مرات أسبوعياً. النتائج بتبدأ تظهر من أول مرة، وبتتحسّن مع كل استخدام!
-        </span>
+  <!-- TRACK ORDER SECTION -->
+  <section class="sec" style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);">
+    <div class="container">
+      <h2 class="sec-title" style="color: #92400e;">🔍 تتبع طلبك</h2>
+      <p class="sec-sub" style="color: #78350f;">
+        ادخل رقم الهاتف للاطلاع على بيانات طلبك
+      </p>
+
+      <div style="max-width: 600px; margin: 0 auto;">
+        <div class="form-wrapper" style="background: white; border-radius: 16px; box-shadow: 0 10px 40px rgba(146, 64, 14, 0.15);">
+          <div class="track-order-form" style="padding: 30px;">
+            <!-- Search Box -->
+            <div class="track-search-container" style="display: flex; gap: 12px; align-items: stretch;">
+              <div style="flex: 1;">
+                <label for="trackPhone" style="display: block; margin-bottom: 8px; font-weight: 700; color: #92400e; font-size: 15px;">
+                  📱 رقم الهاتف
+                </label>
+                <input
+                  type="tel"
+                  id="trackPhone"
+                  placeholder="01234567890"
+                  style="width: 100%; padding: 16px; border: 2px solid #fbbf24; border-radius: 10px; font-size: 17px; text-align: center; font-weight: 700; transition: all 0.3s; box-shadow: 0 2px 8px rgba(251, 191, 36, 0.2);"
+                  maxlength="11"
+                  onfocus="this.style.borderColor='#f59e0b'; this.style.boxShadow='0 4px 12px rgba(245, 158, 11, 0.3)';"
+                  onblur="this.style.borderColor='#fbbf24'; this.style.boxShadow='0 2px 8px rgba(251, 191, 36, 0.2)';"
+                />
+              </div>
+              
+              <div style="display: flex; align-items: flex-end;">
+                <button 
+                  type="button" 
+                  onclick="trackOrder()"
+                  class="track-search-btn"
+                  style="padding: 16px 24px; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; border: none; border-radius: 10px; font-weight: 800; font-size: 16px; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4); white-space: nowrap; height: 58px;"
+                  onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(245, 158, 11, 0.5)';"
+                  onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(245, 158, 11, 0.4)';"
+                >
+                  🔍 بحث
+                </button>
+              </div>
+            </div>
+
+            <!-- Order Results -->
+            <div id="trackResults" style="display: none; margin-top: 30px;">
+              <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border: 3px solid #16a34a; border-radius: 12px; padding: 20px; margin-bottom: 20px;">
+                <h3 style="margin: 0 0 15px 0; color: #065f46; font-size: 18px; font-weight: 800; text-align: center;">
+                  ✅ تم العثور على طلبك
+                </h3>
+                <div id="orderDetails" style="background: white; padding: 16px; border-radius: 8px; margin-bottom: 15px;">
+                  <!-- Order details will be inserted here -->
+                </div>
+
+                <div class="track-actions-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 15px;">
+                  <button 
+                    onclick="requestEditOrder()"
+                    class="track-action-btn"
+                    style="padding: 16px 12px; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; border: none; border-radius: 10px; font-weight: 800; font-size: 15px; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3); display: flex; align-items: center; justify-content: center; gap: 6px;"
+                    onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(37, 99, 235, 0.5)';"
+                    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(37, 99, 235, 0.3)';"
+                  >
+                    <span style="font-size: 18px;">✏️</span>
+                    <span>تعديل</span>
+                  </button>
+                  
+                  <button 
+                    onclick="requestCancelOrder()"
+                    class="track-action-btn"
+                    style="padding: 16px 12px; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; border: none; border-radius: 10px; font-weight: 800; font-size: 15px; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3); display: flex; align-items: center; justify-content: center; gap: 6px;"
+                    onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(220, 38, 38, 0.5)';"
+                    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(220, 38, 38, 0.3)';"
+                  >
+                    <span style="font-size: 18px;">❌</span>
+                    <span>إلغاء</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div id="trackNoResults" style="display: none; margin-top: 30px;">
+              <div style="background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%); border: 3px solid #ef4444; border-radius: 12px; padding: 20px; text-align: center;">
+                <div style="font-size: 48px; margin-bottom: 10px;">😕</div>
+                <p style="margin: 0; color: #991b1b; font-weight: 700; font-size: 16px;">
+                  لم يتم العثور على طلب بهذا الرقم
+                </p>
+                <p style="margin: 10px 0 0 0; color: #dc2626; font-size: 14px;">
+                  تأكد من إدخال رقم الهاتف بشكل صحيح
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -1874,152 +2968,6 @@
           <p>
             كصاحبة صالون وبشتغل مع عميلات كتير، المنتج ده من أفضل المنتجات اللي جربتها! بستخدمه في الصالون مع العميلات وبوصي بيه دايماً. النتائج واضحة وسريعة، خصوصاً للشعر التالف من الصبغات والبروتين. العميلات كلهم راضيين ومعظمهم بيرجعوا يشتروه تاني. منتج موثوق وجودة ممتازة، أنصح بيه بقوة! 💯
           </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ORDER -->
-  <section class="order-section" id="order">
-    <div class="container">
-      <div class="order-grid">
-        <div class="offers-section">
-          <h2 class="order-title">اختاري العرض المناسب ليكي</h2>
-          <p class="order-sub" style="color: #6b7280; margin-bottom: 16px;">
-            كل العروض شاملة الشحن مع إمكانية الدفع عند الاستلام
-          </p>
-
-          <div class="offers-row">
-            <div class="offer-card" data-quantity="1">
-              <span class="offer-badge">عرض واحد</span>
-              <div class="offer-title">بوكس واحد</div>
-              <div class="offer-price">
-                <span class="offer-price-old">800 ج.م</span>
-                <span class="offer-price-new">650 ج.م</span>
-              </div>
-              <span class="offer-save">✨ وفّري 150 جنيه</span>
-            </div>
-
-            <div class="offer-card popular" data-quantity="2">
-              <span class="offer-badge">🔥 الأكثر طلباً</span>
-              <div class="offer-title">عرض 2 بوكس</div>
-              <div class="offer-price">
-                <span class="offer-price-old">1600 ج.م</span>
-                <span class="offer-price-new">1150 ج.م</span>
-              </div>
-              <span class="offer-save">💰 وفّري 450 جنيه</span>
-              <div class="offer-motivation">
-                🎁 الخيار الأفضل! يكفي 3-4 شهور
-              </div>
-            </div>
-          </div>
-
-          <div class="offers-row">
-            <div class="offer-card popular" data-quantity="3">
-              <span class="offer-badge">⚡ توفير أكبر</span>
-              <div class="offer-title">عرض 3 بوكسات</div>
-              <div class="offer-price">
-                <span class="offer-price-old">2400 ج.م</span>
-                <span class="offer-price-new">1600 ج.م</span>
-              </div>
-              <span class="offer-save">🎉 وفّري 800 جنيه</span>
-              <div class="offer-motivation">
-                👑 أفضل قيمة! يكفي 6 شهور + هدية
-              </div>
-            </div>
-
-            <div class="offer-card contact-offer">
-              <div class="contact-offer-title">🛍️ محتاجة أكثر من 3 بوكسات؟</div>
-              <p>تواصلي معنا للحصول على عرض خاص</p>
-              <a href="https://wa.me/201557350728?text=عايزة%20أطلب%20أكتر%20من%203%20بوكسات" 
-                 class="whatsapp-contact" 
-                 target="_blank">
-                📱 01557350728
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <div class="order-form-separator">
-            <span>🛍️ اطلب الآن</span>
-          </div>
-
-          <form id="orderForm">
-            <div>
-              <label for="name">الاسم الكامل</label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                required
-                placeholder="اكتبي اسمك كما هو في بطاقة الاستلام"
-              />
-            </div>
-            <div>
-              <label for="phone">رقم الموبايل</label>
-              <input
-                type="tel"
-                id="phone"
-                name="phone"
-                required
-                placeholder="01xxxxxxxxx"
-              />
-            </div>
-            <div>
-              <label for="governorate">المحافظة</label>
-              <select id="governorate" name="governorate" required>
-                <option value="">اختاري المحافظة</option>
-                <option value="القاهرة">القاهرة</option>
-                <option value="الجيزة">الجيزة</option>
-                <option value="الإسكندرية">الإسكندرية</option>
-                <option value="الدقهلية">الدقهلية</option>
-                <option value="الشرقية">الشرقية</option>
-                <option value="القليوبية">القليوبية</option>
-                <option value="البحيرة">البحيرة</option>
-                <option value="الغربية">الغربية</option>
-                <option value="المنوفية">المنوفية</option>
-                <option value="كفر الشيخ">كفر الشيخ</option>
-                <option value="دمياط">دمياط</option>
-                <option value="بورسعيد">بورسعيد</option>
-                <option value="الإسماعيلية">الإسماعيلية</option>
-                <option value="السويس">السويس</option>
-                <option value="المنيا">المنيا</option>
-                <option value="أسيوط">أسيوط</option>
-                <option value="سوهاج">سوهاج</option>
-                <option value="قنا">قنا</option>
-                <option value="أسوان">أسوان</option>
-                <option value="الأقصر">الأقصر</option>
-              </select>
-            </div>
-            <div>
-              <label for="address">العنوان بالتفصيل</label>
-              <textarea
-                id="address"
-                name="address"
-                rows="2"
-                required
-                placeholder="الشارع، رقم البيت / العمارة، العلامة المميزة"
-              ></textarea>
-            </div>
-            <div>
-              <label for="quantity">الكمية</label>
-              <select id="quantity" name="quantity">
-                <option value="1">بوكس واحد – 650 ج.م (شامل مصاريف الشحن)</option>
-                <option value="2">بوكسين – 1150 ج.م (شامل مصاريف الشحن)</option>
-                <option value="3">3 بوكسات – 1600 ج.م (شامل مصاريف الشحن)</option>
-              </select>
-            </div>
-
-            <button type="submit" class="btn btn-primary">
-              تأكيد طلبي الآن
-            </button>
-
-            <div class="order-note">
-              بالضغط على "تأكيد طلبي" أنتِ توافقين على تواصل فريق خدمة العملاء
-              معكِ لتأكيد البيانات.
-            </div>
-          </form>
         </div>
       </div>
     </div>
@@ -2228,20 +3176,173 @@
       }, 4000);
     }
 
+    // Product Selection
+    let selectedProduct = null;
+    let selectedProductName = '';
+    let selectedProductPrice = 0;
+
+function selectOffer(offerName, totalPrice) {
+        // السعر الأساسي = السعر الإجمالي - 50 جنيه شحن
+        const basePrice = totalPrice - 50;
+        const shippingCost = 50;
+        
+        // تحديث الـ hidden inputs
+        document.getElementById('offer_type').value = offerName;
+        document.getElementById('base_price').value = basePrice;
+        
+        // إعادة تعيين الكمية لـ 1
+        document.getElementById('quantity').value = 1;
+        
+        // حساب وتحديث السعر
+        updatePrice();
+        
+        selectedProductName = offerName;
+        selectedProductPrice = totalPrice;
+        
+        // عرض رسالة التأكيد
+        const display = document.getElementById('selectedOfferDisplay');
+        const nameDisplay = document.getElementById('offerNameDisplay');
+        
+        nameDisplay.textContent = offerName;
+        display.style.display = 'block';
+
+        // إزالة highlight من جميع الكروت
+        document.querySelectorAll('.product-card, .offer-card').forEach(card => {
+          card.classList.remove('selected');
+        });
+
+        // إضافة highlight للكارد المختار
+        event.currentTarget.classList.add('selected');
+
+        // Scroll للفورم بشكل سلس
+        setTimeout(() => {
+          document.getElementById('orderForm').scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }, 300);
+
+        // Track pixel event
+        trackEvent('InitiateCheckout', {
+          content_name: offerName,
+          value: totalPrice,
+          currency: 'EGP'
+        });
+
+        console.log('✅ Selected offer:', offerName, '-', totalPrice, 'EGP');
+    }
+
+    // دوال زيادة وتقليل الكمية
+    function increaseQuantity() {
+      const quantityInput = document.getElementById('quantity');
+      let currentValue = parseInt(quantityInput.value) || 1;
+      quantityInput.value = currentValue + 1;
+      updatePrice();
+    }
+
+    function decreaseQuantity() {
+      const quantityInput = document.getElementById('quantity');
+      let currentValue = parseInt(quantityInput.value) || 1;
+      if (currentValue > 1) {
+        quantityInput.value = currentValue - 1;
+        updatePrice();
+      }
+    }
+
+    // دالة حساب السعر حسب الكمية
+    function updatePrice() {
+      const basePrice = parseInt(document.getElementById('base_price').value) || 0;
+      const quantity = parseInt(document.getElementById('quantity').value) || 1;
+      const shippingCost = 50;
+      
+      // حساب السعر النهائي = (السعر الأساسي × الكمية) + مصاريف الشحن
+      const finalPrice = (basePrice * quantity) + shippingCost;
+      
+      // تحديث السعر في hidden input
+      document.getElementById('offer_price').value = finalPrice;
+      
+      // تحديث العرض
+      const priceDisplay = document.getElementById('offerPriceDisplay');
+      if (quantity > 1) {
+        priceDisplay.innerHTML = `<span style="font-size: 16px; color: #047857;">${basePrice} ج.م × ${quantity} =</span> <span style="font-size: 22px;">${basePrice * quantity} ج.م</span>`;
+      } else {
+        priceDisplay.textContent = basePrice + ' ج.م';
+      }
+      
+      selectedProductPrice = finalPrice;
+    }
+
+    function selectProduct(type, name, price) {
+      selectedProduct = type;
+      selectedProductName = name;
+      selectedProductPrice = price;
+
+      // Update form
+      const productInput = document.getElementById('selectedProduct');
+      if (!productInput) {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.id = 'selectedProduct';
+        input.name = 'selectedProduct';
+        document.getElementById('orderForm').appendChild(input);
+      }
+      document.getElementById('selectedProduct').value = name;
+
+      // Update display
+      document.getElementById('selectedProductDisplay').style.display = 'block';
+      document.getElementById('productNameDisplay').textContent = name;
+      document.getElementById('productPriceDisplay').textContent = price + ' جنيه (شامل الشحن)';
+
+      // Remove selected class from all products and offers
+      document.querySelectorAll('.product-card, .offer-card').forEach(card => {
+        card.classList.remove('selected');
+      });
+
+      // Add selected class to clicked product
+      event.target.closest('.product-card').classList.add('selected');
+
+      // Scroll to form
+      document.getElementById('orderForm').scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'center' 
+        });
+
+      console.log('✅ Selected product:', name, '-', price, 'EGP');
+    }
+
     // Offer Selection
     document.querySelectorAll('.offer-card[data-quantity]').forEach(card => {
       card.addEventListener('click', function() {
         const quantity = this.getAttribute('data-quantity');
+        const price = this.getAttribute('data-price');
         
-        // Remove selected class from all offers
-        document.querySelectorAll('.offer-card').forEach(c => c.classList.remove('selected'));
+        // Remove selected class from all offers and products
+        document.querySelectorAll('.offer-card, .product-card').forEach(c => c.classList.remove('selected'));
         
         // Add selected class to clicked offer
         this.classList.add('selected');
-        
-        // Update quantity select
-        const quantitySelect = document.getElementById('quantity');
-        quantitySelect.value = quantity;
+
+        // Set selected product
+        selectedProduct = 'set';
+        selectedProductName = `${quantity} مجموعة كاملة`;
+        selectedProductPrice = price;
+
+        // Update hidden input
+        let productInput = document.getElementById('selectedProduct');
+        if (!productInput) {
+          const input = document.createElement('input');
+          input.type = 'hidden';
+          input.id = 'selectedProduct';
+          input.name = 'selectedProduct';
+          document.getElementById('orderForm').appendChild(input);
+          productInput = input;
+        }
+        productInput.value = selectedProductName;
+
+        // Update display
+        document.getElementById('selectedProductDisplay').style.display = 'block';
+        document.getElementById('productNameDisplay').textContent = selectedProductName;
+        document.getElementById('productPriceDisplay').textContent = price + ' جنيه (شامل الشحن)';
         
         // Smooth scroll to form
         document.getElementById('orderForm').scrollIntoView({ 
@@ -2249,7 +3350,7 @@
           block: 'center' 
         });
         
-        console.log('✅ Selected offer:', quantity + ' box(es)');
+        console.log('✅ Selected offer:', quantity + ' box(es)', '-', price, 'EGP');
       });
     });
 
@@ -2291,35 +3392,120 @@
     const database = firebase.database();
     console.log('🔥 Firebase initialized for Karseell orders!');
 
+    // إضافة event listener لتغيير الكمية
+    document.addEventListener('DOMContentLoaded', function() {
+      const quantityInput = document.getElementById('quantity');
+      if (quantityInput) {
+        quantityInput.addEventListener('input', updatePrice);
+        quantityInput.addEventListener('change', updatePrice);
+      }
+    });
+
+    // Phone Validation Function
+    function validatePhone(phoneNumber) {
+      // Remove spaces and any special characters
+      const cleaned = phoneNumber.replace(/\s+/g, '').replace(/[-()]/g, '');
+      
+      // Check if it's a valid Egyptian phone number (11 digits starting with 01)
+      const egyptianPattern = /^01[0-2,5]{1}[0-9]{8}$/;
+      
+      return egyptianPattern.test(cleaned);
+    }
+
+    // Add validation for phone inputs
+    document.getElementById('phone').addEventListener('blur', function() {
+      if (this.value && !validatePhone(this.value)) {
+        Swal.fire({
+          title: '⚠️ رقم هاتف غير صحيح',
+          text: 'برجاء إدخال رقم موبايل مصري صحيح يبدأ بـ 01',
+          icon: 'warning',
+          confirmButtonText: 'تمام',
+          confirmButtonColor: '#f59e0b'
+        });
+      }
+    });
+
+    document.getElementById('phone2').addEventListener('blur', function() {
+      if (this.value && !validatePhone(this.value)) {
+        Swal.fire({
+          title: '⚠️ رقم هاتف غير صحيح',
+          text: 'برجاء إدخال رقم موبايل مصري صحيح يبدأ بـ 01',
+          icon: 'warning',
+          confirmButtonText: 'تمام',
+          confirmButtonColor: '#f59e0b'
+        });
+      }
+    });
+
     // Form Submission
     document.getElementById('orderForm').addEventListener('submit', async function(e) {
       e.preventDefault();
 
+      // Get offer data from hidden inputs
+      const offerType = document.getElementById('offer_type').value;
+      const offerPrice = document.getElementById('offer_price').value;
+      const quantity = document.getElementById('quantity').value;
+
+      // Check if offer is selected
+      if (!offerType || !offerPrice) {
+        Swal.fire({
+          title: '⚠️ لم تختاري عرض بعد',
+          text: 'برجاء اختيار العرض المطلوب من الأعلى أولاً',
+          icon: 'warning',
+          confirmButtonText: 'تمام',
+          confirmButtonColor: '#f59e0b'
+        });
+        // Scroll to products section
+        document.querySelector('.products-grid').scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'center' 
+        });
+        return;
+      }
+
       const formData = new FormData(this);
+      
+      // Validate primary phone
+      const primaryPhone = formData.get('phone');
+      if (!validatePhone(primaryPhone)) {
+        Swal.fire({
+          title: '⚠️ رقم الهاتف الأساسي غير صحيح',
+          text: 'برجاء إدخال رقم موبايل مصري صحيح يبدأ بـ 01',
+          icon: 'error',
+          confirmButtonText: 'تمام',
+          confirmButtonColor: '#f59e0b'
+        });
+        return;
+      }
+
+      // Validate secondary phone if provided
+      const secondaryPhone = formData.get('phone2');
+      if (secondaryPhone && !validatePhone(secondaryPhone)) {
+        Swal.fire({
+          title: '⚠️ رقم الهاتف البديل غير صحيح',
+          text: 'برجاء إدخال رقم موبايل مصري صحيح يبدأ بـ 01',
+          icon: 'error',
+          confirmButtonText: 'تمام',
+          confirmButtonColor: '#f59e0b'
+        });
+        return;
+      }
+
       const now = new Date();
       const dateStr = now.toLocaleDateString('ar-EG');
       const timeStr = now.toLocaleTimeString('ar-EG');
 
-      const quantity = formData.get('quantity');
-      const prices = { '1': 650, '2': 1150, '3': 1600 };
-      const price = prices[quantity];
-
-      // Get bottle size text
-      const quantityOptions = {
-        '1': '1 قطعة',
-        '2': '2 قطعة',
-        '3': '3 قطع'
-      };
-
       const orderData = {
         name: formData.get('name'),
         phone: formData.get('phone'),
+        phone2: formData.get('phone2') || '',
         governorate: formData.get('governorate'),
         address: formData.get('address'),
+        notes: formData.get('notes') || '',
+        product: offerType,
         quantity: quantity,
-        price: price,
-        product: 'Karseell Hair Set - ماسك + سيرم',
-        bottleSize: quantityOptions[quantity],
+        price: offerPrice,
+        productType: selectedProduct,
         date: dateStr,
         time: timeStr,
         timestamp: now.getTime()
@@ -2328,11 +3514,11 @@
       // Track Purchase
       trackEvent('Purchase', {
         content_name: orderData.product,
-        content_ids: ['karseell-set-' + quantity],
+        content_ids: ['karseell-' + selectedProduct],
         content_type: 'product',
-        value: price,
+        value: selectedProductPrice,
         currency: 'EGP',
-        num_items: parseInt(quantity)
+        num_items: 1
       });
 
       try {
@@ -2345,11 +3531,17 @@
             <div style="text-align: right; padding: 15px;">
               <p style="font-size: 0.95rem; margin-bottom: 12px;"><strong>📋 بيانات الطلب:</strong></p>
               <p style="margin: 6px 0; font-size: 0.9rem;"><strong>👤 الاسم:</strong> ${orderData.name}</p>
-              <p style="margin: 6px 0; font-size: 0.9rem;"><strong>📱 الهاتف:</strong> ${orderData.phone}</p>
+              <p style="margin: 6px 0; font-size: 0.9rem;"><strong>📱 الهاتف الأساسي:</strong> ${orderData.phone}</p>
+              ${orderData.phone2 ? `<p style="margin: 6px 0; font-size: 0.9rem;"><strong>📱 الهاتف البديل:</strong> ${orderData.phone2}</p>` : ''}
               <p style="margin: 6px 0; font-size: 0.9rem;"><strong>📍 المحافظة:</strong> ${orderData.governorate}</p>
+              ${orderData.notes ? `<p style="margin: 6px 0; font-size: 0.9rem;"><strong>📝 ملاحظات:</strong> ${orderData.notes}</p>` : ''}
               <p style="margin: 6px 0; font-size: 0.9rem;"><strong>📦 المنتج:</strong> ${orderData.product}</p>
-              <p style="margin: 6px 0; font-size: 0.9rem;"><strong>🔢 الكمية:</strong> ${orderData.quantity} عبوة</p>
-              <p style="margin: 6px 0; font-size: 0.9rem;"><strong>💰 الإجمالي:</strong> ${orderData.price} جنيه</p>
+              <p style="margin: 6px 0; font-size: 0.9rem;"><strong>🔢 الكمية:</strong> ${orderData.quantity}</p>
+              <p style="margin: 6px 0; font-size: 0.9rem;"><strong>💵 سعر المنتج:</strong> ${Math.round((orderData.price - 50) / orderData.quantity)} ج.م × ${orderData.quantity} = <strong style="color: #ea580c;">${orderData.price - 50} ج.م</strong></p>
+              <p style="margin: 6px 0; font-size: 0.9rem;"><strong>🚚 مصاريف الشحن:</strong> <strong style="color: #059669;">50 ج.م</strong></p>
+              <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); padding: 10px; border-radius: 8px; margin: 10px 0; border: 2px solid #fbbf24;">
+                <p style="margin: 0; font-size: 1.1rem; font-weight: 800; color: #92400e;"><strong>💰 الإجمالي النهائي:</strong> <span style="font-size: 1.3rem; color: #ea580c;">${orderData.price} جنيه</span></p>
+              </div>
               <p style="margin: 6px 0; font-size: 0.9rem;"><strong>📅 التاريخ:</strong> ${orderData.date} - ${orderData.time}</p>
               <hr style="margin: 15px 0;">
               <p style="font-size: 1rem; font-weight: 700; color: #16a34a;">✅ تم تأكيد الطلب بنجاح</p>
@@ -2365,7 +3557,17 @@
           }
         });
 
+        // Reset form and selection
         this.reset();
+        selectedProduct = null;
+        selectedProductName = '';
+        selectedProductPrice = 0;
+        document.getElementById('selectedOfferDisplay').style.display = 'none';
+        document.getElementById('offer_type').value = '';
+        document.getElementById('offer_price').value = '';
+        document.querySelectorAll('.product-card, .offer-card').forEach(card => {
+          card.classList.remove('selected');
+        });
       } catch (error) {
         console.error('❌ Firebase Error:', error);
         Swal.fire({
@@ -2375,7 +3577,15 @@
           confirmButtonText: 'تمام',
           confirmButtonColor: '#f59e0b'
         });
+        // Reset form and selection
         this.reset();
+        selectedProduct = null;
+        selectedProductName = '';
+        selectedProductPrice = 0;
+        document.getElementById('selectedProductDisplay').style.display = 'none';
+        document.querySelectorAll('.product-card, .offer-card').forEach(card => {
+          card.classList.remove('selected');
+        });
       }
     });
 
@@ -2389,6 +3599,175 @@
           currency: 'EGP'
         });
         leadTracked = true;
+      }
+    });
+
+    // Track Order System
+    let currentOrderData = null;
+    let currentOrderKey = null;
+
+    async function trackOrder() {
+      const phoneInput = document.getElementById('trackPhone');
+      const phone = phoneInput.value.trim();
+      
+      if (!phone) {
+        Swal.fire({
+          title: '⚠️ من فضلك أدخل رقم الهاتف',
+          icon: 'warning',
+          confirmButtonText: 'تمام',
+          confirmButtonColor: '#f59e0b'
+        });
+        return;
+      }
+
+      if (!validatePhone(phone)) {
+        Swal.fire({
+          title: '⚠️ رقم هاتف غير صحيح',
+          text: 'برجاء إدخال رقم موبايل مصري صحيح يبدأ بـ 01',
+          icon: 'warning',
+          confirmButtonText: 'تمام',
+          confirmButtonColor: '#f59e0b'
+        });
+        return;
+      }
+
+      // Show loading
+      Swal.fire({
+        title: '🔍 جاري البحث...',
+        text: 'برجاء الانتظار',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        }
+      });
+
+      try {
+        const ordersRef = database.ref('karseell-orders');
+        const snapshot = await ordersRef.orderByChild('phone').equalTo(phone).limitToLast(1).once('value');
+        
+        Swal.close();
+
+        if (snapshot.exists()) {
+          // Get the first (and only) order
+          snapshot.forEach((childSnapshot) => {
+            currentOrderKey = childSnapshot.key;
+            currentOrderData = childSnapshot.val();
+          });
+
+          displayOrderDetails(currentOrderData);
+          document.getElementById('trackResults').style.display = 'block';
+          document.getElementById('trackNoResults').style.display = 'none';
+        } else {
+          document.getElementById('trackResults').style.display = 'none';
+          document.getElementById('trackNoResults').style.display = 'block';
+        }
+      } catch (error) {
+        console.error('Error tracking order:', error);
+        Swal.fire({
+          title: '❌ حدث خطأ',
+          text: 'برجاء المحاولة مرة أخرى',
+          icon: 'error',
+          confirmButtonText: 'تمام',
+          confirmButtonColor: '#f59e0b'
+        });
+      }
+    }
+
+    function displayOrderDetails(order) {
+      const detailsDiv = document.getElementById('orderDetails');
+      detailsDiv.innerHTML = `
+        <div style="margin-bottom: 10px;">
+          <div style="color: #78350f; font-size: 13px; font-weight: 600; margin-bottom: 4px;">👤 الاسم:</div>
+          <div style="color: #92400e; font-size: 16px; font-weight: 700;">${order.name}</div>
+        </div>
+        <div style="margin-bottom: 10px;">
+          <div style="color: #78350f; font-size: 13px; font-weight: 600; margin-bottom: 4px;">📱 الهاتف:</div>
+          <div style="color: #92400e; font-size: 16px; font-weight: 700;">${order.phone}</div>
+        </div>
+        ${order.phone2 ? `
+        <div style="margin-bottom: 10px;">
+          <div style="color: #78350f; font-size: 13px; font-weight: 600; margin-bottom: 4px;">📱 الهاتف البديل:</div>
+          <div style="color: #92400e; font-size: 16px; font-weight: 700;">${order.phone2}</div>
+        </div>
+        ` : ''}
+        <div style="margin-bottom: 10px;">
+          <div style="color: #78350f; font-size: 13px; font-weight: 600; margin-bottom: 4px;">📍 المحافظة:</div>
+          <div style="color: #92400e; font-size: 16px; font-weight: 700;">${order.governorate}</div>
+        </div>
+        <div style="margin-bottom: 10px;">
+          <div style="color: #78350f; font-size: 13px; font-weight: 600; margin-bottom: 4px;">📍 العنوان:</div>
+          <div style="color: #92400e; font-size: 15px; font-weight: 600;">${order.address}</div>
+        </div>
+        <div style="margin-bottom: 10px;">
+          <div style="color: #78350f; font-size: 13px; font-weight: 600; margin-bottom: 4px;">📦 المنتج:</div>
+          <div style="color: #92400e; font-size: 16px; font-weight: 700;">${order.product}</div>
+        </div>
+        <div style="margin-bottom: 10px;">
+          <div style="color: #78350f; font-size: 13px; font-weight: 600; margin-bottom: 4px;">🔢 الكمية:</div>
+          <div style="color: #92400e; font-size: 16px; font-weight: 700;">${order.quantity || 1}</div>
+        </div>
+        <div style="margin-bottom: 10px;">
+          <div style="color: #78350f; font-size: 13px; font-weight: 600; margin-bottom: 4px;">💰 الإجمالي:</div>
+          <div style="color: #16a34a; font-size: 20px; font-weight: 900;">${order.price} جنيه</div>
+        </div>
+        ${order.notes ? `
+        <div style="margin-bottom: 10px;">
+          <div style="color: #78350f; font-size: 13px; font-weight: 600; margin-bottom: 4px;">📝 ملاحظات:</div>
+          <div style="color: #92400e; font-size: 14px; font-weight: 600;">${order.notes}</div>
+        </div>
+        ` : ''}
+        <div style="margin-top: 12px; padding-top: 12px; border-top: 2px dashed #fbbf24;">
+          <div style="color: #78350f; font-size: 13px; font-weight: 600; margin-bottom: 4px;">📅 تاريخ الطلب:</div>
+          <div style="color: #92400e; font-size: 14px; font-weight: 600;">${order.date} - ${order.time}</div>
+        </div>
+      `;
+    }
+
+    function requestEditOrder() {
+      if (!currentOrderData) return;
+
+      const message = `مرحباً، أنا ${currentOrderData.name}
+📱 رقم الهاتف: ${currentOrderData.phone}
+📦 المنتج: ${currentOrderData.product}
+💰 الإجمالي: ${currentOrderData.price} جنيه
+
+أرغب في تعديل طلبي، برجاء التواصل معي.`;
+
+      const whatsappUrl = `https://wa.me/201557350728?text=${encodeURIComponent(message)}`;
+      window.open(whatsappUrl, '_blank');
+    }
+
+    function requestCancelOrder() {
+      if (!currentOrderData) return;
+
+      Swal.fire({
+        title: '⚠️ هل أنت متأكد من إلغاء الطلب؟',
+        text: 'سيتم التواصل معك عبر واتساب لتأكيد الإلغاء',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#ef4444',
+        cancelButtonColor: '#6b7280',
+        confirmButtonText: 'نعم، إلغاء الطلب',
+        cancelButtonText: 'تراجع'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const message = `مرحباً، أنا ${currentOrderData.name}
+📱 رقم الهاتف: ${currentOrderData.phone}
+📦 المنتج: ${currentOrderData.product}
+💰 الإجمالي: ${currentOrderData.price} جنيه
+
+أرغب في إلغاء طلبي، برجاء التواصل معي.`;
+
+          const whatsappUrl = `https://wa.me/201557350728?text=${encodeURIComponent(message)}`;
+          window.open(whatsappUrl, '_blank');
+        }
+      });
+    }
+
+    // Allow Enter key to search
+    document.getElementById('trackPhone').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        trackOrder();
       }
     });
   </script>
