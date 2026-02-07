@@ -1757,6 +1757,8 @@
                         return {
                             customer_name: order.name,
                             phone_number: order.phone,
+                            phone_number_2: order.phone2 || '',  // ✅ رقم الهاتف الثاني
+                            notes: order.notes || '',  // ✅ الملاحظات
                             province: order.governorate,
                             address: order.address,
                             total_price: order.finalPrice || order.price,
@@ -1907,7 +1909,10 @@
             
             // تحديث عدد الطلبات في الإحصائيات
             document.getElementById('totalOrders').textContent = filteredOrders.length;
-            const totalRevenue = filteredOrders.reduce((sum, order) => sum + order.price, 0);
+            const totalRevenue = filteredOrders.reduce((sum, order) => {
+                const price = parseFloat(order.finalPrice || order.price) || 0;
+                return sum + price;
+            }, 0);
             document.getElementById('totalRevenue').textContent = totalRevenue.toLocaleString();
         }
         
