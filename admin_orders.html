@@ -919,7 +919,8 @@
                             if (!order.price && order.total) {
                                 order.price = order.total;
                             }
-                        } else {
+                        } else if (!order.productType) {
+                            // فقط إذا لم يكن هناك productType محدد مسبقاً
                             order.productType = '🌿 زيت 108 عشبة';
                         }
                         orders.push(order);
@@ -1087,8 +1088,11 @@
         setTimeout(() => { isInitialLoad = false; }, 2000);
         
         // Display orders in table
+        let lastDisplayedOrders = [];
+
         async function displayOrders(orders = null) {
             const ordersData = orders || await loadOrders();
+            lastDisplayedOrders = ordersData;
             const tbody = document.getElementById('ordersTableBody');
             
             if (ordersData.length === 0) {
@@ -1162,6 +1166,9 @@
                     </td>
                     <td onclick="copyToClipboard('${(order.notes || '').replace(/'/g, "\\'").replace(/"/g, '&quot;')}', 'الملاحظات')" style="cursor: pointer; font-size: 0.85rem; max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${order.notes || 'لا توجد ملاحظات'} (انقر للنسخ)">${order.notes ? '📝 ' + order.notes : '<span style="opacity: 0.4;">-</span>'}</td>
                     <td class="actions">
+                        <button class="btn btn-primary btn-small" onclick="copyOrderSummary(${index})" title="نسخ بيانات الطلب">
+                            <i class="fas fa-copy"></i>
+                        </button>
                         <button class="btn btn-primary btn-small" onclick="viewDetails(${index})" title="عرض التفاصيل">
                             <i class="fas fa-eye"></i>
                         </button>
@@ -1179,6 +1186,26 @@
             `}).join('');
             
             updateStats(ordersData);
+        }
+
+        function copyOrderSummary(index) {
+            const order = lastDisplayedOrders[index];
+            if (!order) {
+                return;
+            }
+
+            const summary = [
+                `الاسم: ${order.name || '-'}`,
+                `الهاتف الأساسي: ${order.phone || '-'}`,
+                `الهاتف البديل: ${order.phone2 || '-'}`,
+                `المحافظة: ${order.governorate || '-'}`,
+                `العنوان التفصيلي: ${order.address || '-'}`,
+                `المنتج: ${order.product || order.productType || '-'}`,
+                `السعر الإجمالي: ${order.finalPrice || order.price || '-'}`,
+                `الملاحظات: ${order.notes || '-'}`
+            ].join('\n');
+
+            copyToClipboard(summary, 'بيانات الطلب');
         }
         
         // Update statistics
