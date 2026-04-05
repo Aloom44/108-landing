@@ -1178,9 +1178,6 @@
                         <button class="btn btn-success btn-small" onclick="whatsappCustomer('${order.phone}', '${order.name}', '${order.governorate}', '${order.address}', '${order.bottleSize || order.size || ''}', ${order.price}, '${order.date}', '${order.time}', '${order.productType || '🌿 زيت 108 عشبة'}', ${quantity}, '${(order.notes || '').replace(/'/g, "\\'")}', '${order.phone2 || ''}')" title="تأكيد الطلب">
                             <i class="fab fa-whatsapp"></i>
                         </button>
-                        <button class="btn btn-danger btn-small" onclick="cancelOrderMessage('${order.phone}', '${order.name}')" title="إلغاء الطلب" style="background: #dc3545;">
-                            <i class="fas fa-times-circle"></i>
-                        </button>
                     </td>
                 </tr>
             `}).join('');
@@ -1454,50 +1451,6 @@
             }
         }
         
-        // Cancel order message
-        function cancelOrderMessage(phone, name) {
-            // إضافة كود الدولة +20
-            let formattedPhone = phone.toString().replace(/\D/g, '');
-            
-            if (formattedPhone.startsWith('0')) {
-                formattedPhone = '20' + formattedPhone.substring(1);
-            } else if (!formattedPhone.startsWith('20')) {
-                formattedPhone = '20' + formattedPhone;
-            }
-            
-            const whatsappUrl = 'https://wa.me/' + formattedPhone;
-            
-            const confirmed = confirm('سيتم إرسال رسالة إلغاء الطلب للعميل: ' + name + '\nهل تريد المتابعة؟');
-            
-            if (confirmed) {
-                // رسالة الإلغاء
-                let msg = 'مرحباً *' + name + '* 👋\n\n';
-                msg += 'تم إلغاء طلبك من زيت الـ108 عشبة بناءً على طلبك 🌿\n\n';
-                msg += '✅ *تم إلغاء الطلب بنجاح*\n\n';
-                msg += '━━━━━━━━━━━━━━━━━━\n\n';
-                msg += 'نحترم قرارك ونقدر تواصلك معنا 💚\n\n';
-                msg += 'إذا كان لديك أي استفسار أو تحتاج أي مساعدة، نحن دائماً في خدمتك!\n\n';
-                msg += '━━━━━━━━━━━━━━━━━━\n\n';
-                msg += '💚 *نتمنى خدمتك مرة أخرى!*\n\n';
-                msg += 'في حال غيرت رأيك أو أردت تقديم طلب جديد، سنكون سعداء بخدمتك! 🌟\n\n';
-                msg += '🎁 *عرض خاص لك:*\n';
-                msg += 'عند طلبك القادم، استخدم كود الخصم *WELCOME15* واحصل على خصم 15% 💝\n\n';
-                msg += '━━━━━━━━━━━━━━━━━━\n\n';
-                msg += 'شكراً لثقتك واهتمامك 🙏\n';
-                msg += 'نتطلع لخدمتك في المستقبل القريب\n\n';
-                msg += 'فريق زيت الـ108 عشبة 🌿\n';
-                msg += '📞 للاستفسار: 01557350728';
-                
-                // نسخ الرسالة للحافظة
-                navigator.clipboard.writeText(msg).then(function() {
-                    alert('✅ تم نسخ رسالة الإلغاء!\n\nالآن:\n1. سيتم فتح واتساب\n2. الصق الرسالة (Ctrl+V)\n3. اضغط إرسال');
-                    window.open(whatsappUrl, '_blank');
-                }).catch(function() {
-                    alert('رسالة الإلغاء:\n\n' + msg + '\n\nانسخها يدوياً ثم اضغط OK لفتح واتساب');
-                    window.open(whatsappUrl, '_blank');
-                });
-            }
-        }
         
         // Search orders
         document.getElementById('searchInput').addEventListener('input', async function(e) {
