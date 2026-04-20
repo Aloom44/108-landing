@@ -1,0 +1,3481 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>كارسيل كولاجين – ماسك + سيروم لعلاج الشعر التالف</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="وداعاً للشعر التالف والهايش مع مجموعة كارسيل كولاجين الطبيعية – ماسك + سيروم لعلاج التلف، التقصف والهيشان في أيام قليلة فقط."
+  />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="https://i.ibb.co/1fHj8NND/cropped-karseell-logo-400x100-1.png" />
+  <link rel="shortcut icon" type="image/png" href="https://i.ibb.co/1fHj8NND/cropped-karseell-logo-400x100-1.png" />
+
+  <!-- OG -->
+  <meta property="og:title" content="كارسيل كولاجين – وداعاً للشعر التالف" />
+  <meta property="og:description" content="ماسك + سيروم كولاجين وأرجان طبيعي لترميم الشعر وإرجاع اللمعة والنعومة." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://i.ibb.co/fzXzcyzV/Whats-App-Image-2025-11-10-at-03-45-56-5c1b868c.jpg" />
+
+  <!-- Meta Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '2018898725329056');
+  fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=2018898725329056&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- End Meta Pixel Code -->
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" />
+
+  <style>
+    :root {
+      --bg: #f6f1e8;
+      --primary: #f59e0b;
+      --primary-dark: #d97706;
+      --accent: #b45309;
+      --text-main: #111827;
+      --text-muted: #6b7280;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --shadow-soft: 0 8px 25px rgba(0, 0, 0, 0.08);
+      --container: 1100px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .container {
+      width: 100%;
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    header {
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      border-bottom: 2px solid #f59e0b;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: 0 2px 12px rgba(245, 158, 11, 0.2);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 18px;
+      color: #92400e;
+    }
+
+    .badge-small {
+      background: #f97316;
+      color: #fff;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border-radius: 999px;
+      padding: 10px 22px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      outline: none;
+      transition: transform 0.1s ease, box-shadow 0.1s ease,
+        background 0.1s ease;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: #fff;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 30px rgba(249, 115, 22, 0.4);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid #fecf8c;
+      color: #92400e;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hero {
+      background: linear-gradient(180deg, #fff7ed 0%, #fef3c7 60%, #fefce8 100%);
+      padding: 22px 0 30px 0;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 24px;
+      align-items: center;
+    }
+
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 16px;
+      border-radius: 999px;
+      background: rgba(252, 211, 77, 0.3);
+      font-size: 14px;
+      font-weight: 700;
+      color: #92400e;
+      margin-bottom: 12px;
+      border: 2px solid #fbbf24;
+    }
+
+    .hero-title {
+      font-size: 28px;
+      font-weight: 900;
+      margin-bottom: 8px;
+      line-height: 1.3;
+      color: #1f2937;
+    }
+
+    .hero-title span {
+      color: #ea580c;
+      font-size: 30px;
+    }
+
+    .hero-sub {
+      font-size: 15px;
+      color: #4b5563;
+      margin-bottom: 18px;
+      line-height: 1.7;
+      font-weight: 500;
+    }
+
+    .hero-benefits {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .hero-benefits span {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #fef3c7;
+      padding: 10px 12px;
+      border-radius: 8px;
+      color: #78350f;
+      border: 1px solid #fbbf24;
+    }
+
+    .hero-benefits i {
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      background: #22c55e;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .hero-cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .price-box {
+      background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 100%);
+      border-radius: var(--radius-md);
+      padding: 12px 20px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 6px 20px rgba(234, 88, 12, 0.3);
+      border: 3px solid #ea580c;
+      position: relative;
+      overflow: hidden;
+      max-width: fit-content;
+    }
+
+    .price-box::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      width: 80px;
+      height: 80px;
+      background: radial-gradient(circle, rgba(234, 88, 12, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .price-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      padding-left: 16px;
+      border-left: 2px solid #f59e0b;
+    }
+
+    .price-old {
+      font-size: 12px;
+      color: #9ca3af;
+      text-decoration: line-through;
+      font-weight: 600;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .price-old span {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .price-new {
+      font-size: 28px;
+      font-weight: 900;
+      color: #ea580c;
+      text-shadow: 0 2px 4px rgba(234, 88, 12, 0.3);
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .products-included {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .product-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255, 255, 255, 0.8);
+      padding: 6px 12px;
+      border-radius: 10px;
+      border: 2px solid #fbbf24;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    }
+
+    .product-icon {
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .product-text {
+      font-size: 11px;
+      font-weight: 700;
+      color: #92400e;
+      white-space: nowrap;
+      line-height: 1.2;
+    }
+
+    .plus-sign {
+      font-size: 22px;
+      font-weight: 900;
+      color: #ea580c;
+      line-height: 1;
+    }
+
+    .price-tagline {
+      font-size: 12px;
+      color: #78350f;
+      font-weight: 600;
+      margin-top: 4px;
+      line-height: 1.3;
+    }
+
+    .limited {
+      font-size: 11px;
+      color: #dc2626;
+      font-weight: 700;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    .hero-img-card {
+      background: #fff;
+      border-radius: var(--radius-lg);
+      padding: 14px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .hero-img-card img {
+      border-radius: var(--radius-md);
+      width: 100%;
+      height: auto;
+    }
+
+    /* Carousel Styles */
+    .carousel {
+      position: relative;
+      border-radius: var(--radius-md);
+      height: 450px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fafaf9;
+    }
+
+    .carousel-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .carousel-item {
+      display: none;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .carousel-item.active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .carousel-item img {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: var(--radius-md);
+    }
+
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .carousel-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #d1d5db;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .carousel-dot.active {
+      background: var(--primary);
+      width: 24px;
+      border-radius: 5px;
+    }
+
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.9);
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 18px;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      z-index: 10;
+    }
+
+    .carousel-btn:hover {
+      background: #fff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .carousel-btn.prev {
+      left: 10px;
+    }
+
+    .carousel-btn.next {
+      right: 10px;
+    }
+
+    .sec {
+      padding: 26px 0;
+    }
+
+    .sec-title {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 6px;
+      text-align: center;
+    }
+
+    .sec-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-align: center;
+      margin-bottom: 18px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: var(--radius-md);
+      padding: 14px;
+      box-shadow: var(--shadow-soft);
+      font-size: 13px;
+    }
+
+    .card-badge {
+      font-size: 11px;
+      color: #92400e;
+      margin-bottom: 6px;
+    }
+
+    .card-title {
+      font-weight: 700;
+      margin-bottom: 4px;
+      font-size: 14px;
+    }
+
+    .card ul {
+      padding-right: 18px;
+      margin-top: 6px;
+      color: var(--text-muted);
+    }
+
+    .card ul li {
+      margin-bottom: 4px;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .product-card img {
+      border-radius: 12px;
+      margin-bottom: 8px;
+    }
+
+    .product-name {
+      font-weight: 700;
+      margin-bottom: 2px;
+      font-size: 14px;
+    }
+
+    .product-size {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .before-after {
+      display: grid;
+      grid-template-columns: 1fr 400px;
+      gap: 30px;
+      align-items: start;
+    }
+
+    .ba-video {
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+      width: 400px;
+      height: 350px;
+    }
+
+    .ba-video video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: var(--radius-lg);
+    }
+
+    .ba-content {
+      padding: 10px 0;
+    }
+
+    .ba-content h3 {
+      font-size: 26px;
+      font-weight: 900;
+      color: #1f2937;
+      margin-bottom: 14px;
+      line-height: 1.3;
+    }
+
+    .ba-content p {
+      font-size: 16px;
+      color: #4b5563;
+      line-height: 1.8;
+      margin-bottom: 20px;
+      font-weight: 500;
+    }
+
+    .ba-benefits {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .ba-benefit {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 15px;
+      color: #1f2937;
+      line-height: 1.6;
+    }
+
+    .ba-benefit i {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #22c55e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      color: #fff;
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+
+    .ba-benefit strong {
+      color: #ea580c;
+      font-weight: 700;
+    }
+
+    .how-steps {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    .how-steps .card {
+      position: relative;
+      padding: 20px;
+      border: 2px solid #fde68a;
+      transition: all 0.3s ease;
+    }
+
+    .how-steps .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(234, 88, 12, 0.15);
+      border-color: #fbbf24;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+      color: #fff;
+      margin-bottom: 10px;
+      font-weight: 700;
+      box-shadow: 0 2px 8px rgba(251, 191, 36, 0.3);
+    }
+
+    .how-steps .card-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: #1f2937;
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+
+    .how-steps .card p {
+      font-size: 14px;
+      line-height: 1.7;
+      color: #4b5563;
+    }
+
+    .testimonials {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .t-card {
+      background: linear-gradient(135deg, #fff 0%, #fefce8 100%);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      border: 2px solid #fef3c7;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .t-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 30px rgba(234, 88, 12, 0.2);
+      border-color: #fbbf24;
+    }
+
+    .t-card::before {
+      content: '"';
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      font-size: 45px;
+      color: rgba(251, 191, 36, 0.2);
+      font-family: Georgia, serif;
+      line-height: 1;
+    }
+
+    .t-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .t-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 16px;
+      color: #fff;
+      box-shadow: 0 3px 10px rgba(251, 191, 36, 0.3);
+    }
+
+    .t-info {
+      flex: 1;
+    }
+
+    .t-name {
+      font-weight: 700;
+      font-size: 14px;
+      color: #1f2937;
+      margin-bottom: 2px;
+    }
+
+    .t-meta {
+      font-size: 11px;
+      color: #6b7280;
+    }
+
+    .stars {
+      color: #fbbf24;
+      font-size: 14px;
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .t-card p {
+      font-size: 13px;
+      line-height: 1.6;
+      color: #374151;
+      font-style: italic;
+    }
+
+    .faq {
+      max-width: 720px;
+      margin: 0 auto;
+      font-size: 13px;
+    }
+
+    .faq-item {
+      background: #fff;
+      border-radius: var(--radius-md);
+      padding: 0;
+      box-shadow: var(--shadow-soft);
+      margin-bottom: 10px;
+      overflow: hidden;
+      border: 1px solid #e5e7eb;
+      transition: all 0.3s ease;
+    }
+
+    .faq-item:hover {
+      border-color: #fbbf24;
+      box-shadow: 0 4px 15px rgba(251, 191, 36, 0.2);
+    }
+
+    .faq-q {
+      font-weight: 600;
+      padding: 14px 16px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+      transition: background 0.2s ease;
+      font-size: 14px;
+      color: #1f2937;
+    }
+
+    .faq-q:hover {
+      background: #fef3c7;
+    }
+
+    .faq-q::after {
+      content: '▼';
+      font-size: 12px;
+      color: #f59e0b;
+      transition: transform 0.3s ease;
+    }
+
+    .faq-item.active .faq-q::after {
+      transform: rotate(180deg);
+    }
+
+    .faq-a {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      font-size: 13px;
+      line-height: 1.7;
+      color: #4b5563;
+    }
+
+    .faq-a-content {
+      padding: 0 16px 14px 16px;
+    }
+
+    .faq-item.active .faq-a {
+      max-height: 1000px;
+    }
+
+    .guarantee {
+      background: #ecfdf5;
+      border-radius: var(--radius-lg);
+      padding: 14px;
+      font-size: 13px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-top: 14px;
+    }
+
+    .order-section {
+      background: linear-gradient(180deg, #fff7ed 0%, #fef3c7 60%, #fefce8 100%);
+      color: #1f2937;
+      padding: 30px 0;
+    }
+
+    .order-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+      gap: 24px;
+      align-items: flex-start;
+    }
+
+    .order-title {
+      font-size: 24px;
+      font-weight: 900;
+      margin-bottom: 8px;
+      color: #1f2937;
+    }
+
+    .order-sub {
+      font-size: 14px;
+      color: #6b7280;
+      margin-bottom: 10px;
+    }
+
+    form {
+      display: grid;
+      gap: 8px;
+      font-size: 13px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 4px;
+      font-weight: 600;
+      color: #374151;
+      font-size: 14px;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 2px solid #e5e7eb;
+      background: #fff;
+      color: #1f2937;
+      font-family: inherit;
+      font-size: 14px;
+      transition: border-color 0.2s ease;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #fbbf24;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #9ca3af;
+    }
+
+    .order-note {
+      font-size: 12px;
+      color: #6b7280;
+      margin-top: 8px;
+      text-align: center;
+    }
+
+    .order-warning {
+      background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 100%);
+      border: 3px solid #f59e0b;
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin: 25px 0;
+      box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .order-warning::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #f59e0b 0%, #ea580c 50%, #f59e0b 100%);
+      animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    .order-warning-header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 15px;
+      padding: 14px 16px;
+      background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+      border-radius: 10px 10px 0 0;
+      border: 2px solid #fb923c;
+      border-bottom: none;
+      box-shadow: 0 -2px 8px rgba(251, 146, 60, 0.15);
+    }
+
+    .order-warning-icon {
+      font-size: 36px;
+      flex-shrink: 0;
+      line-height: 1;
+      animation: pulse 2s infinite;
+      filter: drop-shadow(0 2px 4px rgba(251, 146, 60, 0.3));
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+    }
+
+    .order-warning-content h4 {
+      font-size: 17px;
+      font-weight: 800;
+      color: #92400e;
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+      line-height: 1.4;
+    }
+
+    .order-warning-body {
+      background: rgba(255, 255, 255, 0.7);
+      padding: 18px;
+      border-radius: 0 0 10px 10px;
+      border: 2px solid #fb923c;
+      border-top: none;
+      box-shadow: 0 4px 12px rgba(251, 146, 60, 0.15);
+    }
+
+    .order-warning-body p {
+      font-size: 14px;
+      color: #78350f;
+      line-height: 1.8;
+      margin: 0;
+      font-weight: 500;
+    }
+
+    .order-warning-body p strong {
+      color: #92400e;
+      font-weight: 700;
+    }
+
+    .order-warning-note {
+      display: flex;
+      align-items: start;
+      gap: 8px;
+      margin-top: 12px;
+      padding: 10px;
+      background: rgba(239, 68, 68, 0.1);
+      border-radius: 6px;
+      border-right: 3px solid #dc2626;
+    }
+
+    .order-warning-note-icon {
+      font-size: 16px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .order-warning-note p {
+      font-size: 13px;
+      color: #991b1b;
+      margin: 0;
+      font-weight: 600;
+    }
+
+    .offers-section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .offers-row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .offer-card {
+      background: linear-gradient(135deg, #fff 0%, #fef3c7 100%);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      border: 2px solid #fbbf24;
+      box-shadow: 0 4px 15px rgba(234, 88, 12, 0.12);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .offer-card.contact-offer {
+      cursor: default;
+    }
+
+    .offer-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(234, 88, 12, 0.2);
+      border-color: #f59e0b;
+    }
+
+    .offer-card.popular {
+      border-color: #ea580c;
+      background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 100%);
+    }
+
+    .offer-card.selected {
+      border-color: #16a34a;
+      border-width: 3px;
+      background: linear-gradient(135deg, #f0fdf4 0%, #d1fae5 100%);
+      box-shadow: 0 8px 25px rgba(22, 163, 74, 0.3);
+      transform: scale(1.02);
+    }
+
+    .offer-card.selected::before {
+      content: '✓';
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: #16a34a;
+      color: white;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 14px;
+      box-shadow: 0 2px 8px rgba(22, 163, 74, 0.4);
+    }
+
+    .offer-badge {
+      display: inline-block;
+      background: #22c55e;
+      color: #fff;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+
+    .offer-card.popular .offer-badge {
+      background: #ea580c;
+    }
+
+    .offer-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #1f2937;
+      margin-bottom: 6px;
+    }
+
+    .offer-price {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .offer-price-old {
+      font-size: 13px;
+      color: #9ca3af;
+      text-decoration: line-through;
+    }
+
+    .offer-price-new {
+      font-size: 22px;
+      font-weight: 900;
+      color: #ea580c;
+    }
+
+    .offer-save {
+      display: inline-block;
+      background: rgba(34, 197, 94, 0.15);
+      color: #166534;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .offer-motivation {
+      background: rgba(234, 88, 12, 0.1);
+      color: #9a3412;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-top: 6px;
+      text-align: center;
+    }
+
+    .offer-features {
+      display: none;
+    }
+
+    .contact-offer {
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      border: 2px dashed #f59e0b;
+      text-align: center;
+      padding: 14px;
+    }
+
+    .contact-offer-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: #92400e;
+      margin-bottom: 8px;
+    }
+
+    .contact-offer p {
+      font-size: 12px;
+      color: #78350f;
+      margin-bottom: 10px;
+    }
+
+    .whatsapp-contact {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #22c55e;
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 13px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .whatsapp-contact:hover {
+      background: #16a34a;
+      transform: scale(1.05);
+    }
+
+    /* Products Grid */
+    .products-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr 1fr;
+      gap: 15px;
+      margin-bottom: 25px;
+      align-items: stretch;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: var(--radius-md);
+      padding: 15px;
+      border: 2px solid #e5e7eb;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .product-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(245, 158, 11, 0.2);
+      border-color: #f59e0b;
+    }
+
+    .product-card.popular {
+      border-color: #ea580c;
+      background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 100%);
+      transform: scale(1.05);
+      box-shadow: 0 12px 35px rgba(234, 88, 12, 0.35);
+      border-width: 3px;
+      z-index: 2;
+    }
+
+    .product-card.selected,
+    .offer-card.selected {
+      border-color: #16a34a;
+      border-width: 3px;
+      background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+      box-shadow: 0 8px 25px rgba(34, 197, 94, 0.3);
+    }
+
+    .product-card.selected::after,
+    .offer-card.selected::after {
+      content: '✓ محدد';
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: #16a34a;
+      color: white;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      z-index: 2;
+    }
+
+    .product-image {
+      width: 100%;
+      height: 180px;
+      overflow: hidden;
+      border-radius: 8px;
+      background: #f9fafb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .product-image img {
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .product-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+      color: white;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      box-shadow: 0 2px 8px rgba(234, 88, 12, 0.3);
+      z-index: 1;
+    }
+
+    .product-badge.popular-badge {
+      background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+      animation: productPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes productPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .product-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: #111827;
+      text-align: center;
+    }
+
+    .product-desc {
+      font-size: 13px;
+      color: #6b7280;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    .product-price {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 8px;
+      margin: 5px 0;
+    }
+
+    .product-price .price-old {
+      font-size: 14px;
+      color: #9ca3af;
+      text-decoration: line-through;
+    }
+
+    .product-price .price-new {
+      font-size: 24px;
+      font-weight: 900;
+      color: #ea580c;
+    }
+
+    .product-save {
+      text-align: center;
+      background: rgba(34, 197, 94, 0.15);
+      color: #166534;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .product-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: auto;
+    }
+
+    .product-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(234, 88, 12, 0.4);
+    }
+
+    .product-btn:active {
+      transform: translateY(0);
+    }
+
+    /* Special Offers Title */
+    .special-offers-title {
+      text-align: center;
+      margin: 30px 0 20px;
+      position: relative;
+    }
+
+    .special-offers-title::before,
+    .special-offers-title::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 30%;
+      height: 2px;
+      background: linear-gradient(to right, transparent, #fbbf24, transparent);
+    }
+
+    .special-offers-title::before {
+      left: 0;
+    }
+
+    .special-offers-title::after {
+      right: 0;
+    }
+
+    .special-offers-title span {
+      background: linear-gradient(135deg, #ea580c 0%, #dc2626 100%);
+      color: white;
+      padding: 10px 25px;
+      border-radius: 25px;
+      font-size: 16px;
+      font-weight: 800;
+      box-shadow: 0 4px 15px rgba(234, 88, 12, 0.4);
+      display: inline-block;
+    }
+
+    .offer-content {
+      font-size: 12px;
+      color: #6b7280;
+      margin: 5px 0;
+      text-align: center;
+    }
+
+    /* Custom Order Box */
+    .custom-order-box {
+      background: linear-gradient(135deg, #fff 0%, #f0fdf4 100%);
+      border: 3px dashed #10b981;
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.1);
+    }
+
+    .custom-icon {
+      font-size: 48px;
+      flex-shrink: 0;
+    }
+
+    .custom-content h3 {
+      font-size: 18px;
+      font-weight: 800;
+      color: #065f46;
+      margin-bottom: 5px;
+    }
+
+    .custom-content p {
+      font-size: 13px;
+      color: #047857;
+      margin-bottom: 10px;
+    }
+
+    .whatsapp-btn {
+      display: inline-block;
+      background: #25d366;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 15px;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 10px rgba(37, 211, 102, 0.3);
+    }
+
+    .whatsapp-btn:hover {
+      background: #1da851;
+      transform: scale(1.05);
+      box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+    }
+
+    .list-check {
+      font-size: 13px;
+      color: #e5e7eb;
+    }
+
+    .list-check li {
+      margin-bottom: 4px;
+    }
+
+    .whatsapp-box {
+      background: #f0fdf4;
+      border-radius: var(--radius-md);
+      padding: 10px 12px;
+      font-size: 13px;
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .whatsapp-btn {
+      background: #22c55e;
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 600;
+    }
+
+    footer {
+      font-size: 11px;
+      color: #6b7280;
+      text-align: center;
+      padding: 10px 16px 18px;
+      background: #020617;
+      color: #9ca3af;
+    }
+
+    .sticky-cta {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(15, 23, 42, 0.98);
+      padding: 8px 12px;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      z-index: 40;
+    }
+
+    .sticky-cta p {
+      font-size: 12px;
+      color: #e5e7eb;
+    }
+
+    .sticky-cta .btn {
+      padding-inline: 16px;
+      font-size: 12px;
+    }
+
+    /* Floating WhatsApp Button */
+    .whatsapp-float {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      left: 25px;
+      z-index: 999;
+      animation: pulse-whatsapp 2.2s infinite;
+    }
+
+    .whatsapp-float a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 58px;
+      height: 58px;
+      background: #25d366;
+      border-radius: 50%;
+      border: 2px solid #ffffff;
+      box-shadow: 0 6px 16px rgba(37, 211, 102, 0.32);
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .whatsapp-float a:hover {
+      transform: scale(1.08);
+      box-shadow: 0 8px 22px rgba(37, 211, 102, 0.42);
+    }
+
+    .whatsapp-float svg {
+      width: 32px;
+      height: 32px;
+      fill: white;
+    }
+
+    @keyframes pulse-whatsapp {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid,
+      .order-grid,
+      .grid-3,
+      .product-grid,
+      .before-after,
+      .how-steps,
+      .testimonials {
+        grid-template-columns: 1fr;
+      }
+
+      /* Header & Navigation */
+      .nav {
+        padding: 12px 0;
+      }
+
+      .logo img {
+        height: 35px !important;
+      }
+
+      .nav .btn {
+        font-size: 0.9rem !important;
+        padding: 8px 16px !important;
+      }
+
+      /* Hero Section */
+      .hero {
+        padding-top: 12px;
+        padding-bottom: 24px;
+      }
+
+      .hero-grid {
+        display: flex;
+        flex-direction: column-reverse;
+      }
+
+      .hero-kicker {
+        font-size: 13px;
+        padding: 6px 14px;
+        margin-bottom: 12px;
+      }
+
+      .hero-title {
+        font-size: 22px;
+        line-height: 1.3;
+        margin-bottom: 14px;
+      }
+
+      .hero-title span {
+        font-size: 24px;
+      }
+
+      .hero-sub {
+        font-size: 14px;
+        line-height: 1.6;
+        margin-bottom: 16px;
+      }
+
+      .hero-benefits {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 18px;
+      }
+
+      .hero-benefits span {
+        font-size: 13px;
+        padding: 10px 14px;
+        text-align: right;
+        width: 100%;
+        display: block;
+      }
+
+      .hero-benefits i {
+        font-size: 14px;
+      }
+
+      .cta-group {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .cta-group .btn {
+        width: 100%;
+        font-size: 15px;
+        padding: 14px 20px;
+      }
+
+      /* Price Box */
+      .price-box {
+        padding: 14px;
+        margin-top: 16px;
+      }
+
+      .price-box {
+        padding: 10px 12px;
+        gap: 10px;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .price-section {
+        gap: 2px;
+        padding-left: 10px;
+        padding-bottom: 0;
+        border-left: 2px solid #f59e0b;
+        border-bottom: none;
+        width: auto;
+      }
+
+      .price-old {
+        font-size: 10px;
+      }
+
+      .price-old span {
+        font-size: 12px;
+      }
+
+      .price-new {
+        font-size: 22px;
+      }
+
+      .products-included {
+        gap: 6px;
+        flex: 1;
+      }
+
+      .product-item {
+        padding: 5px 8px;
+      }
+
+      .product-icon {
+        font-size: 16px;
+      }
+
+      .product-text {
+        font-size: 9px;
+      }
+
+      .plus-sign {
+        font-size: 16px;
+      }
+
+      .limited {
+        font-size: 9px;
+        width: 100%;
+        text-align: center;
+      }
+
+      .products-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .product-card {
+        padding: 8px;
+      }
+
+      .product-card.popular {
+        transform: scale(1);
+        padding: 10px;
+      }
+
+      .product-image {
+        height: 130px;
+      }
+
+      .product-title {
+        font-size: 15px !important;
+      }
+
+      .product-desc {
+        font-size: 12px;
+      }
+
+      .product-price .price-new {
+        font-size: 20px !important;
+      }
+
+      .product-price .price-old {
+        font-size: 13px !important;
+      }
+
+      .product-card ul {
+        font-size: 11px !important;
+        margin: 6px 0 !important;
+        padding-right: 16px !important;
+      }
+
+      .product-card ul li {
+        margin-bottom: 2px;
+      }
+
+      .product-save {
+        font-size: 10px !important;
+        padding: 2px 6px !important;
+        margin: 6px 0;
+      }
+
+      .product-btn {
+        padding: 9px !important;
+        font-size: 12px !important;
+        margin-top: 8px;
+      }
+
+      .product-badge {
+        font-size: 9px;
+        padding: 4px 8px;
+      }
+
+      .offer-card {
+        padding: 10px;
+      }
+
+      .offer-title {
+        font-size: 14px;
+        margin-bottom: 6px;
+      }
+
+      .offer-content {
+        font-size: 11px;
+        margin: 4px 0;
+      }
+
+      .offer-price {
+        margin: 6px 0;
+      }
+
+      .offer-price-new {
+        font-size: 18px !important;
+      }
+
+      .offer-price-old {
+        font-size: 11px !important;
+      }
+
+      .offer-save {
+        font-size: 9px !important;
+        padding: 2px 6px !important;
+      }
+
+      .offer-badge {
+        font-size: 8px;
+        padding: 2px 7px;
+      }
+
+      .offer-motivation,
+      .offer-card div[style*="font-size"] {
+        font-size: 10px !important;
+        padding: 6px 8px !important;
+        margin-top: 6px;
+      }
+
+      .order-title {
+        font-size: 20px;
+      }
+
+      .order-sub {
+        font-size: 12px;
+      }
+
+      .product-desc {
+        font-size: 12px;
+      }
+
+      .product-price .price-new {
+        font-size: 20px;
+      }
+
+      .product-card ul {
+        font-size: 11px !important;
+        margin: 8px 0 !important;
+      }
+
+      .product-btn {
+        padding: 10px;
+        font-size: 13px;
+      }
+
+      .offer-card {
+        padding: 12px;
+      }
+
+      .offer-title {
+        font-size: 15px;
+      }
+
+      .offer-price-new {
+        font-size: 20px !important;
+      }
+
+      .offer-card ul,
+      .offer-card div[style*="font-size: 13px"] {
+        font-size: 11px !important;
+      }
+
+      .price-urgency {
+        font-size: 12px;
+        padding: 6px 10px;
+        margin-top: 8px;
+      }
+
+      /* Carousel */
+      .carousel {
+        height: 350px;
+        margin-top: 0;
+        margin-bottom: 0;
+        padding: 0;
+        background: #fafaf9;
+        width: 100%;
+      }
+
+      .carousel-inner {
+        height: 100%;
+        width: 100%;
+      }
+
+      .carousel-item {
+        height: 100%;
+        width: 100%;
+      }
+
+      .carousel-item img {
+        max-height: 100%;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
+      .hero-img-card {
+        padding: 10px;
+        background: #fff;
+        box-shadow: var(--shadow-soft);
+        border-radius: var(--radius-lg);
+        margin-bottom: 20px;
+        width: 100%;
+      }
+
+      .carousel-dots {
+        bottom: 10px;
+      }
+
+      .carousel-dot {
+        width: 8px;
+        height: 8px;
+      }
+
+      .carousel-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 16px;
+      }
+
+      /* Sections */
+      .sec {
+        padding: 28px 0;
+      }
+
+      .sec-title {
+        font-size: 24px;
+        margin-bottom: 10px;
+      }
+
+      .sec-sub {
+        font-size: 14px;
+        margin-bottom: 20px;
+      }
+
+      /* Product Cards */
+      .p-card {
+        padding: 16px;
+      }
+
+      .p-card img {
+        max-height: 180px;
+      }
+
+      .p-card h3 {
+        font-size: 18px;
+        margin: 12px 0 8px;
+      }
+
+      .p-card p {
+        font-size: 13px;
+      }
+
+      /* Before/After Video */
+      .before-after-video {
+        width: 100%;
+        height: 280px;
+        margin-bottom: 20px;
+      }
+
+      .before-after-content h3 {
+        font-size: 20px;
+        margin-bottom: 12px;
+      }
+
+      .before-after-content p {
+        font-size: 14px;
+      }
+
+      /* Usage Steps */
+      .how-steps {
+        gap: 12px;
+      }
+
+      .step-card {
+        padding: 16px;
+      }
+
+      .step-num {
+        font-size: 15px;
+        padding: 4px 12px;
+      }
+
+      .step-card h3 {
+        font-size: 16px;
+        margin: 10px 0 8px;
+      }
+
+      .step-card p {
+        font-size: 13px;
+      }
+
+      /* Testimonials */
+      .testimonials {
+        gap: 12px;
+      }
+
+      .t-card {
+        padding: 14px;
+      }
+
+      .t-avatar {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+      }
+
+      .t-name {
+        font-size: 13px;
+      }
+
+      .t-location {
+        font-size: 11px;
+      }
+
+      .t-stars {
+        font-size: 12px;
+      }
+
+      .t-card p {
+        font-size: 12px;
+        line-height: 1.5;
+      }
+
+      /* Order Section */
+      .order-section {
+        padding: 24px 0 60px;
+      }
+
+      .order-title {
+        font-size: 22px;
+        margin-bottom: 16px;
+      }
+
+      .order-grid {
+        gap: 20px;
+      }
+
+      /* Offers */
+      .offers-section {
+        gap: 10px;
+      }
+
+      .offers-row {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      /* Products Grid Mobile */
+      .products-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+
+      .product-card {
+        padding: 15px;
+      }
+
+      .product-image {
+        height: 200px;
+      }
+
+      .product-title {
+        font-size: 16px;
+      }
+
+      .product-desc {
+        font-size: 12px;
+      }
+
+      .product-price .price-new {
+        font-size: 22px;
+      }
+
+      .product-btn {
+        padding: 12px 18px;
+        font-size: 14px;
+      }
+
+      .special-offers-title span {
+        font-size: 14px;
+        padding: 8px 20px;
+      }
+
+      .special-offers-title::before,
+      .special-offers-title::after {
+        width: 20%;
+      }
+
+      .custom-order-box {
+        flex-direction: column;
+        text-align: center;
+        padding: 15px;
+      }
+
+      .custom-icon {
+        font-size: 40px;
+      }
+
+      .custom-content h3 {
+        font-size: 16px;
+      }
+
+      .custom-content p {
+        font-size: 12px;
+      }
+
+      .whatsapp-btn {
+        font-size: 14px;
+        padding: 10px 18px;
+      }
+
+      .offer-card {
+        padding: 14px 16px;
+      }
+
+      .offer-badge {
+        font-size: 10px;
+        padding: 4px 10px;
+      }
+
+      .offer-title {
+        font-size: 17px;
+        margin-bottom: 8px;
+      }
+
+      .offer-price {
+        margin-bottom: 6px;
+      }
+
+      .offer-price-old {
+        font-size: 13px;
+      }
+
+      .offer-price-new {
+        font-size: 22px;
+      }
+
+      .offer-save {
+        font-size: 11px;
+        padding: 4px 10px;
+      }
+
+      .offer-motivation {
+        font-size: 11px;
+        padding: 8px 12px;
+        margin-top: 8px;
+      }
+
+      .contact-offer-title {
+        font-size: 14px;
+      }
+
+      .contact-offer p {
+        font-size: 12px;
+      }
+
+      .whatsapp-contact {
+        font-size: 16px;
+        padding: 10px 16px;
+      }
+
+      /* Order Form */
+      #orderForm label {
+        font-size: 13px;
+        margin-bottom: 6px;
+      }
+
+      #orderForm input,
+      #orderForm select,
+      #orderForm textarea {
+        font-size: 14px;
+        padding: 10px 12px;
+      }
+
+      #orderForm .btn {
+        font-size: 16px;
+        padding: 14px 24px;
+        margin-top: 16px;
+      }
+
+      .order-note {
+        font-size: 11px;
+        margin-top: 10px;
+      }
+
+      .order-warning {
+        padding: 16px;
+        margin: 20px 0;
+      }
+
+      .order-warning-header {
+        gap: 12px;
+        margin-bottom: 0;
+        padding: 12px 14px;
+      }
+
+      .order-warning-icon {
+        font-size: 30px;
+      }
+
+      .order-warning-content h4 {
+        font-size: 14.5px;
+        letter-spacing: 0.3px;
+        line-height: 1.5;
+      }
+
+      .order-warning-body {
+        padding: 14px;
+      }
+
+      .order-warning-body p {
+        font-size: 13px;
+        line-height: 1.7;
+      }
+
+      .order-warning-note {
+        padding: 8px;
+        margin-top: 10px;
+      }
+
+      .order-warning-note p {
+        font-size: 12px;
+      }
+
+      /* Order Form Separator */
+      .order-form-separator {
+        display: block;
+        text-align: center;
+        margin: 25px 0 20px;
+        position: relative;
+      }
+
+      .order-form-separator::before,
+      .order-form-separator::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        width: 35%;
+        height: 2px;
+        background: linear-gradient(to right, transparent, #fbbf24, transparent);
+      }
+
+      .order-form-separator::before {
+        left: 0;
+      }
+
+      .order-form-separator::after {
+        right: 0;
+      }
+
+      .order-form-separator span {
+        background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+        color: white;
+        padding: 10px 24px;
+        border-radius: 25px;
+        font-size: 16px;
+        font-weight: 700;
+        box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+        display: inline-block;
+      }
+
+      /* FAQ */
+      .faq {
+        font-size: 13px;
+      }
+
+      .faq-item {
+        margin-bottom: 10px;
+      }
+
+      .faq-q {
+        font-size: 13px;
+        padding: 12px 14px;
+      }
+
+      .faq-q::after {
+        font-size: 11px;
+      }
+
+      .faq-a-content {
+        font-size: 12px;
+        line-height: 1.6;
+        padding: 12px 14px;
+      }
+
+      .faq-a-content img {
+        max-width: 200px !important;
+        margin-top: 8px;
+      }
+
+      /* Footer */
+      footer {
+        padding: 20px 0;
+        font-size: 12px;
+      }
+
+      /* WhatsApp Float */
+      .whatsapp-float {
+        left: 15px;
+      }
+
+      .whatsapp-float a {
+        width: 50px;
+        height: 50px;
+      }
+
+      .whatsapp-float svg {
+        width: 26px;
+        height: 26px;
+      }
+
+      .order-section {
+        padding-bottom: 54px;
+      }
+
+      .sticky-cta {
+        display: flex;
+      }
+
+      .sticky-cta p {
+        font-size: 11px;
+      }
+
+      .sticky-cta .btn {
+        font-size: 13px;
+        padding: 10px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <div class="container">
+      <nav class="nav">
+        <div class="logo">
+          <img src="https://i.ibb.co/1fHj8NND/cropped-karseell-logo-400x100-1.png" alt="Karseell Egypt" style="height: 45px; width: auto;">
+        </div>
+        <button class="btn btn-primary" onclick="scrollToOrder()" style="font-size: 1.1rem; padding: 12px 28px;">
+          اطلب الآن
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div>
+          <div class="hero-kicker">
+            ✨ الحل الأكيد لكل مشاكل شعرِك
+          </div>
+          <h1 class="hero-title">
+            شعرك تالف ومتقصف وهايش؟ 
+            <span>كارسيل كولاجين</span> هيرجعه ناعم وحيوي في أسبوعين بس!
+          </h1>
+          <p class="hero-sub">
+            ماسك + سيروم كولاجين وزيوت طبيعية 100% بيعالج التقصف والهيشان من أول استخدام، 
+            ويحمي شعرك من الحرارة والتصفيف اليومي. مش هتصدقي الفرق!
+          </p>
+
+          <div class="hero-benefits">
+            <span><i>✔</i> <strong>يصلح التلف</strong> من الجذور للأطراف</span>
+            <span><i>✔</i> <strong>ينفع لكل أنواع الشعر</strong> حتى المصبوغ</span>
+            <span><i>✔</i> <strong>نعومة ولمعان فوري</strong> من أول مرة</span>
+            <span><i>✔</i> <strong>طبيعي وآمن 100%</strong> بدون كيماويات</span>
+          </div>
+
+          <div class="hero-cta-row">
+            <button class="btn btn-primary" onclick="scrollToOrder()">
+              اطلبي دلوقتي واستلمي بكرة
+            </button>
+            <button
+              class="btn btn-outline"
+              onclick="scrollToFaq()"
+              type="button"
+              style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border: 2px solid #f59e0b; color: #92400e; font-weight: 700; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);"
+            >
+              ❓ عندك أسئلة؟ اقري هنا
+            </button>
+          </div>
+
+          <div class="price-box">
+            <div class="price-section">
+              <div class="price-old">بدلًا من <span>800 ج.م</span></div>
+              <div class="price-new">650 ج.م</div>
+            </div>
+            <div class="products-included">
+              <div class="product-item">
+                <span class="product-icon">💆‍♀️</span>
+                <span class="product-text">ماسك 500 مل</span>
+              </div>
+              <span class="plus-sign">+</span>
+              <div class="product-item">
+                <span class="product-icon">✨</span>
+                <span class="product-text">سيروم 50 مل</span>
+              </div>
+            </div>
+            <div class="limited">⏰ الحق قبل نفاذ الكمية!</div>
+          </div>
+        </div>
+
+        <div class="hero-img-card">
+          <div class="carousel" id="heroCarousel">
+            <button class="carousel-btn prev" onclick="changeSlide(-1)" aria-label="Previous">❮</button>
+            <button class="carousel-btn next" onclick="changeSlide(1)" aria-label="Next">❯</button>
+            
+            <div class="carousel-inner" id="carouselInner">
+              <div class="carousel-item active">
+                <img
+                  src="https://i.ibb.co/Y4bnRN4z/karseell-collagen-hair-maskhair-oil-set-8.png"
+                  alt="مجموعة كارسيل كولاجين ماسك وسيروم"
+                />
+              </div>
+              <div class="carousel-item">
+                <img
+                  src="https://i.ibb.co/fzXzcyzV/Whats-App-Image-2025-11-10-at-03-45-56-5c1b868c.jpg"
+                  alt="كارسيل كولاجين - صورة المنتج"
+                />
+              </div>
+              <div class="carousel-item">
+                <img
+                  src="https://i.ibb.co/fzvKjnzm/71-Jl0-PLe7s-L-768x1024.png"
+                  alt="كارسيل كولاجين - تفاصيل المنتج"
+                />
+              </div>
+            </div>
+          </div>
+          
+          <div class="carousel-dots" id="carouselDots"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BEFORE / AFTER -->
+  <section class="sec">
+    <div class="container">
+      <div class="before-after">
+        <div class="ba-content">
+          <h2 class="sec-title" style="text-align: right; margin-bottom: 16px;">قبل وبعد استخدام كارسيل</h2>
+          <h3>نتائج واضحة من أول استخدام! 🌟</h3>
+          <p>
+            شاهدي التحول الحقيقي للشعر من تالف وهايش لناعم وحيوي بعد استخدام مجموعة كارسيل كولاجين
+          </p>
+          <div class="ba-benefits">
+            <div class="ba-benefit">
+              <i>✔</i>
+              <span><strong>شعر أنعم وأكثر حيوية</strong> – ملمس حريري من أول مرة</span>
+            </div>
+            <div class="ba-benefit">
+              <i>✔</i>
+              <span><strong>تقليل الهيشان والتقصف</strong> – شعر منضبط وسهل التصفيف</span>
+            </div>
+            <div class="ba-benefit">
+              <i>✔</i>
+              <span><strong>لمعان ونعومة طبيعية</strong> – بدون مواد كيميائية ضارة</span>
+            </div>
+            <div class="ba-benefit">
+              <i>✔</i>
+              <span><strong>نتائج تدوم طويلاً</strong> – تحسن مستمر مع كل استخدام</span>
+            </div>
+          </div>
+        </div>
+        <div class="ba-video">
+          <video controls autoplay muted loop playsinline>
+            <source src="https://f.top4top.io/m_3688uljsx1.mp4" type="video/mp4">
+            متصفحك لا يدعم عرض الفيديو
+          </video>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ORDER -->
+  <section class="order-section" id="order">
+    <div class="container">
+      <div class="order-grid">
+        <div class="offers-section">
+          <h2 class="order-title">اختاري المنتج المناسب ليكي</h2>
+          <p class="order-sub" style="color: #6b7280; margin-bottom: 20px;">
+            كل العروض شاملة الشحن مع إمكانية الدفع عند الاستلام
+          </p>
+
+          <!-- Single Products Section -->
+          <div class="products-grid">
+            <!-- Mask Only -->
+            <!-- كريم فقط -->
+            <div class="product-card" onclick="selectOffer('كريم كولاجين 500 مل', 450)">
+              <div class="product-image">
+                <img src="https://i.ibb.co/23LBd9pG/karseell-collagen-hair-mask-5.png" alt="كارسيل ماسك كولاجين" style="width: 100%; height: auto;">
+              </div>
+              <span class="product-badge">💆‍♀️ كريم فقط</span>
+              <div class="product-title">كريم كارسيل</div>
+              <div class="product-desc">علاج عميق للشعر التالف والمتقصف 500 مل</div>
+              <div class="product-price">
+                <span class="price-new">450 ج.م</span>
+              </div>
+              <ul style="text-align: right; font-size: 12px; color: #374151; margin: 10px 0; padding-right: 20px;">
+                <li>مناسب للاستخدام الفردي</li>
+              </ul>
+              <button class="product-btn">
+                اختر هذا العرض
+              </button>
+            </div>
+
+            <!-- الباندل - العرض المميز -->
+            <div class="product-card popular" onclick="selectOffer('كريم + سيروم (العرض المميز)', 650)">
+              <div class="product-image">
+                <img src="https://i.ibb.co/Y4bnRN4z/karseell-collagen-hair-maskhair-oil-set-8.png" alt="مجموعة كارسيل كاملة" style="width: 100%; height: auto;">
+              </div>
+              <span class="product-badge popular-badge">🔥 الأكثر طلبًا</span>
+              <div class="product-title" style="font-size: 18px;">⭐ كريم + سيروم</div>
+              <div class="product-desc" style="font-weight: 700; color: #ea580c;">العرض المميز - الأفضل قيمة</div>
+              <div class="product-price">
+                <span class="price-old" style="font-size: 15px;">750 ج.م</span>
+                <span class="price-new" style="font-size: 26px;">650 ج.م فقط</span>
+              </div>
+              <div class="product-save" style="font-size: 13px; font-weight: 800;">💰 وفّر 100 جنيه</div>
+              <ul style="text-align: right; font-size: 12px; color: #374151; margin: 10px 0; padding-right: 20px;">
+                <li><strong>نتائج أسرع</strong> عند الاستخدام معًا</li>
+                <li>توفير 100 جنيه</li>
+              </ul>
+              <button class="product-btn" style="font-size: 15px; padding: 12px;">
+                🔥 اطلب الآن
+              </button>
+            </div>
+
+            <!-- سيروم فقط -->
+            <div class="product-card" onclick="selectOffer('سيروم زيوت طبيعية 50 مل', 300)">
+              <div class="product-image">
+                <img src="https://i.ibb.co/qL5vGkC1/Karseell-Moroccan-Argan-Oil-for-Hair-Healing-4.png" alt="كارسيل سيروم" style="width: 100%; height: auto;">
+              </div>
+              <span class="product-badge">✨ سيروم فقط</span>
+              <div class="product-title">سيروم كارسيل</div>
+              <div class="product-desc">حماية وترطيب فوري للشعر 50 مل</div>
+              <div class="product-price">
+                <span class="price-new">300 ج.م</span>
+              </div>
+              <ul style="text-align: right; font-size: 12px; color: #374151; margin: 10px 0; padding-right: 20px;">
+                <li>حل سريع للعناية</li>
+              </ul>
+              <button class="product-btn">
+                اختر هذا العرض
+              </button>
+            </div>
+          </div>
+
+          <!-- عرض توفير أكبر -->
+          <div style="margin-top: 20px;">
+            <div style="text-align: center; margin-bottom: 12px;">
+              <span style="background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); color: white; padding: 6px 16px; border-radius: 999px; font-weight: 800; font-size: 14px; display: inline-block; box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3);">💎 عرض توفير أكبر</span>
+            </div>
+            <div class="offer-card" style="max-width: 500px; margin: 0 auto; text-align: center;" onclick="selectOffer('2× باكدج (2 كريم + 2 سيروم)', 1200)">
+              <span class="offer-badge" style="background: #7c3aed;">⚡ عرض حصري</span>
+              <div class="offer-title" style="font-size: 18px;">2 × باكدج كامل</div>
+              <div style="font-size: 14px; color: #6b7280; margin: 8px 0;">
+                2 كريم + 2 سيروم
+              </div>
+              <div class="offer-price" style="justify-content: center;">
+                <span class="offer-price-old" style="font-size: 16px;">1500 ج.م</span>
+                <span class="offer-price-new" style="font-size: 28px;">1200 ج.م</span>
+              </div>
+              <span class="offer-save" style="font-size: 13px;">💰 وفّر 300 جنيه</span>
+              <div style="background: rgba(124, 58, 237, 0.1); color: #5b21b6; padding: 10px; border-radius: 8px; font-size: 13px; font-weight: 600; margin-top: 12px;">
+                ✅ يكفي 4-6 شهور استخدام
+              </div>
+              <button class="product-btn" style="margin-top: 12px; background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);">
+                اطلب الآن
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="order-form-separator">
+            <span>🛍️ اطلب الآن</span>
+          </div>
+
+          <form id="orderForm">
+            <!-- Hidden inputs للعرض المختار -->
+            <input type="hidden" id="offer_type" name="offer_type">
+            <input type="hidden" id="offer_price" name="offer_price">
+            <input type="hidden" id="base_price" name="base_price">
+            
+            <!-- رسالة تأكيد العرض المختار -->
+            <div id="selectedOfferDisplay" style="display: none; background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border: 3px solid #16a34a; border-radius: 12px; padding: 16px; margin-bottom: 20px; box-shadow: 0 8px 25px rgba(22, 163, 74, 0.3); animation: slideDown 0.4s ease;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <span style="font-size: 32px;">✅</span>
+                <div style="flex: 1;">
+                  <div style="font-size: 13px; color: #047857; font-weight: 700; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px;">تم اختيار العرض:</div>
+                  <div id="offerNameDisplay" style="font-size: 17px; font-weight: 900; color: #065f46; margin-bottom: 2px;"></div>
+                  <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                    <div id="offerPriceDisplay" style="font-size: 22px; font-weight: 900; color: #16a34a;"></div>
+                    <div id="shippingInfo" style="font-size: 12px; color: #047857; background: rgba(16, 185, 129, 0.1); padding: 4px 10px; border-radius: 6px; font-weight: 600;">+ 50 ج.م شحن</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div>
+              <label for="quantity">الكمية</label>
+              <div style="display: flex; align-items: center; gap: 8px; max-width: 200px; margin: 0 auto;">
+                <button type="button" onclick="decreaseQuantity()" style="background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%); color: white; border: none; border-radius: 8px; width: 45px; height: 45px; font-size: 24px; font-weight: 700; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                  −
+                </button>
+                <input
+                  type="number"
+                  id="quantity"
+                  name="quantity"
+                  min="1"
+                  value="1"
+                  required
+                  readonly
+                  style="text-align: center; font-weight: 800; font-size: 20px; flex: 1; border: 3px solid #fbbf24; border-radius: 8px; padding: 10px; background: white; color: #ea580c;"
+                />
+                <button type="button" onclick="increaseQuantity()" style="background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); color: white; border: none; border-radius: 8px; width: 45px; height: 45px; font-size: 24px; font-weight: 700; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(22, 163, 74, 0.3);" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                  +
+                </button>
+              </div>
+              <div style="font-size: 11px; color: #6b7280; margin-top: 6px; text-align: center;">📦 مصاريف الشحن 50 جنيه ثابتة لأي كمية</div>
+            </div>
+            
+            <div>
+              <label for="name">الاسم الكامل</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                required
+                placeholder="اكتبي اسمك كما هو في بطاقة الاستلام"
+              />
+            </div>
+            <div>
+              <label for="phone">رقم الموبايل الأساسي</label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                required
+                placeholder="01xxxxxxxxx"
+              />
+            </div>
+            <div>
+              <label for="phone2">رقم موبايل بديل (اختياري)</label>
+              <input
+                type="tel"
+                id="phone2"
+                name="phone2"
+                placeholder="01xxxxxxxxx"
+              />
+            </div>
+            <div>
+              <label for="governorate">المحافظة</label>
+              <select id="governorate" name="governorate" required>
+                <option value="">اختاري المحافظة</option>
+                <option value="القاهرة">القاهرة</option>
+                <option value="الجيزة">الجيزة</option>
+                <option value="الإسكندرية">الإسكندرية</option>
+                <option value="الدقهلية">الدقهلية</option>
+                <option value="الشرقية">الشرقية</option>
+                <option value="القليوبية">القليوبية</option>
+                <option value="البحيرة">البحيرة</option>
+                <option value="الغربية">الغربية</option>
+                <option value="المنوفية">المنوفية</option>
+                <option value="كفر الشيخ">كفر الشيخ</option>
+                <option value="دمياط">دمياط</option>
+                <option value="بورسعيد">بورسعيد</option>
+                <option value="الإسماعيلية">الإسماعيلية</option>
+                <option value="السويس">السويس</option>
+                <option value="المنيا">المنيا</option>
+                <option value="أسيوط">أسيوط</option>
+                <option value="سوهاج">سوهاج</option>
+                <option value="قنا">قنا</option>
+                <option value="أسوان">أسوان</option>
+                <option value="الأقصر">الأقصر</option>
+              </select>
+            </div>
+            <div>
+              <label for="address">العنوان بالتفصيل</label>
+              <textarea
+                id="address"
+                name="address"
+                rows="2"
+                required
+                placeholder="الشارع، رقم البيت / العمارة، العلامة المميزة"
+              ></textarea>
+            </div>
+            <!-- Hidden inputs للعرض المختار -->
+            <input type="hidden" id="offer_type" name="offer_type">
+            <input type="hidden" id="offer_price" name="offer_price">
+            
+            <!-- رسالة تأكيد العرض المختار -->
+            <div id="selectedOfferDisplay" style="display: none; background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border: 3px solid #16a34a; border-radius: 12px; padding: 16px; margin-bottom: 20px; box-shadow: 0 8px 25px rgba(22, 163, 74, 0.3); animation: slideDown 0.4s ease;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <span style="font-size: 32px;">✅</span>
+                <div style="flex: 1;">
+                  <div style="font-size: 13px; color: #047857; font-weight: 700; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px;">تم اختيار العرض:</div>
+                  <div id="offerNameDisplay" style="font-size: 17px; font-weight: 900; color: #065f46; margin-bottom: 2px;"></div>
+                  <div id="offerPriceDisplay" style="font-size: 22px; font-weight: 900; color: #16a34a;"></div>
+                </div>
+              </div>
+            </div>
+            
+            <style>
+              @keyframes slideDown {
+                from {
+                  opacity: 0;
+                  transform: translateY(-20px);
+                }
+                to {
+                  opacity: 1;
+                  transform: translateY(0);
+                }
+              }
+            </style>
+            <div>
+              <label for="notes">ملاحظات إضافية (اختياري)</label>
+              <textarea
+                id="notes"
+                name="notes"
+                rows="2"
+                placeholder="مواعيد الاستلام المفضلة، تعليمات خاصة، وغير ذلك..."
+              ></textarea>
+            </div>
+
+            <div class="order-warning">
+              <div class="order-warning-header">
+                <div class="order-warning-icon">⚠️</div>
+                <div class="order-warning-content">
+                  <h4>📌 تنبيه هام - يُرجى القراءة بعناية</h4>
+                </div>
+              </div>
+              <div class="order-warning-body">
+                <p>
+                  <strong>🔴 قبل تأكيد طلبك:</strong> يُرجى التأكد من <strong>جديتك الكاملة في استلام المنتج</strong>، حيث نقوم بدفع تكاليف الشحن مقدمًا للشركة فور تأكيد طلبك.
+                </p>
+                <div class="order-warning-note">
+                  <span class="order-warning-note-icon">❌</span>
+                  <p>
+                    <strong>تحذير:</strong> عدم الاستلام أو رفض الطلب دون سبب جدي يتسبب في خسائر مالية مباشرة لنا، ويؤثر سلباً على خدماتنا لعملائنا الآخرين.
+                  </p>
+                </div>
+                <p style="margin-top: 12px; padding-top: 12px; border-top: 1px dashed #f59e0b;">
+                  ✅ <strong>نثق بك!</strong> إذا كنت جادًا في الطلب، فلا تتردد - نحن في خدمتك! 💚
+                </p>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+              تأكيد طلبي الآن
+            </button>
+
+            <div class="order-note">
+              بالضغط على "تأكيد طلبي" أنتِ توافقين على تواصل فريق خدمة العملاء
+              معكِ لتأكيد البيانات.
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+
+  <!-- TESTIMONIALS -->
+  <section class="sec">
+    <div class="container">
+      <h2 class="sec-title">رأي عملائنا الكرام</h2>
+      <p class="sec-sub">
+        شوفي تجربة العميلات مع مجموعة كارسيل كولاجين
+      </p>
+
+      <div class="testimonials">
+        <div class="t-card">
+          <div class="t-header">
+            <div class="t-avatar">م</div>
+            <div class="t-info">
+              <div class="t-name">مروة أحمد</div>
+              <div class="t-meta">القاهرة • شعر مصبوغ</div>
+            </div>
+          </div>
+          <div class="stars">★★★★★</div>
+          <p>
+            ماشاء الله المنتج روعة! شعري كان تالف جداً من الصبغات والفرد، بس بعد استخدام الماسك والسيروم لمدة أسبوعين بقى ناعم ولامع بشكل ملحوظ. الهيشان قل كتير والشعر بقى أسهل في التصفيف. صراحة مبسوطة جداً وهرشحه لكل صحباتي!
+          </p>
+        </div>
+
+        <div class="t-card">
+          <div class="t-header">
+            <div class="t-avatar">ن</div>
+            <div class="t-info">
+              <div class="t-name">نورهان محمد</div>
+              <div class="t-meta">الإسكندرية • شعر جاف</div>
+            </div>
+          </div>
+          <div class="stars">★★★★★</div>
+          <p>
+            المنتج ده فعلاً غيّر شعري! كان عندي مشكلة تقصف رهيبة وجفاف، بس الماسك بيرطب بعمق والسيروم بيحمي من الحرارة. النتيجة واضحة من أول استخدام - شعري بقى أكثر حيوية ولمعان. الريحة كمان لطيفة جداً مش زي المنتجات التانية.
+          </p>
+        </div>
+
+        <div class="t-card">
+          <div class="t-header">
+            <div class="t-avatar">ه</div>
+            <div class="t-info">
+              <div class="t-name">هدى حسن</div>
+              <div class="t-meta">الجيزة • صاحبة صالون تجميل</div>
+            </div>
+          </div>
+          <div class="stars">★★★★★</div>
+          <p>
+            كصاحبة صالون وبشتغل مع عميلات كتير، المنتج ده من أفضل المنتجات اللي جربتها! بستخدمه في الصالون مع العميلات وبوصي بيه دايماً. النتائج واضحة وسريعة، خصوصاً للشعر التالف من الصبغات والبروتين. العميلات كلهم راضيين ومعظمهم بيرجعوا يشتروه تاني. منتج موثوق وجودة ممتازة، أنصح بيه بقوة! 💯
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="sec" id="faq">
+    <div class="container">
+      <h2 class="sec-title">الأسئلة الشائعة</h2>
+      <p class="sec-sub">
+        لو لسه عندِك سؤال، ممكن تلاقي إجابته هنا أو تكلمينا على واتساب.
+      </p>
+
+      <div class="faq">
+        <div class="faq-item">
+          <div class="faq-q">
+            <span>خايفة أستلم المنتج ويطلع مش أصلي؟</span>
+          </div>
+          <div class="faq-a">
+            <div class="faq-a-content">
+              نتفهم قلقك تماماً! 💚 لكن خليني أطمنك.. المنتج عليه علامة مائية أصلية من الشركة المصنعة، وده بيأكد إنه 100% أصلي. كمان عندنا خدمة <strong>المعاينة قبل الاستلام</strong> - يعني تقدري تتأكدي من المنتج وتشوفي العلامة الأصلية قبل ما تدفعي أي فلوس! لو لقيتي أي شك إنه مش أصلي، ارجعيه على طول وهتدفعي مصاريف الشحن بس للمندوب. احنا واثقين في جودة منتجاتنا 🌟
+              <br><br>
+              <strong>شوفي الباركود الأصلي على المنتج:</strong><br>
+              <a href="https://ibb.co/kbGMxn0" target="_blank" style="display: inline-block; margin-top: 10px;">
+                <img src="https://i.ibb.co/4vFJ7yM/karseell-collagen-hair-mask-2.png" alt="الباركود الأصلي لمنتج كارسيل" style="max-width: 250px; height: auto; border: 2px solid #fbbf24; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">
+            <span>خايفة أستخدمه وميجيبش نتيجة؟</span>
+          </div>
+          <div class="faq-a">
+            <div class="faq-a-content">
+              احنا فاهمينك جداً ومقدّرين قلقك! 💖 بس تعالي نطمنك بالحقائق.. المنتج ده مش بس كلام فاضي، ده عنده فوايد مثبتة علمياً: <strong>يصلح التقصف</strong> من أول استخدام، <strong>يرطب بعمق</strong> لمدة 48 ساعة، <strong>يعيد بناء البروتين</strong> في الشعر التالف، و<strong>يحمي من الحرارة والكيماويات</strong>. وأهم حاجة؟ شوفي <strong>مراجعات العميلات</strong> فوق كلهم مبسوطين جداً بالنتيجة! لو بعد استخدام صحيح لمدة أسبوعين مشفتيش أي تحسن (وده نادر جداً!)، كلمينا وهنساعدك نعرف السبب. النتيجة مضمونة بإذن الله 🌟
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">
+            <span>حاسة إن السعر غالي شوية؟</span>
+          </div>
+          <div class="faq-a">
+            <div class="faq-a-content">
+              نتفهم تماماً! 💚 بس تعالي نحسبها سوا بكل شفافية:<br><br>
+              
+              <strong>🔸 المنتج ده = 2 في 1:</strong><br>
+              لو اشتريتي ماسك لوحده بـ 450 جنيه + سيرم لوحده بـ 350 جنيه = 800 جنيه<br>
+              <strong>احنا بنديكي الاتنين بـ 650 جنيه فقط شامل الشحن!</strong> (وفرتي 150 جنيه) 🎉<br><br>
+              
+              <strong>🔸 مقارنة مع الصالونات:</strong><br>
+              جلسة علاج واحدة في الصالون = 300-500 جنيه<br>
+              المنتج ده هيكفيكي <strong>3-4 شهور</strong> من الاستخدام!<br>
+              يعني السعر = <strong>حوالي 50 جنيه بس في الشهر</strong> ⚡<br><br>
+              
+              <strong>🔸 جودة عالمية:</strong><br>
+              ده مش منتج محلي عادي، ده منتج مستورد بمكونات طبيعية 100% (كولاجين + زيت الماكا + الأرجان) بتشتغل على حل <strong>كل مشاكل الشعر</strong> (التقصف، الهيشان، التساقط، الجفاف) في منتج واحد!<br><br>
+              
+              لو قسمتي السعر على 4 شهور = <strong>162 جنيه في الشهر</strong><br>
+              لو قسمتيه على 30 يوم = <strong>أقل من 22 جنيه في اليوم!</strong><br>
+              يعني أقل من سعر كوباية قهوة ☕ مقابل شعر صحي ولامع كل يوم! 💁‍♀️✨<br><br>
+              
+              <strong>الاستثمار في شعرك = استثمار في ثقتك بنفسك 💖</strong>
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">
+            <span>إزاي أستخدمه صح؟</span>
+          </div>
+          <div class="faq-a">
+            <div class="faq-a-content">
+              <strong>الطريقة المثالية (خلط المنتجين):</strong><br>
+              بعد غسل الشعر بالشامبو، حطّي كمية مناسبة من الماسك في كف إيدك، ثم ضيفي <strong>3 نقط من السيرم</strong> عليه واخلطيهم كويس. وزّعي الخليط من منتصف الشعر للأطراف، سيبيه 10-15 دقيقة، ثم اشطفيه بالمياه الفاترة.<br><br>
+              <strong>التكرار:</strong> استخدمي المجموعة 2-3 مرات أسبوعياً للحصول على أفضل نتيجة! 💫<br><br>
+              <strong>نصيحة ذهبية:</strong> خلط السيرم مع الماسك بيعطي نتيجة أفضل وأسرع من استخدامهم منفصلين! ✨
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">
+            <span>هيوصل في كام يوم؟</span>
+          </div>
+          <div class="faq-a">
+            <div class="faq-a-content">
+              من 2 لـ 4 أيام عمل في كل المحافظات. السعر شامل مصاريف الشحن 🚚 والدفع عند الاستلام! 💰
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STICKY CTA MOBILE -->
+  <div class="sticky-cta">
+    <div>
+      <p>عرض كارسيل كولاجين – ماسك + سيروم بـ 650 ج.م فقط</p>
+    </div>
+    <button class="btn btn-primary" onclick="scrollToOrder()">
+      اطلب الآن
+    </button>
+  </div>
+
+  <footer>
+    © 2025 Karseell Egypt – جميع الحقوق محفوظة. هذا المنتج للاستخدام التجميلي
+    فقط.
+  </footer>
+
+  <!-- Floating WhatsApp Button -->
+  <div class="whatsapp-float">
+    <a href="https://wa.me/201017424251?text=مرحباً%20عندي%20استفسار%20عن%20منتج%20كارسيل" target="_blank" aria-label="تواصل معنا على واتساب">
+      <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 0c-8.837 0-16 7.163-16 16 0 2.825 0.737 5.607 2.137 8.048l-2.137 7.952 8.135-2.135c2.369 1.228 5.021 1.885 7.865 1.885 8.837 0 16-7.163 16-16s-7.163-16-16-16zM16 29.333c-2.547 0-5.043-0.716-7.193-2.056l-0.517-0.323-5.365 1.408 1.44-5.365-0.36-0.557c-1.463-2.267-2.339-4.955-2.339-7.773 0-7.364 5.991-13.355 13.333-13.355s13.333 5.991 13.333 13.355-5.991 13.333-13.333 13.333zM22.853 19.48c-0.391-0.195-2.315-1.141-2.672-1.271s-0.619-0.195-0.88 0.195c-0.261 0.391-1.011 1.271-1.239 1.531s-0.456 0.293-0.847 0.099c-0.391-0.195-1.651-0.609-3.144-1.94-1.163-1.036-1.948-2.317-2.176-2.708s-0.024-0.601 0.171-0.796c0.176-0.175 0.391-0.456 0.587-0.684s0.261-0.391 0.391-0.651c0.13-0.261 0.065-0.489-0.033-0.684s-0.88-2.119-1.205-2.901c-0.317-0.765-0.64-0.661-0.88-0.673-0.228-0.011-0.489-0.013-0.749-0.013s-0.684 0.097-1.041 0.489c-0.358 0.391-1.368 1.337-1.368 3.261s1.401 3.783 1.596 4.043c0.195 0.261 2.749 4.196 6.659 5.881 0.931 0.401 1.659 0.641 2.224 0.82 0.936 0.297 1.787 0.255 2.461 0.155 0.751-0.112 2.315-0.947 2.641-1.86s0.326-1.697 0.228-1.86c-0.097-0.163-0.358-0.261-0.749-0.456z"/>
+      </svg>
+    </a>
+  </div>
+
+  <script>
+    function scrollToOrder() {
+      const el = document.getElementById("order");
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    }
+    function scrollToFaq() {
+      const el = document.getElementById("faq");
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    }
+
+    // Carousel functionality - Simple version
+    let currentSlide = 0;
+    let totalSlides = 0;
+    let autoplayInterval = null;
+
+    // Initialize carousel after DOM is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      const slides = document.querySelectorAll('.carousel-item');
+      totalSlides = slides.length;
+      const dotsContainer = document.getElementById('carouselDots');
+
+      // Create dots
+      for (let i = 0; i < totalSlides; i++) {
+        const dot = document.createElement('button');
+        dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+        dot.onclick = () => goToSlide(i);
+        dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+        dotsContainer.appendChild(dot);
+      }
+
+      // Start autoplay
+      startAutoplay();
+
+      // Initialize FAQ accordion
+      document.querySelectorAll('.faq-item').forEach(item => {
+        item.querySelector('.faq-q').addEventListener('click', function() {
+          const isActive = item.classList.contains('active');
+          
+          // Close all other items
+          document.querySelectorAll('.faq-item').forEach(i => {
+            i.classList.remove('active');
+          });
+          
+          // Toggle current item
+          if (!isActive) {
+            item.classList.add('active');
+          }
+        });
+      });
+
+      // Pause autoplay on hover
+      const carousel = document.getElementById('heroCarousel');
+      carousel.addEventListener('mouseenter', () => {
+        clearInterval(autoplayInterval);
+      });
+      carousel.addEventListener('mouseleave', () => {
+        startAutoplay();
+      });
+    });
+
+    function updateCarousel() {
+      const slides = document.querySelectorAll('.carousel-item');
+      const dots = document.querySelectorAll('.carousel-dot');
+      
+      slides.forEach((slide, index) => {
+        slide.classList.toggle('active', index === currentSlide);
+      });
+      
+      dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentSlide);
+      });
+    }
+
+    function changeSlide(direction) {
+      currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
+      updateCarousel();
+    }
+
+    function goToSlide(index) {
+      currentSlide = index;
+      updateCarousel();
+    }
+
+    function startAutoplay() {
+      clearInterval(autoplayInterval);
+      autoplayInterval = setInterval(() => {
+        changeSlide(1);
+      }, 4000);
+    }
+
+    // Product Selection
+    let selectedProduct = null;
+    let selectedProductName = '';
+    let selectedProductPrice = 0;
+
+function selectOffer(offerName, totalPrice) {
+        // السعر الأساسي = السعر الإجمالي - 50 جنيه شحن
+        const basePrice = totalPrice - 50;
+        const shippingCost = 50;
+        
+        // تحديث الـ hidden inputs
+        document.getElementById('offer_type').value = offerName;
+        document.getElementById('base_price').value = basePrice;
+        
+        // إعادة تعيين الكمية لـ 1
+        document.getElementById('quantity').value = 1;
+        
+        // حساب وتحديث السعر
+        updatePrice();
+        
+        selectedProductName = offerName;
+        selectedProductPrice = totalPrice;
+        
+        // عرض رسالة التأكيد
+        const display = document.getElementById('selectedOfferDisplay');
+        const nameDisplay = document.getElementById('offerNameDisplay');
+        
+        nameDisplay.textContent = offerName;
+        display.style.display = 'block';
+
+        // إزالة highlight من جميع الكروت
+        document.querySelectorAll('.product-card, .offer-card').forEach(card => {
+          card.classList.remove('selected');
+        });
+
+        // إضافة highlight للكارد المختار
+        event.currentTarget.classList.add('selected');
+
+        // Scroll للفورم بشكل سلس
+        setTimeout(() => {
+          document.getElementById('orderForm').scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }, 300);
+
+        // Track pixel event
+        trackEvent('InitiateCheckout', {
+          content_name: offerName,
+          value: totalPrice,
+          currency: 'EGP'
+        });
+
+        console.log('✅ Selected offer:', offerName, '-', totalPrice, 'EGP');
+    }
+
+    // دوال زيادة وتقليل الكمية
+    function increaseQuantity() {
+      const quantityInput = document.getElementById('quantity');
+      let currentValue = parseInt(quantityInput.value) || 1;
+      quantityInput.value = currentValue + 1;
+      updatePrice();
+    }
+
+    function decreaseQuantity() {
+      const quantityInput = document.getElementById('quantity');
+      let currentValue = parseInt(quantityInput.value) || 1;
+      if (currentValue > 1) {
+        quantityInput.value = currentValue - 1;
+        updatePrice();
+      }
+    }
+
+    // دالة حساب السعر حسب الكمية
+    function updatePrice() {
+      const basePrice = parseInt(document.getElementById('base_price').value) || 0;
+      const quantity = parseInt(document.getElementById('quantity').value) || 1;
+      const shippingCost = 50;
+      
+      // حساب السعر النهائي = (السعر الأساسي × الكمية) + مصاريف الشحن
+      const finalPrice = (basePrice * quantity) + shippingCost;
+      
+      // تحديث السعر في hidden input
+      document.getElementById('offer_price').value = finalPrice;
+      
+      // تحديث العرض
+      const priceDisplay = document.getElementById('offerPriceDisplay');
+      if (quantity > 1) {
+        priceDisplay.innerHTML = `<span style="font-size: 16px; color: #047857;">${basePrice} ج.م × ${quantity} =</span> <span style="font-size: 22px;">${basePrice * quantity} ج.م</span>`;
+      } else {
+        priceDisplay.textContent = basePrice + ' ج.م';
+      }
+      
+      selectedProductPrice = finalPrice;
+    }
+
+    function selectProduct(type, name, price) {
+      selectedProduct = type;
+      selectedProductName = name;
+      selectedProductPrice = price;
+
+      // Update form
+      const productInput = document.getElementById('selectedProduct');
+      if (!productInput) {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.id = 'selectedProduct';
+        input.name = 'selectedProduct';
+        document.getElementById('orderForm').appendChild(input);
+      }
+      document.getElementById('selectedProduct').value = name;
+
+      // Update display
+      document.getElementById('selectedProductDisplay').style.display = 'block';
+      document.getElementById('productNameDisplay').textContent = name;
+      document.getElementById('productPriceDisplay').textContent = price + ' جنيه (شامل الشحن)';
+
+      // Remove selected class from all products and offers
+      document.querySelectorAll('.product-card, .offer-card').forEach(card => {
+        card.classList.remove('selected');
+      });
+
+      // Add selected class to clicked product
+      event.target.closest('.product-card').classList.add('selected');
+
+      // Scroll to form
+      document.getElementById('orderForm').scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'center' 
+        });
+
+      console.log('✅ Selected product:', name, '-', price, 'EGP');
+    }
+
+    // Offer Selection
+    document.querySelectorAll('.offer-card[data-quantity]').forEach(card => {
+      card.addEventListener('click', function() {
+        const quantity = this.getAttribute('data-quantity');
+        const price = this.getAttribute('data-price');
+        
+        // Remove selected class from all offers and products
+        document.querySelectorAll('.offer-card, .product-card').forEach(c => c.classList.remove('selected'));
+        
+        // Add selected class to clicked offer
+        this.classList.add('selected');
+
+        // Set selected product
+        selectedProduct = 'set';
+        selectedProductName = `${quantity} مجموعة كاملة`;
+        selectedProductPrice = price;
+
+        // Update hidden input
+        let productInput = document.getElementById('selectedProduct');
+        if (!productInput) {
+          const input = document.createElement('input');
+          input.type = 'hidden';
+          input.id = 'selectedProduct';
+          input.name = 'selectedProduct';
+          document.getElementById('orderForm').appendChild(input);
+          productInput = input;
+        }
+        productInput.value = selectedProductName;
+
+        // Update display
+        document.getElementById('selectedProductDisplay').style.display = 'block';
+        document.getElementById('productNameDisplay').textContent = selectedProductName;
+        document.getElementById('productPriceDisplay').textContent = price + ' جنيه (شامل الشحن)';
+        
+        // Smooth scroll to form
+        document.getElementById('orderForm').scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'center' 
+        });
+        
+        console.log('✅ Selected offer:', quantity + ' box(es)', '-', price, 'EGP');
+      });
+    });
+
+    // Meta Pixel Events
+    function trackEvent(eventName, data = {}) {
+      if (typeof fbq !== 'undefined') {
+        fbq('track', eventName, data);
+        console.log('✅ Pixel Event:', eventName, data);
+      }
+    }
+
+    // Track ViewContent
+    setTimeout(function() {
+      trackEvent('ViewContent', {
+        content_name: 'Karseell Hair Set',
+        content_category: 'Hair Care',
+        content_ids: ['karseell-set'],
+        content_type: 'product',
+        value: 650,
+        currency: 'EGP'
+      });
+    }, 1000);
+
+    // Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyC2y2w8SGMUTN0_-Fj8ieRBgRvkCOZG7oU",
+      authDomain: "ali-dfd59.firebaseapp.com",
+      databaseURL: "https://ali-dfd59-default-rtdb.firebaseio.com",
+      projectId: "ali-dfd59",
+      storageBucket: "ali-dfd59.firebasestorage.app",
+      messagingSenderId: "816775354187",
+      appId: "1:816775354187:web:d9a12f4d278f9755ddface"
+    };
+
+    // Initialize Firebase
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+    const database = firebase.database();
+    console.log('🔥 Firebase initialized for Karseell orders!');
+
+    // إضافة event listener لتغيير الكمية
+    document.addEventListener('DOMContentLoaded', function() {
+      const quantityInput = document.getElementById('quantity');
+      if (quantityInput) {
+        quantityInput.addEventListener('input', updatePrice);
+        quantityInput.addEventListener('change', updatePrice);
+      }
+    });
+
+    // Phone Validation Function
+    function validatePhone(phoneNumber) {
+      // Remove spaces and any special characters
+      const cleaned = phoneNumber.replace(/\s+/g, '').replace(/[-()]/g, '');
+      
+      // Check if it's a valid Egyptian phone number (11 digits starting with 01)
+      const egyptianPattern = /^01[0-2,5]{1}[0-9]{8}$/;
+      
+      return egyptianPattern.test(cleaned);
+    }
+
+    // Add validation for phone inputs
+    document.getElementById('phone').addEventListener('blur', function() {
+      if (this.value && !validatePhone(this.value)) {
+        Swal.fire({
+          title: '⚠️ رقم هاتف غير صحيح',
+          text: 'برجاء إدخال رقم موبايل مصري صحيح يبدأ بـ 01',
+          icon: 'warning',
+          confirmButtonText: 'تمام',
+          confirmButtonColor: '#f59e0b'
+        });
+      }
+    });
+
+    document.getElementById('phone2').addEventListener('blur', function() {
+      if (this.value && !validatePhone(this.value)) {
+        Swal.fire({
+          title: '⚠️ رقم هاتف غير صحيح',
+          text: 'برجاء إدخال رقم موبايل مصري صحيح يبدأ بـ 01',
+          icon: 'warning',
+          confirmButtonText: 'تمام',
+          confirmButtonColor: '#f59e0b'
+        });
+      }
+    });
+
+    // Form Submission
+    document.getElementById('orderForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      // Get offer data from hidden inputs
+      const offerType = document.getElementById('offer_type').value;
+      const offerPrice = document.getElementById('offer_price').value;
+      const quantity = document.getElementById('quantity').value;
+
+      // Check if offer is selected
+      if (!offerType || !offerPrice) {
+        Swal.fire({
+          title: '⚠️ لم تختاري عرض بعد',
+          text: 'برجاء اختيار العرض المطلوب من الأعلى أولاً',
+          icon: 'warning',
+          confirmButtonText: 'تمام',
+          confirmButtonColor: '#f59e0b'
+        });
+        // Scroll to products section
+        document.querySelector('.products-grid').scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'center' 
+        });
+        return;
+      }
+
+      const formData = new FormData(this);
+      
+      // Validate primary phone
+      const primaryPhone = formData.get('phone');
+      if (!validatePhone(primaryPhone)) {
+        Swal.fire({
+          title: '⚠️ رقم الهاتف الأساسي غير صحيح',
+          text: 'برجاء إدخال رقم موبايل مصري صحيح يبدأ بـ 01',
+          icon: 'error',
+          confirmButtonText: 'تمام',
+          confirmButtonColor: '#f59e0b'
+        });
+        return;
+      }
+
+      // Validate secondary phone if provided
+      const secondaryPhone = formData.get('phone2');
+      if (secondaryPhone && !validatePhone(secondaryPhone)) {
+        Swal.fire({
+          title: '⚠️ رقم الهاتف البديل غير صحيح',
+          text: 'برجاء إدخال رقم موبايل مصري صحيح يبدأ بـ 01',
+          icon: 'error',
+          confirmButtonText: 'تمام',
+          confirmButtonColor: '#f59e0b'
+        });
+        return;
+      }
+
+      const now = new Date();
+      const dateStr = now.toLocaleDateString('ar-EG');
+      const timeStr = now.toLocaleTimeString('ar-EG');
+
+      function getOfferPieces(offerName) {
+        const normalized = String(offerName || '').trim();
+        if (normalized.includes('قطعتين')) return 2;
+        if (normalized.includes('قطعة واحدة')) return 1;
+        const numericMatch = normalized.match(/^(\d+)\s*قطع/);
+        if (numericMatch) return parseInt(numericMatch[1], 10) || 1;
+        return 1;
+      }
+
+      const quantityNum = parseInt(quantity, 10) || 1;
+      const piecesPerOrder = getOfferPieces(offerType);
+      const piecesCount = quantityNum * piecesPerOrder;
+
+      const orderData = {
+        name: formData.get('name'),
+        phone: formData.get('phone'),
+        phone2: formData.get('phone2') || '',
+        governorate: formData.get('governorate'),
+        address: formData.get('address'),
+        notes: formData.get('notes') || '',
+        product: offerType,
+        quantity: quantityNum,
+        piecesPerOrder,
+        piecesCount,
+        price: offerPrice,
+        productType: selectedProduct,
+        sourcePage: 'karseell',
+        date: dateStr,
+        time: timeStr,
+        timestamp: now.getTime()
+      };
+
+      // Track Purchase
+      trackEvent('Purchase', {
+        content_name: orderData.product,
+        content_ids: ['karseell-' + selectedProduct],
+        content_type: 'product',
+        value: selectedProductPrice,
+        currency: 'EGP',
+        num_items: 1
+      });
+
+      try {
+        await database.ref('orders').push(orderData);
+        console.log('✅ Order saved to Firebase!');
+
+        Swal.fire({
+          title: '🎉 تم تأكيد طلبك بنجاح!',
+          html: `
+            <div style="text-align: right; padding: 15px;">
+              <p style="font-size: 0.95rem; margin-bottom: 12px;"><strong>📋 بيانات الطلب:</strong></p>
+              <p style="margin: 6px 0; font-size: 0.9rem;"><strong>👤 الاسم:</strong> ${orderData.name}</p>
+              <p style="margin: 6px 0; font-size: 0.9rem;"><strong>📱 الهاتف الأساسي:</strong> ${orderData.phone}</p>
+              ${orderData.phone2 ? `<p style="margin: 6px 0; font-size: 0.9rem;"><strong>📱 الهاتف البديل:</strong> ${orderData.phone2}</p>` : ''}
+              <p style="margin: 6px 0; font-size: 0.9rem;"><strong>📍 المحافظة:</strong> ${orderData.governorate}</p>
+              ${orderData.notes ? `<p style="margin: 6px 0; font-size: 0.9rem;"><strong>📝 ملاحظات:</strong> ${orderData.notes}</p>` : ''}
+              <p style="margin: 6px 0; font-size: 0.9rem;"><strong>📦 المنتج:</strong> ${orderData.product}</p>
+              <p style="margin: 6px 0; font-size: 0.9rem;"><strong>🔢 الكمية:</strong> ${orderData.quantity}</p>
+              <p style="margin: 6px 0; font-size: 0.9rem;"><strong>💵 سعر المنتج:</strong> ${Math.round((orderData.price - 50) / orderData.quantity)} ج.م × ${orderData.quantity} = <strong style="color: #ea580c;">${orderData.price - 50} ج.م</strong></p>
+              <p style="margin: 6px 0; font-size: 0.9rem;"><strong>🚚 مصاريف الشحن:</strong> <strong style="color: #059669;">50 ج.م</strong></p>
+              <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); padding: 10px; border-radius: 8px; margin: 10px 0; border: 2px solid #fbbf24;">
+                <p style="margin: 0; font-size: 1.1rem; font-weight: 800; color: #92400e;"><strong>💰 الإجمالي النهائي:</strong> <span style="font-size: 1.3rem; color: #ea580c;">${orderData.price} جنيه</span></p>
+              </div>
+              <p style="margin: 6px 0; font-size: 0.9rem;"><strong>📅 التاريخ:</strong> ${orderData.date} - ${orderData.time}</p>
+              <hr style="margin: 15px 0;">
+              <p style="font-size: 1rem; font-weight: 700; color: #16a34a;">✅ تم تأكيد الطلب بنجاح</p>
+              <p style="font-size: 0.85rem; margin-top: 8px;">🚚 هيتم التواصل معاكي من شركة الشحن لتسليم الطلب في خلال يومين</p>
+            </div>
+          `,
+          icon: 'success',
+          confirmButtonText: 'تمام، شكراً! 💖',
+          confirmButtonColor: '#f59e0b',
+          width: window.innerWidth <= 768 ? '95%' : '600px',
+          showClass: {
+            popup: 'animate__animated animate__fadeInDown'
+          }
+        });
+
+        // Reset form and selection
+        this.reset();
+        selectedProduct = null;
+        selectedProductName = '';
+        selectedProductPrice = 0;
+        document.getElementById('selectedOfferDisplay').style.display = 'none';
+        document.getElementById('offer_type').value = '';
+        document.getElementById('offer_price').value = '';
+        document.querySelectorAll('.product-card, .offer-card').forEach(card => {
+          card.classList.remove('selected');
+        });
+      } catch (error) {
+        console.error('❌ Firebase Error:', error);
+        Swal.fire({
+          title: '✅ تم حفظ طلبك!',
+          text: 'سيتم التواصل معك قريباً 💖',
+          icon: 'success',
+          confirmButtonText: 'تمام',
+          confirmButtonColor: '#f59e0b'
+        });
+        // Reset form and selection
+        this.reset();
+        selectedProduct = null;
+        selectedProductName = '';
+        selectedProductPrice = 0;
+        document.getElementById('selectedProductDisplay').style.display = 'none';
+        document.querySelectorAll('.product-card, .offer-card').forEach(card => {
+          card.classList.remove('selected');
+        });
+      }
+    });
+
+    // Track Lead when phone number entered
+    let leadTracked = false;
+    document.querySelector('input[name="phone"]').addEventListener('input', function(e) {
+      if (!leadTracked && e.target.value.length >= 10) {
+        trackEvent('Lead', {
+          content_name: 'Karseell Hair Set',
+          content_category: 'Hair Care',
+          currency: 'EGP'
+        });
+        leadTracked = true;
+      }
+    });
+
+  </script>
+</body>
+</html>
