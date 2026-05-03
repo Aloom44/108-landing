@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>لوحة إدارة الطلبات - جميع المنتجات</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700;800&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
@@ -14,15 +14,26 @@
     
     <style>
         :root {
-            --primary-color: #2c3e50;
-            --dark-color: #1a252f;
-            --light-color: #5d6d7e;
-            --beige: #F5E6D3;
-            --gold: #D4AF37;
-            --dark-gold: #B8941C;
+            --primary-color: #0C5CAB;
+            --primary-dark: #0a4a8a;
+            --surface: #0B1120;
+            --surface-2: #111827;
+            --surface-3: rgba(17, 24, 39, 0.72);
+            --text-primary: #fafafa;
+            --text-muted: #a1a1aa;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --gold: #f59e0b;
+            --dark-gold: #b45309;
             --white: #FFFFFF;
-            --light-gray: #F9F9F9;
-            --text-dark: #2c3e50;
+            --shadow-out: 0 20px 40px rgba(2, 6, 23, 0.45);
+            --shadow-in: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+            --shadow-float: 0 18px 30px rgba(2, 6, 23, 0.5);
+            --shadow-soft: 0 10px 20px rgba(2, 6, 23, 0.35);
+            --radius-lg: 18px;
+            --radius-md: 12px;
+            --radius-sm: 8px;
         }
         
         * {
@@ -32,81 +43,140 @@
         }
         
         body {
-            font-family: 'Cairo', sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1e 100%);
+            font-family: 'IBM Plex Sans', 'Cairo', sans-serif;
+            background: radial-gradient(circle at 20% 20%, #0B1120 0%, #050816 70%),
+                linear-gradient(135deg, rgba(12, 92, 171, 0.08), rgba(0, 0, 0, 0));
+            color: var(--text-primary);
             min-height: 100vh;
-            padding: 15px;
+            padding: 16px;
         }
         
         .container {
-            max-width: 1400px;
+            max-width: 1480px;
             margin: 0 auto;
         }
         
         .header {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            background: var(--surface-2);
+            padding: 14px 20px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-float);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             margin-bottom: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 12px 18px;
+        }
+
+        .header-title {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
         
         .header h1 {
-            color: var(--primary-color);
-            font-size: 1.5rem;
+            color: var(--text-primary);
+            font-size: 1.85rem;
+            font-weight: 800;
             display: flex;
             align-items: center;
             gap: 12px;
+        }
+
+        .header-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            border-radius: 999px;
+            background: rgba(12, 92, 171, 0.18);
+            border: 1px solid rgba(12, 92, 171, 0.4);
+            box-shadow: var(--shadow-in);
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+            background: var(--success);
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.18);
         }
         
         .stats {
             display: flex;
-            gap: 15px;
+            gap: 12px;
             flex-wrap: wrap;
         }
         
         .stat-box {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--dark-color) 100%);
-            color: white;
-            padding: 12px 20px;
-            border-radius: 10px;
+            background: var(--surface-2);
+            color: var(--text-primary);
+            padding: 16px 22px;
+            border-radius: var(--radius-md);
             text-align: center;
-            min-width: 120px;
+            min-width: 170px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
         
         .stat-box .number {
-            font-size: 1.6rem;
+            font-size: 2rem;
             font-weight: 900;
             display: block;
-            color: var(--gold);
+            color: #7dd3fc;
         }
         
         .stat-box .label {
-            font-size: 0.85rem;
-            opacity: 0.95;
+            font-size: 0.9rem;
+            color: var(--text-muted);
         }
         
         .controls {
-            background: white;
-            padding: 15px;
-            border-radius: 12px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            background: var(--surface-2);
+            padding: 12px 14px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-out);
             margin-bottom: 20px;
             display: flex;
-            gap: 12px;
+            gap: 10px 12px;
             flex-wrap: wrap;
             align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .filter-group {
+            display: inline-flex;
+            gap: 10px;
+            align-items: center;
+            padding: 8px 10px;
+            border-radius: var(--radius-md);
+            background: rgba(17, 24, 39, 0.9);
+            box-shadow: var(--shadow-in);
+            border: 1px solid rgba(255, 255, 255, 0.06);
         }
         
         .btn-export-to-system {
-            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
             color: white;
             display: none;
+            box-shadow: var(--shadow-float);
+            min-height: 44px;
+            padding: 10px 20px;
+            font-size: 0.95rem;
+            border: 1px solid rgba(125, 211, 252, 0.35);
         }
         
         .btn-export-to-system.show {
@@ -114,102 +184,223 @@
         }
         
         .btn-export-to-system:hover {
-            background: linear-gradient(135deg, #218838 0%, #1aa179 100%);
+            background: linear-gradient(135deg, #0f6fd0 0%, #0a4a8a 100%);
+        }
+
+        .btn-export-to-system.active {
+            box-shadow: 0 0 0 2px rgba(125, 211, 252, 0.2), 0 14px 26px rgba(12, 92, 171, 0.45);
+            transform: translateY(-1px);
         }
         
         .order-checkbox {
-            width: 18px;
-            height: 18px;
+            width: 22px;
+            height: 22px;
             cursor: pointer;
-            accent-color: var(--gold);
+            accent-color: #7dd3fc;
         }
         
         #selectAll {
-            width: 18px;
-            height: 18px;
+            width: 22px;
+            height: 22px;
             cursor: pointer;
-            accent-color: var(--gold);
+            accent-color: #7dd3fc;
         }
         
         .selected-count {
-            background: var(--gold);
+            background: rgba(255, 255, 255, 0.15);
             color: white;
             padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.85rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
             font-weight: 700;
             margin-left: 8px;
         }
         
         .search-box {
-            flex: 1;
-            min-width: 250px;
+            flex: 1.6 1 440px;
+            min-width: 260px;
             position: relative;
         }
         
         .search-box input {
             width: 100%;
-            padding: 10px 40px 10px 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
+            padding: 12px 42px 12px 14px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-md);
             font-size: 0.95rem;
+            font-weight: 700;
             font-family: 'Cairo', sans-serif;
-            transition: all 0.3s ease;
+            background: var(--surface);
+            box-shadow: var(--shadow-in);
+            transition: all 0.2s ease;
+            color: var(--text-primary);
         }
         
         .search-box input:focus {
             outline: none;
-            border-color: var(--gold);
-            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+            border-color: rgba(12, 92, 171, 0.6);
+            box-shadow: var(--shadow-in), 0 0 0 3px rgba(12, 92, 171, 0.25);
+        }
+
+        .search-box input::placeholder {
+            color: rgba(250, 250, 250, 0.45);
+            font-weight: 500;
         }
         
         .search-box i {
             position: absolute;
-            left: 15px;
+            right: 16px;
             top: 50%;
             transform: translateY(-50%);
-            color: #999;
+            color: rgba(250, 250, 250, 0.6);
         }
         
         .btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
+            padding: 9px 16px;
+            border: 1px solid transparent;
+            border-radius: var(--radius-md);
             font-family: 'Cairo', sans-serif;
             font-weight: 700;
             font-size: 0.9rem;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
+            min-height: 40px;
+            background: var(--surface-2);
+            color: var(--text-primary);
+            box-shadow: var(--shadow-soft);
+            border-color: rgba(255, 255, 255, 0.06);
+        }
+
+        .btn-compact {
+            min-height: 36px;
+            padding: 7px 12px;
+            font-size: 0.85rem;
+        }
+
+        #deleteSelectedBtn {
+            min-height: 34px;
+            padding: 6px 10px;
+            font-size: 0.8rem;
+        }
+
+        .btn-sound {
+            padding: 6px 10px;
+            min-height: 36px;
+            min-width: 44px;
+            border-radius: 10px;
+            font-size: 0;
+        }
+
+        .btn-sound .btn-label {
+            display: none;
+        }
+
+        .btn-sound i {
+            font-size: 1rem;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
         }
         
         .btn-primary {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--dark-color) 100%);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
             color: white;
+            box-shadow: var(--shadow-soft);
         }
         
         .btn-success {
-            background: linear-gradient(135deg, var(--gold) 0%, var(--dark-gold) 100%);
-            color: var(--dark-green);
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.85) 0%, rgba(5, 150, 105, 0.9) 100%);
+            color: white;
         }
         
         .btn-danger {
-            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            background: linear-gradient(135deg, var(--danger) 0%, #dc2626 100%);
+            color: white;
+        }
+
+        .btn-muted {
+            background: rgba(17, 17, 21, 0.7);
+            color: var(--text-muted);
+        }
+
+        .btn-utility {
+            background: rgba(17, 24, 39, 0.9);
+            color: var(--text-primary);
+        }
+
+        .btn-copy {
+            background: linear-gradient(135deg, #475569 0%, #334155 100%);
+            color: white;
+        }
+
+        .btn-view {
+            background: linear-gradient(135deg, #0C5CAB 0%, #0a4a8a 100%);
+            color: white;
+        }
+
+        .btn-call {
+            background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
+            color: white;
+        }
+
+        .btn-whatsapp {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
             color: white;
         }
         
         .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-float);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+            box-shadow: var(--shadow-in);
+        }
+
+        .btn:focus-visible {
+            outline: 3px solid rgba(12, 92, 171, 0.45);
+            outline-offset: 2px;
+        }
+
+        .control-select {
+            min-height: 40px;
+            padding: 8px 12px;
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: var(--surface);
+            box-shadow: var(--shadow-in);
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .control-select:focus-visible {
+            outline: 3px solid rgba(12, 92, 171, 0.35);
+            outline-offset: 2px;
         }
         
         .orders-table {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-out);
+            overflow: auto;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .row-selected {
+            border: 1px solid rgba(125, 211, 252, 0.5);
+            box-shadow: 0 0 0 1px rgba(12, 92, 171, 0.25), var(--shadow-soft);
         }
         
         table {
@@ -218,35 +409,62 @@
         }
         
         thead {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--dark-color) 100%);
+            background: linear-gradient(135deg, #0b4f9b 0%, #0a3f77 100%);
             color: white;
         }
         
         th {
             padding: 12px 8px;
             text-align: center;
-            font-weight: 800;
-            font-size: 0.85rem;
+            font-weight: 700;
+            font-size: 0.82rem;
+            letter-spacing: 0.3px;
+            position: sticky;
+            top: 0;
+            z-index: 2;
+            background: inherit;
         }
         
         tbody tr {
-            border-bottom: 1px solid #f0f0f0;
-            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.2s ease;
+        }
+
+        tbody tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.04);
         }
         
         tbody tr:hover {
-            background: rgba(74, 124, 89, 0.05);
+            background: rgba(12, 92, 171, 0.08);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        tbody tr:hover td {
+            background: rgba(12, 92, 171, 0.06);
         }
         
         td {
-            padding: 12px 8px;
+            padding: 16px 8px;
             text-align: center;
             font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        tbody td:nth-child(3) strong {
+            font-size: 0.98rem;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        tbody td:nth-child(3) small {
+            font-size: 0.75rem;
+            color: var(--text-muted);
         }
         
         .order-id {
             font-weight: 700;
-            color: var(--primary-color);
+            color: #7dd3fc;
             text-align: center;
         }
         
@@ -254,12 +472,17 @@
             direction: ltr;
             text-align: center;
             font-weight: 600;
-            color: var(--text-dark);
+            color: var(--text-primary);
+        }
+
+        .phone div {
+            font-size: 0.95rem;
+            letter-spacing: 0.3px;
         }
         
         .price {
             font-weight: 900;
-            color: var(--gold);
+            color: #7dd3fc;
             font-size: 1rem;
             text-align: center;
         }
@@ -270,60 +493,83 @@
             text-overflow: ellipsis;
             white-space: nowrap;
             font-size: 0.85rem;
-            color: #666;
+            color: var(--text-muted);
             text-align: center;
         }
         
         .actions {
             display: flex;
-            gap: 5px;
+            gap: 8px;
             flex-wrap: wrap;
             justify-content: center;
             padding: 8px;
         }
+
+        .mobile-only {
+            display: none;
+        }
         
         .btn-small {
-            padding: 5px 10px;
+            padding: 6px 10px;
             font-size: 0.8rem;
+            min-height: 34px;
         }
         
         .order-exported {
-            background: rgba(40, 167, 69, 0.1) !important;
-            border-right: 4px solid #28a745 !important;
+            background: rgba(16, 185, 129, 0.12) !important;
+            border-right: 4px solid var(--success) !important;
         }
         
         .order-exported .order-id {
-            color: #28a745 !important;
+            color: var(--success) !important;
         }
         
         .exported-badge {
-            background: #28a745;
+            background: var(--success);
             color: white;
             padding: 2px 8px;
-            border-radius: 12px;
+            border-radius: 8px;
             font-size: 0.7rem;
             font-weight: 700;
             display: inline-block;
             margin-right: 5px;
         }
+
+        .footer {
+            text-align: center;
+            padding: 14px;
+            margin-top: 16px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 600;
+            background: var(--surface-2);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
         
         .empty-state {
             text-align: center;
             padding: 50px 20px;
-            color: #999;
+            color: var(--text-muted);
+            background: var(--surface-2);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-in);
+            margin: 12px;
         }
         
         .empty-state i {
             font-size: 3.5rem;
-            margin-bottom: 15px;
-            opacity: 0.3;
-            color: var(--primary-color);
+            margin-bottom: 12px;
+            opacity: 0.35;
+            color: #7dd3fc;
         }
         
         .empty-state h3 {
             font-size: 1.3rem;
-            margin-bottom: 8px;
-            color: var(--text-dark);
+            margin-bottom: 6px;
+            color: var(--text-primary);
+            font-weight: 700;
         }
         
         .empty-state p {
@@ -336,15 +582,206 @@
             }
             
             .orders-table {
-                overflow-x: auto;
+                overflow: visible;
             }
             
             table {
-                min-width: 900px;
+                min-width: 0;
+            }
+
+            thead {
+                display: none;
+            }
+
+            tbody tr {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                grid-template-areas:
+                    "id price"
+                    "name name"
+                    "product product"
+                    "phone phone"
+                    "gov gov"
+                    "address address"
+                    "qty qty"
+                    "actions actions"
+                    "expand expand";
+                gap: 6px 10px;
+                padding: 14px;
+                margin: 10px;
+                border-radius: 14px;
+                background: var(--surface-2);
+                border: 1px solid rgba(255, 255, 255, 0.06);
+            }
+
+            td {
+                padding: 0;
+                text-align: right;
+            }
+
+            .cell-select {
+                display: none;
+            }
+
+            .cell-id {
+                grid-area: id;
+                font-weight: 700;
+                color: #7dd3fc;
+            }
+
+            .cell-price {
+                grid-area: price;
+                text-align: left;
+            }
+
+            .cell-name {
+                grid-area: name;
+            }
+
+            .cell-name strong {
+                font-size: 1.05rem;
+            }
+
+            .cell-product {
+                grid-area: product;
+                color: var(--text-muted);
+                font-size: 0.85rem;
+            }
+
+            .cell-phone {
+                grid-area: phone;
+            }
+
+            .cell-governorate {
+                grid-area: gov;
+                font-size: 0.9rem;
+                color: var(--text-muted);
+            }
+
+            .cell-address {
+                grid-area: address;
+            }
+
+            .address-text {
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+            }
+
+            .cell-qty {
+                grid-area: qty;
+            }
+
+            .cell-notes {
+                display: none;
+            }
+
+            .cell-actions {
+                grid-area: actions;
+            }
+
+            .actions {
+                display: grid;
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+                gap: 8px;
+                padding: 0;
+            }
+
+            .actions .btn {
+                min-height: 44px;
+                justify-content: center;
+            }
+
+            .mobile-only {
+                display: block;
+                grid-area: expand;
+            }
+
+            .mobile-more {
+                margin-top: 6px;
+                background: rgba(11, 17, 32, 0.8);
+                border-radius: 10px;
+                padding: 8px 10px;
+                border: 1px solid rgba(255, 255, 255, 0.06);
+            }
+
+            .mobile-more summary {
+                list-style: none;
+                cursor: pointer;
+                font-size: 0.85rem;
+                color: #7dd3fc;
+            }
+
+            .mobile-more summary::-webkit-details-marker {
+                display: none;
+            }
+
+            .mobile-more .detail-item {
+                margin-top: 8px;
+                font-size: 0.85rem;
+                color: var(--text-muted);
+            }
+
+            .header {
+                padding: 12px 16px;
+            }
+
+            .header h1 {
+                font-size: 1.4rem;
+            }
+
+            .stats {
+                width: 100%;
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 10px;
+            }
+
+            .stat-box {
+                min-width: 0;
+                padding: 12px;
+            }
+
+            .stat-box .number {
+                font-size: 1.5rem;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+
+            .controls .search-box {
+                order: 1;
+                width: 100%;
+            }
+
+            .filter-group {
+                order: 2;
+                width: 100%;
+            }
+
+            .btn-export-to-system {
+                order: 3;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .controls .btn-success {
+                order: 4;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .controls .btn-sound {
+                order: 5;
+                align-self: flex-end;
             }
             
             .header {
-                padding: 15px;
+                padding: 14px;
             }
             
             .header h1 {
@@ -352,16 +789,16 @@
             }
             
             .stat-box {
-                padding: 10px 15px;
-                min-width: 100px;
+                padding: 10px 12px;
+                min-width: 110px;
             }
             
             .stat-box .number {
-                font-size: 1.3rem;
+                font-size: 1.2rem;
             }
             
             .stat-box .label {
-                font-size: 0.8rem;
+                font-size: 0.78rem;
             }
             
             .controls {
@@ -369,7 +806,7 @@
             }
             
             .btn {
-                padding: 8px 16px;
+                padding: 8px 14px;
                 font-size: 0.85rem;
             }
         }
@@ -392,32 +829,35 @@
         }
         
         .modal-content {
-            background: white;
+            background: var(--surface-2);
             padding: 30px;
-            border-radius: 15px;
+            border-radius: var(--radius-lg);
             max-width: 500px;
             width: 90%;
             max-height: 80vh;
             overflow-y: auto;
+            box-shadow: var(--shadow-out);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
         
         .modal-content h2 {
-            color: var(--primary-color);
+            color: var(--text-primary);
             margin-bottom: 20px;
             font-size: 1.5rem;
         }
         
         .detail-row {
             padding: 10px;
-            background: rgba(74, 124, 89, 0.05);
-            border-radius: 8px;
+            background: rgba(17, 17, 21, 0.9);
+            border-radius: var(--radius-sm);
             margin-bottom: 10px;
-            border-right: 3px solid var(--gold);
+            border-right: 3px solid var(--primary-color);
+            box-shadow: var(--shadow-in);
         }
         
         .detail-row strong {
             display: block;
-            color: var(--primary-color);
+            color: var(--text-primary);
             font-size: 0.85rem;
             margin-bottom: 5px;
         }
@@ -435,7 +875,7 @@
             bottom: 0;
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            background: linear-gradient(135deg, rgba(44, 62, 80, 0.85) 0%, rgba(26, 37, 47, 0.85) 100%);
+            background: linear-gradient(135deg, rgba(12, 92, 171, 0.4) 0%, rgba(2, 6, 23, 0.8) 100%);
             z-index: 1000;
             display: flex;
             align-items: center;
@@ -487,10 +927,11 @@
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <h1>
-                <i class="fas fa-boxes" style="color: var(--gold);"></i>
-                لوحة إدارة الطلبات 📦
-            </h1>
+            <div class="header-title">
+                <h1>
+                    لوحة إدارة الطلبات
+                </h1>
+            </div>
             <div class="stats">
                 <div class="stat-box">
                     <span class="number" id="totalOrders">0</span>
@@ -511,9 +952,10 @@
         
         <!-- Controls -->
         <div class="controls">
-            <button class="btn btn-primary" id="enableSoundBtn" onclick="enableSound()" style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%); animation: pulse 2s infinite;">
+            <button class="btn btn-utility btn-sound" id="enableSoundBtn" onclick="enableSound()" aria-label="تفعيل الصوت">
                 <i class="fas fa-volume-up"></i>
-                تفعيل الصوت 🔔
+                <span class="btn-label">تفعيل الصوت</span>
+                <span class="sr-only">تفعيل الصوت</span>
             </button>
             <div class="search-box">
                 <input type="text" id="searchInput" placeholder="بحث بالاسم أو رقم الهاتف...">
@@ -523,27 +965,25 @@
                 <i class="fas fa-download"></i>
                 تصدير Excel
             </button>
-            <select id="productFilter" class="btn" style="padding: 10px 15px; cursor: pointer; background: white; border: 2px solid var(--gold); color: var(--primary-color); font-weight: 700;" onchange="applyFilters()">
-                <option value="all">جميع المنتجات</option>
-                <option value="boxers">بوكسرات</option>
-                <option value="karseell">Karseell</option>
-                <option value="herbs">زيت 108 عشبة</option>
-            </select>
-            <select id="exportFilter" class="btn" style="padding: 10px 15px; cursor: pointer; background: white; border: 2px solid #28a745; color: var(--primary-color); font-weight: 700;" onchange="applyFilters()">
-                <option value="all">جميع الطلبات</option>
-                <option value="exported">مُضافة إلى Logexa ✓</option>
-                <option value="not-exported">غير مُضافة</option>
-            </select>
-            <button class="btn btn-primary" onclick="logout()" style="background: linear-gradient(135deg, #6c757d 0%, #495057 100%);">
-                <i class="fas fa-sign-out-alt"></i>
-                تسجيل خروج
-            </button>
-            <button class="btn btn-export-to-system" id="exportToSystemBtn" onclick="exportSelectedToSystem()">
+            <div class="filter-group">
+                <select id="productFilter" class="control-select" onchange="applyFilters()">
+                    <option value="all">جميع المنتجات</option>
+                    <option value="boxers">بوكسرات</option>
+                    <option value="karseell">Karseell</option>
+                    <option value="herbs">زيت 108 عشبة</option>
+                </select>
+                <select id="exportFilter" class="control-select" onchange="applyFilters()">
+                    <option value="all">جميع الطلبات</option>
+                    <option value="exported">مُضافة إلى Logexa ✓</option>
+                    <option value="not-exported">غير مُضافة</option>
+                </select>
+            </div>
+            <button class="btn btn-export-to-system btn-compact" id="exportToSystemBtn" onclick="exportSelectedToSystem()">
                 <i class="fas fa-truck"></i>
                 إضافة إلى Logexa
                 <span class="selected-count" id="selectedCount">0</span>
             </button>
-            <button class="btn btn-danger" id="deleteSelectedBtn" onclick="deleteSelectedOrders()" style="display: none;">
+            <button class="btn btn-danger btn-compact" id="deleteSelectedBtn" onclick="deleteSelectedOrders()" style="display: none;">
                 <i class="fas fa-trash-alt"></i>
                 حذف المحدد
                 <span class="selected-count" id="deleteCount">0</span>
@@ -582,8 +1022,8 @@
         </div>
         
         <!-- Footer -->
-        <div style="text-align: center; padding: 20px; margin-top: 20px; color: white; font-size: 0.9rem; opacity: 0.8;">
-            <p style="margin: 0;">جميع الحقوق محفوظة © A.Ala3m</p>
+        <div class="footer">
+            <p style="margin: 0;">A.Ala3m OMS • جميع الحقوق محفوظة</p>
         </div>
     </div>
     
@@ -643,12 +1083,12 @@
             
             while (attempts < maxAttempts) {
                 const { value: formValues } = await Swal.fire({
-                    title: '<i class="fas fa-lock" style="color: #2c3e50;"></i> تسجيل الدخول',
+                    title: '<i class="fas fa-lock" style="color: #7dd3fc;"></i> تسجيل الدخول',
                     html:
                         '<input id="swal-username" class="swal2-input" placeholder="اسم المستخدم" style="text-align: right;">' +
                         '<input id="swal-password" type="password" class="swal2-input" placeholder="كلمة المرور" style="text-align: right;">',
                     confirmButtonText: 'دخول',
-                    confirmButtonColor: '#2c3e50',
+                    confirmButtonColor: '#0C5CAB',
                     showCancelButton: true,
                     cancelButtonText: 'إلغاء',
                     cancelButtonColor: '#d33',
@@ -673,7 +1113,7 @@
                         icon: 'error',
                         title: 'تم إلغاء تسجيل الدخول',
                         text: 'سيتم تحويلك الآن...',
-                        confirmButtonColor: '#4A7C59',
+                        confirmButtonColor: '#0C5CAB',
                         timer: 2000
                     });
                     window.location.href = "https://google.com";
@@ -697,7 +1137,7 @@
                         icon: 'success',
                         title: 'مرحباً بك!',
                         text: 'تم تسجيل الدخول بنجاح',
-                        confirmButtonColor: '#4A7C59',
+                        confirmButtonColor: '#0C5CAB',
                         timer: 1500,
                         showConfirmButton: false
                     });
@@ -709,7 +1149,7 @@
                             icon: 'error',
                             title: 'خطأ في تسجيل الدخول',
                             text: `اسم المستخدم أو كلمة المرور خاطئة!\nالمحاولات المتبقية: ${maxAttempts - attempts}`,
-                            confirmButtonColor: '#4A7C59'
+                            confirmButtonColor: '#0C5CAB'
                         });
                     } else {
                         await Swal.fire({
@@ -816,7 +1256,7 @@
                 playBeep();
                 
                 soundEnabled = true;
-                btn.style.background = 'linear-gradient(135deg, #28a745 0%, #20c997 100%)';
+                btn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
                 btn.innerHTML = '<i class="fas fa-volume-up"></i> الصوت مُفعّل ✓';
                 btn.style.animation = 'none';
                 btn.disabled = true;
@@ -839,7 +1279,7 @@
                     icon: 'warning',
                     title: 'تعذر تفعيل الصوت',
                     text: 'حاول مرة أخرى أو تحقق من إعدادات المتصفح',
-                    confirmButtonColor: '#ff6b6b'
+                    confirmButtonColor: '#ef4444'
                 });
             }
         }
@@ -999,16 +1439,16 @@
             
             // تحديد الأيقونة والرسالة حسب نوع المنتج
             let icon = '🎉';
-            let bgColor = '#28a745';
+            let bgColor = '#10b981';
             if (productType.includes('Karseell')) {
                 icon = '💆‍♀️';
-                bgColor = '#e67e22';
+                bgColor = '#f59e0b';
             } else if (productType.includes('بوكسرات')) {
                 icon = '🩲';
-                bgColor = '#3498db';
+                bgColor = '#0C5CAB';
             } else if (productType.includes('زيت')) {
                 icon = '🌿';
-                bgColor = '#27ae60';
+                bgColor = '#10b981';
             }
             
             // Show notification with animation
@@ -1112,26 +1552,36 @@
             
             tbody.innerHTML = ordersData.map((order, index) => {
                 // تحديد لون المنتج
-                let productColor = '#4A7C59'; // default green (زيت 108 عشبة)
+                let productColor = '#10b981'; // default green (زيت 108 عشبة)
                 
                 if (order.productType?.includes('Karseell')) {
                     if (order.productType.includes('Cream')) {
-                        productColor = '#d946ef'; // بنفسجي للكريم
+                        productColor = '#7c3aed'; // بنفسجي للكريم
                     } else if (order.productType.includes('Serum')) {
                         productColor = '#f59e0b'; // ذهبي للسيروم
                     } else if (order.productType.includes('Bundle')) {
-                        productColor = '#e67e22'; // برتقالي للباقة
+                        productColor = '#f97316'; // برتقالي للباقة
                     } else {
-                        productColor = '#e67e22'; // برتقالي افتراضي لـ Karseell
+                        productColor = '#f97316'; // برتقالي افتراضي لـ Karseell
                     }
                 } else if (order.productType?.includes('بوكسرات')) {
-                    productColor = '#3498db'; // أزرق للبوكسرات
+                    productColor = '#0C5CAB'; // أزرق للبوكسرات
                 }
                 
                 // التحقق إذا كان الطلب تم تصديره
                 const isExported = order.exportedToSystem === true;
                 const exportedClass = isExported ? 'order-exported' : '';
                 
+                // تحسين عرض أرقام الهاتف
+                const phonePrimary = String(order.phone || '').trim() || '-';
+                const phoneSecondary = String(order.phone2 || '').trim();
+                const showSecondPhone = phoneSecondary && phoneSecondary !== phonePrimary;
+                const safePhonePrimary = phonePrimary.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                const safePhoneSecondary = phoneSecondary.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                const phoneCopyText = showSecondPhone
+                    ? `الهاتف الأساسي: ${safePhonePrimary}\nالهاتف البديل: ${safePhoneSecondary}`
+                    : `الهاتف: ${safePhonePrimary}`;
+
                 // حساب تفاصيل الأسعار
                 const quantity = parseInt(order.quantity) || 1;
                 const totalPrice = parseFloat(order.finalPrice || order.price);
@@ -1140,44 +1590,51 @@
                 
                 return `
                 <tr class="${exportedClass}">
-                    <td><input type="checkbox" class="order-checkbox" data-firebase-id="${order.firebaseId}" onchange="updateSelectedCount()"></td>
-                    <td class="order-id">#${ordersData.length - index}${isExported ? '<span class="exported-badge">✓ تم الإضافة</span>' : ''}</td>
-                    <td onclick="copyToClipboard('${order.name.replace(/'/g, "\\'").replace(/"/g, '&quot;')}', 'الاسم')" style="cursor: pointer;" title="انقر للنسخ">
-                        <strong>${order.name}</strong><br>
+                    <td class="cell-select"><input type="checkbox" class="order-checkbox" data-firebase-id="${order.firebaseId}" onchange="updateSelectedCount()"></td>
+                    <td class="order-id cell-id">#${ordersData.length - index}${isExported ? '<span class="exported-badge">✓ تم الإضافة</span>' : ''}</td>
+                    <td class="cell-name" onclick="copyToClipboard('${order.name.replace(/'/g, "\\'").replace(/"/g, '&quot;')}', 'الاسم')" style="cursor: pointer;" title="انقر لنسخ الاسم">
+                        <strong>${order.name}</strong>
+                        <div class="mobile-only cell-product" style="color: ${productColor}; font-weight: 600;">${order.productType || '🌿 زيت 108 عشبة'}</div>
                         <small style="color: ${productColor}; font-weight: 600;">${order.productType || '🌿 زيت 108 عشبة'}</small>
                     </td>
-                    <td class="phone" style="cursor: pointer;" title="انقر للنسخ">
-                        <div onclick="copyToClipboard('${order.phone}', 'رقم الهاتف')" style="font-weight: 700; color: #2c3e50;">${order.phone}</div>
-                        ${order.phone2 ? `<div style="margin-top: 4px; padding-top: 4px; border-top: 1px dashed #e0e0e0;" onclick="copyToClipboard('${order.phone2}', 'رقم الهاتف البديل')"><span style="font-size: 0.85rem; color: #3b82f6; font-weight: 600;">📱 ${order.phone2}</span></div>` : ''}
+                    <td class="phone cell-phone" style="cursor: pointer;" onclick="copyToClipboard('${phoneCopyText}', 'أرقام الهاتف')" title="انقر لنسخ أرقام الهاتف">
+                        <div style="font-weight: 700; color: var(--text-primary);">${phonePrimary}</div>
+                        ${showSecondPhone ? `<div style="margin-top: 4px; padding-top: 4px; border-top: 1px dashed rgba(255, 255, 255, 0.15);"><span style="font-size: 0.85rem; color: #7dd3fc; font-weight: 600;">📱 ${phoneSecondary}</span></div>` : ''}
                     </td>
-                    <td>${order.governorate}</td>
-                    <td onclick="copyToClipboard('${order.address.replace(/'/g, "\\'").replace(/"/g, '&quot;')}', 'العنوان')" title="${order.address} (انقر للنسخ)" style="cursor: pointer;">${order.address}</td>
-                    <td class="price">
-                        <strong style="font-size: 1.1rem; color: #16a34a;">${totalPrice} ج</strong>
-                        ${order.discountAmount > 0 ? `<br><small style="color: #999; text-decoration: line-through;">${order.originalPrice} ج</small>` : ''}
+                    <td class="cell-governorate">${order.governorate}</td>
+                    <td class="cell-address" onclick="copyToClipboard('المحافظة: ${String(order.governorate || '-').replace(/'/g, "\\'").replace(/"/g, '&quot;')}\nالعنوان التفصيلي: ${String(order.address || '-').replace(/'/g, "\\'").replace(/"/g, '&quot;')}', 'العنوان')" title="${order.governorate || '-'} - ${order.address || '-'} (انقر للنسخ)" style="cursor: pointer;"><span class="address-text">${order.address}</span></td>
+                    <td class="price cell-price">
+                        <strong style="font-size: 1.1rem; color: var(--success);">${totalPrice} ج</strong>
+                        ${order.discountAmount > 0 ? `<br><small style="color: var(--text-muted); text-decoration: line-through;">${order.originalPrice} ج</small>` : ''}
                     </td>
-                    <td>
+                    <td class="cell-qty">
                         <div style="text-align: center;">
                             <span style="background: ${productColor}; color: white; padding: 6px 12px; border-radius: 5px; font-size: 0.9rem; font-weight: 700; display: inline-block;">
                                 ${quantity}×
                             </span>
-                            ${order.productType?.includes('بوكسرات') && order.size ? `<br><small style="color: #666; font-size: 0.75rem; margin-top: 4px; display: block;">${order.size}</small>` : ''}
+                            ${order.productType?.includes('بوكسرات') && order.size ? `<br><small style="color: var(--text-muted); font-size: 0.75rem; margin-top: 4px; display: block;">${order.size}</small>` : ''}
                         </div>
                     </td>
-                    <td onclick="copyToClipboard('${(order.notes || '').replace(/'/g, "\\'").replace(/"/g, '&quot;')}', 'الملاحظات')" style="cursor: pointer; font-size: 0.85rem; max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${order.notes || 'لا توجد ملاحظات'} (انقر للنسخ)">${order.notes ? '📝 ' + order.notes : '<span style="opacity: 0.4;">-</span>'}</td>
-                    <td class="actions">
-                        <button class="btn btn-primary btn-small" onclick="copyOrderSummary(${index})" title="نسخ بيانات الطلب">
+                    <td class="cell-notes" onclick="copyToClipboard('${(order.notes || '').replace(/'/g, "\\'").replace(/"/g, '&quot;')}', 'الملاحظات')" style="cursor: pointer; font-size: 0.85rem; max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${order.notes || 'لا توجد ملاحظات'} (انقر للنسخ)">${order.notes ? '📝 ' + order.notes : '<span style="opacity: 0.4;">-</span>'}</td>
+                    <td class="actions cell-actions">
+                        <button class="btn btn-copy btn-small" onclick="copyOrderSummary(${index})" title="نسخ بيانات الطلب بالكامل">
                             <i class="fas fa-copy"></i>
                         </button>
-                        <button class="btn btn-primary btn-small" onclick="viewDetails(${index})" title="عرض التفاصيل">
+                        <button class="btn btn-view btn-small" onclick="viewDetails(${index})" title="عرض التفاصيل">
                             <i class="fas fa-eye"></i>
                         </button>
-                        <button class="btn btn-success btn-small" onclick="callCustomer('${order.phone}')" title="اتصال">
+                        <button class="btn btn-call btn-small" onclick="callCustomer('${order.phone}')" title="اتصال">
                             <i class="fas fa-phone"></i>
                         </button>
-                        <button class="btn btn-success btn-small" onclick="whatsappCustomer('${order.phone}', '${order.name}', '${order.governorate}', '${order.address}', '${order.bottleSize || order.size || ''}', ${order.price}, '${order.date}', '${order.time}', '${order.productType || '🌿 زيت 108 عشبة'}', ${quantity}, '${(order.notes || '').replace(/'/g, "\\'")}', '${order.phone2 || ''}')" title="تأكيد الطلب">
+                        <button class="btn btn-whatsapp btn-small" onclick="whatsappCustomer('${order.phone}', '${order.name}', '${order.governorate}', '${order.address}', '${order.bottleSize || order.size || ''}', ${order.price}, '${order.date}', '${order.time}', '${order.productType || '🌿 زيت 108 عشبة'}', ${quantity}, '${(order.notes || '').replace(/'/g, "\\'")}', '${order.phone2 || ''}')" title="تأكيد الطلب">
                             <i class="fab fa-whatsapp"></i>
                         </button>
+                        <details class="mobile-only mobile-more">
+                            <summary>تفاصيل إضافية</summary>
+                            ${showSecondPhone ? `<div class="detail-item">هاتف بديل: ${phoneSecondary}</div>` : ''}
+                            <div class="detail-item">العنوان الكامل: ${order.governorate || '-'} - ${order.address || '-'}</div>
+                            <div class="detail-item">الملاحظات: ${order.notes || 'لا توجد ملاحظات'}</div>
+                        </details>
                     </td>
                 </tr>
             `}).join('');
@@ -1191,18 +1648,23 @@
                 return;
             }
 
+            const quantity = parseInt(order.quantity) || 1;
+            const totalPrice = parseFloat(order.finalPrice || order.price) || 0;
+            const productName = order.product || order.productType || '-';
+            const fullAddress = `${order.governorate || '-'} - ${order.address || '-'}`;
+
             const summary = [
+                `الصفحة: dede style - الصابونة الكورية`,
                 `الاسم: ${order.name || '-'}`,
                 `الهاتف الأساسي: ${order.phone || '-'}`,
-                `الهاتف البديل: ${order.phone2 || '-'}`,
-                `المحافظة: ${order.governorate || '-'}`,
-                `العنوان التفصيلي: ${order.address || '-'}`,
-                `المنتج: ${order.product || order.productType || '-'}`,
-                `السعر الإجمالي: ${order.finalPrice || order.price || '-'}`,
+                `الهاتف البديل: ${order.phone2 || 'لا يوجد'}`,
+                `العنوان الكامل: ${fullAddress}`,
+                `المنتج: ${productName} × ${quantity}`,
+                `السعر الإجمالي: ${totalPrice} جنيه`,
                 `الملاحظات: ${order.notes || '-'}`
             ].join('\n');
 
-            copyToClipboard(summary, 'بيانات الطلب');
+            copyToClipboard(summary, 'بيانات الطلب كاملة');
         }
         
         // Update statistics
@@ -1240,7 +1702,7 @@
                 ${order.phone2 ? `
                 <div class="detail-row">
                     <strong>رقم الهاتف البديل:</strong>
-                    <span style="direction: ltr; display: block; color: #3b82f6; font-weight: 600;">${order.phone2}</span>
+                    <span style="direction: ltr; display: block; color: #7dd3fc; font-weight: 600;">${order.phone2}</span>
                 </div>
                 ` : ''}
                 <div class="detail-row">
@@ -1278,7 +1740,7 @@
                 </div>
                 <div class="detail-row">
                     <strong>السعر الأصلي:</strong>
-                    <span style="color: #999; text-decoration: line-through;">${order.originalPrice} جنيه</span>
+                    <span style="color: var(--text-muted); text-decoration: line-through;">${order.originalPrice} جنيه</span>
                 </div>
                 <div class="detail-row">
                     <strong>مبلغ الخصم:</strong>
@@ -1289,7 +1751,7 @@
                     <span style="color: #38ef7d; font-weight: 900; font-size: 1.2rem;">${order.finalPrice} جنيه</span>
                 </div>
                 ` : `
-                <div class="detail-row" style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border-right: 4px solid #16a34a; padding: 15px;">
+                <div class="detail-row" style="background: rgba(16, 185, 129, 0.12); border-right: 4px solid var(--success); padding: 15px;">
                     <strong style="color: #065f46; font-size: 1.1rem; margin-bottom: 10px; display: block;">💰 تفاصيل الأسعار:</strong>
                     <div style="margin-top: 10px;">
                         <span style="color: #047857;">💵 السعر الأساسي:</span>
@@ -1299,9 +1761,9 @@
                         <span style="color: #047857;">🚚 مصاريف الشحن:</span>
                         <span style="font-weight: 700; color: #059669;">+50 ج.م</span>
                     </div>
-                    <div style="margin-top: 12px; padding-top: 12px; border-top: 2px dashed #16a34a;">
+                    <div style="margin-top: 12px; padding-top: 12px; border-top: 2px dashed rgba(16, 185, 129, 0.5);">
                         <span style="color: #065f46; font-weight: 800; font-size: 1.1rem;">الإجمالي النهائي:</span>
-                        <span style="color: #16a34a; font-weight: 900; font-size: 1.3rem;">${order.price} جنيه</span>
+                        <span style="color: var(--success); font-weight: 900; font-size: 1.3rem;">${order.price} جنيه</span>
                     </div>
                 </div>
                 `}
@@ -1481,7 +1943,7 @@
                     icon: 'info',
                     title: 'لا توجد بيانات',
                     text: 'لا توجد طلبات للتصدير',
-                    confirmButtonColor: '#4A7C59'
+                    confirmButtonColor: '#0C5CAB'
                 });
                 return;
             }
@@ -1516,7 +1978,7 @@
                 icon: 'success',
                 title: 'تم التصدير بنجاح',
                 html: `تم تصدير <strong>${reversedOrders.length}</strong> طلب إلى ملف Excel`,
-                confirmButtonColor: '#4A7C59',
+                confirmButtonColor: '#0C5CAB',
                 timer: 2000
             });
         }
@@ -1537,7 +1999,7 @@
                 confirmButtonText: 'نعم، تسجيل خروج',
                 cancelButtonText: 'إلغاء',
                 confirmButtonColor: '#d33',
-                cancelButtonColor: '#4A7C59'
+                cancelButtonColor: '#0C5CAB'
             });
             
             if (result.isConfirmed) {
@@ -1546,7 +2008,7 @@
                     icon: 'success',
                     title: 'تم تسجيل الخروج',
                     text: 'وداعاً!',
-                    confirmButtonColor: '#4A7C59',
+                    confirmButtonColor: '#0C5CAB',
                     timer: 1500,
                     showConfirmButton: false
                 });
@@ -1599,7 +2061,7 @@
                         icon: 'error',
                         title: 'فشل النسخ',
                         text: 'لم يتمكن من نسخ النص. جرب يدوياً.',
-                        confirmButtonColor: '#4A7C59'
+                        confirmButtonColor: '#0C5CAB'
                     });
                 }
                 document.body.removeChild(textArea);
@@ -1637,11 +2099,20 @@
             
             if (count > 0) {
                 exportBtn.classList.add('show');
+                exportBtn.classList.add('active');
                 deleteBtn.style.display = 'inline-flex';
             } else {
                 exportBtn.classList.remove('show');
+                exportBtn.classList.remove('active');
                 deleteBtn.style.display = 'none';
             }
+
+            document.querySelectorAll('.order-checkbox').forEach((checkbox) => {
+                const row = checkbox.closest('tr');
+                if (row) {
+                    row.classList.toggle('row-selected', checkbox.checked);
+                }
+            });
             
             // تحديث حالة checkbox "تحديد الكل"
             const allCheckboxes = document.querySelectorAll('.order-checkbox');
@@ -1710,7 +2181,7 @@
                 showCancelButton: true,
                 confirmButtonText: 'نعم، أضف',
                 cancelButtonText: 'إلغاء',
-                confirmButtonColor: '#28a745',
+                confirmButtonColor: '#0C5CAB',
                 cancelButtonColor: '#6c757d'
             });
             
@@ -1812,7 +2283,7 @@
                         title: 'تمت الإضافة بنجاح',
                         html: `تم إضافة <strong>${data.success_count}</strong> طلب إلى Logexa<br>
                                ${data.failed_count > 0 ? `<span style="color: #dc3545;">فشل: ${data.failed_count}</span>` : ''}>`,
-                        confirmButtonColor: '#28a745',
+                        confirmButtonColor: '#0C5CAB',
                         timer: 3000
                     });
                     
@@ -1934,7 +2405,7 @@
                 confirmButtonText: 'نعم، احذف',
                 cancelButtonText: 'إلغاء',
                 confirmButtonColor: '#d33',
-                cancelButtonColor: '#4A7C59'
+                cancelButtonColor: '#0C5CAB'
             });
             
             if (!result.isConfirmed) return;
@@ -1988,7 +2459,7 @@
                     icon: successCount > 0 ? 'success' : 'error',
                     title: successCount > 0 ? 'تم الحذف بنجاح' : 'فشل الحذف',
                     html: `تم حذف <strong>${successCount}</strong> طلب${failedCount > 0 ? `<br><span style="color: #dc3545;">فشل: ${failedCount}</span>` : ''}`,
-                    confirmButtonColor: '#4A7C59',
+                    confirmButtonColor: '#0C5CAB',
                     timer: 3000
                 });
             } catch (error) {
