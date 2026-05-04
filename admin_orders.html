@@ -595,19 +595,19 @@
 
             tbody tr {
                 display: grid;
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: auto 1fr;
                 grid-template-areas:
-                    "id price"
-                    "name name"
-                    "product product"
-                    "phone phone"
-                    "gov gov"
-                    "address address"
-                    "qty qty"
-                    "actions actions"
-                    "expand expand";
-                gap: 6px 10px;
-                padding: 14px;
+                    "select id"
+                    "select name"
+                    "select phone"
+                    "select gov"
+                    "select address"
+                    "select qty"
+                    "select price"
+                    "select notes"
+                    "actions actions";
+                gap: 10px 12px;
+                padding: 16px;
                 margin: 10px;
                 border-radius: 14px;
                 background: var(--surface-2);
@@ -620,7 +620,11 @@
             }
 
             .cell-select {
-                display: none;
+                display: flex;
+                align-items: flex-start;
+                justify-content: center;
+                grid-area: select;
+                padding-top: 2px;
             }
 
             .cell-id {
@@ -631,7 +635,12 @@
 
             .cell-price {
                 grid-area: price;
-                text-align: left;
+                text-align: right;
+            }
+
+            .cell-price strong {
+                font-size: 1.35rem;
+                letter-spacing: 0.2px;
             }
 
             .cell-name {
@@ -639,23 +648,33 @@
             }
 
             .cell-name strong {
-                font-size: 1.05rem;
+                font-size: 1.15rem;
             }
 
-            .cell-product {
-                grid-area: product;
-                color: var(--text-muted);
+            .product-label {
+                display: inline-block;
+                margin-top: 4px;
                 font-size: 0.85rem;
             }
 
             .cell-phone {
                 grid-area: phone;
+                text-align: right;
             }
 
             .cell-governorate {
                 grid-area: gov;
-                font-size: 0.9rem;
-                color: var(--text-muted);
+            }
+
+            .gov-badge {
+                display: inline-flex;
+                align-items: center;
+                padding: 4px 10px;
+                border-radius: 999px;
+                background: rgba(125, 211, 252, 0.12);
+                color: #7dd3fc;
+                font-size: 0.8rem;
+                font-weight: 700;
             }
 
             .cell-address {
@@ -671,56 +690,33 @@
 
             .cell-qty {
                 grid-area: qty;
+                text-align: right;
             }
 
             .cell-notes {
-                display: none;
+                display: block;
+                grid-area: notes;
+                font-size: 0.85rem;
+                color: var(--text-muted);
             }
 
             .cell-actions {
                 grid-area: actions;
+                padding-top: 6px;
+                border-top: 1px dashed rgba(255, 255, 255, 0.08);
             }
 
             .actions {
                 display: grid;
                 grid-template-columns: repeat(4, minmax(0, 1fr));
-                gap: 8px;
+                gap: 6px;
                 padding: 0;
             }
 
             .actions .btn {
-                min-height: 44px;
+                min-height: 40px;
                 justify-content: center;
-            }
-
-            .mobile-only {
-                display: block;
-                grid-area: expand;
-            }
-
-            .mobile-more {
-                margin-top: 6px;
-                background: rgba(11, 17, 32, 0.8);
-                border-radius: 10px;
-                padding: 8px 10px;
-                border: 1px solid rgba(255, 255, 255, 0.06);
-            }
-
-            .mobile-more summary {
-                list-style: none;
-                cursor: pointer;
-                font-size: 0.85rem;
-                color: #7dd3fc;
-            }
-
-            .mobile-more summary::-webkit-details-marker {
-                display: none;
-            }
-
-            .mobile-more .detail-item {
-                margin-top: 8px;
-                font-size: 0.85rem;
-                color: var(--text-muted);
+                padding: 6px 0;
             }
 
             .header {
@@ -756,11 +752,15 @@
             .controls .search-box {
                 order: 1;
                 width: 100%;
+                min-width: 0;
             }
 
             .filter-group {
                 order: 2;
                 width: 100%;
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 8px;
             }
 
             .btn-export-to-system {
@@ -779,35 +779,43 @@
                 order: 5;
                 align-self: flex-end;
             }
-            
-            .header {
-                padding: 14px;
-            }
-            
-            .header h1 {
-                font-size: 1.2rem;
-            }
-            
-            .stat-box {
-                padding: 10px 12px;
-                min-width: 110px;
-            }
-            
-            .stat-box .number {
-                font-size: 1.2rem;
-            }
-            
-            .stat-box .label {
-                font-size: 0.78rem;
-            }
-            
+        }
+
+        @media (max-width: 992px) {
             .controls {
-                padding: 12px;
+                gap: 10px;
             }
-            
-            .btn {
-                padding: 8px 14px;
-                font-size: 0.85rem;
+
+            .search-box {
+                flex: 1 1 100%;
+                min-width: 0;
+            }
+
+            .filter-group {
+                flex: 1 1 100%;
+            }
+
+            .btn-export-to-system,
+            .controls .btn-success {
+                flex: 1 1 48%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .actions {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .cell-id {
+                font-size: 0.9rem;
+            }
+
+            .cell-price strong {
+                font-size: 1rem;
             }
         }
         
@@ -917,6 +925,56 @@
                 transform: scale(1.05);
                 box-shadow: 0 8px 25px rgba(255, 107, 107, 0.6);
             }
+        }
+
+        .swal2-popup.login-modal {
+            background: var(--surface-2) !important;
+            color: var(--text-primary) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-out);
+        }
+
+        .swal2-title.login-title {
+            color: var(--text-primary) !important;
+            font-weight: 800;
+        }
+
+        .swal2-input.login-input {
+            background: var(--surface) !important;
+            color: var(--text-primary) !important;
+            border: 1px solid rgba(255, 255, 255, 0.12) !important;
+            border-radius: var(--radius-md) !important;
+            box-shadow: var(--shadow-in) !important;
+            font-weight: 700;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .swal2-input.login-input::placeholder {
+            color: rgba(250, 250, 250, 0.45);
+            font-weight: 600;
+        }
+
+        .swal2-actions.login-actions .swal2-confirm {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%) !important;
+            border-radius: var(--radius-md) !important;
+            font-weight: 800 !important;
+            box-shadow: var(--shadow-soft) !important;
+        }
+
+        .swal2-actions.login-actions .swal2-cancel {
+            border-radius: var(--radius-md) !important;
+            font-weight: 700 !important;
+        }
+
+        .remember-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 6px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 600;
         }
     </style>
 </head>
@@ -1043,10 +1101,6 @@
         // Detect Ad Blocker
         function detectAdBlocker() {
             // محاولة كشف Ad Blocker من خلال عدة طرق
-            const adBlockDetected = 
-                typeof window.google_ad_client === 'undefined' || 
-                document.querySelector('.adsbygoogle') === null;
-            
             // يمكن أيضاً محاولة fetch لمورد معروف بأنه يُحظر
             fetch('https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js', {
                 method: 'HEAD',
@@ -1064,6 +1118,21 @@
         async function checkAuthentication() {
             // Check if already authenticated in this session
             const isAuthenticated = sessionStorage.getItem('adminAuthenticated');
+
+            // Auto-login if saved credentials exist
+            const savedUsername = localStorage.getItem('adminUsername');
+            const savedPassword = localStorage.getItem('adminPassword');
+            if (savedUsername && savedPassword && savedUsername === ADMIN_USERNAME && savedPassword === ADMIN_PASSWORD) {
+                sessionStorage.setItem('adminAuthenticated', 'true');
+                const blurOverlay = document.getElementById('blurOverlay');
+                if (blurOverlay) {
+                    blurOverlay.classList.add('hidden');
+                    setTimeout(() => {
+                        blurOverlay.style.display = 'none';
+                    }, 500);
+                }
+                return true;
+            }
             
             if (isAuthenticated === 'true') {
                 // Remove blur overlay if already authenticated
@@ -1085,8 +1154,9 @@
                 const { value: formValues } = await Swal.fire({
                     title: '<i class="fas fa-lock" style="color: #7dd3fc;"></i> تسجيل الدخول',
                     html:
-                        '<input id="swal-username" class="swal2-input" placeholder="اسم المستخدم" style="text-align: right;">' +
-                        '<input id="swal-password" type="password" class="swal2-input" placeholder="كلمة المرور" style="text-align: right;">',
+                        '<input id="swal-username" class="swal2-input login-input" placeholder="اسم المستخدم" style="text-align: right;">' +
+                        '<input id="swal-password" type="password" class="swal2-input login-input" placeholder="كلمة المرور" style="text-align: right;">' +
+                        '<label class="remember-wrap"><input id="rememberMe" type="checkbox" checked> تذكرني على هذا الجهاز</label>',
                     confirmButtonText: 'دخول',
                     confirmButtonColor: '#0C5CAB',
                     showCancelButton: true,
@@ -1094,16 +1164,22 @@
                     cancelButtonColor: '#d33',
                     allowOutsideClick: false,
                     allowEscapeKey: false,
+                    customClass: {
+                        popup: 'login-modal',
+                        title: 'login-title',
+                        actions: 'login-actions'
+                    },
                     preConfirm: () => {
                         const username = document.getElementById('swal-username').value;
                         const password = document.getElementById('swal-password').value;
+                        const rememberMe = document.getElementById('rememberMe').checked;
                         
                         if (!username || !password) {
                             Swal.showValidationMessage('يرجى إدخال اسم المستخدم وكلمة المرور');
                             return false;
                         }
                         
-                        return { username, password };
+                        return { username, password, rememberMe };
                     }
                 });
                 
@@ -1123,6 +1199,14 @@
                 if (formValues.username === ADMIN_USERNAME && formValues.password === ADMIN_PASSWORD) {
                     // Successful login
                     sessionStorage.setItem('adminAuthenticated', 'true');
+
+                    if (formValues.rememberMe) {
+                        localStorage.setItem('adminUsername', formValues.username);
+                        localStorage.setItem('adminPassword', formValues.password);
+                    } else {
+                        localStorage.removeItem('adminUsername');
+                        localStorage.removeItem('adminPassword');
+                    }
                     
                     // Remove blur overlay after successful login
                     const blurOverlay = document.getElementById('blurOverlay');
@@ -1335,8 +1419,6 @@
         
         // Load orders from Firebase Realtime Database
         let ordersCache = [];
-        let karseellOrdersCache = [];
-        let boxersOrdersCache = [];
         
         async function loadOrders() {
             return new Promise((resolve, reject) => {
@@ -1586,7 +1668,7 @@
                 const quantity = parseInt(order.quantity) || 1;
                 const totalPrice = parseFloat(order.finalPrice || order.price);
                 const basePrice = totalPrice - 50; // طرح مصاريف الشحن
-                const unitPrice = Math.round(basePrice / quantity);
+                
                 
                 return `
                 <tr class="${exportedClass}">
@@ -1594,26 +1676,25 @@
                     <td class="order-id cell-id">#${ordersData.length - index}${isExported ? '<span class="exported-badge">✓ تم الإضافة</span>' : ''}</td>
                     <td class="cell-name" onclick="copyToClipboard('${order.name.replace(/'/g, "\\'").replace(/"/g, '&quot;')}', 'الاسم')" style="cursor: pointer;" title="انقر لنسخ الاسم">
                         <strong>${order.name}</strong>
-                        <div class="mobile-only cell-product" style="color: ${productColor}; font-weight: 600;">${order.productType || '🌿 زيت 108 عشبة'}</div>
-                        <small style="color: ${productColor}; font-weight: 600;">${order.productType || '🌿 زيت 108 عشبة'}</small>
                     </td>
                     <td class="phone cell-phone" style="cursor: pointer;" onclick="copyToClipboard('${phoneCopyText}', 'أرقام الهاتف')" title="انقر لنسخ أرقام الهاتف">
                         <div style="font-weight: 700; color: var(--text-primary);">${phonePrimary}</div>
                         ${showSecondPhone ? `<div style="margin-top: 4px; padding-top: 4px; border-top: 1px dashed rgba(255, 255, 255, 0.15);"><span style="font-size: 0.85rem; color: #7dd3fc; font-weight: 600;">📱 ${phoneSecondary}</span></div>` : ''}
                     </td>
-                    <td class="cell-governorate">${order.governorate}</td>
+                    <td class="cell-governorate"><span class="gov-badge">${order.governorate}</span></td>
                     <td class="cell-address" onclick="copyToClipboard('المحافظة: ${String(order.governorate || '-').replace(/'/g, "\\'").replace(/"/g, '&quot;')}\nالعنوان التفصيلي: ${String(order.address || '-').replace(/'/g, "\\'").replace(/"/g, '&quot;')}', 'العنوان')" title="${order.governorate || '-'} - ${order.address || '-'} (انقر للنسخ)" style="cursor: pointer;"><span class="address-text">${order.address}</span></td>
+                    <td class="cell-qty">
+                        <div style="text-align: right;">
+                            <div class="product-label" style="color: ${productColor}; font-weight: 600;">${order.productType || '🌿 زيت 108 عشبة'}</div>
+                            <span style="background: ${productColor}; color: white; padding: 6px 12px; border-radius: 5px; font-size: 0.9rem; font-weight: 700; display: inline-block; margin-top: 4px;">
+                                ${quantity}×
+                            </span>
+                            ${order.productType?.includes('بوكسرات') && order.size ? `<div style="color: var(--text-muted); font-size: 0.75rem; margin-top: 4px;">${order.size}</div>` : ''}
+                        </div>
+                    </td>
                     <td class="price cell-price">
                         <strong style="font-size: 1.1rem; color: var(--success);">${totalPrice} ج</strong>
                         ${order.discountAmount > 0 ? `<br><small style="color: var(--text-muted); text-decoration: line-through;">${order.originalPrice} ج</small>` : ''}
-                    </td>
-                    <td class="cell-qty">
-                        <div style="text-align: center;">
-                            <span style="background: ${productColor}; color: white; padding: 6px 12px; border-radius: 5px; font-size: 0.9rem; font-weight: 700; display: inline-block;">
-                                ${quantity}×
-                            </span>
-                            ${order.productType?.includes('بوكسرات') && order.size ? `<br><small style="color: var(--text-muted); font-size: 0.75rem; margin-top: 4px; display: block;">${order.size}</small>` : ''}
-                        </div>
                     </td>
                     <td class="cell-notes" onclick="copyToClipboard('${(order.notes || '').replace(/'/g, "\\'").replace(/"/g, '&quot;')}', 'الملاحظات')" style="cursor: pointer; font-size: 0.85rem; max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${order.notes || 'لا توجد ملاحظات'} (انقر للنسخ)">${order.notes ? '📝 ' + order.notes : '<span style="opacity: 0.4;">-</span>'}</td>
                     <td class="actions cell-actions">
@@ -1629,12 +1710,6 @@
                         <button class="btn btn-whatsapp btn-small" onclick="whatsappCustomer('${order.phone}', '${order.name}', '${order.governorate}', '${order.address}', '${order.bottleSize || order.size || ''}', ${order.price}, '${order.date}', '${order.time}', '${order.productType || '🌿 زيت 108 عشبة'}', ${quantity}, '${(order.notes || '').replace(/'/g, "\\'")}', '${order.phone2 || ''}')" title="تأكيد الطلب">
                             <i class="fab fa-whatsapp"></i>
                         </button>
-                        <details class="mobile-only mobile-more">
-                            <summary>تفاصيل إضافية</summary>
-                            ${showSecondPhone ? `<div class="detail-item">هاتف بديل: ${phoneSecondary}</div>` : ''}
-                            <div class="detail-item">العنوان الكامل: ${order.governorate || '-'} - ${order.address || '-'}</div>
-                            <div class="detail-item">الملاحظات: ${order.notes || 'لا توجد ملاحظات'}</div>
-                        </details>
                     </td>
                 </tr>
             `}).join('');
