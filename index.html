@@ -1,22 +1,2101 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="facebook-domain-verification" content="t50b579eikizwjyar8wlzrtf0q7pi2" />
-  <meta http-equiv="refresh" content="0; url=108_herbs_landing.html" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>إعادة التوجيه إلى الصفحة الرئيسية</title>
-  <style>
-    body {
-      font-family: system-ui, sans-serif;
-      text-align: center;
-      margin-top: 20%;
-      color: #333;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تاج الشعر |زيت ال 108 عشبة الاصلي</title>
+    <meta name="description"
+        content="اكتشفي سر جمال شعرك مع تاج الشعر. منتجات طبيعية فاخرة لاستعادة حيوية وكثافة شعرك.">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://i.ibb.co/4nRFRb47/logo2.png">
+    <link rel="shortcut icon" type="image/png" href="https://i.ibb.co/4nRFRb47/logo2.png">
+    <!-- Google Fonts: IBM Plex Sans Arabic -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <!-- Firebase 7.x (compatible with HTML script tags) -->
+    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-database.js"></script>
+    <style>
+        :root {
+            /* Colors */
+            --primary-green: #163A32;
+            --primary-green-rgb: 22, 58, 50;
+            --luxury-gold: #C2A383;
+            --muted-gold: #D4AF37;
+            --soft-ivory: #FAF9F6;
+            --premium-beige: #F5F5DC;
+            --soft-sage: #F0F2F0;
+            --charcoal: #1A1A1A;
+            --white: #FFFFFF;
+            --text-main: #1A1A1A;
+            --text-muted: #4A4A4A;
+
+            /* Typography */
+            --font-main: 'IBM Plex Sans Arabic', sans-serif;
+
+            /* Spacing */
+            --section-padding: 100px;
+            --container-width: 1200px;
+            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--white);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .container.narrow {
+            max-width: 800px;
+        }
+
+        /* Typography */
+        h1,
+        h2,
+        h3 {
+            line-height: 1.2;
+            font-weight: 700;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-green);
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            color: var(--primary-green);
+            position: relative;
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 15px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-green);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: #0d2520;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(22, 58, 50, 0.2);
+        }
+
+        .btn-outline {
+            border: 2px solid var(--primary-green);
+            color: var(--primary-green);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary-green);
+            color: var(--white);
+        }
+
+        .btn-gold {
+            background-color: var(--luxury-gold);
+            color: var(--white);
+        }
+
+        .btn-gold:hover {
+            background-color: #b08d6a;
+            transform: translateY(-3px);
+        }
+
+        .btn-large {
+            padding: 16px 40px;
+            /* Refined from 20px 45px */
+            font-size: 1.05rem;
+        }
+
+        .btn-full {
+            width: 100%;
+        }
+
+        /* Layout Utilities */
+        .section-padding {
+            padding: var(--section-padding) 0;
+        }
+
+        .bg-ivory {
+            background-color: var(--soft-ivory);
+        }
+
+        .bg-sage {
+            background-color: var(--soft-sage);
+        }
+
+        .bg-green {
+            background-color: var(--primary-green);
+        }
+
+        .text-white {
+            color: var(--white);
+        }
+
+        .text-gold {
+            color: var(--luxury-gold);
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        /* Header */
+        header {
+            padding: 5px 0;
+            position: absolute;
+            width: 100%;
+            z-index: 100;
+            background-color: rgba(240, 237, 233, 0.8);
+            /* Slightly darker ivory */
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(22, 58, 50, 0.08);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.04);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .logo:hover {
+            opacity: 0.8;
+        }
+
+        .logo img {
+            height: 90px;
+            /* Reduced from 120px */
+            width: auto;
+            display: block;
+        }
+
+        .footer-logo {
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .footer-logo img {
+            height: 80px;
+            /* Increased from 60px */
+            width: auto;
+            filter: brightness(0) invert(1);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            padding: 140px 0 80px;
+            background: linear-gradient(135deg, var(--soft-ivory) 0%, #fff 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .badge {
+            display: inline-block;
+            background: linear-gradient(90deg, #D4AF37 0%, #F5F5DC 100%);
+            color: var(--primary-green);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 20px;
+            margin-top: 2.5rem;
+            /* Increased spacing from subheadline */
+            margin-bottom: 2rem;
+        }
+
+        .hero-features {
+            display: flex;
+            gap: 25px;
+            color: var(--primary-green);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        .hero-features span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Trust Bar */
+        .trust-bar {
+            padding: 40px 0;
+            border-bottom: 1px solid rgba(22, 58, 50, 0.1);
+        }
+
+        .trust-grid {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .trust-item .icon {
+            font-size: 1.5rem;
+        }
+
+        .trust-item p {
+            font-weight: 600;
+            color: var(--primary-green);
+            font-size: 1rem;
+        }
+
+        /* Split Grid */
+        .split-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .split-grid.reverse {
+            direction: ltr;
+        }
+
+        .split-grid.reverse>* {
+            direction: rtl;
+        }
+
+        .image-side img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+        }
+
+        .luxury-list {
+            list-style: none;
+            margin-top: 2rem;
+        }
+
+        .luxury-list li {
+            position: relative;
+            padding-right: 30px;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .luxury-list li::before {
+            content: '•';
+            position: absolute;
+            right: 0;
+            color: var(--luxury-gold);
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+
+        /* Pricing Grid */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .pricing-card {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+            transition: var(--transition);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+        }
+
+        .pricing-card.recommended {
+            border: 3px solid var(--luxury-gold);
+            transform: scale(1.08);
+            z-index: 2;
+            box-shadow: 0 30px 60px rgba(194, 163, 131, 0.15);
+        }
+
+        .pricing-card.recommended:hover {
+            transform: scale(1.08) translateY(-10px);
+        }
+
+        .ribbon {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: var(--luxury-gold);
+            color: var(--white);
+            padding: 5px 15px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .card-image {
+            margin-bottom: 25px;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 250px;
+            object-fit: contain;
+        }
+
+        .pricing-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .price {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--primary-green);
+            margin-bottom: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .old-price {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            text-decoration: line-through;
+            font-weight: 500;
+        }
+
+        .whatsapp-bonus {
+            display: inline-block;
+            background-color: rgba(37, 211, 102, 0.1);
+            color: #25D366;
+            padding: 5px 12px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .card-features {
+            list-style: none;
+            margin-bottom: 30px;
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        .card-features li {
+            margin-bottom: 10px;
+            font-weight: 500;
+            color: var(--text-main);
+        }
+
+        .upsell-box {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed #ddd;
+            text-align: center;
+        }
+
+        .upsell-link {
+            color: var(--primary-green);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-decoration: underline;
+            cursor: pointer;
+            display: inline-block;
+            transition: var(--transition);
+        }
+
+        .upsell-link:hover {
+            color: var(--luxury-gold);
+        }
+
+        .pricing-footer-trust {
+            margin-top: 60px;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            padding: 20px;
+            background: var(--soft-sage);
+            border-radius: 15px;
+        }
+
+        .pricing-footer-trust .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            color: var(--primary-green);
+            font-size: 0.95rem;
+        }
+
+        .card-features li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            font-weight: 500;
+        }
+
+        /* Order Form */
+        .order-form-section {
+            background-color: var(--soft-ivory);
+        }
+
+        .order-form-container {
+            max-width: 650px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.06);
+        }
+
+        .form-header {
+            margin-bottom: 35px;
+        }
+
+        .form-header h2 {
+            font-size: 1.8rem;
+            color: var(--primary-green);
+            margin-bottom: 10px;
+        }
+
+        .form-header p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            text-align: right;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--primary-green);
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 16px;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 1rem;
+            background-color: #f9f9f9;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-green);
+            background-color: #fff;
+            box-shadow: 0 0 0 4px rgba(34, 73, 58, 0.1);
+        }
+
+        .helper-text {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 6px;
+            display: block;
+        }
+
+        .btn-order {
+            width: 100%;
+            padding: 20px;
+            font-size: 1.25rem;
+            background: var(--primary-green);
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: var(--transition);
+            margin-top: 10px;
+        }
+
+        .btn-order:hover {
+            background: #1a3a2d;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(34, 73, 58, 0.2);
+        }
+
+        .form-trust-footer {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+            border-top: 1px solid #eee;
+            padding-top: 25px;
+        }
+
+        .form-trust-item {
+            font-size: 0.9rem;
+            color: var(--primary-green);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .safe-data {
+            font-size: 0.85rem;
+            color: #27ae60;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        /* Reviews */
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .review-card {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            background: var(--soft-ivory);
+            border-radius: 20px;
+            overflow: hidden;
+            align-items: center;
+        }
+
+        .review-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .review-content {
+            padding: 40px;
+        }
+
+        .stars {
+            margin-bottom: 15px;
+        }
+
+        .review-content p {
+            font-size: 1.2rem;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+
+        .customer-name {
+            font-weight: 700;
+            color: var(--primary-green);
+        }
+
+        /* VIP WhatsApp */
+        .vip-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .advisor-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid var(--luxury-gold);
+            margin-bottom: 20px;
+        }
+
+        /* Accordion */
+        .accordion {
+            margin-top: 40px;
+        }
+
+        .accordion-item {
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .accordion-header {
+            width: 100%;
+            text-align: right;
+            padding: 20px;
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .accordion-header::after {
+            content: '+';
+            font-size: 1.5rem;
+            color: var(--luxury-gold);
+        }
+
+        .accordion-body {
+            padding: 0 20px 20px;
+            display: none;
+        }
+
+        /* Wholesale Section */
+        .wholesale-section {
+            background-color: var(--soft-sage);
+            color: var(--text-main);
+            text-align: center;
+        }
+
+        .wholesale-badge {
+            display: inline-block;
+            background: var(--luxury-gold);
+            color: var(--primary-green);
+            padding: 8px 25px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            margin-bottom: 25px;
+        }
+
+        .wholesale-section h2 {
+            color: var(--primary-green);
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+        }
+
+        .wholesale-section .section-subtitle {
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto 40px;
+        }
+
+        .wholesale-benefits {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            margin: 50px 0;
+        }
+
+        .benefit-item {
+            padding: 30px 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: var(--transition);
+        }
+
+        .benefit-item:hover {
+            background: rgba(255, 255, 255, 0.07);
+            transform: translateY(-10px);
+            border-color: var(--luxury-gold);
+        }
+
+        .benefit-item .icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .benefit-item p {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .offer-hook {
+            background: linear-gradient(135deg, rgba(22, 58, 50, 0.03) 0%, rgba(194, 163, 131, 0.1) 100%);
+            padding: 50px 40px;
+            border-radius: 30px;
+            border: 1px solid var(--luxury-gold);
+            margin: 60px 0;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.03);
+        }
+
+        .offer-hook::before {
+            content: '🏢';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            font-size: 8rem;
+            opacity: 0.05;
+            transform: rotate(-15deg);
+        }
+
+        .offer-hook h3 {
+            font-size: 2rem;
+            color: var(--primary-green);
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .offer-hook p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .wholesale-stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 15px 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-bottom: 3px solid var(--luxury-gold);
+        }
+
+        .stat-card .label { font-size: 0.9rem; color: var(--text-muted); display: block; }
+        .stat-card .val { font-size: 1.3rem; font-weight: 800; color: var(--primary-green); }
+
+        .urgency-badge {
+            display: inline-block;
+            background: #fff5f5;
+            color: #e74c3c;
+            padding: 8px 25px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 1rem;
+            border: 1px solid #ffcdd2;
+            margin-bottom: 30px;
+            animation: pulseSoft 2s infinite;
+        }
+
+        @keyframes pulseSoft {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.03); opacity: 0.9; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .wholesale-actions {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .btn-wholesale {
+            min-width: 250px;
+        }
+
+        .trust-line {
+            font-size: 0.95rem;
+            opacity: 0.7;
+            font-weight: 500;
+        }
+
+        /* Floating WhatsApp */
+        .floating-whatsapp {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            z-index: 1000;
+        }
+
+        .floating-whatsapp a {
+            background-color: #25D366;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+        }
+
+        .floating-whatsapp a:hover {
+            transform: scale(1.05);
+        }
+
+        .floating-whatsapp img {
+            width: 25px;
+            height: 25px;
+            filter: brightness(0) invert(1);
+        }
+
+        .whatsapp-text {
+            font-weight: 600;
+        }
+
+        .mobile-bottom-cta {
+            display: none;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 992px) {
+            .hero-section {
+                padding: 120px 0 60px;
+            }
+
+            h1 {
+                font-size: 2.2rem;
+                line-height: 1.3;
+            }
+
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .hero-content {
+                order: 2;
+                text-align: center;
+            }
+
+            .hero-actions {
+                justify-content: center;
+                flex-direction: column;
+                gap: 12px;
+                margin-top: 2rem;
+                /* Increased spacing on mobile */
+            }
+
+            .btn-large {
+                padding: 14px 30px;
+                width: 100%;
+            }
+
+            .hero-image {
+                order: 1;
+                max-width: 80%;
+                margin: 0 auto;
+            }
+
+            .hero-features {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+
+            .split-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-card.recommended {
+                transform: scale(1);
+            }
+
+            .review-card {
+                grid-template-columns: 1fr;
+            }
+
+            .trust-grid {
+                flex-direction: column;
+                gap: 20px;
+                align-items: center;
+            }
+
+            .pricing-footer-trust {
+                flex-direction: column;
+                gap: 15px;
+                align-items: center;
+            }
+        }
+
+        .main-footer {
+            background-color: var(--primary-green);
+            color: var(--white);
+            padding: 80px 0 40px;
+            text-align: center;
+        }
+
+        .footer-cta {
+            margin-bottom: 60px;
+        }
+
+        .footer-cta h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--white);
+        }
+
+        .footer-cta p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+
+        .footer-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .footer-trust-elements {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+
+        .footer-trust-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .footer-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 50px;
+        }
+
+        .info-item h4 {
+            color: var(--luxury-gold);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .info-item p {
+            font-size: 0.95rem;
+            opacity: 0.8;
+        }
+
+        .reassurance-text {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px 25px;
+            border-radius: 50px;
+            display: inline-block;
+            margin-bottom: 60px;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .footer-brand {
+            margin-bottom: 40px;
+        }
+
+        .footer-logo img {
+            max-width: 120px;
+            margin-bottom: 15px;
+        }
+
+        .brand-desc {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        .legal-footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 30px;
+            font-size: 0.85rem;
+            opacity: 0.6;
+        }
+
+        @media (max-width: 768px) {
+            .footer-actions {
+                width: 100%;
+            }
+
+            .footer-actions .btn {
+                width: 100%;
+            }
+
+            .footer-trust-elements {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+        /* New Pricing Styles */
+        .price-options {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .single-price {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed rgba(0,0,0,0.1);
+        }
+        .single-price .label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            display: block;
+        }
+        .single-price .val {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-green);
+        }
+        .single-price .shipping {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            display: block;
+        }
+        .eid-offer-box {
+            background: rgba(194, 163, 131, 0.08);
+            border: 2px solid var(--luxury-gold);
+            border-radius: 15px;
+            padding: 15px;
+            position: relative;
+            transition: var(--transition);
+        }
+        .eid-offer-box:hover {
+            background: rgba(194, 163, 131, 0.15);
+            transform: scale(1.02);
+        }
+        .eid-offer-box.recommended-offer {
+            background: rgba(231, 76, 60, 0.05);
+            border-color: #e74c3c;
+        }
+        .eid-badge {
+            background: var(--luxury-gold);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 2px 10px;
+            border-radius: 50px;
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+        }
+        .recommended-offer .eid-badge {
+            background: #e74c3c;
+        }
+        .eid-val {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--primary-green);
+            margin: 5px 0;
+        }
+        .eid-shipping {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #27ae60;
+        }
+        /* Order Flow Styles */
+        .order-steps-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .order-step {
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .order-step.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .order-summary-box {
+            background: #fdfbf7;
+            border: 2px solid var(--luxury-gold);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .summary-pulse {
+            animation: summaryPulse 0.5s ease-out;
+        }
+
+        @keyframes summaryPulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(194, 163, 131, 0.4); }
+            50% { transform: scale(1.02); box-shadow: 0 0 20px 10px rgba(194, 163, 131, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(194, 163, 131, 0); }
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 1rem;
+            color: var(--text-main);
+        }
+
+        .summary-row.total {
+            border-top: 2px solid var(--luxury-gold);
+            padding-top: 15px;
+            margin-top: 15px;
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: var(--primary-green);
+        }
+
+        .shipping-badge {
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        .shipping-free { background: #e8f5e9; color: #2e7d32; }
+        .shipping-paid { background: #fff3e0; color: #ef6c00; }
+
+        /* Review Screen */
+        .review-card {
+            background: #fff;
+            padding: 0;
+            text-align: right;
+        }
+
+        .review-section {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 15px;
+        }
+
+        .review-section h4 {
+            color: var(--luxury-gold);
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .review-item {
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .review-item span {
+            color: var(--text-muted);
+            margin-left: 10px;
+        }
+
+        /* Success Screen */
+        .success-screen {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: #27ae60;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            margin: 0 auto 25px;
+            box-shadow: 0 10px 20px rgba(39, 174, 96, 0.2);
+        }
+
+        .success-details {
+            background: #f9f9f9;
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: right;
+        }
+
+        .btn-flex {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding-bottom: 88px;
+            }
+
+            .btn-flex { flex-direction: column; }
+
+            .mobile-bottom-cta {
+                display: block;
+                position: fixed;
+                right: 16px;
+                left: 16px;
+                bottom: 14px;
+                z-index: 1100;
+            }
+
+            .mobile-bottom-cta a {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+                width: 100%;
+                padding: 14px 18px;
+                border-radius: 18px;
+                background: linear-gradient(135deg, var(--luxury-gold) 0%, var(--primary-green) 100%);
+                color: #fff;
+                text-decoration: none;
+                font-weight: 700;
+                box-shadow: 0 14px 28px rgba(22, 58, 50, 0.28);
+                border: 1px solid rgba(255, 255, 255, 0.12);
+            }
+
+            .mobile-bottom-cta .cta-subtext {
+                display: block;
+                font-size: 0.82rem;
+                font-weight: 500;
+                opacity: 0.9;
+            }
+
+            .floating-whatsapp {
+                bottom: 92px;
+                left: 14px;
+            }
+
+            .floating-whatsapp a {
+                padding: 10px 14px;
+            }
+
+            .whatsapp-text {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+    <!-- Facebook Pixel Code -->
+    <script>
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '1497458428768937');
+        fbq('track', 'PageView');
+        fbq('track', 'ViewContent');
+    </script>
+    <noscript>
+        <img height="1" width="1" style="display:none"
+             src="https://www.facebook.com/tr?id=1497458428768937&ev=PageView&noscript=1"/>
+    </noscript>
+    <!-- End Facebook Pixel Code -->
 </head>
+
 <body>
-  <h2>جاري تحويلك إلى الصفحة الرئيسية...</h2>
-  <p>إن لم يتم التحويل تلقائيًا، <a href="108_herbs_landing.html">اضغط هنا</a>.</p>
+    <header id="main-header">
+        <nav class="container">
+            <a href="/" class="logo">
+                <img src="https://i.ibb.co/4nRFRb47/logo2.png" alt="تاج الشعر">
+            </a>
+            <div class="nav-cta">
+                <a href="#pricing" class="btn btn-primary">اطلبي الآن</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero" class="hero-section">
+            <div class="container hero-grid">
+                <div class="hero-content">
+                    <span class="badge">🔥 عرض عيد الأضحى الحصري</span>
+                    <h1>استعيدي كثافة شعركِ مع زيت 108 عشبة الأصلي</h1>
+                    <p>ودّعي أغلب مشاكل شعركِ مع زيت 108 عشبة الأصلي… تركيبة هندية متكاملة للعناية بالتساقط والهيشان
+                        وملء الفراغات لشعر أكثر حيوية وثقة.</p>
+                    <div class="hero-actions">
+                        <a href="#pricing" class="btn btn-large btn-primary">اكتشفي العروض</a>
+                        <a href="https://wa.me/201557350728?text=السلام عليكم ورحمة الله وبركاته ✋ عندي سؤال عن منتجات تاج الشعر... ممكن تساعدوني؟" class="btn btn-large btn-outline">استشارة مجانية عبر واتساب</a>
+                    </div>
+
+                </div>
+                <div class="hero-image">
+                    <img src="https://i.ibb.co/F4Ypw3Ts/Chat-GPT-Image-May-4-2026-01-22-48-AM.png" alt="تاج الشعر"
+                        id="img-hero">
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Pain Points -->
+        <section id="pain-points" class="section-padding bg-ivory">
+            <div class="container split-grid">
+                <div class="content-side">
+                    <h2 class="section-title">هل شعرك بيقع وبدأتي تلاحظي فراغات وهيشان؟</h2>
+                    <p class="section-subtitle">عارفين قد إيه تساقط الشعر والفراغات ممكن يضايقوكي ويأثروا على ثقتك
+                        بنفسك… خصوصًا لما كل يوم تلاقي شعرك أضعف، وهيشانه بيزيد، وكثافته بتقل.</p>
+                    <ul class="luxury-list">
+                        <li>شعرك بيقع بكثرة وقت الغسيل أو التصفيف</li>
+                        <li>فراغات واضحة بدأت تظهر وتقلل كثافة شعرك</li>
+                        <li>هيشان وضعف وتكسر مخلي شعرك شكله مرهق وغير حيوي</li>
+                    </ul>
+                </div>
+                <div class="image-side">
+                    <img src="https://i.ibb.co/LXKRbTZT/Chat-GPT-Image-May-4-2026-01-34-29-AM.png"
+                        alt="مشاكل تساقط الشعر" id="img-pain">
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Pricing / Packages -->
+        <section id="pricing" class="section-padding bg-ivory">
+            <div class="container text-center">
+                <h2 class="section-title" style="margin-bottom: 0.5rem;">اختاري الحجم المناسب ليكي 🎁 عروض عيد الأضحى
+                </h2>
+                <p class="section-subtitle" style="margin-bottom: 1rem;">كل العروض عليها هدية + خصومات لفترة محدودة</p>
+                <p style="margin-bottom: 3rem; color: var(--primary-green); font-weight: 700; font-size: 1.05rem;">
+                    عروض القطعتين تشمل شحن مجاني بالكامل، والسعر الظاهر هو السعر النهائي.
+                </p>
+
+                <div class="pricing-grid">
+                    <!-- Entry Offer (125ml) -->
+                    <div class="pricing-card">
+                        <div class="ribbon" style="background: var(--text-muted);">جربي قبل ما تكبري</div>
+                        <div class="card-image">
+                            <img src="https://i.ibb.co/WN5PRn7M/125.png" alt="زيت تاج الشعر 125 مللي">
+                        </div>
+                        <h3>عبوة 125 مللي</h3>
+                        <div class="price-options">
+                            <div class="single-price" onclick="selectOffer('125_1')" style="cursor: pointer;">
+                                <span class="label">سعر العبوة (زيت + شامبو):</span>
+                                <span class="val">250 جنيه</span>
+                                <span class="shipping">+ 60 جنيه شحن</span>
+                            </div>
+                            <div class="eid-offer-box" onclick="selectOffer('125_2')" style="cursor: pointer;">
+                                <div class="eid-badge">🔥 عرض عيد الأضحى</div>
+                                <div class="eid-val">2 عبوة 125 مللي + 2 شامبو</div>
+                                <div class="eid-val" style="font-size: 1.2rem; margin-top: -5px;">السعر النهائي: 500 ج</div>
+                                <div class="eid-shipping">📦 الشحن مجاني</div>
+                            </div>
+                        </div>
+                        <ul class="card-features">
+                            <li><span class="icon">🌿</span> زيت 108 عشبة 125 مللي</li>
+                            <li><span class="icon">🎁</span> شامبو هدية نفس الحجم مجاناً</li>
+                        </ul>
+                        <a href="javascript:void(0)" onclick="selectOffer('125_2')" class="btn btn-outline btn-full">اطلبي العرض الآن</a>
+                    </div>
+
+                    <!-- Mid Offer (250ml) -->
+                    <div class="pricing-card">
+                        <div class="ribbon" style="background: var(--primary-green);">الأكثر توازنًا</div>
+                        <div class="card-image">
+                            <img src="https://i.ibb.co/QvRGVV4F/250.png" alt="زيت تاج الشعر 250 مللي">
+                        </div>
+                        <h3>عبوة 250 مللي</h3>
+                        <div class="price-options">
+                            <div class="single-price" onclick="selectOffer('250_1')" style="cursor: pointer;">
+                                <span class="label">سعر العبوة (زيت + شامبو):</span>
+                                <span class="val">500 جنيه</span>
+                                <span class="shipping">+ 60 جنيه شحن</span>
+                            </div>
+                            <div class="eid-offer-box" onclick="selectOffer('250_2')" style="cursor: pointer;">
+                                <div class="eid-badge">🔥 عرض عيد الأضحى</div>
+                                <div class="eid-val">2 عبوة 250 مللي + 2 شامبو</div>
+                                <div class="eid-val" style="font-size: 1.2rem; margin-top: -5px;">السعر النهائي: 950 ج</div>
+                                <div class="eid-shipping">📦 الشحن مجاني</div>
+                            </div>
+                        </div>
+                        <ul class="card-features">
+                            <li><span class="icon">🌿</span> زيت 108 عشبة 250 مللي</li>
+                            <li><span class="icon">🎁</span> شامبو 250 مللي هدية مجاناً</li>
+                        </ul>
+                        <a href="javascript:void(0)" onclick="selectOffer('250_2')" class="btn btn-outline btn-full">اطلبي العرض الآن</a>
+                    </div>
+
+                    <!-- Hero Offer (500ml) -->
+                    <div class="pricing-card recommended"
+                        style="border-color: var(--luxury-gold); box-shadow: 0 20px 60px rgba(194, 163, 131, 0.3);">
+                        <div class="ribbon" style="background: #e74c3c; font-size: 0.9rem;">أفضل قيمة + الأكثر طلبًا 🔥
+                        </div>
+                        <div class="card-image">
+                            <img src="https://i.ibb.co/s96xtb4L/500.png" alt="زيت تاج الشعر 500 مللي">
+                        </div>
+                        <h3>العرض الأقوى (500 مللي)</h3>
+                        <div class="price-options">
+                            <div class="single-price" onclick="selectOffer('500_1')" style="cursor: pointer;">
+                                <span class="label">سعر العبوة (زيت + شامبو):</span>
+                                <span class="val">900 جنيه</span>
+                                <span class="shipping">+ 60 جنيه شحن</span>
+                            </div>
+                            <div class="eid-offer-box recommended-offer" onclick="selectOffer('500_2')" style="cursor: pointer;">
+                                <div class="eid-badge">🎊 عرض العيد الأكبر</div>
+                                <div class="eid-val">2 عبوة 500 مللي + 2 شامبو</div>
+                                <div class="eid-val" style="font-size: 1.2rem; margin-top: -5px;">السعر النهائي: 1750 ج</div>
+                                <div class="eid-shipping">🚀 الشحن مجاني + أولوية</div>
+                            </div>
+                        </div>
+                        <ul class="card-features">
+                            <li><span class="icon">🌿</span> زيت 108 عشبة 500 مللي</li>
+                            <li><span class="icon">🎁</span> شامبو 500 مللي هدية مجاناً</li>
+                        </ul>
+                        <a href="javascript:void(0)" onclick="selectOffer('500_2')" class="btn btn-primary btn-full"
+                            style="background: var(--luxury-gold); font-size: 1.1rem; padding: 15px; border: 2px solid var(--luxury-gold);">احجزي العرض الآن</a>
+                    </div>
+                </div>
+
+                <!-- Wholesale Promotion Banner -->
+                <div style="margin-top: 80px; background: linear-gradient(135deg, rgba(22, 58, 50, 0.95) 0%, rgba(22, 58, 50, 0.85) 100%); padding: 40px 30px; border-radius: 20px; border: 2px solid var(--luxury-gold); text-align: center; cursor: pointer; transition: all 0.3s ease;" onclick="document.getElementById('wholesale').scrollIntoView({ behavior: 'smooth' });" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 20px 50px rgba(22, 58, 50, 0.4)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                    <h3 style="color: var(--luxury-gold); font-size: 1.5rem; margin-bottom: 10px; font-weight: 700;">🤝 عروض جملة حصرية للتجار</h3>
+                    <p style="color: rgba(255, 255, 255, 0.85); font-size: 1.1rem; margin-bottom: 15px; font-weight: 500;">تاجرة أو صاحبة محل؟ حقّقي أرباح مضمونة مع خصومات تبدأ من 25%</p>
+                    <p style="color: var(--luxury-gold); font-size: 1rem; font-weight: 700;">اضغطي هنا لمعرفة المزيد ↓</p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Order Form Section -->
+        <section id="order-form-section" class="section-padding order-form-section">
+            <div class="container">
+                <div class="order-form-container">
+                    <div class="order-steps-container">
+                        
+                        <!-- STEP 1: FORM -->
+                        <div id="order-step-1" class="order-step active">
+                            <div class="form-header text-center">
+                                <h2>كمّلي طلبك في أقل من دقيقة 👇</h2>
+                                <p>سيبي بياناتك واحنا هنتواصل معاكي فورًا لتأكيد الطلب قبل الشحن</p>
+                            </div>
+
+                            <form id="order-form" onsubmit="event.preventDefault(); goToReview();">
+                                <!-- Selected Offer Summary (Live) -->
+                                <div class="order-summary-box">
+                                    <div class="summary-row">
+                                        <span>العرض المختار:</span>
+                                        <strong id="summary-offer-name">-</strong>
+                                    </div>
+                                    <div class="summary-row">
+                                        <span>سعر المنتج:</span>
+                                        <strong id="summary-product-price">0 ج</strong>
+                                    </div>
+                                    <div class="summary-row">
+                                        <span>مصاريف الشحن:</span>
+                                        <strong id="summary-shipping-cost">0 ج</strong>
+                                    </div>
+                                    <div class="summary-row total">
+                                        <span>الإجمالي الصافي:</span>
+                                        <strong id="summary-total-price">0 ج</strong>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>اختاري العرض المناسب</label>
+                                    <select id="offer-select" name="selected_package" onchange="updateSummary()" required>
+                                        <option value="" disabled selected>اضغطي هنا لاختيار العرض</option>
+                                        <option value="125_1">عبوة 125 مللي (1 زيت + 1 شامبو) - 250ج + 60ج شحن</option>
+                                        <option value="125_2">عرض العيد 125 مللي (2 زيت + 2 شامبو) - 500ج (شحن مجاني)</option>
+                                        <option value="250_1">عبوة 250 مللي (1 زيت + 1 شامبو) - 500ج + 60ج شحن</option>
+                                        <option value="250_2">عرض العيد 250 مللي (2 زيت + 2 شامبو) - 950ج (شحن مجاني)</option>
+                                        <option value="500_1">عبوة 500 مللي (1 زيت + 1 شامبو) - 900ج + 60ج شحن</option>
+                                        <option value="500_2">عرض العيد 500 مللي (2 زيت + 2 شامبو) - 1750ج (شحن مجاني)</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>اسمك إيه؟</label>
+                                    <input type="text" id="customer-name" name="name" placeholder="اكتبي اسمك هنا" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>رقم موبايلك للتأكيد</label>
+                                    <input type="tel" id="customer-phone" name="phone" placeholder="مثال: 010XXXXXXXX" required pattern="[0-9]{11}">
+                                    <span class="helper-text">هنتواصل معاكي عليه لتأكيد الطلب</span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>رقم هاتف إضافي (اختياري)</label>
+                                    <input type="tel" id="customer-phone-alt" name="phone_alt" placeholder="رقم آخر أو رقم البيت">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>اختاري محافظتك</label>
+                                    <select id="customer-gov" name="governorate" required>
+                                        <option value="" disabled selected>اختاري محافظتك</option>
+                                        <option value="القاهرة">القاهرة</option>
+                                        <option value="الجيزة">الجيزة</option>
+                                        <option value="الإسكندرية">الإسكندرية</option>
+                                        <option value="القليوبية">القليوبية</option>
+                                        <option value="الدقهلية">الدقهلية</option>
+                                        <option value="الشرقية">الشرقية</option>
+                                        <option value="الغربية">الغربية</option>
+                                        <option value="المنوفية">المنوفية</option>
+                                        <option value="البحيرة">البحيرة</option>
+                                        <option value="كفر الشيخ">كفر الشيخ</option>
+                                        <option value="دمياط">دمياط</option>
+                                        <option value="بورسعيد">بورسعيد</option>
+                                        <option value="الإسماعيلية">الإسماعيلية</option>
+                                        <option value="السويس">السويس</option>
+                                        <option value="الفيوم">الفيوم</option>
+                                        <option value="بني سويف">بني سويف</option>
+                                        <option value="المنيا">المنيا</option>
+                                        <option value="أسيوط">أسيوط</option>
+                                        <option value="سوهاج">سوهاج</option>
+                                        <option value="قنا">قنا</option>
+                                        <option value="الأقصر">الأقصر</option>
+                                        <option value="أسوان">أسوان</option>
+                                        <option value="البحر الأحمر">البحر الأحمر</option>
+                                        <option value="الوادي الجديد">الوادي الجديد</option>
+                                        <option value="مطروح">مطروح</option>
+                                        <option value="شمال سيناء">شمال سيناء</option>
+                                        <option value="جنوب سيناء">جنوب سيناء</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>عنوانك بالتفصيل</label>
+                                    <textarea id="customer-address" name="address" rows="3" placeholder="المدينة - المنطقة - الشارع - أقرب علامة مميزة" required></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>أي ملاحظات تانية؟ (اختياري)</label>
+                                    <textarea id="customer-notes" name="notes" rows="2" placeholder="مواعيد الاستلام المناسبة أو أي ملاحظة تانية"></textarea>
+                                </div>
+
+                                <div class="text-center" style="margin-top: 30px;">
+                                    <button type="submit" class="btn btn-primary btn-large btn-full">مراجعة الطلب الآن</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- STEP 2: REVIEW -->
+                        <div id="order-step-review" class="order-step">
+                            <div class="form-header text-center">
+                                <h2>راجعي بيانات طلبك 👇</h2>
+                                <p>اتأكدي إن كل حاجة صح قبل ما نبعت الطلب</p>
+                            </div>
+
+                            <div class="review-card">
+                                <div class="review-section">
+                                    <h4>📦 تفاصيل العرض</h4>
+                                    <div class="review-item"><span>العرض:</span> <strong id="rev-offer">-</strong></div>
+                                    <div class="review-item"><span>الكمية:</span> <strong id="rev-quantity">-</strong> وحدة</div>
+                                    <div class="review-item"><span>المحتويات:</span> <strong id="rev-contents">-</strong></div>
+                                    <div class="review-item"><span>السعر:</span> <strong id="rev-price">-</strong></div>
+                                    <div class="review-item"><span>الشحن:</span> <strong id="rev-shipping">-</strong></div>
+                                    <div class="review-item" style="font-size: 1.2rem; color: var(--primary-green); margin-top: 10px;">
+                                        <span>الإجمالي المطلوب:</span> <strong id="rev-total">-</strong>
+                                    </div>
+                                </div>
+
+                                <div class="review-section">
+                                    <h4>👤 بيانات التواصل</h4>
+                                    <div class="review-item"><span>الاسم:</span> <strong id="rev-name">-</strong></div>
+                                    <div class="review-item"><span>الهاتف الأساسي:</span> <strong id="rev-phone">-</strong></div>
+                                    <div class="review-item" id="rev-phone-alt-box" style="display:none;"><span>هاتف إضافي:</span> <strong id="rev-phone-alt">-</strong></div>
+                                    <div class="review-item"><span>المحافظة:</span> <strong id="rev-gov">-</strong></div>
+                                    <div class="review-item"><span>العنوان:</span> <strong id="rev-address">-</strong></div>
+                                    <div class="review-item" id="rev-notes-box" style="display:none; background: #fffbe6; padding: 10px; border-radius: 8px; margin-top: 10px;">
+                                        <span>ملاحظات:</span> <strong id="rev-notes">-</strong>
+                                    </div>
+                                </div>
+
+                                <div class="btn-flex">
+                                    <button onclick="confirmOrder()" class="btn btn-primary btn-large" style="flex: 2;">تأكيد الطلب نهائياً</button>
+                                    <button onclick="goBackToForm()" class="btn btn-outline btn-large" style="flex: 1;">تعديل البيانات</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- STEP 3: SUCCESS -->
+                        <div id="order-step-success" class="order-step">
+                            <div class="success-screen">
+                                <div class="success-icon">✓</div>
+                                <h2>تم استلام طلبك بنجاح! 🎉</h2>
+                                <p>شكراً لثقتك في تاج الشعر. فريقنا هيتواصل معاكي خلال وقت قصير لتأكيد الطلب قبل الشحن.</p>
+                                
+                                <div class="success-details">
+                                    <h4>ملخص الطلب:</h4>
+                                    <div class="review-item"><span>رقم الطلب:</span> <strong>#TS-2026-AR</strong></div>
+                                    <div class="review-item"><span>العرض:</span> <strong id="success-offer">-</strong></div>
+                                    <div class="review-item"><span>الإجمالي:</span> <strong id="success-total">-</strong></div>
+                                    <hr style="margin: 15px 0; opacity: 0.1;">
+                                    <div class="review-item"><span>الاسم:</span> <strong id="success-name">-</strong></div>
+                                    <div class="review-item"><span>الهاتف:</span> <strong id="success-phone">-</strong></div>
+                                </div>
+
+                                <a href="/" class="btn btn-outline btn-large">العودة للرئيسية</a>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-trust-footer">
+                        <div class="form-trust-item">🤝 الدفع عند الاستلام</div>
+                        <div class="form-trust-item">🔍 معاينة قبل الدفع</div>
+                        <div class="form-trust-item">🚚 شحن سريع لكل المحافظات</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Authenticity -->
+        <section id="authenticity" class="section-padding bg-sage">
+            <div class="container split-grid">
+                <div class="content-side">
+                    <h2 class="section-title">إزاي تتأكدي إن المنتج أصلي؟</h2>
+                    <p>في منتجات كتير تقليد في السوق بنفس الشكل تقريبًا.. بس الفرق الحقيقي بيبان في العلامة اللي على
+                        العبوة.</p>
+                    <p style="color: #e74c3c; font-weight: 700; margin-bottom: 20px;">لو العلامة دي مش موجودة ❌ متستلميش
+                        المنتج</p>
+                    <ul class="luxury-list">
+                        <li>العلامة بتبقى لامعة وبتغير لونها في النور</li>
+                        <li>مكتوب عليها ORIGINAL</li>
+                        <li>موجودة على عبوة الزيت نفسها</li>
+                    </ul>
+                </div>
+                <div class="image-side">
+                    <img src="https://i.ibb.co/yBVDRPxH/Chat-GPT-Image-May-4-2026-03-25-28-PM.png" alt="ضمان الأصالة"
+                        id="img-auth">
+                </div>
+            </div>
+        </section>
+
+
+
+
+
+
+        <!-- Wholesale Section -->
+        <section id="wholesale" class="section-padding wholesale-section">
+            <div class="container">
+                <span class="wholesale-badge">خاص للتجار 🤝</span>
+                <h2>لو عندك محل عطارة أو كوافير… المنتج ده هيتباع عندك بسهولة 🔥</h2>
+                <p class="section-subtitle">زيت 108 عشبة عليه طلب عالي من العملاء، وده معناه إنك مش هتحتاج تقنع حد…
+                    المنتج بيبيع نفسه.</p>
+
+
+
+                <div class="offer-hook">
+                    <h3>باقات التوفير للتجار وأصحاب الصيدليات 🏦</h3>
+                    <p>سياسة تسعير عادلة تدعم نمو تجارتك: <br> كلما زادت الكمية في طلبك... انخفض سعر العبوة الواحدة وزاد هامش ربحك.</p>
+                    
+                    <div class="wholesale-stats">
+                        <div class="stat-card">
+                            <span class="label">خصم الجملة</span>
+                            <span class="val">يبدأ من 25%</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="label">أقل كمية</span>
+                            <span class="val">5 عبوات</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="label">التوصيل</span>
+                            <span class="val">شحن سريع آمن</span>
+                        </div>
+                    </div>
+                </div>
+
+                <span class="urgency-badge">⚠️ العرض لفترة محدودة بسبب ضغط الطلب</span>
+
+                <div class="wholesale-actions">
+                    <a href="https://wa.me/201557350728?text=السلام عليكم 👋 أنا تاجرة وعاوزة أبدأ في تجارة زيت 108 عشبة... ممكن تعطوني معلومات عن أسعار الجملة والشروط؟"
+                        class="btn btn-large btn-primary btn-wholesale">ابدأ جملة دلوقتي</a>
+                    <a href="https://wa.me/201557350728?text=السلام عليكم ورحمة الله 💼 أبحث عن موزع لمنتج زيت 108 عشبة للعمل بنظام الجملة... ممكن استفسر عن الأسعار والخصومات؟"
+                        class="btn btn-large btn-outline btn-wholesale">كلمنا واتساب</a>
+                </div>
+
+                <p class="trust-line">هنرد عليك ونوضح لك كل التفاصيل والأسعار خلال دقائق</p>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section id="faq" class="section-padding">
+            <div class="container narrow">
+                <h2 class="section-title text-center">الأسئلة اللي بتهمك 👇</h2>
+                <div class="accordion">
+                    <!-- Q1 -->
+                    <div class="accordion-item">
+                        <button class="accordion-header active">امتى هبدأ أشوف نتيجة؟</button>
+                        <div class="accordion-body" style="display: block;">
+                            <p>أغلب العميلات بيلاحظوا فرق من أول أسبوعين.. ومع الاستخدام المستمر بتظهر النتيجة بشكل أوضح
+                                وأقوى.</p>
+                        </div>
+                    </div>
+                    <!-- Q2 -->
+                    <div class="accordion-item">
+                        <button class="accordion-header">هل المنتج مناسب لكل أنواع الشعر؟</button>
+                        <div class="accordion-body">
+                            <p>أيوه، مناسب لكل أنواع الشعر.. وبيساعد بفاعلية في مشاكل زي التساقط، الهيشان، والفراغات.</p>
+                        </div>
+                    </div>
+                    <!-- Q3 -->
+                    <div class="accordion-item">
+                        <button class="accordion-header">هل في معاينة قبل الاستلام؟</button>
+                        <div class="accordion-body">
+                            <p>أيوه طبعاً، تقدري تعايني المنتج وتتأكدي منه بنفسك قبل ما تدفعي مليم واحد.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div class="mobile-bottom-cta" aria-label="زر الحصول على العروض">
+        <a href="#pricing">
+            <span>الحصول على العروض</span>
+            <span class="cta-subtext">انزلي لباقات الزيت واختاري المناسب</span>
+        </a>
+    </div>
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-brand">
+                <a href="/" class="footer-logo">
+                    <img src="https://i.ibb.co/4nRFRb47/logo2.png" alt="تاج الشعر">
+                </a>
+                <p class="brand-desc">منتجات أصلية 100% للعناية بالشعر</p>
+            </div>
+            <div class="legal-footer">
+                <p>© 2026 جميع الحقوق محفوظة - تاج الشعر</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp CTA -->
+    <div class="floating-whatsapp">
+        <a href="https://wa.me/201557350728?text=السلام عليكم ورحمة الله وبركاته%20✋%20عندي استفسار عن زيت 108 عشبة...%20ممكن تساعدوني؟" target="_blank">
+            <span class="whatsapp-text">استشارة مجانية</span>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+        </a>
+    </div>
+
+    <script>
+        // Declare variables globally so they're available immediately
+        let database;
+        let offers = {
+            '125_1': { name: 'عبوة 125 مللي (1 زيت + 1 شامبو)', price: 250, shipping: 60, contents: '1 زيت 108 عشبة + 1 شامبو 125 مللي' },
+            '125_2': { name: 'عرض العيد 125 مللي (2 زيت + 2 شامبو)', price: 500, shipping: 0, contents: '2 زيت 108 عشبة + 2 شامبو 125 مللي' },
+            '250_1': { name: 'عبوة 250 مللي (1 زيت + 1 شامبو)', price: 500, shipping: 60, contents: '1 زيت 108 عشبة + 1 شامبو 250 مللي' },
+            '250_2': { name: 'عرض العيد 250 مللي (2 زيت + 2 شامبو)', price: 950, shipping: 0, contents: '2 زيت 108 عشبة + 2 شامبو 250 مللي' },
+            '500_1': { name: 'عبوة 500 مللي (1 زيت + 1 شامبو)', price: 900, shipping: 60, contents: '1 زيت 108 عشبة + 1 شامبو 500 مللي' },
+            '500_2': { name: 'عرض العيد 500 مللي (2 زيت + 2 شامبو)', price: 1750, shipping: 0, contents: '2 زيت 108 عشبة + 2 شامبو 500 مللي' }
+        };
+
+        // Initialize Firebase after scripts load
+        window.addEventListener('load', () => {
+            const firebaseConfig = {
+                apiKey: "AIzaSyCVJYD2adDrZD2C7jnTjVhiewxVohZzM38",
+                authDomain: "herbs-orders.firebaseapp.com",
+                databaseURL: "https://herbs-orders-default-rtdb.firebaseio.com",
+                projectId: "herbs-orders",
+                storageBucket: "herbs-orders.firebasestorage.app",
+                messagingSenderId: "866663461200",
+                appId: "1:866663461200:web:0b891e0eb53a16c555fc55"
+            };
+            
+            if (typeof firebase !== 'undefined') {
+                firebase.initializeApp(firebaseConfig);
+                database = firebase.database();
+            }
+        });
+        /* --- Global Flow Functions --- */
+        function updateSummary() {
+            const select = document.getElementById('offer-select');
+            if (!select) return;
+            const offerId = select.value;
+            if (!offerId) return;
+
+            const offer = offers[offerId];
+            document.getElementById('summary-offer-name').innerText = offer.name;
+            document.getElementById('summary-product-price').innerText = offer.price + ' ج';
+            document.getElementById('summary-shipping-cost').innerText = offer.shipping === 0 ? 'مجاني' : offer.shipping + ' ج';
+            document.getElementById('summary-total-price').innerText = (offer.price + offer.shipping) + ' ج';
+
+            const box = document.querySelector('.order-summary-box');
+            if (box) {
+                box.classList.remove('summary-pulse');
+                void box.offsetWidth; 
+                box.classList.add('summary-pulse');
+            }
+        }
+
+        function selectOffer(offerId) {
+            const select = document.getElementById('offer-select');
+            if (select) {
+                select.value = offerId;
+                updateSummary();
+                const section = document.getElementById('order-form-section');
+                if (section) section.scrollIntoView({ behavior: 'smooth' });
+                
+                // Facebook AddToCart Event
+                const offer = offers[offerId];
+                if (typeof fbq !== 'undefined') {
+                    fbq('track', 'AddToCart', {
+                        content_name: offer.name,
+                        content_category: 'Hair Oil',
+                        value: offer.price,
+                        currency: 'EGP'
+                    });
+                }
+            }
+        }
+
+        function goToReview() {
+            const offerId = document.getElementById('offer-select').value;
+            const name = document.getElementById('customer-name').value;
+            const phone = document.getElementById('customer-phone').value;
+            const phoneAlt = document.getElementById('customer-phone-alt').value;
+            const gov = document.getElementById('customer-gov').value;
+            const address = document.getElementById('customer-address').value;
+            const notes = document.getElementById('customer-notes').value;
+
+            if (!offerId || !name || !phone || !gov || !address) {
+                alert('من فضلك كملي كل البيانات المطلوبة');
+                return;
+            }
+
+            const offer = offers[offerId];
+            
+            // Extract quantity from offerId (e.g., '125_2' → quantity = 2)
+            const quantity = parseInt(offerId.split('_')[1]) || 1;
+            
+            document.getElementById('rev-offer').innerText = offer.name;
+            document.getElementById('rev-quantity').innerText = quantity;
+            document.getElementById('rev-contents').innerText = offer.contents;
+            document.getElementById('rev-price').innerText = offer.price + ' ج';
+            document.getElementById('rev-shipping').innerText = offer.shipping === 0 ? 'شحن مجاني' : offer.shipping + ' ج';
+            document.getElementById('rev-total').innerText = (offer.price + offer.shipping) + ' ج';
+
+            document.getElementById('rev-name').innerText = name;
+            document.getElementById('rev-phone').innerText = phone;
+            document.getElementById('rev-gov').innerText = gov;
+            document.getElementById('rev-address').innerText = address;
+
+            // Handle Alt Phone
+            if (phoneAlt) {
+                document.getElementById('rev-phone-alt').innerText = phoneAlt;
+                document.getElementById('rev-phone-alt-box').style.display = 'block';
+            } else {
+                document.getElementById('rev-phone-alt-box').style.display = 'none';
+            }
+
+            // Handle Notes
+            if (notes) {
+                document.getElementById('rev-notes').innerText = notes;
+                document.getElementById('rev-notes-box').style.display = 'block';
+            } else {
+                document.getElementById('rev-notes-box').style.display = 'none';
+            }
+
+            document.getElementById('order-step-1').classList.remove('active');
+            document.getElementById('order-step-review').classList.add('active');
+            document.getElementById('order-form-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function goBackToForm() {
+            document.getElementById('order-step-review').classList.remove('active');
+            document.getElementById('order-step-1').classList.add('active');
+            document.getElementById('order-form-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        async function confirmOrder() {
+            // Check if Firebase is initialized
+            if (!database) {
+                alert('من فضلك انتظري قليلاً حتى تحميل النظام...');
+                return;
+            }
+
+            // Collect order data
+            const offerId = document.getElementById('offer-select').value;
+            const name = document.getElementById('customer-name').value;
+            const phone = document.getElementById('customer-phone').value;
+            const phoneAlt = document.getElementById('customer-phone-alt').value;
+            const gov = document.getElementById('customer-gov').value;
+            const address = document.getElementById('customer-address').value;
+            const notes = document.getElementById('customer-notes').value;
+            const offer = offers[offerId];
+
+            // Extract quantity from offerId (e.g., '125_2' → quantity = 2)
+            const quantity = parseInt(offerId.split('_')[1]) || 1;
+            
+            // Extract bottle size from offerId (e.g., '125_2' → bottleSize = '125 مللي')
+            const bottleSize = offerId.split('_')[0];
+            const bottleSizeText = bottleSize + ' مللي';
+
+            // Create order object
+            const orderData = {
+                name: name,
+                phone: phone,
+                phone2: phoneAlt || '',
+                governorate: gov,
+                address: address,
+                notes: notes || '',
+                offerId: offerId,
+                offerName: offer.name,
+                contents: offer.contents,
+                quantity: quantity,
+                bottleSize: bottleSizeText,
+                price: offer.price,
+                shipping: offer.shipping,
+                total: offer.price + offer.shipping,
+                productType: 'زيت 108 عشبة',
+                timestamp: new Date().toISOString(),
+                exported: false
+            };
+
+            try {
+                // Push order to Firebase
+                const newOrderRef = await database.ref('orders').push(orderData);
+                
+                // Show success screen
+                document.getElementById('success-offer').innerText = document.getElementById('rev-offer').innerText;
+                document.getElementById('success-total').innerText = document.getElementById('rev-total').innerText;
+                document.getElementById('success-name').innerText = document.getElementById('rev-name').innerText;
+                document.getElementById('success-phone').innerText = document.getElementById('rev-phone').innerText;
+
+                document.getElementById('order-step-review').classList.remove('active');
+                document.getElementById('order-step-success').classList.add('active');
+                document.getElementById('order-form-section').scrollIntoView({ behavior: 'smooth' });
+
+                // Facebook Purchase Event
+                if (typeof fbq !== 'undefined') {
+                    fbq('track', 'Purchase', {
+                        content_name: offer.name,
+                        value: offer.price + offer.shipping,
+                        currency: 'EGP'
+                    });
+                }
+            } catch (error) {
+                console.error('خطأ في حفظ الطلب:', error);
+                alert('حدث خطأ في حفظ الطلب. من فضلك حاول مرة أخرى.');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const accordionHeaders = document.querySelectorAll('.accordion-header');
+            accordionHeaders.forEach(header => {
+                header.addEventListener('click', () => {
+                    const body = header.nextElementSibling;
+                    const isOpen = body.style.display === 'block';
+                    document.querySelectorAll('.accordion-body').forEach(item => item.style.display = 'none');
+                    document.querySelectorAll('.accordion-header').forEach(h => h.classList.remove('active'));
+                    if (!isOpen) {
+                        body.style.display = 'block';
+                        header.classList.add('active');
+                    }
+                });
+            });
+
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const href = this.getAttribute('href');
+                    if (href === "#") return;
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+
+            const revealElements = document.querySelectorAll('.section-padding, .hero-grid, .pricing-card, .split-grid, .wholesale-hook');
+            const revealOnScroll = () => {
+                revealElements.forEach(el => {
+                    const elementTop = el.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+                    if (elementTop < windowHeight * 0.85) {
+                        el.style.opacity = '1';
+                        el.style.transform = 'translateY(0)';
+                    }
+                });
+            };
+
+            revealElements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'all 0.8s cubic-bezier(0.165, 0.84, 0.44, 1)';
+            });
+
+            window.addEventListener('scroll', revealOnScroll);
+            revealOnScroll();
+        });
+    </script>
 </body>
 </html>
