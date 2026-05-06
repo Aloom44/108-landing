@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>لوحة إدارة الطلبات - Karseell</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://i.ibb.co/4nRFRb47/logo2.png">
+    <link rel="shortcut icon" type="image/png" href="https://i.ibb.co/4nRFRb47/logo2.png">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700;800&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -1026,7 +1029,8 @@
             </button>
             <div class="filter-group">
                 <select id="productFilter" class="control-select" onchange="applyFilters()">
-                    <option value="all">كل طلبات Karseell</option>
+                    <option value="all">كل الطلبات</option>
+                    <option value="oil">زيت 108 عشبة</option>
                     <option value="karseell">Karseell</option>
                 </select>
                 <select id="exportFilter" class="control-select" onchange="applyFilters()">
@@ -1367,53 +1371,72 @@
             }
         }
         
-        // دالة لتصحيح أسعار Karseell الصحيحة
+        // دالة لتصحيح أسعار Karseell الصحيحة (عروض عيد الأضحى)
         function correctKarseellPrice(order) {
             if (!order.productType || !order.productType.includes('Karseell')) {
                 return order;
             }
-            
-            // الأسعار الصحيحة حسب نوع المنتج
-            let correctPrice = null;
-            
-            // تحديد السعر حسب نوع المنتج
-            if (order.productType.includes('Cream')) {
-                // كريم فقط
-                correctPrice = 450; // 400 + 50 شحن
-            } else if (order.productType.includes('Serum')) {
-                // سيروم فقط
-                correctPrice = 300; // 250 + 50 شحن
-            } else if (order.productType.includes('Bundle')) {
-                // باقة (كريم + سيروم)
-                const quantity = parseInt(order.quantity) || 1;
-                if (quantity >= 2) {
-                    correctPrice = 1200; // 2× Bundle
-                } else {
-                    correctPrice = 650; // Bundle واحد
-                }
-            } else {
-                // Karseell عام - استخدام الأسعار القديمة حسب الكمية
-                const quantity = String(order.quantity || '1');
-                const karseellPrices = {
-                    '1': 650,
-                    '2': 1150,
-                    '3': 1600
-                };
-                correctPrice = karseellPrices[quantity];
+
+            const productName = String(order.product || order.productType || '');
+            const quantity = parseInt(order.quantity) || 1;
+
+            const offerPrices = {
+                'عرض القطعتين': 1200,
+                'العرض الأقوى': 1700,
+                'عرض العيد الأساسي': 650
+            };
+
+            let unitPrice = null;
+
+            if (productName.includes('عرض القطعتين')) {
+                unitPrice = offerPrices['عرض القطعتين'];
+            } else if (productName.includes('العرض الأقوى')) {
+                unitPrice = offerPrices['العرض الأقوى'];
+            } else if (productName.includes('عرض العيد الأساسي')) {
+                unitPrice = offerPrices['عرض العيد الأساسي'];
             }
-            
-            // تحويل السعر الحالي إلى رقم للمقارنة
+
+            if (unitPrice === null) {
+                return order;
+            }
+
+            const correctPrice = unitPrice * Math.max(quantity, 1);
             const currentPrice = parseInt(order.price) || 0;
-            
-            // تصحيح السعر فقط إذا كان مختلفاً
-            if (correctPrice && currentPrice !== correctPrice) {
+
+            if (currentPrice !== correctPrice) {
                 order.originalPriceBeforeCorrection = currentPrice;
                 order.price = correctPrice;
                 order.finalPrice = correctPrice;
                 order.priceWasCorrected = true;
+                order.shipping = 0;
             }
-            
+
             return order;
+        }
+
+        // Get unified order total regardless of source page fields
+        function getOrderTotalPrice(order) {
+            const rawTotal = order?.finalPrice ?? order?.total ?? order?.price;
+            const total = parseFloat(rawTotal);
+            return Number.isFinite(total) ? total : 0;
+        }
+
+        // Get shipping cost if available; fallback for old Karseell records
+        function getOrderShipping(order) {
+            const rawShipping = parseFloat(order?.shipping);
+            if (Number.isFinite(rawShipping)) {
+                return rawShipping;
+            }
+
+            return order?.productType?.includes('Karseell') ? 50 : 0;
+        }
+
+        function getOrderDatabaseRef(order) {
+            if (order.productType?.includes('Karseell')) {
+                return database.ref('karseell-orders').child(order.firebaseId);
+            }
+
+            return database.ref('orders').child(order.firebaseId);
         }
         
         // Load orders from Firebase Realtime Database
@@ -1421,9 +1444,20 @@
         
         async function loadOrders() {
             return new Promise((resolve, reject) => {
-                // Load Karseell orders only
-                database.ref('karseell-orders').once('value').then((karseellSnapshot) => {
+                // Load oil and Karseell orders separately
+                Promise.all([
+                    database.ref('orders').once('value'),
+                    database.ref('karseell-orders').once('value')
+                ]).then(([oilSnapshot, karseellSnapshot]) => {
                     const orders = [];
+
+                    // Oil orders
+                    oilSnapshot.forEach((childSnapshot) => {
+                        const order = childSnapshot.val();
+                        order.firebaseId = childSnapshot.key;
+                        order.productType = order.productType || '🌿 زيت 108 عشبة';
+                        orders.push(order);
+                    });
                     
                     // Load Karseell orders
                     karseellSnapshot.forEach((childSnapshot) => {
@@ -1433,23 +1467,23 @@
                         // تحديد نوع المنتج بناءً على اسم الطلب - التحقق من Bundle أولاً!
                         const productName = order.product || '';
                         
-                        // التحقق من الباقة أولاً (قبل الكريم والسيروم المنفصلين)
-                        if (productName.includes('باكدج') || 
+                        // عروض عيد الأضحى الحالية
+                        if (productName.includes('عرض القطعتين')) {
+                            order.productType = '👑 Karseell Eid - عرض القطعتين';
+                        } else if (productName.includes('العرض الأقوى')) {
+                            order.productType = '🔥 Karseell Eid - العرض الأقوى';
+                        } else if (productName.includes('عرض العيد الأساسي')) {
+                            order.productType = '✨ Karseell Eid - العرض الأساسي';
+                        } else if (productName.includes('باكدج') || 
                             productName.includes('2×') || 
                             (productName.includes('كريم') && productName.includes('سيروم')) ||
                             productName.includes('+')) {
                             order.productType = '📦 Karseell Bundle';
-                        } 
-                        // ثم التحقق من الكريم وحده
-                        else if (productName.includes('كريم')) {
+                        } else if (productName.includes('كريم')) {
                             order.productType = '🧴 Karseell Cream';
-                        } 
-                        // ثم السيروم وحده
-                        else if (productName.includes('سيروم')) {
+                        } else if (productName.includes('سيروم')) {
                             order.productType = '✨ Karseell Serum';
-                        } 
-                        // افتراضي
-                        else {
+                        } else {
                             order.productType = '💆 Karseell';
                         }
                         
@@ -1557,6 +1591,13 @@
                 displayOrders();
             }
         });
+
+        database.ref('orders').on('child_added', (snapshot) => {
+            if (!isInitialLoad && ordersCache.length > 0) {
+                notifyNewOrder('🌿 زيت 108 عشبة');
+                displayOrders();
+            }
+        });
         
         // After first load, enable real-time updates
         setTimeout(() => { isInitialLoad = false; }, 2000);
@@ -1598,6 +1639,8 @@
                     } else {
                         productColor = '#f97316'; // برتقالي افتراضي لـ Karseell
                     }
+                } else if (order.productType?.includes('زيت')) {
+                    productColor = '#10b981'; // أخضر للزيت
                 }
                 
                 // التحقق إذا كان الطلب تم تصديره
@@ -1616,8 +1659,7 @@
 
                 // حساب تفاصيل الأسعار
                 const quantity = parseInt(order.quantity) || 1;
-                const totalPrice = parseFloat(order.finalPrice || order.price);
-                const basePrice = totalPrice - 50; // طرح مصاريف الشحن
+                const totalPrice = getOrderTotalPrice(order);
                 
                 
                 return `
@@ -1636,6 +1678,7 @@
                     <td class="cell-qty">
                         <div style="text-align: right;">
                             <div class="product-label" style="color: ${productColor}; font-weight: 600;">${order.productType || '💆 Karseell'}</div>
+                            ${order.bottleSize ? `<div style="font-size: 0.9rem; color: var(--text-muted); margin: 4px 0; font-weight: 500;">🔖 ${order.bottleSize}</div>` : ''}
                             <span style="background: ${productColor}; color: white; padding: 6px 12px; border-radius: 5px; font-size: 0.9rem; font-weight: 700; display: inline-block; margin-top: 4px;">
                                 ${quantity}×
                             </span>
@@ -1656,7 +1699,7 @@
                         <button class="btn btn-call btn-small" onclick="callCustomer('${order.phone}')" title="اتصال">
                             <i class="fas fa-phone"></i>
                         </button>
-                        <button class="btn btn-whatsapp btn-small" onclick="whatsappCustomer('${order.phone}', '${order.name}', '${order.governorate}', '${order.address}', '${order.bottleSize || order.size || ''}', ${order.price}, '${order.date}', '${order.time}', '${order.productType || '💆 Karseell'}', ${quantity}, '${(order.notes || '').replace(/'/g, "\\'")}', '${order.phone2 || ''}')" title="تأكيد الطلب">
+                        <button class="btn btn-whatsapp btn-small" onclick="whatsappCustomer('${order.phone}', '${order.name}', '${order.governorate}', '${order.address}', '${order.bottleSize || order.size || ''}', ${totalPrice}, '${order.date}', '${order.time}', '${order.productType || '💆 Karseell'}', ${quantity}, '${(order.notes || '').replace(/'/g, "\\'")}', '${order.phone2 || ''}')" title="تأكيد الطلب">
                             <i class="fab fa-whatsapp"></i>
                         </button>
                     </td>
@@ -1673,7 +1716,7 @@
             }
 
             const quantity = parseInt(order.quantity) || 1;
-            const totalPrice = parseFloat(order.finalPrice || order.price) || 0;
+            const totalPrice = getOrderTotalPrice(order);
             const productName = order.product || order.productType || '-';
             const fullAddress = `${order.governorate || '-'} - ${order.address || '-'}`;
 
@@ -1695,7 +1738,7 @@
         function updateStats(orders) {
             document.getElementById('totalOrders').textContent = orders.length;
             const totalRevenue = orders.reduce((sum, order) => {
-                const price = parseFloat(order.finalPrice || order.price) || 0;
+                const price = getOrderTotalPrice(order);
                 return sum + price;
             }, 0);
             document.getElementById('totalRevenue').textContent = totalRevenue.toLocaleString();
@@ -1705,6 +1748,11 @@
         async function viewDetails(index) {
             const orders = await loadOrders();
             const order = orders[index];
+            const totalPrice = getOrderTotalPrice(order);
+            const shippingCost = getOrderShipping(order);
+            const quantity = parseInt(order.quantity) || 1;
+            const basePrice = Math.max(totalPrice - shippingCost, 0);
+            const unitBasePrice = quantity > 0 ? Math.round(basePrice / quantity) : basePrice;
             
             const detailsHTML = `
                 <div class="detail-row">
@@ -1754,7 +1802,7 @@
                 ${order.priceWasCorrected ? `
                 <div class="detail-row" style="background: #fff3cd; padding: 10px; border-radius: 8px; border-left: 4px solid #ffc107;">
                     <strong style="color: #856404;">⚠️ ملاحظة:</strong>
-                    <span style="color: #856404;">تم تصحيح السعر تلقائياً من ${order.originalPriceBeforeCorrection} إلى ${order.price} جنيه (السعر الصحيح)</span>
+                    <span style="color: #856404;">تم تصحيح السعر تلقائياً من ${order.originalPriceBeforeCorrection} إلى ${totalPrice} جنيه (السعر الصحيح)</span>
                 </div>
                 ` : ''}
                 ${order.discountCode ? `
@@ -1772,22 +1820,22 @@
                 </div>
                 <div class="detail-row">
                     <strong>السعر النهائي:</strong>
-                    <span style="color: #38ef7d; font-weight: 900; font-size: 1.2rem;">${order.finalPrice} جنيه</span>
+                    <span style="color: #38ef7d; font-weight: 900; font-size: 1.2rem;">${totalPrice} جنيه</span>
                 </div>
                 ` : `
                 <div class="detail-row" style="background: rgba(16, 185, 129, 0.12); border-right: 4px solid var(--success); padding: 15px;">
                     <strong style="color: #065f46; font-size: 1.1rem; margin-bottom: 10px; display: block;">💰 تفاصيل الأسعار:</strong>
                     <div style="margin-top: 10px;">
                         <span style="color: #047857;">💵 السعر الأساسي:</span>
-                        <span style="font-weight: 700; color: #065f46;">${Math.round((order.price - 50) / (order.quantity || 1))} ج.م × ${order.quantity || 1} = ${order.price - 50} ج.م</span>
+                        <span style="font-weight: 700; color: #065f46;">${unitBasePrice} ج.م × ${quantity} = ${basePrice} ج.م</span>
                     </div>
                     <div style="margin-top: 8px;">
                         <span style="color: #047857;">🚚 مصاريف الشحن:</span>
-                        <span style="font-weight: 700; color: #059669;">+50 ج.م</span>
+                        <span style="font-weight: 700; color: #059669;">+${shippingCost} ج.م</span>
                     </div>
                     <div style="margin-top: 12px; padding-top: 12px; border-top: 2px dashed rgba(16, 185, 129, 0.5);">
                         <span style="color: #065f46; font-weight: 800; font-size: 1.1rem;">الإجمالي النهائي:</span>
-                        <span style="color: var(--success); font-weight: 900; font-size: 1.3rem;">${order.price} جنيه</span>
+                        <span style="color: var(--success); font-weight: 900; font-size: 1.3rem;">${totalPrice} جنيه</span>
                     </div>
                 </div>
                 `}
@@ -1913,7 +1961,7 @@
                 csv += `"${order.address}",`;
                 csv += `"${order.product || order.productType}",`;
                 csv += `"${order.bottleSize || order.size}",`;
-                csv += `${order.finalPrice || order.price}\n`;
+                csv += `${getOrderTotalPrice(order)}\n`;
             });
             
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
@@ -2164,7 +2212,7 @@
                             notes: order.notes || '',  // ✅ الملاحظات
                             province: order.governorate,
                             address: order.address,
-                            total_price: order.finalPrice || order.price,
+                            total_price: getOrderTotalPrice(order),
                             product_type: order.productType,
                             size: unifiedSize,  // ✅ استخدام القيمة الموحدة
                             bottleSize: unifiedSize,  // ✅ نفس القيمة
@@ -2172,7 +2220,7 @@
                             date: order.date,
                             time: order.time,
                             discount_amount: order.discountAmount || 0,
-                            original_price: order.originalPrice || order.price
+                            original_price: order.originalPrice || getOrderTotalPrice(order)
                         };
                     })
                 };
@@ -2216,8 +2264,7 @@
                     // تمييز الطلبات المصدرة في Firebase
                     for (const order of selectedOrders) {
                         try {
-                            let dbRef;
-                            dbRef = database.ref('karseell-orders').child(order.firebaseId);
+                            const dbRef = getOrderDatabaseRef(order);
                             await dbRef.update({ exportedToSystem: true });
                         } catch (error) {
                             console.error('Error marking order as exported:', error);
@@ -2287,7 +2334,9 @@
             let filteredOrders = orders;
             
             // تطبيق فلتر نوع المنتج
-            if (productFilter === 'karseell') {
+            if (productFilter === 'oil') {
+                filteredOrders = filteredOrders.filter(order => order.productType?.includes('زيت'));
+            } else if (productFilter === 'karseell') {
                 filteredOrders = filteredOrders.filter(order => order.productType?.includes('Karseell'));
             }
             
@@ -2303,7 +2352,7 @@
             // تحديث عدد الطلبات في الإحصائيات
             document.getElementById('totalOrders').textContent = filteredOrders.length;
             const totalRevenue = filteredOrders.reduce((sum, order) => {
-                const price = parseFloat(order.finalPrice || order.price) || 0;
+                const price = getOrderTotalPrice(order);
                 return sum + price;
             }, 0);
             document.getElementById('totalRevenue').textContent = totalRevenue.toLocaleString();
@@ -2371,9 +2420,7 @@
                 for (const order of selectedOrders) {
                     try {
                         // تحديد المرجع الصحيح بناءً على نوع المنتج
-                        let dbRef;
-                        dbRef = database.ref('karseell-orders').child(order.firebaseId);
-                        
+                        const dbRef = getOrderDatabaseRef(order);
                         await dbRef.remove();
                         successCount++;
                     } catch (error) {
