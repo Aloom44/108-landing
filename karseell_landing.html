@@ -48,7 +48,7 @@
 
   <style>
     :root {
-      --bg: #f6f1e8;
+      --bg: #f7f3ed;
       --primary: #f59e0b;
       --primary-dark: #d97706;
       --accent: #b45309;
@@ -98,6 +98,19 @@
       top: 0;
       z-index: 50;
       box-shadow: 0 2px 12px rgba(245, 158, 11, 0.2);
+    }
+
+    .promo-bar {
+      background: #14532d;
+      color: #fff;
+      text-align: center;
+      font-weight: 700;
+      font-size: 14px;
+      min-height: 40px;
+      padding: 6px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .nav {
@@ -203,6 +216,22 @@
       color: #1f2937;
     }
 
+    .hero-title .hero-label {
+      display: inline-block;
+      font-size: 14px;
+      font-weight: 800;
+      color: #92400e;
+      background: #fef3c7;
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 8px;
+    }
+
+    .hero-title .hero-highlight {
+      color: #166534;
+      font-size: 30px;
+    }
+
     .hero-title span {
       color: #ea580c;
       font-size: 30px;
@@ -214,6 +243,19 @@
       margin-bottom: 18px;
       line-height: 1.7;
       font-weight: 500;
+    }
+
+    .hero-offer-subtext {
+      font-size: 15px;
+      font-weight: 700;
+      color: #166534;
+      margin-bottom: 18px;
+      line-height: 1.7;
+    }
+
+    .hero-offer-subtext span {
+      color: #ea580c;
+      font-weight: 800;
     }
 
     .hero-benefits {
@@ -254,7 +296,16 @@
       flex-wrap: wrap;
       gap: 10px;
       align-items: center;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
+    }
+
+    .hero-trust-line {
+      font-size: 12px;
+      color: #166534;
+      font-weight: 700;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
     }
 
     .price-box {
@@ -383,6 +434,21 @@
       border-radius: var(--radius-lg);
       padding: 14px;
       box-shadow: var(--shadow-soft);
+      position: relative;
+    }
+
+    .hero-img-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      box-shadow: 0 4px 12px rgba(234, 88, 12, 0.35);
+      z-index: 2;
     }
 
     .hero-img-card img {
@@ -1040,47 +1106,86 @@
     .offers-section {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 14px;
     }
 
     .offers-row {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
+      gap: 16px;
+    }
+
+    .offers-row.offers-eid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
     }
 
     .offer-card {
-      background: linear-gradient(135deg, #fff 0%, #fef3c7 100%);
-      border-radius: var(--radius-md);
-      padding: 12px 14px;
-      border: 2px solid #fbbf24;
-      box-shadow: 0 4px 15px rgba(234, 88, 12, 0.12);
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 20px;
+      border: none;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
       transition: all 0.3s ease;
       position: relative;
       overflow: hidden;
       cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      text-align: center;
     }
 
-    .offer-card.contact-offer {
-      cursor: default;
+    .offer-card.featured {
+      background: #f3faf5;
+      border: 1px solid #2e7d32;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+      transform: scale(1.05);
+      order: 2;
     }
 
-    .offer-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(234, 88, 12, 0.2);
-      border-color: #f59e0b;
+    .offer-card.side {
+      opacity: 0.9;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
     }
 
-    .offer-card.popular {
-      border-color: #ea580c;
-      background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 100%);
+    .offer-card.entry {
+      order: 1;
+    }
+
+    .offer-card.secondary {
+      order: 3;
+    }
+
+    .offer-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .offer-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #111827;
+    }
+
+    .offer-value {
+      font-size: 14px;
+      color: #374151;
+      font-weight: 700;
     }
 
     .offer-card.selected {
-      border-color: #16a34a;
-      border-width: 3px;
-      background: linear-gradient(135deg, #f0fdf4 0%, #d1fae5 100%);
-      box-shadow: 0 8px 25px rgba(22, 163, 74, 0.3);
+      border: 2px solid #2e7d32;
+      background: #f3faf5;
+      box-shadow: 0 12px 30px rgba(46, 125, 50, 0.2);
       transform: scale(1.02);
     }
 
@@ -1089,7 +1194,7 @@
       position: absolute;
       top: 8px;
       right: 8px;
-      background: #16a34a;
+      background: #2e7d32;
       color: white;
       width: 24px;
       height: 24px;
@@ -1102,34 +1207,11 @@
       box-shadow: 0 2px 8px rgba(22, 163, 74, 0.4);
     }
 
-    .offer-badge {
-      display: inline-block;
-      background: #22c55e;
-      color: #fff;
-      padding: 3px 10px;
-      border-radius: 999px;
-      font-size: 10px;
-      font-weight: 700;
-      margin-bottom: 6px;
-      text-transform: uppercase;
-    }
-
-    .offer-card.popular .offer-badge {
-      background: #ea580c;
-    }
-
-    .offer-title {
-      font-size: 16px;
-      font-weight: 800;
-      color: #1f2937;
-      margin-bottom: 6px;
-    }
-
     .offer-price {
       display: flex;
-      align-items: baseline;
-      gap: 8px;
-      margin-bottom: 4px;
+      flex-direction: column;
+      gap: 4px;
+      align-items: center;
     }
 
     .offer-price-old {
@@ -1139,30 +1221,51 @@
     }
 
     .offer-price-new {
-      font-size: 22px;
+      font-size: 32px;
       font-weight: 900;
-      color: #ea580c;
+      color: #111827;
     }
 
     .offer-save {
-      display: inline-block;
-      background: rgba(34, 197, 94, 0.15);
+      font-size: 12px;
       color: #166534;
-      padding: 3px 8px;
-      border-radius: 6px;
-      font-size: 11px;
       font-weight: 700;
     }
 
-    .offer-motivation {
-      background: rgba(234, 88, 12, 0.1);
-      color: #9a3412;
-      padding: 6px 10px;
-      border-radius: 6px;
-      font-size: 11px;
-      font-weight: 600;
-      margin-top: 6px;
-      text-align: center;
+    .offer-list {
+      list-style: none;
+      display: grid;
+      gap: 6px;
+      padding: 0;
+      margin: 0;
+      font-size: 12px;
+      color: #166534;
+      font-weight: 700;
+    }
+
+    .offer-list li {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      justify-content: center;
+    }
+
+    .offer-cta {
+      width: 100%;
+      background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+      color: white;
+      border: none;
+      padding: 12px 18px;
+      border-radius: 999px;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .offer-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(234, 88, 12, 0.35);
     }
 
     .offer-features {
@@ -1504,7 +1607,7 @@
       font-size: 11px;
       color: #6b7280;
       text-align: center;
-      padding: 10px 16px 18px;
+      padding: 14px 16px 22px;
       background: #020617;
       color: #9ca3af;
     }
@@ -1577,6 +1680,10 @@
     }
 
     @media (max-width: 900px) {
+      .promo-bar {
+        font-size: 12px;
+        padding: 8px 10px;
+      }
       .hero-grid,
       .order-grid,
       .grid-3,
@@ -1624,6 +1731,10 @@
         margin-bottom: 14px;
       }
 
+      .hero-title .hero-label {
+        font-size: 12px;
+      }
+
       .hero-title span {
         font-size: 24px;
       }
@@ -1631,6 +1742,11 @@
       .hero-sub {
         font-size: 14px;
         line-height: 1.6;
+        margin-bottom: 16px;
+      }
+
+      .hero-offer-subtext {
+        font-size: 14px;
         margin-bottom: 16px;
       }
 
@@ -1788,44 +1904,61 @@
       }
 
       .offer-card {
-        padding: 10px;
+        padding: 16px;
+      }
+
+      .offers-row.offers-eid {
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+
+      .offer-card.featured {
+        order: 1;
+      }
+
+      .offer-card.secondary {
+        order: 2;
+      }
+
+      .offer-card.entry {
+        order: 3;
       }
 
       .offer-title {
-        font-size: 14px;
+        font-size: 16px;
         margin-bottom: 6px;
       }
 
       .offer-content {
-        font-size: 11px;
-        margin: 4px 0;
-      }
-
-      .offer-price {
+        font-size: 13px;
         margin: 6px 0;
       }
 
+      .offer-price {
+        margin: 8px 0;
+      }
+
       .offer-price-new {
-        font-size: 18px !important;
+        font-size: 30px !important;
       }
 
       .offer-price-old {
-        font-size: 11px !important;
+        font-size: 12px !important;
       }
 
       .offer-save {
-        font-size: 9px !important;
+        font-size: 11px !important;
         padding: 2px 6px !important;
       }
 
       .offer-badge {
-        font-size: 8px;
-        padding: 2px 7px;
+        font-size: 10px;
+        padding: 5px 10px;
       }
 
       .offer-motivation,
       .offer-card div[style*="font-size"] {
-        font-size: 10px !important;
+        font-size: 12px !important;
         padding: 6px 8px !important;
         margin-top: 6px;
       }
@@ -2055,7 +2188,7 @@
 
       .offers-row {
         grid-template-columns: 1fr;
-        gap: 10px;
+        gap: 28px;
       }
 
       /* Products Grid Mobile */
@@ -2352,8 +2485,10 @@
 
       /* Footer */
       footer {
-        padding: 20px 0;
-        font-size: 12px;
+        padding: 22px 18px 28px;
+        font-size: 13px;
+        line-height: 1.7;
+        letter-spacing: 0.2px;
       }
 
       /* WhatsApp Float */
@@ -2391,6 +2526,7 @@
   </style>
 </head>
 <body>
+  <div class="promo-bar">🎉 عروض عيد الأضحى لفترة محدودة – شحن مجاني على كل العروض 🔥</div>
   <!-- HEADER -->
   <header>
     <div class="container">
@@ -2414,12 +2550,16 @@
             ✨ الحل الأكيد لكل مشاكل شعرِك
           </div>
           <h1 class="hero-title">
-            شعرك تالف ومتقصف وهايش؟ 
-            <span>كارسيل كولاجين</span> هيرجعه ناعم وحيوي في أسبوعين بس!
+            <span class="hero-label">عرض عيد الأضحى المحدود</span><br>
+            شعرك محتاج إنقاذ قبل العيد؟
+            <span class="hero-highlight">كارسيل كولاجين</span> هيرجعه ناعم ولامع من أول أسبوع.
           </h1>
           <p class="hero-sub">
-            ماسك + سيروم كولاجين وزيوت طبيعية 100% بيعالج التقصف والهيشان من أول استخدام، 
-            ويحمي شعرك من الحرارة والتصفيف اليومي. مش هتصدقي الفرق!
+            ماسك + سيروم كولاجين بزيوت طبيعية 100% يصلّح التلف والهيشان من أول استخدام،
+            ويحمي شعرك من الحرارة والتصفيف اليومي.
+          </p>
+          <p class="hero-offer-subtext">
+            اختاري عرض العيد الأنسب ليكي… <span>وشحن مجاني على كل العروض</span>
           </p>
 
           <div class="hero-benefits">
@@ -2430,8 +2570,8 @@
           </div>
 
           <div class="hero-cta-row">
-            <button class="btn btn-primary" onclick="scrollToOrder()">
-              اطلبي دلوقتي واستلمي بكرة
+            <button class="btn btn-primary" onclick="scrollToOrder()" style="background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%); box-shadow: 0 10px 25px rgba(234, 88, 12, 0.35); border: none;">
+              اطلبي عرض العيد الآن 🔥
             </button>
             <button
               class="btn btn-outline"
@@ -2442,28 +2582,14 @@
               ❓ عندك أسئلة؟ اقري هنا
             </button>
           </div>
-
-          <div class="price-box">
-            <div class="price-section">
-              <div class="price-old">بدلًا من <span>800 ج.م</span></div>
-              <div class="price-new">650 ج.م</div>
-            </div>
-            <div class="products-included">
-              <div class="product-item">
-                <span class="product-icon">💆‍♀️</span>
-                <span class="product-text">ماسك 500 مل</span>
-              </div>
-              <span class="plus-sign">+</span>
-              <div class="product-item">
-                <span class="product-icon">✨</span>
-                <span class="product-text">سيروم 50 مل</span>
-              </div>
-            </div>
-            <div class="limited">⏰ الحق قبل نفاذ الكمية!</div>
+          <div class="hero-trust-line">
+            ✔ الدفع عند الاستلام ✔ معاينة قبل الدفع ✔ شحن مجاني اليوم فقط
           </div>
+
         </div>
 
         <div class="hero-img-card">
+          <div class="hero-img-badge">🔥 عرض العيد</div>
           <div class="carousel" id="heroCarousel">
             <button class="carousel-btn prev" onclick="changeSlide(-1)" aria-label="Previous">❮</button>
             <button class="carousel-btn next" onclick="changeSlide(1)" aria-label="Next">❯</button>
@@ -2540,97 +2666,66 @@
     <div class="container">
       <div class="order-grid">
         <div class="offers-section">
-          <h2 class="order-title">اختاري المنتج المناسب ليكي</h2>
+          <h2 class="order-title">اختاري عرض عيد الأضحى المناسب ليكي</h2>
           <p class="order-sub" style="color: #6b7280; margin-bottom: 20px;">
             كل العروض شاملة الشحن مع إمكانية الدفع عند الاستلام
           </p>
 
-          <!-- Single Products Section -->
-          <div class="products-grid">
-            <!-- Mask Only -->
-            <!-- كريم فقط -->
-            <div class="product-card" onclick="selectOffer('كريم كولاجين 500 مل', 450)">
-              <div class="product-image">
-                <img src="https://i.ibb.co/23LBd9pG/karseell-collagen-hair-mask-5.png" alt="كارسيل ماسك كولاجين" style="width: 100%; height: auto;">
-              </div>
-              <span class="product-badge">💆‍♀️ كريم فقط</span>
-              <div class="product-title">كريم كارسيل</div>
-              <div class="product-desc">علاج عميق للشعر التالف والمتقصف 500 مل</div>
-              <div class="product-price">
-                <span class="price-new">450 ج.م</span>
-              </div>
-              <ul style="text-align: right; font-size: 12px; color: #374151; margin: 10px 0; padding-right: 20px;">
-                <li>مناسب للاستخدام الفردي</li>
-              </ul>
-              <button class="product-btn">
-                اختر هذا العرض
-              </button>
-            </div>
-
-            <!-- الباندل - العرض المميز -->
-            <div class="product-card popular" onclick="selectOffer('كريم + سيروم (العرض المميز)', 650)">
-              <div class="product-image">
-                <img src="https://i.ibb.co/Y4bnRN4z/karseell-collagen-hair-maskhair-oil-set-8.png" alt="مجموعة كارسيل كاملة" style="width: 100%; height: auto;">
-              </div>
-              <span class="product-badge popular-badge">🔥 الأكثر طلبًا</span>
-              <div class="product-title" style="font-size: 18px;">⭐ كريم + سيروم</div>
-              <div class="product-desc" style="font-weight: 700; color: #ea580c;">العرض المميز - الأفضل قيمة</div>
-              <div class="product-price">
-                <span class="price-old" style="font-size: 15px;">750 ج.م</span>
-                <span class="price-new" style="font-size: 26px;">650 ج.م فقط</span>
-              </div>
-              <div class="product-save" style="font-size: 13px; font-weight: 800;">💰 وفّر 100 جنيه</div>
-              <ul style="text-align: right; font-size: 12px; color: #374151; margin: 10px 0; padding-right: 20px;">
-                <li><strong>نتائج أسرع</strong> عند الاستخدام معًا</li>
-                <li>توفير 100 جنيه</li>
-              </ul>
-              <button class="product-btn" style="font-size: 15px; padding: 12px;">
-                🔥 اطلب الآن
-              </button>
-            </div>
-
-            <!-- سيروم فقط -->
-            <div class="product-card" onclick="selectOffer('سيروم زيوت طبيعية 50 مل', 300)">
-              <div class="product-image">
-                <img src="https://i.ibb.co/qL5vGkC1/Karseell-Moroccan-Argan-Oil-for-Hair-Healing-4.png" alt="كارسيل سيروم" style="width: 100%; height: auto;">
-              </div>
-              <span class="product-badge">✨ سيروم فقط</span>
-              <div class="product-title">سيروم كارسيل</div>
-              <div class="product-desc">حماية وترطيب فوري للشعر 50 مل</div>
-              <div class="product-price">
-                <span class="price-new">300 ج.م</span>
-              </div>
-              <ul style="text-align: right; font-size: 12px; color: #374151; margin: 10px 0; padding-right: 20px;">
-                <li>حل سريع للعناية</li>
-              </ul>
-              <button class="product-btn">
-                اختر هذا العرض
-              </button>
-            </div>
+          <div style="text-align: center; margin-bottom: 18px;">
+            <div style="font-size: 15px; font-weight: 800; color: #991b1b;">🔥 عرض عيد الأضحى لفترة محدودة</div>
+            <div style="font-size: 13px; font-weight: 700; color: #b45309; margin-top: 4px;">⏳ الكمية محدودة</div>
           </div>
 
-          <!-- عرض توفير أكبر -->
-          <div style="margin-top: 20px;">
-            <div style="text-align: center; margin-bottom: 12px;">
-              <span style="background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); color: white; padding: 6px 16px; border-radius: 999px; font-weight: 800; font-size: 14px; display: inline-block; box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3);">💎 عرض توفير أكبر</span>
+          <div class="offers-row offers-eid">
+            <div class="offer-card featured" onclick="selectOffer('عرض القطعتين - 2 كريم + 2 سيرم', 1200, 0)">
+              <span class="offer-badge">👑 الأكثر طلبًا</span>
+              <div class="offer-title">عرض القطعتين</div>
+              <div class="offer-value">خدي 2 كريم + 2 سيرم بسعر خاص</div>
+              <div class="offer-save">توفير يصل إلى 400 جنيه</div>
+              <div class="offer-price">
+                <span class="offer-price-old">1600 جنيه</span>
+                <span class="offer-price-new">1200 جنيه</span>
+              </div>
+              <ul class="offer-list">
+                <li>✔ شحن مجاني</li>
+                <li>✔ الدفع عند الاستلام</li>
+                <li>✔ معاينة قبل الدفع</li>
+              </ul>
+              <button class="offer-cta">اطلبي الآن</button>
             </div>
-            <div class="offer-card" style="max-width: 500px; margin: 0 auto; text-align: center;" onclick="selectOffer('2× باكدج (2 كريم + 2 سيروم)', 1200)">
-              <span class="offer-badge" style="background: #7c3aed;">⚡ عرض حصري</span>
-              <div class="offer-title" style="font-size: 18px;">2 × باكدج كامل</div>
-              <div style="font-size: 14px; color: #6b7280; margin: 8px 0;">
-                2 كريم + 2 سيروم
+
+            <div class="offer-card side secondary" onclick="selectOffer('العرض الأقوى - 3 كريم + 3 سيرم', 1700, 0)">
+              <span class="offer-badge">🔥 عرض العيد</span>
+              <div class="offer-title">العرض الأقوى</div>
+              <div class="offer-value">خدي 3 كريم + 3 سيرم بسعر خاص</div>
+              <div class="offer-save">توفير يصل إلى 700 جنيه</div>
+              <div class="offer-price">
+                <span class="offer-price-old">2400 جنيه</span>
+                <span class="offer-price-new">1700 جنيه</span>
               </div>
-              <div class="offer-price" style="justify-content: center;">
-                <span class="offer-price-old" style="font-size: 16px;">1500 ج.م</span>
-                <span class="offer-price-new" style="font-size: 28px;">1200 ج.م</span>
+              <ul class="offer-list">
+                <li>✔ شحن مجاني</li>
+                <li>✔ الدفع عند الاستلام</li>
+                <li>✔ معاينة قبل الدفع</li>
+              </ul>
+              <button class="offer-cta">اطلبي الآن</button>
+            </div>
+
+            <div class="offer-card side entry" onclick="selectOffer('عرض العيد الأساسي - كريم كارسيل + سيرم', 650, 0)">
+              <span class="offer-badge">🔥 عرض العيد</span>
+              <div class="offer-title">عرض العيد الأساسي</div>
+              <div class="offer-value">خدي كريم + سيرم بسعر خاص</div>
+              <div class="offer-save">توفير يصل إلى 150 جنيه</div>
+              <div class="offer-price">
+                <span class="offer-price-old">800 جنيه</span>
+                <span class="offer-price-new">650 جنيه</span>
               </div>
-              <span class="offer-save" style="font-size: 13px;">💰 وفّر 300 جنيه</span>
-              <div style="background: rgba(124, 58, 237, 0.1); color: #5b21b6; padding: 10px; border-radius: 8px; font-size: 13px; font-weight: 600; margin-top: 12px;">
-                ✅ يكفي 4-6 شهور استخدام
-              </div>
-              <button class="product-btn" style="margin-top: 12px; background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);">
-                اطلب الآن
-              </button>
+              <ul class="offer-list">
+                <li>✔ شحن مجاني</li>
+                <li>✔ الدفع عند الاستلام</li>
+                <li>✔ معاينة قبل الدفع</li>
+              </ul>
+              <button class="offer-cta">اطلبي الآن</button>
             </div>
           </div>
         </div>
@@ -2681,7 +2776,7 @@
                   +
                 </button>
               </div>
-              <div style="font-size: 11px; color: #6b7280; margin-top: 6px; text-align: center;">📦 مصاريف الشحن 50 جنيه ثابتة لأي كمية</div>
+              <div style="font-size: 11px; color: #6b7280; margin-top: 6px; text-align: center;">📦 الشحن مجاني على عروض عيد الأضحى</div>
             </div>
             
             <div>
@@ -2791,21 +2886,15 @@
               <div class="order-warning-header">
                 <div class="order-warning-icon">⚠️</div>
                 <div class="order-warning-content">
-                  <h4>📌 تنبيه هام - يُرجى القراءة بعناية</h4>
+                  <h4>💚 وصولك للطلب يكمّل الفرحة.. شكراً لثقتك</h4>
                 </div>
               </div>
               <div class="order-warning-body">
                 <p>
-                  <strong>🔴 قبل تأكيد طلبك:</strong> يُرجى التأكد من <strong>جديتك الكاملة في استلام المنتج</strong>، حيث نقوم بدفع تكاليف الشحن مقدمًا للشركة فور تأكيد طلبك.
+                  بنجهز طلبك بكل حب علشان يوصل بأفضل حالة 💚
                 </p>
-                <div class="order-warning-note">
-                  <span class="order-warning-note-icon">❌</span>
-                  <p>
-                    <strong>تحذير:</strong> عدم الاستلام أو رفض الطلب دون سبب جدي يتسبب في خسائر مالية مباشرة لنا، ويؤثر سلباً على خدماتنا لعملائنا الآخرين.
-                  </p>
-                </div>
-                <p style="margin-top: 12px; padding-top: 12px; border-top: 1px dashed #f59e0b;">
-                  ✅ <strong>نثق بك!</strong> إذا كنت جادًا في الطلب، فلا تتردد - نحن في خدمتك! 💚
+                <p style="margin-top: 10px;">
+                  لو كنتي جاهزة للاستلام، دوسي تأكيد وهنبقى معاكي خطوة بخطوة.
                 </p>
               </div>
             </div>
@@ -3009,34 +3098,6 @@
         </div>
         <div class="faq-item">
           <div class="faq-q">
-            <span>حاسة إن السعر غالي شوية؟</span>
-          </div>
-          <div class="faq-a">
-            <div class="faq-a-content">
-              نتفهم تماماً! 💚 بس تعالي نحسبها سوا بكل شفافية:<br><br>
-              
-              <strong>🔸 المنتج ده = 2 في 1:</strong><br>
-              لو اشتريتي ماسك لوحده بـ 450 جنيه + سيرم لوحده بـ 350 جنيه = 800 جنيه<br>
-              <strong>احنا بنديكي الاتنين بـ 650 جنيه فقط شامل الشحن!</strong> (وفرتي 150 جنيه) 🎉<br><br>
-              
-              <strong>🔸 مقارنة مع الصالونات:</strong><br>
-              جلسة علاج واحدة في الصالون = 300-500 جنيه<br>
-              المنتج ده هيكفيكي <strong>3-4 شهور</strong> من الاستخدام!<br>
-              يعني السعر = <strong>حوالي 50 جنيه بس في الشهر</strong> ⚡<br><br>
-              
-              <strong>🔸 جودة عالمية:</strong><br>
-              ده مش منتج محلي عادي، ده منتج مستورد بمكونات طبيعية 100% (كولاجين + زيت الماكا + الأرجان) بتشتغل على حل <strong>كل مشاكل الشعر</strong> (التقصف، الهيشان، التساقط، الجفاف) في منتج واحد!<br><br>
-              
-              لو قسمتي السعر على 4 شهور = <strong>162 جنيه في الشهر</strong><br>
-              لو قسمتيه على 30 يوم = <strong>أقل من 22 جنيه في اليوم!</strong><br>
-              يعني أقل من سعر كوباية قهوة ☕ مقابل شعر صحي ولامع كل يوم! 💁‍♀️✨<br><br>
-              
-              <strong>الاستثمار في شعرك = استثمار في ثقتك بنفسك 💖</strong>
-            </div>
-          </div>
-        </div>
-        <div class="faq-item">
-          <div class="faq-q">
             <span>إزاي أستخدمه صح؟</span>
           </div>
           <div class="faq-a">
@@ -3065,7 +3126,7 @@
   <!-- STICKY CTA MOBILE -->
   <div class="sticky-cta">
     <div>
-      <p>عرض كارسيل كولاجين – ماسك + سيروم بـ 650 ج.م فقط</p>
+      <p>عرض القطعتين 🔥 (2 كريم + 2 سيرم) بـ 1200 ج.م</p>
     </div>
     <button class="btn btn-primary" onclick="scrollToOrder()">
       اطلب الآن
@@ -3180,11 +3241,11 @@
     let selectedProduct = null;
     let selectedProductName = '';
     let selectedProductPrice = 0;
+    let selectedShippingCost = 0;
 
-function selectOffer(offerName, totalPrice) {
-        // السعر الأساسي = السعر الإجمالي - 50 جنيه شحن
-        const basePrice = totalPrice - 50;
-        const shippingCost = 50;
+  function selectOffer(offerName, totalPrice, shippingCost = 0) {
+      // السعر الأساسي = السعر الإجمالي - تكلفة الشحن
+      const basePrice = totalPrice - shippingCost;
         
         // تحديث الـ hidden inputs
         document.getElementById('offer_type').value = offerName;
@@ -3196,14 +3257,26 @@ function selectOffer(offerName, totalPrice) {
         // حساب وتحديث السعر
         updatePrice();
         
+        selectedProduct = offerName;
         selectedProductName = offerName;
         selectedProductPrice = totalPrice;
+        selectedShippingCost = shippingCost;
         
         // عرض رسالة التأكيد
         const display = document.getElementById('selectedOfferDisplay');
         const nameDisplay = document.getElementById('offerNameDisplay');
+        const shippingInfo = document.getElementById('shippingInfo');
         
         nameDisplay.textContent = offerName;
+        if (shippingInfo) {
+          if (shippingCost > 0) {
+            shippingInfo.textContent = `+ ${shippingCost} ج.م شحن`;
+            shippingInfo.style.display = 'inline-flex';
+          } else {
+            shippingInfo.textContent = 'شحن مجاني';
+            shippingInfo.style.display = 'inline-flex';
+          }
+        }
         display.style.display = 'block';
 
         // إزالة highlight من جميع الكروت
@@ -3253,7 +3326,7 @@ function selectOffer(offerName, totalPrice) {
     function updatePrice() {
       const basePrice = parseInt(document.getElementById('base_price').value) || 0;
       const quantity = parseInt(document.getElementById('quantity').value) || 1;
-      const shippingCost = 50;
+      const shippingCost = selectedShippingCost || 0;
       
       // حساب السعر النهائي = (السعر الأساسي × الكمية) + مصاريف الشحن
       const finalPrice = (basePrice * quantity) + shippingCost;
@@ -3272,87 +3345,6 @@ function selectOffer(offerName, totalPrice) {
       selectedProductPrice = finalPrice;
     }
 
-    function selectProduct(type, name, price) {
-      selectedProduct = type;
-      selectedProductName = name;
-      selectedProductPrice = price;
-
-      // Update form
-      const productInput = document.getElementById('selectedProduct');
-      if (!productInput) {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.id = 'selectedProduct';
-        input.name = 'selectedProduct';
-        document.getElementById('orderForm').appendChild(input);
-      }
-      document.getElementById('selectedProduct').value = name;
-
-      // Update display
-      document.getElementById('selectedProductDisplay').style.display = 'block';
-      document.getElementById('productNameDisplay').textContent = name;
-      document.getElementById('productPriceDisplay').textContent = price + ' جنيه (شامل الشحن)';
-
-      // Remove selected class from all products and offers
-      document.querySelectorAll('.product-card, .offer-card').forEach(card => {
-        card.classList.remove('selected');
-      });
-
-      // Add selected class to clicked product
-      event.target.closest('.product-card').classList.add('selected');
-
-      // Scroll to form
-      document.getElementById('orderForm').scrollIntoView({ 
-        behavior: 'smooth', 
-        block: 'center' 
-        });
-
-      console.log('✅ Selected product:', name, '-', price, 'EGP');
-    }
-
-    // Offer Selection
-    document.querySelectorAll('.offer-card[data-quantity]').forEach(card => {
-      card.addEventListener('click', function() {
-        const quantity = this.getAttribute('data-quantity');
-        const price = this.getAttribute('data-price');
-        
-        // Remove selected class from all offers and products
-        document.querySelectorAll('.offer-card, .product-card').forEach(c => c.classList.remove('selected'));
-        
-        // Add selected class to clicked offer
-        this.classList.add('selected');
-
-        // Set selected product
-        selectedProduct = 'set';
-        selectedProductName = `${quantity} مجموعة كاملة`;
-        selectedProductPrice = price;
-
-        // Update hidden input
-        let productInput = document.getElementById('selectedProduct');
-        if (!productInput) {
-          const input = document.createElement('input');
-          input.type = 'hidden';
-          input.id = 'selectedProduct';
-          input.name = 'selectedProduct';
-          document.getElementById('orderForm').appendChild(input);
-          productInput = input;
-        }
-        productInput.value = selectedProductName;
-
-        // Update display
-        document.getElementById('selectedProductDisplay').style.display = 'block';
-        document.getElementById('productNameDisplay').textContent = selectedProductName;
-        document.getElementById('productPriceDisplay').textContent = price + ' جنيه (شامل الشحن)';
-        
-        // Smooth scroll to form
-        document.getElementById('orderForm').scrollIntoView({ 
-          behavior: 'smooth', 
-          block: 'center' 
-        });
-        
-        console.log('✅ Selected offer:', quantity + ' box(es)', '-', price, 'EGP');
-      });
-    });
 
     // Meta Pixel Events
     function trackEvent(eventName, data = {}) {
@@ -3456,7 +3448,7 @@ function selectOffer(offerName, totalPrice) {
           confirmButtonColor: '#f59e0b'
         });
         // Scroll to products section
-        document.querySelector('.products-grid').scrollIntoView({ 
+        document.querySelector('.offers-row').scrollIntoView({ 
           behavior: 'smooth', 
           block: 'center' 
         });
@@ -3505,6 +3497,7 @@ function selectOffer(offerName, totalPrice) {
         product: offerType,
         quantity: quantity,
         price: offerPrice,
+        shipping: selectedShippingCost || 0,
         productType: selectedProduct,
         date: dateStr,
         time: timeStr,
@@ -3537,8 +3530,8 @@ function selectOffer(offerName, totalPrice) {
               ${orderData.notes ? `<p style="margin: 6px 0; font-size: 0.9rem;"><strong>📝 ملاحظات:</strong> ${orderData.notes}</p>` : ''}
               <p style="margin: 6px 0; font-size: 0.9rem;"><strong>📦 المنتج:</strong> ${orderData.product}</p>
               <p style="margin: 6px 0; font-size: 0.9rem;"><strong>🔢 الكمية:</strong> ${orderData.quantity}</p>
-              <p style="margin: 6px 0; font-size: 0.9rem;"><strong>💵 سعر المنتج:</strong> ${Math.round((orderData.price - 50) / orderData.quantity)} ج.م × ${orderData.quantity} = <strong style="color: #ea580c;">${orderData.price - 50} ج.م</strong></p>
-              <p style="margin: 6px 0; font-size: 0.9rem;"><strong>🚚 مصاريف الشحن:</strong> <strong style="color: #059669;">50 ج.م</strong></p>
+              <p style="margin: 6px 0; font-size: 0.9rem;"><strong>💵 سعر المنتج:</strong> ${Math.round((orderData.price - (orderData.shipping || 0)) / orderData.quantity)} ج.م × ${orderData.quantity} = <strong style="color: #ea580c;">${orderData.price - (orderData.shipping || 0)} ج.م</strong></p>
+              <p style="margin: 6px 0; font-size: 0.9rem;"><strong>🚚 الشحن:</strong> <strong style="color: #059669;">${orderData.shipping > 0 ? orderData.shipping + ' ج.م' : 'مجاني'}</strong></p>
               <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); padding: 10px; border-radius: 8px; margin: 10px 0; border: 2px solid #fbbf24;">
                 <p style="margin: 0; font-size: 1.1rem; font-weight: 800; color: #92400e;"><strong>💰 الإجمالي النهائي:</strong> <span style="font-size: 1.3rem; color: #ea580c;">${orderData.price} جنيه</span></p>
               </div>
