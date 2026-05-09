@@ -2230,16 +2230,13 @@
                 
                 // محاولة الإرسال عبر عدة عناوين API حتى نجد الخادم الصحيح
                 const defaultApiBaseUrl = 'http://127.0.0.1:8000';
-                const pageOrigin = (window.location.origin && window.location.origin !== 'null') ? window.location.origin : null;
-
                 const baseCandidates = [
                     window.ADMIN_ORDERS_API_BASE_URL,
                     localStorage.getItem('adminOrdersApiBaseUrl'),
-                    pageOrigin && pageOrigin.startsWith('http') ? pageOrigin : null,
                     defaultApiBaseUrl
                 ].filter(Boolean);
 
-                const endpointPaths = ['/import-firebase-orders/', '/api/sync-orders/', '/api/import-firebase-orders/'];
+                const endpointPaths = ['/import-firebase-orders/'];
                 let response = null;
                 let data = null;
                 let lastError = null;
