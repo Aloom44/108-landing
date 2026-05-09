@@ -2233,17 +2233,14 @@
                     ? window.location.origin
                     : null;
 
-                // إذا كانت الصفحة على localhost لكن من Live Server (port ≠ 8000)، نضع Django أولاً
-                const isLocalhost = pageOrigin && (pageOrigin.includes('127.0.0.1') || pageOrigin.includes('localhost'));
-                const isDjangoPort = pageOrigin && pageOrigin.includes(':8000');
-
                 const baseCandidates = [
-                    window.ADMIN_ORDERS_API_BASE_URL,               // override يدوي (أعلى أولوية)
-                    localStorage.getItem('adminOrdersApiBaseUrl'),  // override محفوظ في localStorage
-                    (isLocalhost && !isDjangoPort) ? 'http://127.0.0.1:8000' : null,  // Django على localhost
-                    pageOrigin,                                      // origin الصفحة الحالية
-                    'http://127.0.0.1:8000'                         // fallback نهائي
-                ].filter(Boolean);
+                    '',                                             // محاولة مسار نسبي أولاً (Relative Path)
+                    window.ADMIN_ORDERS_API_BASE_URL,
+                    localStorage.getItem('adminOrdersApiBaseUrl'),
+                    pageOrigin,
+                    'http://127.0.0.1:8000',
+                    'http://localhost:8000'
+                ].filter(c => c !== null);
 
                 const endpointPaths = ['/api/import-firebase-orders/'];
                 let response = null;
