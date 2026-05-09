@@ -2229,15 +2229,20 @@
                 };
                 
                 // محاولة الإرسال عبر عدة عناوين API حتى نجد الخادم الصحيح
-                // ✅ أولوية: origin الصفحة الحالية (يعمل على elekhwa.store وعلى localhost)
                 const pageOrigin = (window.location.origin && window.location.origin !== 'null')
                     ? window.location.origin
                     : null;
+
+                // إذا كانت الصفحة على localhost لكن من Live Server (port ≠ 8000)، نضع Django أولاً
+                const isLocalhost = pageOrigin && (pageOrigin.includes('127.0.0.1') || pageOrigin.includes('localhost'));
+                const isDjangoPort = pageOrigin && pageOrigin.includes(':8000');
+
                 const baseCandidates = [
-                    pageOrigin,                                      // https://elekhwa.store أو http://127.0.0.1:8000
-                    window.ADMIN_ORDERS_API_BASE_URL,               // override يدوي إذا وُجد
+                    window.ADMIN_ORDERS_API_BASE_URL,               // override يدوي (أعلى أولوية)
                     localStorage.getItem('adminOrdersApiBaseUrl'),  // override محفوظ في localStorage
-                    'http://127.0.0.1:8000'                         // fallback للتطوير المحلي فقط
+                    (isLocalhost && !isDjangoPort) ? 'http://127.0.0.1:8000' : null,  // Django على localhost
+                    pageOrigin,                                      // origin الصفحة الحالية
+                    'http://127.0.0.1:8000'                         // fallback نهائي
                 ].filter(Boolean);
 
                 const endpointPaths = ['/api/import-firebase-orders/'];
