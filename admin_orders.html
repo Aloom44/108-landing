@@ -2123,6 +2123,9 @@
         // تصدير الطلبات المحددة إلى نظام الشحن
         async function exportSelectedToSystem() {
             const selected = document.querySelectorAll('.order-checkbox:checked');
+            const apiBaseUrl = (window.location.origin && window.location.origin !== 'null')
+                ? window.location.origin
+                : 'http://127.0.0.1:8000';
             
             if (selected.length === 0) {
                 await Swal.fire({
@@ -2231,7 +2234,7 @@
                 
                 // المحاولة الأولى: استخدام الرابط البديل (sync-orders)
                 try {
-                    response = await fetch('http://127.0.0.1:8000/api/sync-orders/', {
+                    response = await fetch(`${apiBaseUrl}/api/sync-orders/`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -2244,7 +2247,7 @@
                     
                     // المحاولة الثانية: استخدام الرابط الأصلي
                     try {
-                        response = await fetch('http://127.0.0.1:8000/api/import-firebase-orders/', {
+                        response = await fetch(`${apiBaseUrl}/api/import-firebase-orders/`, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
@@ -2258,7 +2261,20 @@
                     }
                 }
                 
-                const data = await response.json();
+                const contentType = response.headers.get('content-type') || '';
+                let data;
+
+                if (contentType.includes('application/json')) {
+                    data = await response.json();
+                } else {
+                    const rawResponse = await response.text();
+                    console.error('Unexpected non-JSON response:', {
+                        status: response.status,
+                        contentType,
+                        rawResponse: rawResponse.slice(0, 500)
+                    });
+                    throw new Error(`الخادم رجع استجابة غير JSON (status ${response.status}, content-type: ${contentType || 'غير معروف'}). أول جزء من الرد: ${rawResponse.slice(0, 200)}`);
+                }
                 
                 if (response.ok) {
                     // تمييز الطلبات المصدرة في Firebase
