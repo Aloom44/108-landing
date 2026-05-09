@@ -2229,11 +2229,15 @@
                 };
                 
                 // محاولة الإرسال عبر عدة عناوين API حتى نجد الخادم الصحيح
-                const defaultApiBaseUrl = 'http://127.0.0.1:8000';
+                // ✅ أولوية: origin الصفحة الحالية (يعمل على elekhwa.store وعلى localhost)
+                const pageOrigin = (window.location.origin && window.location.origin !== 'null')
+                    ? window.location.origin
+                    : null;
                 const baseCandidates = [
-                    window.ADMIN_ORDERS_API_BASE_URL,
-                    localStorage.getItem('adminOrdersApiBaseUrl'),
-                    defaultApiBaseUrl
+                    pageOrigin,                                      // https://elekhwa.store أو http://127.0.0.1:8000
+                    window.ADMIN_ORDERS_API_BASE_URL,               // override يدوي إذا وُجد
+                    localStorage.getItem('adminOrdersApiBaseUrl'),  // override محفوظ في localStorage
+                    'http://127.0.0.1:8000'                         // fallback للتطوير المحلي فقط
                 ].filter(Boolean);
 
                 const endpointPaths = ['/api/import-firebase-orders/'];
