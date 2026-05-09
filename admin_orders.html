@@ -2216,9 +2216,11 @@
                             province: order.governorate,
                             address: order.address,
                             total_price: getOrderTotalPrice(order),
+                            product: order.product || order.productType || '', // الحقل الكامل
                             product_type: order.productType,
-                            size: unifiedSize,  // ✅ استخدام القيمة الموحدة
-                            bottleSize: unifiedSize,  // ✅ نفس القيمة
+                            quantity: order.quantity || null, // إرسال الكمية إذا كانت موجودة كحقل منفصل
+                            size: unifiedSize,
+                            bottleSize: unifiedSize,
                             firebase_id: order.firebaseId,
                             date: order.date,
                             time: order.time,
