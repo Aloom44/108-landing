@@ -2236,7 +2236,7 @@
                     defaultApiBaseUrl
                 ].filter(Boolean);
 
-                const endpointPaths = ['/import-firebase-orders/'];
+                const endpointPaths = ['/api/import-firebase-orders/'];
                 let response = null;
                 let data = null;
                 let lastError = null;
@@ -2311,11 +2311,14 @@
                         }
                     }
                     
+                    // دعم كلا الصيغتين: imported_count (API الجديد) و success_count (API القديم)
+                    const successCount = data.success_count ?? data.imported_count ?? 0;
+                    const failedCount = data.failed_count ?? 0;
                     await Swal.fire({
                         icon: 'success',
                         title: 'تمت الإضافة بنجاح',
-                        html: `تم إضافة <strong>${data.success_count}</strong> طلب إلى Logexa<br>
-                               ${data.failed_count > 0 ? `<span style="color: #dc3545;">فشل: ${data.failed_count}</span>` : ''}>`,
+                        html: `تم إضافة <strong>${successCount}</strong> طلب إلى Logexa<br>
+                               ${failedCount > 0 ? `<span style="color: #dc3545;">فشل: ${failedCount}</span>` : ''}`,
                         confirmButtonColor: '#0C5CAB',
                         timer: 3000
                     });
