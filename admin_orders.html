@@ -2228,52 +2228,77 @@
                     })
                 };
                 
-                // محاولة الإرسال باستخدام الرابط البديل أولاً (لتجنب حظر Ad Blocker)
-                let response;
-                let lastError;
-                
-                // المحاولة الأولى: استخدام الرابط البديل (sync-orders)
-                try {
-                    response = await fetch(`${apiBaseUrl}/api/sync-orders/`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(orderData)
-                    });
-                } catch (error) {
-                    console.warn('⚠️ فشل الرابط البديل، محاولة الرابط الأصلي...', error);
-                    lastError = error;
-                    
-                    // المحاولة الثانية: استخدام الرابط الأصلي
-                    try {
-                        response = await fetch(`${apiBaseUrl}/api/import-firebase-orders/`, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify(orderData)
-                        });
-                    } catch (error2) {
-                        console.error('❌ فشلت كل المحاولات');
-                        // إذا فشلت كل المحاولات، نعرض رسالة توضيحية
-                        throw new Error('ERR_BLOCKED: الطلب محظور من Ad Blocker. الرجاء إيقاف Ad Blocker أو استخدام المتصفح في وضع التصفح الخفي.');
+                // محاولة الإرسال عبر عدة عناوين API حتى نجد الخادم الصحيح
+                const baseCandidates = [
+                    window.ADMIN_ORDERS_API_BASE_URL,
+                    localStorage.getItem('adminOrdersApiBaseUrl'),
+                    (window.location.origin && window.location.origin !== 'null') ? window.location.origin : null,
+                    'http://127.0.0.1:8000',
+                    'https://b3sem.store'
+                ].filter(Boolean);
+
+                const endpointPaths = ['/api/sync-orders/', '/api/import-firebase-orders/'];
+                let response = null;
+                let data = null;
+                let lastError = null;
+                let lastAttemptInfo = null;
+
+                for (const baseUrl of [...new Set(baseCandidates)]) {
+                    for (const path of endpointPaths) {
+                        const apiUrl = `${String(baseUrl).replace(/\/$/, '')}${path}`;
+                        lastAttemptInfo = apiUrl;
+
+                        try {
+                            response = await fetch(apiUrl, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify(orderData)
+                            });
+                        } catch (error) {
+                            lastError = error;
+                            continue;
+                        }
+
+                        const contentType = response.headers.get('content-type') || '';
+
+                        if (!response.ok) {
+                            const rawResponse = await response.text();
+                            console.warn('⚠️ API responded with error, trying next endpoint...', {
+                                url: apiUrl,
+                                status: response.status,
+                                contentType,
+                                rawResponse: rawResponse.slice(0, 200)
+                            });
+                            lastError = new Error(`HTTP ${response.status} from ${apiUrl}`);
+                            continue;
+                        }
+
+                        if (!contentType.includes('application/json')) {
+                            const rawResponse = await response.text();
+                            console.warn('⚠️ API returned non-JSON success response, trying next endpoint...', {
+                                url: apiUrl,
+                                status: response.status,
+                                contentType,
+                                rawResponse: rawResponse.slice(0, 200)
+                            });
+                            lastError = new Error(`Non-JSON response from ${apiUrl}`);
+                            continue;
+                        }
+
+                        data = await response.json();
+                        break;
+                    }
+
+                    if (data) {
+                        break;
                     }
                 }
-                
-                const contentType = response.headers.get('content-type') || '';
-                let data;
 
-                if (contentType.includes('application/json')) {
-                    data = await response.json();
-                } else {
-                    const rawResponse = await response.text();
-                    console.error('Unexpected non-JSON response:', {
-                        status: response.status,
-                        contentType,
-                        rawResponse: rawResponse.slice(0, 500)
-                    });
-                    throw new Error(`الخادم رجع استجابة غير JSON (status ${response.status}, content-type: ${contentType || 'غير معروف'}). أول جزء من الرد: ${rawResponse.slice(0, 200)}`);
+                if (!data) {
+                    console.error('❌ فشلت كل المحاولات', { lastError, lastAttemptInfo });
+                    throw new Error(`لم يتم العثور على API صالح. آخر محاولة: ${lastAttemptInfo || 'غير معروفة'}${lastError ? `، السبب: ${lastError.message || lastError}` : ''}`);
                 }
                 
                 if (response.ok) {
