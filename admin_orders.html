@@ -1383,7 +1383,10 @@
             const offerPrices = {
                 'عرض القطعتين': 1200,
                 'العرض الأقوى': 1700,
-                'عرض العيد الأساسي': 650
+                'عرض العيد الأساسي': 650,
+                'عبوة واحدة': 1100,
+                'عبوتين كارسيل': 1000, // 2000 / 2 = 1000 per unit
+                '3 عبوات كارسيل': 933.33 // 2800 / 3 ≈ 933.33 per unit
             };
 
             let unitPrice = null;
@@ -1394,6 +1397,12 @@
                 unitPrice = offerPrices['العرض الأقوى'];
             } else if (productName.includes('عرض العيد الأساسي')) {
                 unitPrice = offerPrices['عرض العيد الأساسي'];
+            } else if (productName.includes('عبوة واحدة')) {
+                unitPrice = offerPrices['عبوة واحدة'];
+            } else if (productName.includes('عبوتين كارسيل')) {
+                unitPrice = offerPrices['عبوتين كارسيل'];
+            } else if (productName.includes('3 عبوات كارسيل')) {
+                unitPrice = offerPrices['3 عبوات كارسيل'];
             }
 
             if (unitPrice === null) {
@@ -1474,6 +1483,12 @@
                             order.productType = '🔥 Karseell Eid - العرض الأقوى';
                         } else if (productName.includes('عرض العيد الأساسي')) {
                             order.productType = '✨ Karseell Eid - العرض الأساسي';
+                        } else if (productName.includes('عبوة واحدة')) {
+                            order.productType = '🧴 Karseell Mask - عبوة واحدة';
+                        } else if (productName.includes('عبوتين كارسيل')) {
+                            order.productType = '📦 Karseell Mask - عبوتين';
+                        } else if (productName.includes('3 عبوات كارسيل')) {
+                            order.productType = '💎 Karseell Mask - 3 عبوات';
                         } else if (productName.includes('باكدج') || 
                             productName.includes('2×') || 
                             (productName.includes('كريم') && productName.includes('سيروم')) ||
