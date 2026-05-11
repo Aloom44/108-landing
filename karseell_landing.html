@@ -44,6 +44,11 @@
 
   <!-- SweetAlert2 -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- Swiper.js & Fancybox -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" />
 
   <style>
@@ -101,7 +106,7 @@
     }
 
     .promo-bar {
-      background: #14532d;
+      background: #f59e0b;
       color: #fff;
       text-align: center;
       font-weight: 700;
@@ -924,6 +929,64 @@
       background: linear-gradient(180deg, #fff7ed 0%, #fef3c7 60%, #fefce8 100%);
       color: #1f2937;
       padding: 30px 0;
+    }
+
+    .verify-swiper {
+      width: 100%;
+      padding: 20px 0 50px 0 !important;
+    }
+
+    .verify-card {
+      background: #fff;
+      border-radius: 24px;
+      padding: 20px;
+      border: 1.5px solid rgba(212, 175, 55, 0.15);
+      box-shadow: 0 12px 35px rgba(120, 53, 15, 0.06);
+      text-align: center;
+      transition: all 0.4s ease;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .verify-card:hover {
+      border-color: #d4af37;
+      transform: translateY(-5px);
+      box-shadow: 0 15px 45px rgba(120, 53, 15, 0.1);
+    }
+
+    .verify-img-wrapper {
+      width: 100%;
+      aspect-ratio: 1/1;
+      border-radius: 18px;
+      overflow: hidden;
+      margin-bottom: 20px;
+      border: 1px solid rgba(212, 175, 55, 0.1);
+      cursor: zoom-in;
+    }
+
+    .verify-img-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .verify-card:hover .verify-img-wrapper img {
+      transform: scale(1.1);
+    }
+
+    .verify-card h3 {
+      font-size: 19px;
+      font-weight: 800;
+      color: #1c1917;
+      margin-bottom: 10px;
+    }
+
+    .verify-card p {
+      font-size: 14px;
+      color: #57534e;
+      line-height: 1.6;
     }
 
     .order-grid {
@@ -2661,6 +2724,57 @@
     </div>
   </section>
 
+  <!-- VERIFICATION SECTION -->
+  <section class="sec" style="background: linear-gradient(180deg, #fff 0%, #fdfaf5 100%);">
+    <div class="container">
+      <h2 class="sec-title">كيف تتأكد أن منتج Karseell أصلي؟</h2>
+      <p class="sec-sub">تحققي من العلامات التالية لضمان حصولك على النسخة الأصلية</p>
+
+      <div class="swiper swiper-verify verify-swiper">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <div class="verify-card">
+              <div class="verify-img-wrapper">
+                <a href="https://i.ibb.co/3qM56F9/image.png" data-fancybox="verify">
+                  <img src="https://i.ibb.co/3qM56F9/image.png" alt="شعار محفور على الغطاء">
+                </a>
+              </div>
+              <h3>شعار محفور على الغطاء</h3>
+              <p>المنتج الأصلي يحتوي على شعار Karseell محفور بوضوح على الغطاء العلوي.</p>
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="verify-card">
+              <div class="verify-img-wrapper">
+                <a href="https://i.ibb.co/BHr81vBG/image.png" data-fancybox="verify">
+                  <img src="https://i.ibb.co/BHr81vBG/image.png" alt="تاريخ إنتاج وانتهاء واضح">
+                </a>
+              </div>
+              <h3>تاريخ إنتاج وانتهاء واضح</h3>
+              <p>العبوة الأصلية تحتوي على بيانات مطبوعة بوضوح ودقة أسفل المنتج.</p>
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="verify-card">
+              <div class="verify-img-wrapper">
+                <a href="https://i.ibb.co/Z6NFt5Jm/image.png" data-fancybox="verify">
+                  <img src="https://i.ibb.co/Z6NFt5Jm/image.png" alt="باركود و QR أصلي">
+                </a>
+              </div>
+              <h3>باركود و QR أصلي</h3>
+              <p>وجود باركود ورمز QR واضح وقابل للمسح من أهم علامات المنتج الأصلي.</p>
+            </div>
+          </div>
+        </div>
+        <div class="swiper-pagination"></div>
+      </div>
+
+      <div style="text-align: center; margin-top: 40px;">
+        <button class="btn btn-primary" onclick="scrollToOrder()" style="padding: 18px 50px; font-size: 1.3rem; box-shadow: 0 15px 35px rgba(234, 88, 12, 0.3);">اطلبي المنتج الأصلي الآن ✨</button>
+      </div>
+    </div>
+  </section>
+
   <!-- ORDER -->
   <section class="order-section" id="order">
     <div class="container">
@@ -3015,49 +3129,49 @@
       <p class="sec-sub">
         شوفي تجربة العميلات مع مجموعة كارسيل كولاجين
       </p>
-
-      <div class="testimonials">
-        <div class="t-card">
-          <div class="t-header">
-            <div class="t-avatar">م</div>
-            <div class="t-info">
-              <div class="t-name">مروة أحمد</div>
-              <div class="t-meta">القاهرة • شعر مصبوغ</div>
+      <div class="swiper swiper-testimonials">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <div class="verify-card">
+              <div class="verify-img-wrapper">
+                <a href="https://i.ibb.co/vxPV0CVq/Chat-GPT-Image-May-11-2026-07-43-11-PM.png" data-fancybox="testimonials">
+                  <img src="https://i.ibb.co/vxPV0CVq/Chat-GPT-Image-May-11-2026-07-43-11-PM.png" alt="تجربة عميلة 1">
+                </a>
+              </div>
             </div>
           </div>
-          <div class="stars">★★★★★</div>
-          <p>
-            ماشاء الله المنتج روعة! شعري كان تالف جداً من الصبغات والفرد، بس بعد استخدام الماسك والسيروم لمدة أسبوعين بقى ناعم ولامع بشكل ملحوظ. الهيشان قل كتير والشعر بقى أسهل في التصفيف. صراحة مبسوطة جداً وهرشحه لكل صحباتي!
-          </p>
-        </div>
 
-        <div class="t-card">
-          <div class="t-header">
-            <div class="t-avatar">ن</div>
-            <div class="t-info">
-              <div class="t-name">نورهان محمد</div>
-              <div class="t-meta">الإسكندرية • شعر جاف</div>
+          <div class="swiper-slide">
+            <div class="verify-card">
+              <div class="verify-img-wrapper">
+                <a href="https://i.ibb.co/s9dFzCcq/Chat-GPT-Image-May-11-2026-07-38-50-PM.png" data-fancybox="testimonials">
+                  <img src="https://i.ibb.co/s9dFzCcq/Chat-GPT-Image-May-11-2026-07-38-50-PM.png" alt="تجربة عميلة 2">
+                </a>
+              </div>
             </div>
           </div>
-          <div class="stars">★★★★★</div>
-          <p>
-            المنتج ده فعلاً غيّر شعري! كان عندي مشكلة تقصف رهيبة وجفاف، بس الماسك بيرطب بعمق والسيروم بيحمي من الحرارة. النتيجة واضحة من أول استخدام - شعري بقى أكثر حيوية ولمعان. الريحة كمان لطيفة جداً مش زي المنتجات التانية.
-          </p>
-        </div>
 
-        <div class="t-card">
-          <div class="t-header">
-            <div class="t-avatar">ه</div>
-            <div class="t-info">
-              <div class="t-name">هدى حسن</div>
-              <div class="t-meta">الجيزة • صاحبة صالون تجميل</div>
+          <div class="swiper-slide">
+            <div class="verify-card">
+              <div class="verify-img-wrapper">
+                <a href="https://i.ibb.co/bjykkq52/Chat-GPT-Image-May-11-2026-04-17-53-PM.png" data-fancybox="testimonials">
+                  <img src="https://i.ibb.co/bjykkq52/Chat-GPT-Image-May-11-2026-04-17-53-PM.png" alt="تجربة عميلة 3">
+                </a>
+              </div>
             </div>
           </div>
-          <div class="stars">★★★★★</div>
-          <p>
-            كصاحبة صالون وبشتغل مع عميلات كتير، المنتج ده من أفضل المنتجات اللي جربتها! بستخدمه في الصالون مع العميلات وبوصي بيه دايماً. النتائج واضحة وسريعة، خصوصاً للشعر التالف من الصبغات والبروتين. العميلات كلهم راضيين ومعظمهم بيرجعوا يشتروه تاني. منتج موثوق وجودة ممتازة، أنصح بيه بقوة! 💯
-          </p>
+
+          <div class="swiper-slide">
+            <div class="verify-card">
+              <div class="verify-img-wrapper">
+                <a href="https://i.ibb.co/zTFfBLfJ/Chat-GPT-Image-May-11-2026-04-08-30-PM.png" data-fancybox="testimonials">
+                  <img src="https://i.ibb.co/zTFfBLfJ/Chat-GPT-Image-May-11-2026-04-08-30-PM.png" alt="تجربة عميلة 4">
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
+        <div class="swiper-pagination"></div>
       </div>
     </div>
   </section>
@@ -3204,6 +3318,63 @@
       });
       carousel.addEventListener('mouseleave', () => {
         startAutoplay();
+      });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      new Swiper('.swiper-verify', {
+        slidesPerView: 1,
+        spaceBetween: 20,
+        loop: true,
+        observer: true,
+        observeParents: true,
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+        },
+        breakpoints: {
+          640: { slidesPerView: 2 },
+          1024: { slidesPerView: 3 }
+        },
+        autoplay: {
+          delay: 5000,
+          disableOnInteraction: false,
+        }
+      });
+
+      Fancybox.bind('[data-fancybox]', {
+        Toolbar: {
+          display: {
+            left: ['infobar'],
+            middle: [],
+            right: ['iterateZoom', 'close'],
+          },
+        },
+        Images: {
+          zoom: true,
+          pan: true,
+        },
+        showClass: 'fancybox-zoomIn',
+        hideClass: 'fancybox-zoomOut',
+      });
+
+      // Testimonials slider (mobile-first)
+      new Swiper('.swiper-testimonials', {
+        slidesPerView: 1,
+        spaceBetween: 16,
+        loop: true,
+        pagination: {
+          el: '.swiper-testimonials .swiper-pagination',
+          clickable: true,
+        },
+        breakpoints: {
+          640: { slidesPerView: 2 },
+          1024: { slidesPerView: 3 }
+        },
+        autoplay: {
+          delay: 3500,
+          disableOnInteraction: false,
+        }
       });
     });
 
