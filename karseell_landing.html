@@ -2586,6 +2586,42 @@
         padding: 10px 16px;
       }
     }
+
+    /* Additional mobile fixes */
+    @media (max-width: 640px) {
+      html, body {
+        max-width: 100%;
+        overflow-x: hidden;
+      }
+
+      .container { padding: 0 12px; }
+
+      .hero-title { font-size: 1.2rem; line-height: 1.25; }
+      .hero-sub, .sec-sub { font-size: 14px; }
+
+      .price-box {
+        max-width: 100% !important;
+        padding: 10px 12px !important;
+        gap: 10px !important;
+      }
+      .price-box::before { right: -8px; width: 56px; height: 56px; }
+
+      .before-after { grid-template-columns: 1fr !important; gap: 16px !important; }
+      .ba-video { width: 100% !important; height: auto !important; aspect-ratio: 4/3; }
+
+      .product-grid img, .verify-img-wrapper img, .swiper img, .ba-video video {
+        max-width: 100% !important;
+        height: auto !important;
+        display: block !important;
+        object-fit: cover;
+      }
+
+      .swiper-testimonials .verify-card { padding: 6px !important; }
+
+      header { padding: 6px 0; }
+      .nav .btn { padding: 10px 14px; font-size: 14px; }
+      .promo-bar { font-size: 13px; padding: 8px 10px; }
+    }
   </style>
 </head>
 <body>
