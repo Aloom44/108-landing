@@ -1,0 +1,3995 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>جملة ماركت – منتجات أصلية بجودة مضمونة وأسعار تنافسية</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="تسوق أفضل المنتجات الأصلية بجودة مضمونة وأسعار تنافسية مع شحن سريع لجميع المحافظات والدفع عند الاستلام من جملة ماركت."
+  />
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛍️</text></svg>">
+  <link rel="shortcut icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛍️</text></svg>">
+
+  <!-- OG -->
+  <meta property="og:title" content="جملة ماركت – منتجات أصلية بجودة مضمونة" />
+  <meta property="og:description" content="تسوق أفضل المنتجات الأصلية بجودة مضمونة وأسعار تنافسية من جملة ماركت." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://i.ibb.co/fzXzcyzV/Whats-App-Image-2025-11-10-at-03-45-56-5c1b868c.jpg" />
+
+  <!-- Meta Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '25914318858170088');
+  fbq('init', '1664645988274778');
+  fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=25914318858170088&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- End Meta Pixel Code -->
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- Swiper.js & Fancybox -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" />
+
+  <style>
+    :root {
+      --bg: #F8FAFC;
+      --primary: #111827;
+      --primary-dark: #030712;
+      --accent: #D4A43A;
+      --accent-hover: #B8860B;
+      --secondary: #374151;
+      --card-bg: #FFFFFF;
+      --text-main: #111827;
+      --text-muted: #6b7280;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --shadow-soft: 0 8px 25px rgba(0, 0, 0, 0.05);
+      --container: 1100px;
+      --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .container {
+      width: 100%;
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    header {
+      background: #FFFFFF;
+      border-bottom: 1px solid #E5E7EB;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .promo-bar {
+      background: #111827;
+      color: #FFFFFF;
+      text-align: center;
+      font-weight: 700;
+      font-size: 14px;
+      min-height: 45px;
+      padding: 6px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+    }
+
+    .logo {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
+      color: var(--primary);
+    }
+
+    .badge-small {
+      background: var(--accent);
+      color: #fff;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border-radius: 999px;
+      padding: 10px 22px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      outline: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease,
+        background 0.2s ease;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: #fff;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 30px rgba(17, 24, 39, 0.25);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid var(--accent);
+      color: var(--primary);
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hero {
+      background: var(--bg);
+      padding: 30px 0 40px 0;
+      border-bottom: 1px solid #E5E7EB;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: center;
+    }
+
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 16px;
+      border-radius: 999px;
+      background: rgba(212, 164, 58, 0.1);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent-hover);
+      margin-bottom: 16px;
+      border: 1.5px solid var(--accent);
+    }
+
+    .hero-title {
+      font-size: 32px;
+      font-weight: 900;
+      margin-bottom: 12px;
+      line-height: 1.3;
+      color: var(--primary);
+    }
+
+    .hero-title .hero-label {
+      display: inline-block;
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--accent-hover);
+      background: rgba(212, 164, 58, 0.1);
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 8px;
+    }
+
+    .hero-title .hero-highlight {
+      color: var(--accent-hover);
+    }
+
+    .hero-title span {
+      color: var(--accent);
+    }
+
+    .hero-sub {
+      font-size: 15px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+      line-height: 1.7;
+      font-weight: 500;
+    }
+
+    .hero-offer-subtext {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 18px;
+      line-height: 1.7;
+    }
+
+    .hero-offer-subtext span {
+      color: var(--accent);
+      font-weight: 800;
+    }
+
+    .hero-benefits {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .hero-benefits span {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #FFFFFF;
+      padding: 10px 12px;
+      border-radius: 8px;
+      color: var(--primary);
+      border: 1px solid #E5E7EB;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    }
+
+    .hero-benefits i {
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      background: #22c55e;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .hero-cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .hero-trust-line {
+      font-size: 12px;
+      color: #166534;
+      font-weight: 700;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .price-box {
+      background: var(--card-bg);
+      border-radius: var(--radius-md);
+      padding: 12px 20px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 6px 20px rgba(212, 164, 58, 0.15);
+      border: 3px solid var(--accent);
+      position: relative;
+      overflow: hidden;
+      max-width: fit-content;
+    }
+
+    .price-box::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      width: 80px;
+      height: 80px;
+      background: radial-gradient(circle, rgba(212, 164, 58, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .price-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      padding-left: 16px;
+      border-left: 2px solid var(--accent);
+    }
+
+    .price-old {
+      font-size: 12px;
+      color: #9ca3af;
+      text-decoration: line-through;
+      font-weight: 600;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .price-old span {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .price-new {
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--accent);
+      text-shadow: 0 2px 4px rgba(212, 164, 58, 0.15);
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .products-included {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .product-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--bg);
+      padding: 6px 12px;
+      border-radius: 10px;
+      border: 2px solid var(--accent);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    }
+
+    .product-icon {
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .product-text {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--primary);
+      white-space: nowrap;
+      line-height: 1.2;
+    }
+
+    .plus-sign {
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .price-tagline {
+      font-size: 12px;
+      color: var(--secondary);
+      font-weight: 600;
+      margin-top: 4px;
+      line-height: 1.3;
+    }
+
+    .limited {
+      font-size: 11px;
+      color: #dc2626;
+      font-weight: 700;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    .hero-img-card {
+      background: #fff;
+      border-radius: var(--radius-lg);
+      padding: 14px;
+      box-shadow: var(--shadow-soft);
+      position: relative;
+    }
+
+    .hero-img-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      box-shadow: 0 4px 12px rgba(212, 164, 58, 0.3);
+      z-index: 2;
+    }
+
+    .hero-img-card img {
+      border-radius: var(--radius-md);
+      width: 100%;
+      height: auto;
+    }
+
+    /* Carousel Styles */
+    .carousel {
+      position: relative;
+      border-radius: var(--radius-md);
+      height: 450px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fafaf9;
+    }
+
+    .carousel-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .carousel-item {
+      display: none;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .carousel-item.active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .carousel-item img {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: var(--radius-md);
+    }
+
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .carousel-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #d1d5db;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .carousel-dot.active {
+      background: var(--primary);
+      width: 24px;
+      border-radius: 5px;
+    }
+
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.9);
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 18px;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      z-index: 10;
+    }
+
+    .carousel-btn:hover {
+      background: #fff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .carousel-btn.prev {
+      left: 10px;
+    }
+
+    .carousel-btn.next {
+      right: 10px;
+    }
+
+    .sec {
+      padding: 26px 0;
+    }
+
+    .sec-title {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 6px;
+      text-align: center;
+    }
+
+    .sec-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-align: center;
+      margin-bottom: 18px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: var(--radius-md);
+      padding: 14px;
+      box-shadow: var(--shadow-soft);
+      font-size: 13px;
+    }
+
+    .card-badge {
+      font-size: 11px;
+      color: #92400e;
+      margin-bottom: 6px;
+    }
+
+    .card-title {
+      font-weight: 700;
+      margin-bottom: 4px;
+      font-size: 14px;
+    }
+
+    .card ul {
+      padding-right: 18px;
+      margin-top: 6px;
+      color: var(--text-muted);
+    }
+
+    .card ul li {
+      margin-bottom: 4px;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .product-card img {
+      border-radius: 12px;
+      margin-bottom: 8px;
+    }
+
+    .product-name {
+      font-weight: 700;
+      margin-bottom: 2px;
+      font-size: 14px;
+    }
+
+    .product-size {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* Customer Results & Comparison Cards Styles */
+    .comparison-card {
+      background-color: #F8FAFC;
+      border: 1px solid #E5E7EB;
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      box-shadow: var(--shadow-soft);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .comparison-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+      border-color: var(--accent);
+    }
+
+    .comparison-img-container {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/9;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid #E5E7EB;
+    }
+
+    .comparison-img-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .comparison-label {
+      position: absolute;
+      top: 12px;
+      padding: 6px 14px;
+      border-radius: var(--radius-md);
+      font-size: 12px;
+      font-weight: 800;
+      color: #FFFFFF;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      z-index: 10;
+      text-transform: uppercase;
+    }
+
+    .label-before {
+      left: 12px;
+      background: linear-gradient(135deg, #EF4444 0%, #B91C1C 100%); /* Red gradient for Before */
+    }
+
+    .label-after {
+      right: 12px;
+      background: linear-gradient(135deg, #10B981 0%, #047857 100%); /* Green gradient for After */
+    }
+
+    .comparison-details {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      text-align: right;
+    }
+
+    .comparison-details h3 {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .comparison-details p {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .how-steps {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    .how-steps .card {
+      position: relative;
+      padding: 20px;
+      border: 2px solid #E5E7EB;
+      transition: all 0.3s ease;
+    }
+
+    .how-steps .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(212, 164, 58, 0.15);
+      border-color: var(--accent);
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
+      color: #fff;
+      margin-bottom: 10px;
+      font-weight: 700;
+      box-shadow: 0 2px 8px rgba(212, 164, 58, 0.3);
+    }
+
+    .how-steps .card-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: #1f2937;
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+
+    .how-steps .card p {
+      font-size: 14px;
+      line-height: 1.7;
+      color: #4b5563;
+    }
+
+    .testimonials {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .t-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      border: 2px solid #E5E7EB;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .t-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 30px rgba(212, 164, 58, 0.15);
+      border-color: var(--accent);
+    }
+
+    .t-card::before {
+      content: '"';
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      font-size: 45px;
+      color: rgba(212, 164, 58, 0.2);
+      font-family: Georgia, serif;
+      line-height: 1;
+    }
+
+    .t-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .t-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 16px;
+      color: #fff;
+      box-shadow: 0 3px 10px rgba(212, 164, 58, 0.2);
+    }
+
+    .t-info {
+      flex: 1;
+    }
+
+    .t-name {
+      font-weight: 700;
+      font-size: 14px;
+      color: #1f2937;
+      margin-bottom: 2px;
+    }
+
+    .t-meta {
+      font-size: 11px;
+      color: #6b7280;
+    }
+
+    .stars {
+      color: var(--accent);
+      font-size: 14px;
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .t-card p {
+      font-size: 13px;
+      line-height: 1.6;
+      color: #374151;
+      font-style: italic;
+    }
+
+    .faq {
+      max-width: 720px;
+      margin: 0 auto;
+      font-size: 13px;
+    }
+
+    .faq-item {
+      background: #fff;
+      border-radius: var(--radius-md);
+      padding: 0;
+      box-shadow: var(--shadow-soft);
+      margin-bottom: 10px;
+      overflow: hidden;
+      border: 1px solid #e5e7eb;
+      transition: all 0.3s ease;
+    }
+
+    .faq-item:hover {
+      border-color: var(--accent);
+      box-shadow: 0 4px 15px rgba(212, 164, 58, 0.15);
+    }
+
+    .faq-q {
+      font-weight: 600;
+      padding: 14px 16px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+      transition: background 0.2s ease;
+      font-size: 14px;
+      color: #1f2937;
+    }
+
+    .faq-q:hover {
+      background: rgba(212, 164, 58, 0.05);
+    }
+
+    .faq-q::after {
+      content: '▼';
+      font-size: 12px;
+      color: var(--accent);
+      transition: transform 0.3s ease;
+    }
+
+    .faq-item.active .faq-q::after {
+      transform: rotate(180deg);
+    }
+
+    .faq-a {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      font-size: 13px;
+      line-height: 1.7;
+      color: #4b5563;
+    }
+
+    .faq-a-content {
+      padding: 0 16px 14px 16px;
+    }
+
+    .faq-item.active .faq-a {
+      max-height: 1000px;
+    }
+
+    .guarantee {
+      background: #ecfdf5;
+      border-radius: var(--radius-lg);
+      padding: 14px;
+      font-size: 13px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-top: 14px;
+    }
+
+    .order-section {
+      background: linear-gradient(180deg, var(--card-bg) 0%, var(--bg) 100%);
+      color: #1f2937;
+      padding: 30px 0;
+    }
+
+    .verify-swiper {
+      width: 100%;
+      padding: 20px 0 50px 0 !important;
+    }
+
+    .verify-card {
+      background: #fff;
+      border-radius: 24px;
+      padding: 20px;
+      border: 1.5px solid rgba(212, 175, 55, 0.15);
+      box-shadow: 0 12px 35px rgba(120, 53, 15, 0.06);
+      text-align: center;
+      transition: all 0.4s ease;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .verify-card:hover {
+      border-color: #d4af37;
+      transform: translateY(-5px);
+      box-shadow: 0 15px 45px rgba(120, 53, 15, 0.1);
+    }
+
+    .verify-img-wrapper {
+      width: 100%;
+      aspect-ratio: 1/1;
+      border-radius: 18px;
+      overflow: hidden;
+      margin-bottom: 20px;
+      border: 1px solid rgba(212, 175, 55, 0.1);
+      cursor: zoom-in;
+    }
+
+    .verify-img-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .verify-card:hover .verify-img-wrapper img {
+      transform: scale(1.1);
+    }
+
+    .verify-card h3 {
+      font-size: 19px;
+      font-weight: 800;
+      color: #1c1917;
+      margin-bottom: 10px;
+    }
+
+    .verify-card p {
+      font-size: 14px;
+      color: #57534e;
+      line-height: 1.6;
+    }
+
+    .order-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+      gap: 24px;
+      align-items: flex-start;
+    }
+
+    .order-title {
+      font-size: 24px;
+      font-weight: 900;
+      margin-bottom: 8px;
+      color: #1f2937;
+    }
+
+    .order-sub {
+      font-size: 14px;
+      color: #6b7280;
+      margin-bottom: 10px;
+    }
+
+    form {
+      display: grid;
+      gap: 8px;
+      font-size: 13px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 4px;
+      font-weight: 600;
+      color: #374151;
+      font-size: 14px;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 2px solid #e5e7eb;
+      background: #fff;
+      color: #1f2937;
+      font-family: inherit;
+      font-size: 14px;
+      transition: border-color 0.2s ease;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #9ca3af;
+    }
+
+    .order-note {
+      font-size: 12px;
+      color: #6b7280;
+      margin-top: 8px;
+      text-align: center;
+    }
+
+    .order-warning {
+      background: var(--card-bg);
+      border: 3px solid var(--accent);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin: 25px 0;
+      box-shadow: 0 8px 25px rgba(212, 164, 58, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .order-warning::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent) 0%, var(--accent-hover) 50%, var(--accent) 100%);
+      animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    .order-warning-header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 15px;
+      padding: 14px 16px;
+      background: rgba(212, 164, 58, 0.05);
+      border-radius: 10px 10px 0 0;
+      border: 2px solid var(--accent);
+      border-bottom: none;
+      box-shadow: 0 -2px 8px rgba(212, 164, 58, 0.05);
+    }
+
+    .order-warning-icon {
+      font-size: 36px;
+      flex-shrink: 0;
+      line-height: 1;
+      animation: pulse 2s infinite;
+      filter: drop-shadow(0 2px 4px rgba(212, 164, 58, 0.2));
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+    }
+
+    .order-warning-content h4 {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--primary);
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+      line-height: 1.4;
+    }
+
+    .order-warning-body {
+      background: rgba(255, 255, 255, 0.7);
+      padding: 18px;
+      border-radius: 0 0 10px 10px;
+      border: 2px solid var(--accent);
+      border-top: none;
+      box-shadow: 0 4px 12px rgba(212, 164, 58, 0.05);
+    }
+
+    .order-warning-body p {
+      font-size: 14px;
+      color: var(--secondary);
+      line-height: 1.8;
+      margin: 0;
+      font-weight: 500;
+    }
+
+    .order-warning-body p strong {
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .order-warning-note {
+      display: flex;
+      align-items: start;
+      gap: 8px;
+      margin-top: 12px;
+      padding: 10px;
+      background: rgba(239, 68, 68, 0.1);
+      border-radius: 6px;
+      border-right: 3px solid #dc2626;
+    }
+
+    .order-warning-note-icon {
+      font-size: 16px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .order-warning-note p {
+      font-size: 13px;
+      color: #991b1b;
+      margin: 0;
+      font-weight: 600;
+    }
+
+    .offers-section {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .offers-row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .offers-row.offers-eid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .offer-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 20px;
+      border: none;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      text-align: center;
+    }
+
+    .offer-card.featured {
+      background: #f3faf5;
+      border: 1px solid #2e7d32;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+      transform: scale(1.05);
+      order: 2;
+    }
+
+    .offer-card.side {
+      opacity: 0.9;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    .offer-card.entry {
+      order: 1;
+    }
+
+    .offer-card.secondary {
+      order: 3;
+    }
+
+    .offer-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      background: rgba(212, 164, 58, 0.1);
+      color: var(--accent-hover);
+    }
+
+    .offer-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #111827;
+    }
+
+    .offer-value {
+      font-size: 14px;
+      color: #374151;
+      font-weight: 700;
+    }
+
+    .offer-card.selected {
+      border: 2px solid #2e7d32;
+      background: #f3faf5;
+      box-shadow: 0 12px 30px rgba(46, 125, 50, 0.2);
+      transform: scale(1.02);
+    }
+
+    .offer-card.selected::before {
+      content: '✓';
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: #2e7d32;
+      color: white;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 14px;
+      box-shadow: 0 2px 8px rgba(22, 163, 74, 0.4);
+    }
+
+    .offer-price {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .offer-price-old {
+      font-size: 13px;
+      color: #9ca3af;
+      text-decoration: line-through;
+    }
+
+    .offer-price-new {
+      font-size: 32px;
+      font-weight: 900;
+      color: #111827;
+    }
+
+    .offer-save {
+      font-size: 12px;
+      color: #166534;
+      font-weight: 700;
+    }
+
+    .offer-list {
+      list-style: none;
+      display: grid;
+      gap: 6px;
+      padding: 0;
+      margin: 0;
+      font-size: 12px;
+      color: #166534;
+      font-weight: 700;
+    }
+
+    .offer-list li {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      justify-content: center;
+    }
+
+    .offer-cta {
+      width: 100%;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      padding: 12px 18px;
+      border-radius: 999px;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .offer-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(17, 24, 39, 0.25);
+    }
+
+    .offer-features {
+      display: none;
+    }
+
+    .contact-offer {
+      background: var(--card-bg);
+      border: 2px dashed var(--accent);
+      text-align: center;
+      padding: 14px;
+    }
+
+    .contact-offer-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--accent-hover);
+      margin-bottom: 8px;
+    }
+
+    .contact-offer p {
+      font-size: 12px;
+      color: var(--secondary);
+      margin-bottom: 10px;
+    }
+
+    .whatsapp-contact {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #22c55e;
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 13px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .whatsapp-contact:hover {
+      background: #16a34a;
+      transform: scale(1.05);
+    }
+
+    /* Products Grid */
+    .products-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr 1fr;
+      gap: 15px;
+      margin-bottom: 25px;
+      align-items: stretch;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: var(--radius-md);
+      padding: 15px;
+      border: 2px solid #e5e7eb;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .product-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(212, 164, 58, 0.15);
+      border-color: var(--accent);
+    }
+
+    .product-card.popular {
+      border-color: var(--accent);
+      background: var(--card-bg);
+      transform: scale(1.05);
+      box-shadow: 0 12px 35px rgba(212, 164, 58, 0.15);
+      border-width: 3px;
+      z-index: 2;
+    }
+
+    .product-card.selected,
+    .offer-card.selected {
+      border-color: #16a34a;
+      border-width: 3px;
+      background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+      box-shadow: 0 8px 25px rgba(34, 197, 94, 0.3);
+    }
+
+    .product-card.selected::after,
+    .offer-card.selected::after {
+      content: '✓ محدد';
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: #16a34a;
+      color: white;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      z-index: 2;
+    }
+
+    .product-image {
+      width: 100%;
+      height: 180px;
+      overflow: hidden;
+      border-radius: 8px;
+      background: #f9fafb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .product-image img {
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .product-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
+      color: white;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      box-shadow: 0 2px 8px rgba(212, 164, 58, 0.2);
+      z-index: 1;
+    }
+
+    .product-badge.popular-badge {
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
+      animation: productPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes productPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .product-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: #111827;
+      text-align: center;
+    }
+
+    .product-desc {
+      font-size: 13px;
+      color: #6b7280;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    .product-price {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 8px;
+      margin: 5px 0;
+    }
+
+    .product-price .price-old {
+      font-size: 14px;
+      color: #9ca3af;
+      text-decoration: line-through;
+    }
+
+    .product-price .price-new {
+      font-size: 24px;
+      font-weight: 900;
+      color: var(--accent);
+    }
+
+    .product-save {
+      text-align: center;
+      background: rgba(34, 197, 94, 0.15);
+      color: #166534;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .product-btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: auto;
+    }
+
+    .product-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(17, 24, 39, 0.25);
+    }
+
+    .product-btn:active {
+      transform: translateY(0);
+    }
+
+    /* Special Offers Title */
+    .special-offers-title {
+      text-align: center;
+      margin: 30px 0 20px;
+      position: relative;
+    }
+
+    .special-offers-title::before,
+    .special-offers-title::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 30%;
+      height: 2px;
+      background: linear-gradient(to right, transparent, var(--accent), transparent);
+    }
+
+    .special-offers-title::before {
+      left: 0;
+    }
+
+    .special-offers-title::after {
+      right: 0;
+    }
+
+    .special-offers-title span {
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
+      color: white;
+      padding: 10px 25px;
+      border-radius: 25px;
+      font-size: 16px;
+      font-weight: 800;
+      box-shadow: 0 4px 15px rgba(212, 164, 58, 0.3);
+      display: inline-block;
+    }
+
+    .offer-content {
+      font-size: 12px;
+      color: #6b7280;
+      margin: 5px 0;
+      text-align: center;
+    }
+
+    /* Custom Order Box */
+    .custom-order-box {
+      background: linear-gradient(135deg, #fff 0%, #f0fdf4 100%);
+      border: 3px dashed #10b981;
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.1);
+    }
+
+    .custom-icon {
+      font-size: 48px;
+      flex-shrink: 0;
+    }
+
+    .custom-content h3 {
+      font-size: 18px;
+      font-weight: 800;
+      color: #065f46;
+      margin-bottom: 5px;
+    }
+
+    .custom-content p {
+      font-size: 13px;
+      color: #047857;
+      margin-bottom: 10px;
+    }
+
+    .whatsapp-btn {
+      display: inline-block;
+      background: #25d366;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 15px;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 10px rgba(37, 211, 102, 0.3);
+    }
+
+    .whatsapp-btn:hover {
+      background: #1da851;
+      transform: scale(1.05);
+      box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+    }
+
+    .list-check {
+      font-size: 13px;
+      color: #e5e7eb;
+    }
+
+    .list-check li {
+      margin-bottom: 4px;
+    }
+
+    .whatsapp-box {
+      background: #f0fdf4;
+      border-radius: var(--radius-md);
+      padding: 10px 12px;
+      font-size: 13px;
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .whatsapp-btn {
+      background: #22c55e;
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 600;
+    }
+
+    footer {
+      background: #ffffff;
+      border-top: 1px solid #e5e7eb;
+      padding: 24px 0;
+      color: #374151;
+      font-size: 13px;
+    }
+
+    .footer-container {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .footer-brand {
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .footer-dev {
+      font-size: 13px;
+      color: #6b7280;
+      text-align: center;
+      font-weight: 500;
+    }
+
+    .footer-dev a.dev-name {
+      font-weight: 700;
+      color: var(--primary);
+      text-decoration: none;
+      position: relative;
+      padding-bottom: 2px;
+      transition: color 0.3s ease;
+      display: inline-block;
+    }
+
+    .footer-dev a.dev-name::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      transform: scaleX(0);
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background-color: var(--accent);
+      transform-origin: bottom right;
+      transition: transform 0.25s ease-out;
+    }
+
+    .footer-dev a.dev-name:hover {
+      color: var(--accent);
+    }
+
+    .footer-dev a.dev-name:hover::after {
+      transform: scaleX(1);
+      transform-origin: bottom left;
+    }
+
+    .footer-support-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(34, 197, 94, 0.08);
+      border: 1px solid rgba(34, 197, 94, 0.2);
+      color: #16a34a;
+      padding: 6px 14px;
+      border-radius: 99px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      font-size: 12.5px;
+    }
+
+    .footer-support-btn:hover {
+      background: #16a34a;
+      color: #ffffff;
+      border-color: #16a34a;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(22, 163, 74, 0.15);
+    }
+
+    @media (max-width: 768px) {
+      .footer-container {
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        gap: 12px;
+      }
+    }
+
+    .sticky-cta {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(15, 23, 42, 0.98);
+      padding: 8px 12px;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      z-index: 40;
+    }
+
+    .sticky-cta p {
+      font-size: 12px;
+      color: #e5e7eb;
+    }
+
+    .sticky-cta .btn {
+      padding-inline: 16px;
+      font-size: 12px;
+    }
+
+    /* Floating WhatsApp Button */
+    .whatsapp-float {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      left: 25px;
+      z-index: 999;
+      animation: pulse-whatsapp 2s infinite;
+    }
+
+    .whatsapp-float a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+      border-radius: 50%;
+      box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .whatsapp-float a:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 30px rgba(37, 211, 102, 0.6);
+    }
+
+    .whatsapp-float svg {
+      width: 32px;
+      height: 32px;
+      fill: white;
+    }
+
+    @keyframes pulse-whatsapp {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .promo-bar {
+        font-size: 12px;
+        padding: 8px 10px;
+      }
+      .hero-grid,
+      .order-grid,
+      .grid-3,
+      .product-grid,
+      .before-after,
+      .how-steps,
+      .testimonials {
+        grid-template-columns: 1fr;
+      }
+
+      /* Header & Navigation */
+      .nav {
+        padding: 12px 0;
+      }
+
+      .logo img {
+        height: 35px !important;
+      }
+
+      .nav .btn {
+        font-size: 0.9rem !important;
+        padding: 8px 16px !important;
+      }
+
+      /* Hero Section */
+      .hero {
+        padding-top: 12px;
+        padding-bottom: 24px;
+      }
+
+      .hero-grid {
+        display: flex;
+        flex-direction: column-reverse;
+      }
+
+      .hero-kicker {
+        font-size: 13px;
+        padding: 6px 14px;
+        margin-bottom: 12px;
+      }
+
+      .hero-title {
+        font-size: 22px;
+        line-height: 1.3;
+        margin-bottom: 14px;
+      }
+
+      .hero-title .hero-label {
+        font-size: 12px;
+      }
+
+      .hero-title span {
+        font-size: 24px;
+      }
+
+      .hero-sub {
+        font-size: 14px;
+        line-height: 1.6;
+        margin-bottom: 16px;
+      }
+
+      .hero-offer-subtext {
+        font-size: 14px;
+        margin-bottom: 16px;
+      }
+
+      .hero-benefits {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 18px;
+      }
+
+      .hero-benefits span {
+        font-size: 13px;
+        padding: 10px 14px;
+        text-align: right;
+        width: 100%;
+        display: block;
+      }
+
+      .hero-benefits i {
+        font-size: 14px;
+      }
+
+      .cta-group {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .cta-group .btn {
+        width: 100%;
+        font-size: 15px;
+        padding: 14px 20px;
+      }
+
+      /* Price Box */
+      .price-box {
+        padding: 14px;
+        margin-top: 16px;
+      }
+
+      .price-box {
+        padding: 10px 12px;
+        gap: 10px;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .price-section {
+        gap: 2px;
+        padding-left: 10px;
+        padding-bottom: 0;
+        border-left: 2px solid var(--accent);
+        border-bottom: none;
+        width: auto;
+      }
+
+      .price-old {
+        font-size: 10px;
+      }
+
+      .price-old span {
+        font-size: 12px;
+      }
+
+      .price-new {
+        font-size: 22px;
+      }
+
+      .products-included {
+        gap: 6px;
+        flex: 1;
+      }
+
+      .product-item {
+        padding: 5px 8px;
+      }
+
+      .product-icon {
+        font-size: 16px;
+      }
+
+      .product-text {
+        font-size: 9px;
+      }
+
+      .plus-sign {
+        font-size: 16px;
+      }
+
+      .limited {
+        font-size: 9px;
+        width: 100%;
+        text-align: center;
+      }
+
+      .products-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .product-card {
+        padding: 8px;
+      }
+
+      .product-card.popular {
+        transform: scale(1);
+        padding: 10px;
+      }
+
+      .product-image {
+        height: 130px;
+      }
+
+      .product-title {
+        font-size: 15px !important;
+      }
+
+      .product-desc {
+        font-size: 12px;
+      }
+
+      .product-price .price-new {
+        font-size: 20px !important;
+      }
+
+      .product-price .price-old {
+        font-size: 13px !important;
+      }
+
+      .product-card ul {
+        font-size: 11px !important;
+        margin: 6px 0 !important;
+        padding-right: 16px !important;
+      }
+
+      .product-card ul li {
+        margin-bottom: 2px;
+      }
+
+      .product-save {
+        font-size: 10px !important;
+        padding: 2px 6px !important;
+        margin: 6px 0;
+      }
+
+      .product-btn {
+        padding: 9px !important;
+        font-size: 12px !important;
+        margin-top: 8px;
+      }
+
+      .product-badge {
+        font-size: 9px;
+        padding: 4px 8px;
+      }
+
+      .offer-card {
+        padding: 16px;
+      }
+
+      .offers-row.offers-eid {
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+
+      .offer-card.featured {
+        order: 1;
+      }
+
+      .offer-card.secondary {
+        order: 2;
+      }
+
+      .offer-card.entry {
+        order: 3;
+      }
+
+      .offer-title {
+        font-size: 16px;
+        margin-bottom: 6px;
+      }
+
+      .offer-content {
+        font-size: 13px;
+        margin: 6px 0;
+      }
+
+      .offer-price {
+        margin: 8px 0;
+      }
+
+      .offer-price-new {
+        font-size: 30px !important;
+      }
+
+      .offer-price-old {
+        font-size: 12px !important;
+      }
+
+      .offer-save {
+        font-size: 11px !important;
+        padding: 2px 6px !important;
+      }
+
+      .offer-badge {
+        font-size: 10px;
+        padding: 5px 10px;
+      }
+
+      .offer-motivation,
+      .offer-card div[style*="font-size"] {
+        font-size: 12px !important;
+        padding: 6px 8px !important;
+        margin-top: 6px;
+      }
+
+      .order-title {
+        font-size: 20px;
+      }
+
+      .order-sub {
+        font-size: 12px;
+      }
+
+      .product-desc {
+        font-size: 12px;
+      }
+
+      .product-price .price-new {
+        font-size: 20px;
+      }
+
+      .product-card ul {
+        font-size: 11px !important;
+        margin: 8px 0 !important;
+      }
+
+      .product-btn {
+        padding: 10px;
+        font-size: 13px;
+      }
+
+      .offer-card {
+        padding: 12px;
+      }
+
+      .offer-title {
+        font-size: 15px;
+      }
+
+      .offer-price-new {
+        font-size: 20px !important;
+      }
+
+      .offer-card ul,
+      .offer-card div[style*="font-size: 13px"] {
+        font-size: 11px !important;
+      }
+
+      .price-urgency {
+        font-size: 12px;
+        padding: 6px 10px;
+        margin-top: 8px;
+      }
+
+      /* Carousel */
+      .carousel {
+        height: 350px;
+        margin-top: 0;
+        margin-bottom: 0;
+        padding: 0;
+        background: #fafaf9;
+        width: 100%;
+      }
+
+      .carousel-inner {
+        height: 100%;
+        width: 100%;
+      }
+
+      .carousel-item {
+        height: 100%;
+        width: 100%;
+      }
+
+      .carousel-item img {
+        max-height: 100%;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
+      .hero-img-card {
+        padding: 10px;
+        background: #fff;
+        box-shadow: var(--shadow-soft);
+        border-radius: var(--radius-lg);
+        margin-bottom: 20px;
+        width: 100%;
+      }
+
+      .carousel-dots {
+        bottom: 10px;
+      }
+
+      .carousel-dot {
+        width: 8px;
+        height: 8px;
+      }
+
+      .carousel-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 16px;
+      }
+
+      /* Sections */
+      .sec {
+        padding: 28px 0;
+      }
+
+      .sec-title {
+        font-size: 24px;
+        margin-bottom: 10px;
+      }
+
+      .sec-sub {
+        font-size: 14px;
+        margin-bottom: 20px;
+      }
+
+      /* Product Cards */
+      .p-card {
+        padding: 16px;
+      }
+
+      .p-card img {
+        max-height: 180px;
+      }
+
+      .p-card h3 {
+        font-size: 18px;
+        margin: 12px 0 8px;
+      }
+
+      .p-card p {
+        font-size: 13px;
+      }
+
+      /* Before/After Video */
+      .before-after-video {
+        width: 100%;
+        height: 280px;
+        margin-bottom: 20px;
+      }
+
+      .before-after-content h3 {
+        font-size: 20px;
+        margin-bottom: 12px;
+      }
+
+      .before-after-content p {
+        font-size: 14px;
+      }
+
+      /* Usage Steps */
+      .how-steps {
+        gap: 12px;
+      }
+
+      .step-card {
+        padding: 16px;
+      }
+
+      .step-num {
+        font-size: 15px;
+        padding: 4px 12px;
+      }
+
+      .step-card h3 {
+        font-size: 16px;
+        margin: 10px 0 8px;
+      }
+
+      .step-card p {
+        font-size: 13px;
+      }
+
+      /* Testimonials */
+      .testimonials {
+        gap: 12px;
+      }
+
+      .t-card {
+        padding: 14px;
+      }
+
+      .t-avatar {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+      }
+
+      .t-name {
+        font-size: 13px;
+      }
+
+      .t-location {
+        font-size: 11px;
+      }
+
+      .t-stars {
+        font-size: 12px;
+      }
+
+      .t-card p {
+        font-size: 12px;
+        line-height: 1.5;
+      }
+
+      /* Order Section */
+      .order-section {
+        padding: 24px 0 60px;
+      }
+
+      .order-title {
+        font-size: 22px;
+        margin-bottom: 16px;
+      }
+
+      .order-grid {
+        gap: 20px;
+      }
+
+      /* Offers */
+      .offers-section {
+        gap: 10px;
+      }
+
+      .offers-row {
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+
+      /* Products Grid Mobile */
+      .products-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+
+      .product-card {
+        padding: 15px;
+      }
+
+      .product-image {
+        height: 200px;
+      }
+
+      .product-title {
+        font-size: 16px;
+      }
+
+      .product-desc {
+        font-size: 12px;
+      }
+
+      .product-price .price-new {
+        font-size: 22px;
+      }
+
+      .product-btn {
+        padding: 12px 18px;
+        font-size: 14px;
+      }
+
+      .special-offers-title span {
+        font-size: 14px;
+        padding: 8px 20px;
+      }
+
+      .special-offers-title::before,
+      .special-offers-title::after {
+        width: 20%;
+      }
+
+      .custom-order-box {
+        flex-direction: column;
+        text-align: center;
+        padding: 15px;
+      }
+
+      .custom-icon {
+        font-size: 40px;
+      }
+
+      .custom-content h3 {
+        font-size: 16px;
+      }
+
+      .custom-content p {
+        font-size: 12px;
+      }
+
+      .whatsapp-btn {
+        font-size: 14px;
+        padding: 10px 18px;
+      }
+
+      .offer-card {
+        padding: 14px 16px;
+      }
+
+      .offer-badge {
+        font-size: 10px;
+        padding: 4px 10px;
+      }
+
+      .offer-title {
+        font-size: 17px;
+        margin-bottom: 8px;
+      }
+
+      .offer-price {
+        margin-bottom: 6px;
+      }
+
+      .offer-price-old {
+        font-size: 13px;
+      }
+
+      .offer-price-new {
+        font-size: 22px;
+      }
+
+      .offer-save {
+        font-size: 11px;
+        padding: 4px 10px;
+      }
+
+      .offer-motivation {
+        font-size: 11px;
+        padding: 8px 12px;
+        margin-top: 8px;
+      }
+
+      .contact-offer-title {
+        font-size: 14px;
+      }
+
+      .contact-offer p {
+        font-size: 12px;
+      }
+
+      .whatsapp-contact {
+        font-size: 16px;
+        padding: 10px 16px;
+      }
+
+      /* Order Form */
+      #orderForm label {
+        font-size: 13px;
+        margin-bottom: 6px;
+      }
+
+      #orderForm input,
+      #orderForm select,
+      #orderForm textarea {
+        font-size: 14px;
+        padding: 10px 12px;
+      }
+
+      #orderForm .btn {
+        font-size: 16px;
+        padding: 14px 24px;
+        margin-top: 16px;
+      }
+
+      .order-note {
+        font-size: 11px;
+        margin-top: 10px;
+      }
+
+      .order-warning {
+        padding: 16px;
+        margin: 20px 0;
+      }
+
+      .order-warning-header {
+        gap: 12px;
+        margin-bottom: 0;
+        padding: 12px 14px;
+      }
+
+      .order-warning-icon {
+        font-size: 30px;
+      }
+
+      .order-warning-content h4 {
+        font-size: 14.5px;
+        letter-spacing: 0.3px;
+        line-height: 1.5;
+      }
+
+      .order-warning-body {
+        padding: 14px;
+      }
+
+      .order-warning-body p {
+        font-size: 13px;
+        line-height: 1.7;
+      }
+
+      .order-warning-note {
+        padding: 8px;
+        margin-top: 10px;
+      }
+
+      .order-warning-note p {
+        font-size: 12px;
+      }
+
+      /* Track Order Mobile Styles */
+      .track-order-form {
+        padding: 20px !important;
+      }
+
+      .track-search-container {
+        flex-direction: column !important;
+        gap: 0 !important;
+      }
+
+      .track-search-container > div:first-child {
+        width: 100%;
+      }
+
+      .track-search-container > div:last-child {
+        width: 100%;
+        margin-top: 16px;
+      }
+
+      .track-search-btn {
+        width: 100% !important;
+        height: auto !important;
+        padding: 16px !important;
+        font-size: 17px !important;
+      }
+
+      .track-actions-grid {
+        gap: 10px !important;
+      }
+
+      .track-action-btn {
+        padding: 14px 8px !important;
+        font-size: 14px !important;
+      }
+
+      .track-action-btn span:first-child {
+        font-size: 16px !important;
+      }
+
+      #trackResults,
+      #trackNoResults {
+        margin-top: 20px !important;
+      }
+
+      #orderDetails {
+        padding: 14px !important;
+        font-size: 14px;
+      }
+
+      /* Order Form Separator */
+      .order-form-separator {
+        display: block;
+        text-align: center;
+        margin: 25px 0 20px;
+        position: relative;
+      }
+ 
+      .order-form-separator::before,
+      .order-form-separator::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        width: 35%;
+        height: 2px;
+        background: linear-gradient(to right, transparent, var(--accent), transparent);
+      }
+ 
+      .order-form-separator::before {
+        left: 0;
+      }
+ 
+      .order-form-separator::after {
+        right: 0;
+      }
+ 
+      .order-form-separator span {
+        background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
+        color: white;
+        padding: 10px 24px;
+        border-radius: 25px;
+        font-size: 16px;
+        font-weight: 700;
+        box-shadow: 0 4px 15px rgba(212, 164, 58, 0.3);
+        display: inline-block;
+      }
+
+      /* FAQ */
+      .faq {
+        font-size: 13px;
+      }
+
+      .faq-item {
+        margin-bottom: 10px;
+      }
+
+      .faq-q {
+        font-size: 13px;
+        padding: 12px 14px;
+      }
+
+      .faq-q::after {
+        font-size: 11px;
+      }
+
+      .faq-a-content {
+        font-size: 12px;
+        line-height: 1.6;
+        padding: 12px 14px;
+      }
+
+      .faq-a-content img {
+        max-width: 200px !important;
+        margin-top: 8px;
+      }
+
+      /* Footer */
+      footer {
+        padding: 22px 18px 28px;
+        font-size: 13px;
+        line-height: 1.7;
+        letter-spacing: 0.2px;
+      }
+
+      /* WhatsApp Float */
+      .whatsapp-float {
+        left: 15px;
+      }
+
+      .whatsapp-float a {
+        width: 50px;
+        height: 50px;
+      }
+
+      .whatsapp-float svg {
+        width: 26px;
+        height: 26px;
+      }
+
+      .order-section {
+        padding-bottom: 54px;
+      }
+
+      .sticky-cta {
+        display: flex;
+      }
+
+      .sticky-cta p {
+        font-size: 11px;
+      }
+
+      .sticky-cta .btn {
+        font-size: 13px;
+        padding: 10px 16px;
+      }
+    }
+
+    /* Additional mobile fixes */
+    @media (max-width: 640px) {
+      html, body {
+        max-width: 100%;
+        overflow-x: hidden;
+      }
+
+      .container { padding: 0 12px; }
+
+      .hero-title { font-size: 1.2rem; line-height: 1.25; }
+      .hero-sub, .sec-sub { font-size: 14px; }
+
+      .price-box {
+        max-width: 100% !important;
+        padding: 10px 12px !important;
+        gap: 10px !important;
+      }
+      .price-box::before { right: -8px; width: 56px; height: 56px; }
+
+      .product-grid img, .verify-img-wrapper img, .swiper img {
+        max-width: 100% !important;
+        height: auto !important;
+        display: block !important;
+        object-fit: cover;
+      }
+
+      .swiper-testimonials .verify-card { padding: 6px !important; }
+
+      header { padding: 6px 0; }
+      .nav .btn { padding: 10px 14px; font-size: 14px; }
+      .promo-bar { font-size: 13px; padding: 8px 10px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="promo-bar">🚚 شحن سريع لجميع المحافظات | 💳 الدفع عند الاستلام | ⭐ منتجات أصلية مضمونة</div>
+  <!-- HEADER -->
+  <header>
+    <div class="container">
+      <nav class="nav">
+        <div class="logo">
+          <h2 style="font-size: 22px; font-weight: 800; color: var(--primary); letter-spacing: -0.5px; line-height: 1.2;">جملة ماركت</h2>
+          <span style="font-size: 11px; color: var(--text-muted); font-weight: 600; margin-top: -2px;">متجر المنتجات الأصلية</span>
+        </div>
+        <button class="btn btn-primary" onclick="scrollToOrder()" style="font-size: 1.1rem; padding: 12px 28px;">
+          تسوق الآن
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div>
+          <div class="hero-kicker">
+            ✨ جملة ماركت
+          </div>
+          <h1 class="hero-title">
+            <span class="hero-label">⭐ منتجات مختارة بعناية</span><br>
+            منتجات أصلية بجودة مضمونة وأسعار تنافسية
+          </h1>
+          <p class="hero-sub">
+            نوفر منتجات عالية الجودة بعناية لضمان أفضل تجربة شراء مع خدمة عملاء مميزة وشحن سريع وآمن.
+          </p>
+          <p class="hero-offer-subtext">
+            تسوق أفضل المنتجات مع شحن سريع لجميع المحافظات والدفع عند الاستلام
+          </p>
+
+          <div class="hero-benefits">
+            <span><i>✔</i> <strong>منتجات أصلية</strong> مضمونة 100%</span>
+            <span><i>✔</i> <strong>شحن سريع</strong> لجميع المحافظات</span>
+            <span><i>✔</i> <strong>الدفع عند الاستلام</strong> بعد المعاينة</span>
+            <span><i>✔</i> <strong>خدمة عملاء</strong> مميزة طوال اليوم</span>
+          </div>
+
+          <div class="hero-cta-row">
+            <button class="btn btn-primary" onclick="scrollToOrder()">
+              تسوق الآن 🛍️
+            </button>
+            <button
+              class="btn btn-outline"
+              onclick="scrollToFaq()"
+              type="button"
+            >
+              ❓ عندك أسئلة؟ اقرأ هنا
+            </button>
+          </div>
+          <div class="hero-trust-line">
+            ✔ الدفع عند الاستلام ✔ معاينة قبل الدفع ✔ شحن سريع وآمن
+          </div>
+
+        </div>
+
+        <div class="hero-img-card">
+          <div class="hero-img-badge">⭐ الأكثر مبيعاً</div>
+          <div class="carousel" id="heroCarousel">
+            <button class="carousel-btn prev" onclick="changeSlide(-1)" aria-label="Previous">❮</button>
+            <button class="carousel-btn next" onclick="changeSlide(1)" aria-label="Next">❯</button>
+            
+            <div class="carousel-inner" id="carouselInner">
+              <div class="carousel-item active">
+                <img
+                  src="https://i.ibb.co/Y4bnRN4z/karseell-collagen-hair-maskhair-oil-set-8.png"
+                  alt="مجموعة كارسيل كولاجين ماسك وسيروم"
+                />
+              </div>
+              <div class="carousel-item">
+                <img
+                  src="https://i.ibb.co/fzXzcyzV/Whats-App-Image-2025-11-10-at-03-45-56-5c1b868c.jpg"
+                  alt="كارسيل كولاجين - صورة المنتج"
+                />
+              </div>
+              <div class="carousel-item">
+                <img
+                  src="https://i.ibb.co/fzvKjnzm/71-Jl0-PLe7s-L-768x1024.png"
+                  alt="كارسيل كولاجين - تفاصيل المنتج"
+                />
+              </div>
+            </div>
+          </div>
+          
+          <div class="carousel-dots" id="carouselDots"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CUSTOMER RESULTS SECTION -->
+  <section class="sec" id="results" style="background-color: #FFFFFF; padding: 60px 0;">
+    <div class="container">
+      <!-- Social Proof Indicators -->
+      <div style="display: flex; justify-content: center; gap: 16px; margin-bottom: 16px; flex-wrap: wrap;">
+        <span style="font-size: 14px; font-weight: 700; color: var(--accent-hover); background: rgba(212, 164, 58, 0.08); padding: 6px 16px; border-radius: 999px; border: 1.5px solid var(--accent);">⭐ نتائج حقيقية</span>
+        <span style="font-size: 14px; font-weight: 700; color: var(--accent-hover); background: rgba(212, 164, 58, 0.08); padding: 6px 16px; border-radius: 999px; border: 1.5px solid var(--accent);">⭐ تقييمات إيجابية</span>
+        <span style="font-size: 14px; font-weight: 700; color: var(--accent-hover); background: rgba(212, 164, 58, 0.08); padding: 6px 16px; border-radius: 999px; border: 1.5px solid var(--accent);">⭐ عملاء راضون</span>
+      </div>
+
+      <h2 class="sec-title" style="font-size: 32px; font-weight: 900; text-align: center; color: var(--primary); margin-bottom: 12px;">نتائج وتجارب العملاء</h2>
+      <p class="sec-sub" style="font-size: 16px; font-weight: 500; text-align: center; color: var(--text-muted); margin-bottom: 40px;">
+        شاهد بعض النتائج والتجارب الحقيقية بعد استخدام المنتجات
+      </p>
+
+      <!-- Swiper Slider Container -->
+      <div class="swiper swiper-results results-swiper" style="padding-bottom: 50px;">
+        <div class="swiper-wrapper">
+          
+          <!-- Card 1: Restoration -->
+          <div class="swiper-slide">
+            <div class="comparison-card">
+              <div class="comparison-img-container">
+                <img src="./hair_comparison_1.png" alt="تجربة علاج وترميم الشعر">
+                <div class="comparison-label label-before">قبل</div>
+                <div class="comparison-label label-after">بعد</div>
+              </div>
+              <div class="comparison-details">
+                <h3>ترميم الشعر وتنعيم الهيشان</h3>
+                <p>تغير ملموس من شعر متقصف وهايش لشعر ناعم، انسيابي، وصحي من الاستخدام الأول.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: Straightening -->
+          <div class="swiper-slide">
+            <div class="comparison-card">
+              <div class="comparison-img-container">
+                <img src="./hair_comparison_2.png" alt="تجربة فرد وتنعيم الشعر المجعد">
+                <div class="comparison-label label-before">قبل</div>
+                <div class="comparison-label label-after">بعد</div>
+              </div>
+              <div class="comparison-details">
+                <h3>فرد الشعر المجعد وتنعيم الهيشان</h3>
+                <p>علاج متكامل يفرد خصلات الشعر المجعدة ويقضي على الهيشان ليمنحكِ شعراً ناعماً كالحرير.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <!-- Pagination -->
+        <div class="swiper-pagination" style="bottom: 15px;"></div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ORDER -->
+  <section class="order-section" id="order">
+    <div class="container">
+      <div class="order-grid">
+        <div class="offers-section">
+          <h2 class="order-title">اختاري العرض المناسب ليكي</h2>
+          <p class="order-sub" style="color: #6b7280; margin-bottom: 20px;">
+            كل العروض شاملة الشحن مع إمكانية الدفع عند الاستلام
+          </p>
+
+          <div style="text-align: center; margin-bottom: 18px;">
+            <div style="font-size: 15px; font-weight: 800; color: var(--primary);">🔥 عرض خاص لفترة محدودة</div>
+            <div style="font-size: 13px; font-weight: 700; color: var(--accent-hover); margin-top: 4px;">⏳ الكمية محدودة</div>
+          </div>
+
+          <div class="offers-row offers-eid">
+            <div class="offer-card featured" onclick="selectOffer('عرض القطعتين - 2 كريم + 2 سيرم', 1200, 0)">
+              <span class="offer-badge">👑 الأكثر طلبًا</span>
+              <div class="offer-title">عرض القطعتين</div>
+              <div class="offer-value">احصلي على 2 كريم + 2 سيروم بسعر خاص</div>
+              <div class="offer-save">توفير يصل إلى 400 جنيه</div>
+              <div class="offer-price">
+                <span class="offer-price-old">1600 جنيه</span>
+                <span class="offer-price-new">1200 جنيه</span>
+              </div>
+              <ul class="offer-list">
+                <li>✔ شحن مجاني</li>
+                <li>✔ الدفع عند الاستلام</li>
+                <li>✔ معاينة قبل الدفع</li>
+              </ul>
+              <button class="offer-cta">اطلبي الآن</button>
+            </div>
+
+            <div class="offer-card side secondary" onclick="selectOffer('العرض الأقوى - 3 كريم + 3 سيرم', 1700, 0)">
+              <span class="offer-badge">🔥 عرض خاص</span>
+              <div class="offer-title">العرض الأقوى</div>
+              <div class="offer-value">احصلي على 3 كريم + 3 سيروم بسعر خاص</div>
+              <div class="offer-save">توفير يصل إلى 700 جنيه</div>
+              <div class="offer-price">
+                <span class="offer-price-old">2400 جنيه</span>
+                <span class="offer-price-new">1700 جنيه</span>
+              </div>
+              <ul class="offer-list">
+                <li>✔ شحن مجاني</li>
+                <li>✔ الدفع عند الاستلام</li>
+                <li>✔ معاينة قبل الدفع</li>
+              </ul>
+              <button class="offer-cta">اطلبي الآن</button>
+            </div>
+
+            <div class="offer-card side entry" onclick="selectOffer('العرض الأساسي - كريم + سيروم', 650, 0)">
+              <span class="offer-badge">🔥 عرض خاص</span>
+              <div class="offer-title">العرض الأساسي</div>
+              <div class="offer-value">احصلي على كريم + سيروم بسعر خاص</div>
+              <div class="offer-save">توفير يصل إلى 150 جنيه</div>
+              <div class="offer-price">
+                <span class="offer-price-old">800 جنيه</span>
+                <span class="offer-price-new">650 جنيه</span>
+              </div>
+              <ul class="offer-list">
+                <li>✔ شحن مجاني</li>
+                <li>✔ الدفع عند الاستلام</li>
+                <li>✔ معاينة قبل الدفع</li>
+              </ul>
+              <button class="offer-cta">اطلبي الآن</button>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="order-form-separator">
+            <span>🛍️ اطلب الآن</span>
+          </div>
+
+          <form id="orderForm">
+            <!-- Hidden inputs للعرض المختار -->
+            <input type="hidden" id="offer_type" name="offer_type">
+            <input type="hidden" id="offer_price" name="offer_price">
+            <input type="hidden" id="base_price" name="base_price">
+            
+            <!-- رسالة تأكيد العرض المختار -->
+            <div id="selectedOfferDisplay" style="display: none; background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border: 3px solid #16a34a; border-radius: 12px; padding: 16px; margin-bottom: 20px; box-shadow: 0 8px 25px rgba(22, 163, 74, 0.3); animation: slideDown 0.4s ease;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <span style="font-size: 32px;">✅</span>
+                <div style="flex: 1;">
+                  <div style="font-size: 13px; color: #047857; font-weight: 700; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px;">تم اختيار العرض:</div>
+                  <div id="offerNameDisplay" style="font-size: 17px; font-weight: 900; color: #065f46; margin-bottom: 2px;"></div>
+                  <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                    <div id="offerPriceDisplay" style="font-size: 22px; font-weight: 900; color: #16a34a;"></div>
+                    <div id="shippingInfo" style="font-size: 12px; color: #047857; background: rgba(16, 185, 129, 0.1); padding: 4px 10px; border-radius: 6px; font-weight: 600;">+ 50 ج.م شحن</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div>
+              <label for="quantity">الكمية</label>
+              <div style="display: flex; align-items: center; gap: 8px; max-width: 200px; margin: 0 auto;">
+                <button type="button" onclick="decreaseQuantity()" style="background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; border: none; border-radius: 8px; width: 45px; height: 45px; font-size: 24px; font-weight: 700; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(17, 24, 39, 0.25);" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                  −
+                </button>
+                <input
+                  type="number"
+                  id="quantity"
+                  name="quantity"
+                  min="1"
+                  value="1"
+                  required
+                  readonly
+                  style="text-align: center; font-weight: 800; font-size: 20px; flex: 1; border: 3px solid var(--accent); border-radius: 8px; padding: 10px; background: white; color: var(--accent);"
+                />
+                <button type="button" onclick="increaseQuantity()" style="background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%); color: white; border: none; border-radius: 8px; width: 45px; height: 45px; font-size: 24px; font-weight: 700; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(212, 164, 58, 0.25);" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                  +
+                </button>
+              </div>
+              <div style="font-size: 11px; color: #6b7280; margin-top: 6px; text-align: center;">📦 الشحن مجاني على جميع العروض لفترة محدودة</div>
+            </div>
+            
+            <div>
+              <label for="name">الاسم الكامل</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                required
+                placeholder="اكتبي اسمك كما هو في بطاقة الاستلام"
+              />
+            </div>
+            <div>
+              <label for="phone">رقم الموبايل الأساسي</label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                required
+                placeholder="01xxxxxxxxx"
+              />
+            </div>
+            <div>
+              <label for="phone2">رقم موبايل بديل (اختياري)</label>
+              <input
+                type="tel"
+                id="phone2"
+                name="phone2"
+                placeholder="01xxxxxxxxx"
+              />
+            </div>
+            <div>
+              <label for="governorate">المحافظة</label>
+              <select id="governorate" name="governorate" required>
+                <option value="">اختاري المحافظة</option>
+                <option value="القاهرة">القاهرة</option>
+                <option value="الجيزة">الجيزة</option>
+                <option value="الإسكندرية">الإسكندرية</option>
+                <option value="الدقهلية">الدقهلية</option>
+                <option value="الشرقية">الشرقية</option>
+                <option value="القليوبية">القليوبية</option>
+                <option value="البحيرة">البحيرة</option>
+                <option value="الغربية">الغربية</option>
+                <option value="المنوفية">المنوفية</option>
+                <option value="كفر الشيخ">كفر الشيخ</option>
+                <option value="دمياط">دمياط</option>
+                <option value="بورسعيد">بورسعيد</option>
+                <option value="الإسماعيلية">الإسماعيلية</option>
+                <option value="السويس">السويس</option>
+                <option value="المنيا">المنيا</option>
+                <option value="أسيوط">أسيوط</option>
+                <option value="سوهاج">سوهاج</option>
+                <option value="قنا">قنا</option>
+                <option value="أسوان">أسوان</option>
+                <option value="الأقصر">الأقصر</option>
+              </select>
+            </div>
+            <div>
+              <label for="address">العنوان بالتفصيل</label>
+              <textarea
+                id="address"
+                name="address"
+                rows="2"
+                required
+                placeholder="الشارع، رقم البيت / العمارة، العلامة المميزة"
+              ></textarea>
+            </div>
+
+            <!-- رسالة تأكيد العرض المختار -->
+            <div id="selectedOfferDisplay" style="display: none; background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border: 3px solid #16a34a; border-radius: 12px; padding: 16px; margin-bottom: 20px; box-shadow: 0 8px 25px rgba(22, 163, 74, 0.3); animation: slideDown 0.4s ease;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <span style="font-size: 32px;">✅</span>
+                <div style="flex: 1;">
+                  <div style="font-size: 13px; color: #047857; font-weight: 700; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px;">تم اختيار العرض:</div>
+                  <div id="offerNameDisplay" style="font-size: 17px; font-weight: 900; color: #065f46; margin-bottom: 2px;"></div>
+                  <div id="offerPriceDisplay" style="font-size: 22px; font-weight: 900; color: #16a34a;"></div>
+                </div>
+              </div>
+            </div>
+            
+            <style>
+              @keyframes slideDown {
+                from {
+                  opacity: 0;
+                  transform: translateY(-20px);
+                }
+                to {
+                  opacity: 1;
+                  transform: translateY(0);
+                }
+              }
+            </style>
+            <div>
+              <label for="notes">ملاحظات إضافية (اختياري)</label>
+              <textarea
+                id="notes"
+                name="notes"
+                rows="2"
+                placeholder="مواعيد الاستلام المفضلة، تعليمات خاصة، وغير ذلك..."
+              ></textarea>
+            </div>
+
+            <div class="order-warning">
+              <div class="order-warning-header">
+                <div class="order-warning-icon">⚠️</div>
+                <div class="order-warning-content">
+                  <h4>💚 وصولك للطلب يكمّل الفرحة.. شكراً لثقتك</h4>
+                </div>
+              </div>
+              <div class="order-warning-body">
+                <p>
+                  بنجهز طلبك بكل حب علشان يوصل بأفضل حالة 💚
+                </p>
+                <p style="margin-top: 10px;">
+                  لو كنتي جاهزة للاستلام، دوسي تأكيد وهنبقى معاكي خطوة بخطوة.
+                </p>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+              تأكيد طلبي الآن
+            </button>
+
+            <div class="order-note">
+              بالضغط على "تأكيد طلبي" أنتِ توافقين على تواصل فريق خدمة العملاء
+              معكِ لتأكيد البيانات.
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRACK ORDER SECTION -->
+  <section class="sec" style="background: linear-gradient(135deg, var(--card-bg) 0%, var(--bg) 100%); border-top: 1px solid #E5E7EB; border-bottom: 1px solid #E5E7EB;">
+    <div class="container">
+      <h2 class="sec-title" style="color: var(--primary);">🔍 تتبع طلبك</h2>
+      <p class="sec-sub" style="color: var(--text-muted);">
+        ادخل رقم الهاتف للاطلاع على بيانات طلبك
+      </p>
+
+      <div style="max-width: 600px; margin: 0 auto;">
+        <div class="form-wrapper" style="background: white; border-radius: 16px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);">
+          <div class="track-order-form" style="padding: 30px;">
+            <!-- Search Box -->
+            <div class="track-search-container" style="display: flex; gap: 12px; align-items: stretch;">
+              <div style="flex: 1;">
+                <label for="trackPhone" style="display: block; margin-bottom: 8px; font-weight: 700; color: var(--primary); font-size: 15px;">
+                  📱 رقم الهاتف
+                </label>
+                <input
+                  type="tel"
+                  id="trackPhone"
+                  placeholder="01234567890"
+                  style="width: 100%; padding: 16px; border: 2px solid var(--accent); border-radius: 10px; font-size: 17px; text-align: center; font-weight: 700; transition: all 0.3s; box-shadow: 0 2px 8px rgba(212, 164, 58, 0.1);"
+                  maxlength="11"
+                  onfocus="this.style.borderColor='var(--accent-hover)'; this.style.boxShadow='0 4px 12px rgba(212, 164, 58, 0.25)';"
+                  onblur="this.style.borderColor='var(--accent)'; this.style.boxShadow='0 2px 8px rgba(212, 164, 58, 0.1)';"
+                />
+              </div>
+              
+              <div style="display: flex; align-items: flex-end;">
+                <button 
+                  type="button" 
+                  onclick="trackOrder()"
+                  class="track-search-btn"
+                  style="padding: 16px 24px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; border: none; border-radius: 10px; font-weight: 800; font-size: 16px; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 15px rgba(17, 24, 39, 0.25); white-space: nowrap; height: 58px;"
+                  onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(17, 24, 39, 0.3)';"
+                  onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(17, 24, 39, 0.25)';"
+                >
+                  🔍 بحث
+                </button>
+              </div>
+            </div>
+
+            <!-- Order Results -->
+            <div id="trackResults" style="display: none; margin-top: 30px;">
+              <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border: 3px solid #16a34a; border-radius: 12px; padding: 20px; margin-bottom: 20px;">
+                <h3 style="margin: 0 0 15px 0; color: #065f46; font-size: 18px; font-weight: 800; text-align: center;">
+                  ✅ تم العثور على طلبك
+                </h3>
+                <div id="orderDetails" style="background: white; padding: 16px; border-radius: 8px; margin-bottom: 15px;">
+                  <!-- Order details will be inserted here -->
+                </div>
+
+                <div class="track-actions-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 15px;">
+                  <button 
+                    onclick="requestEditOrder()"
+                    class="track-action-btn"
+                    style="padding: 16px 12px; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; border: none; border-radius: 10px; font-weight: 800; font-size: 15px; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3); display: flex; align-items: center; justify-content: center; gap: 6px;"
+                    onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(37, 99, 235, 0.5)';"
+                    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(37, 99, 235, 0.3)';"
+                  >
+                    <span style="font-size: 18px;">✏️</span>
+                    <span>تعديل</span>
+                  </button>
+                  
+                  <button 
+                    onclick="requestCancelOrder()"
+                    class="track-action-btn"
+                    style="padding: 16px 12px; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; border: none; border-radius: 10px; font-weight: 800; font-size: 15px; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3); display: flex; align-items: center; justify-content: center; gap: 6px;"
+                    onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(220, 38, 38, 0.5)';"
+                    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(220, 38, 38, 0.3)';"
+                  >
+                    <span style="font-size: 18px;">❌</span>
+                    <span>إلغاء</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div id="trackNoResults" style="display: none; margin-top: 30px;">
+              <div style="background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%); border: 3px solid #ef4444; border-radius: 12px; padding: 20px; text-align: center;">
+                <div style="font-size: 48px; margin-bottom: 10px;">😕</div>
+                <p style="margin: 0; color: #991b1b; font-weight: 700; font-size: 16px;">
+                  لم يتم العثور على طلب بهذا الرقم
+                </p>
+                <p style="margin: 10px 0 0 0; color: #dc2626; font-size: 14px;">
+                  تأكد من إدخال رقم الهاتف بشكل صحيح
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="sec" id="faq">
+    <div class="container">
+      <h2 class="sec-title">الأسئلة الشائعة</h2>
+      <p class="sec-sub">
+        لو لسه عندِك سؤال، ممكن تلاقي إجابته هنا أو تكلمينا على واتساب.
+      </p>
+
+      <div class="faq">
+        <div class="faq-item">
+          <div class="faq-q">
+            <span>خايفة أستلم المنتج ويطلع مش أصلي؟</span>
+          </div>
+          <div class="faq-a">
+            <div class="faq-a-content">
+              نتفهم قلقك تماماً! 💚 لكن خليني أطمنك.. منتجاتنا أصلية 100% ومضمونة الجودة. نحن نوفر خدمة <strong>المعاينة وفحص المنتجات قبل الاستلام</strong> - يعني تقدري تفتحي الشحنة وتتأكدي من جودة المنتجات بنفسك قبل دفع أي مبلغ للمندوب! لو شعرتي بأي عدم رضا، تقدري ترجعيها في نفس اللحظة بدون دفع أي مصاريف إضافية. ثقتك هي أهم شيء عندنا 🌟
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">
+            <span>خايفة أستخدمه وميجيبش نتيجة؟</span>
+          </div>
+          <div class="faq-a">
+            <div class="faq-a-content">
+              احنا فاهمينك جداً ومقدّرين قلقك! 💖 بس تعالي نطمنك بالحقائق.. المنتج ده مش بس كلام فاضي، ده عنده فوايد مثبتة علمياً: <strong>يصلح التقصف</strong> من أول استخدام، <strong>يرطب بعمق</strong> لمدة 48 ساعة، <strong>يعيد بناء البروتين</strong> في الشعر التالف، و<strong>يحمي من الحرارة والكيماويات</strong>. وأهم حاجة؟ شوفي <strong>مراجعات العميلات</strong> فوق كلهم مبسوطين جداً بالنتيجة! لو بعد استخدام صحيح لمدة أسبوعين مشفتيش أي تحسن (وده نادر جداً!)، كلمينا وهنساعدك نعرف السبب. النتيجة مضمونة بإذن الله 🌟
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">
+            <span>إزاي أستخدمه صح؟</span>
+          </div>
+          <div class="faq-a">
+            <div class="faq-a-content">
+              <strong>الطريقة المثالية (خلط المنتجين):</strong><br>
+              بعد غسل الشعر بالشامبو، حطّي كمية مناسبة من الماسك في كف إيدك، ثم ضيفي <strong>3 نقط من السيرم</strong> عليه واخلطيهم كويس. وزّعي الخليط من منتصف الشعر للأطراف، سيبيه 10-15 دقيقة، ثم اشطفيه بالمياه الفاترة.<br><br>
+              <strong>التكرار:</strong> استخدمي المجموعة 2-3 مرات أسبوعياً للحصول على أفضل نتيجة! 💫<br><br>
+              <strong>نصيحة ذهبية:</strong> خلط السيرم مع الماسك بيعطي نتيجة أفضل وأسرع من استخدامهم منفصلين! ✨
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">
+            <span>هيوصل في كام يوم؟</span>
+          </div>
+          <div class="faq-a">
+            <div class="faq-a-content">
+              من 2 لـ 4 أيام عمل في كل المحافظات. السعر شامل مصاريف الشحن 🚚 والدفع عند الاستلام! 💰
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STICKY CTA MOBILE -->
+  <div class="sticky-cta">
+    <div>
+      <p>عرض القطعتين 🔥 (2 كريم + 2 سيرم) بـ 1200 ج.م</p>
+    </div>
+    <button class="btn btn-primary" onclick="scrollToOrder()">
+      تسوق الآن
+    </button>
+  </div>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-brand">جملة ماركت © 2026</div>
+      <div class="footer-dev">
+        تم التصميم والتطوير بواسطة <a href="https://ahmedallam.tech" target="_blank" rel="noopener" class="dev-name">Ahmed Allam</a>
+      </div>
+      <div>
+        <a href="https://wa.me/201032603653" target="_blank" rel="noopener" class="footer-support-btn">
+          💬 الدعم الفني
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating WhatsApp Button -->
+  <div class="whatsapp-float">
+    <a href="https://wa.me/201021323577?text=مرحباً%20عندي%20استفسار%20عن%20منتجات%20جملة%20ماركت" target="_blank" aria-label="تواصل معنا على واتساب">
+      <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 0c-8.837 0-16 7.163-16 16 0 2.825 0.737 5.607 2.137 8.048l-2.137 7.952 8.135-2.135c2.369 1.228 5.021 1.885 7.865 1.885 8.837 0 16-7.163 16-16s-7.163-16-16-16zM16 29.333c-2.547 0-5.043-0.716-7.193-2.056l-0.517-0.323-5.365 1.408 1.44-5.365-0.36-0.557c-1.463-2.267-2.339-4.955-2.339-7.773 0-7.364 5.991-13.355 13.333-13.355s13.333 5.991 13.333 13.355-5.991 13.333-13.333 13.333zM22.853 19.48c-0.391-0.195-2.315-1.141-2.672-1.271s-0.619-0.195-0.88 0.195c-0.261 0.391-1.011 1.271-1.239 1.531s-0.456 0.293-0.847 0.099c-0.391-0.195-1.651-0.609-3.144-1.94-1.163-1.036-1.948-2.317-2.176-2.708s-0.024-0.601 0.171-0.796c0.176-0.175 0.391-0.456 0.587-0.684s0.261-0.391 0.391-0.651c0.13-0.261 0.065-0.489-0.033-0.684s-0.88-2.119-1.205-2.901c-0.317-0.765-0.64-0.661-0.88-0.673-0.228-0.011-0.489-0.013-0.749-0.013s-0.684 0.097-1.041 0.489c-0.358 0.391-1.368 1.337-1.368 3.261s1.401 3.783 1.596 4.043c0.195 0.261 2.749 4.196 6.659 5.881 0.931 0.401 1.659 0.641 2.224 0.82 0.936 0.297 1.787 0.255 2.461 0.155 0.751-0.112 2.315-0.947 2.641-1.86s0.326-1.697 0.228-1.86c-0.097-0.163-0.358-0.261-0.749-0.456z"/>
+      </svg>
+    </a>
+  </div>
+
+  <script>
+    function scrollToOrder() {
+      const el = document.getElementById("order");
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    }
+    function scrollToFaq() {
+      const el = document.getElementById("faq");
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    }
+
+    // Carousel functionality - Simple version
+    let currentSlide = 0;
+    let totalSlides = 0;
+    let autoplayInterval = null;
+
+    // Initialize carousel after DOM is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      const slides = document.querySelectorAll('.carousel-item');
+      totalSlides = slides.length;
+      const dotsContainer = document.getElementById('carouselDots');
+
+      // Create dots
+      for (let i = 0; i < totalSlides; i++) {
+        const dot = document.createElement('button');
+        dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+        dot.onclick = () => goToSlide(i);
+        dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+        dotsContainer.appendChild(dot);
+      }
+
+      // Start autoplay
+      startAutoplay();
+
+      // Initialize FAQ accordion
+      document.querySelectorAll('.faq-item').forEach(item => {
+        item.querySelector('.faq-q').addEventListener('click', function() {
+          const isActive = item.classList.contains('active');
+          
+          // Close all other items
+          document.querySelectorAll('.faq-item').forEach(i => {
+            i.classList.remove('active');
+          });
+          
+          // Toggle current item
+          if (!isActive) {
+            item.classList.add('active');
+          }
+        });
+      });
+
+      // Pause autoplay on hover
+      const carousel = document.getElementById('heroCarousel');
+      carousel.addEventListener('mouseenter', () => {
+        clearInterval(autoplayInterval);
+      });
+      carousel.addEventListener('mouseleave', () => {
+        startAutoplay();
+      });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      new Swiper('.swiper-results', {
+        slidesPerView: 1,
+        spaceBetween: 24,
+        loop: true,
+        observer: true,
+        observeParents: true,
+        pagination: {
+          el: '.swiper-results .swiper-pagination',
+          clickable: true,
+        },
+        breakpoints: {
+          768: { slidesPerView: 2 }
+        },
+        autoplay: {
+          delay: 4500,
+          disableOnInteraction: false,
+        }
+      });
+
+      Fancybox.bind('[data-fancybox]', {
+        Toolbar: {
+          display: {
+            left: ['infobar'],
+            middle: [],
+            right: ['iterateZoom', 'close'],
+          },
+        },
+        Images: {
+          zoom: true,
+          pan: true,
+        },
+        showClass: 'fancybox-zoomIn',
+        hideClass: 'fancybox-zoomOut',
+      });
+
+      // Testimonials slider (mobile-first)
+      new Swiper('.swiper-testimonials', {
+        slidesPerView: 1,
+        spaceBetween: 16,
+        loop: true,
+        pagination: {
+          el: '.swiper-testimonials .swiper-pagination',
+          clickable: true,
+        },
+        breakpoints: {
+          640: { slidesPerView: 2 },
+          1024: { slidesPerView: 3 }
+        },
+        autoplay: {
+          delay: 3500,
+          disableOnInteraction: false,
+        }
+      });
+    });
+
+    function updateCarousel() {
+      const slides = document.querySelectorAll('.carousel-item');
+      const dots = document.querySelectorAll('.carousel-dot');
+      
+      slides.forEach((slide, index) => {
+        slide.classList.toggle('active', index === currentSlide);
+      });
+      
+      dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentSlide);
+      });
+    }
+
+    function changeSlide(direction) {
+      currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
+      updateCarousel();
+    }
+
+    function goToSlide(index) {
+      currentSlide = index;
+      updateCarousel();
+    }
+
+    function startAutoplay() {
+      clearInterval(autoplayInterval);
+      autoplayInterval = setInterval(() => {
+        changeSlide(1);
+      }, 4000);
+    }
+
+    // Product Selection
+    let selectedProduct = null;
+    let selectedProductName = '';
+    let selectedProductPrice = 0;
+    let selectedShippingCost = 0;
+
+    function selectOffer(offerName, totalPrice, shippingCost = 0) {
+      // السعر الأساسي = السعر الإجمالي - تكلفة الشحن
+      const basePrice = totalPrice - shippingCost;
+        
+      // تحديث الـ hidden inputs
+      document.getElementById('offer_type').value = offerName;
+      document.getElementById('base_price').value = basePrice;
+      
+      // إعادة تعيين الكمية لـ 1
+      document.getElementById('quantity').value = 1;
+      
+      // حساب وتحديث السعر
+      updatePrice();
+      
+      selectedProduct = offerName;
+      selectedProductName = offerName;
+      selectedProductPrice = totalPrice;
+      selectedShippingCost = shippingCost;
+      
+      // عرض رسالة تأكيد العرض المختار
+      const display = document.getElementById('selectedOfferDisplay');
+      const nameDisplay = document.getElementById('offerNameDisplay');
+      const shippingInfo = document.getElementById('shippingInfo');
+      
+      nameDisplay.textContent = offerName;
+      if (shippingInfo) {
+        if (shippingCost > 0) {
+          shippingInfo.textContent = `+ ${shippingCost} ج.م شحن`;
+          shippingInfo.style.display = 'inline-flex';
+        } else {
+          shippingInfo.textContent = 'شحن مجاني';
+          shippingInfo.style.display = 'inline-flex';
+        }
+      }
+      display.style.display = 'block';
+
+      // إزالة highlight من جميع الكروت
+      document.querySelectorAll('.product-card, .offer-card').forEach(card => {
+        card.classList.remove('selected');
+      });
+
+      // إضافة highlight للكارد المختار
+      event.currentTarget.classList.add('selected');
+
+      // Scroll للفورم بشكل سلس
+      setTimeout(() => {
+        document.getElementById('orderForm').scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }, 300);
+
+      // Track pixel event
+      trackEvent('InitiateCheckout', {
+        content_name: offerName,
+        value: totalPrice,
+        currency: 'EGP'
+      });
+
+      console.log('✅ Selected offer:', offerName, '-', totalPrice, 'EGP');
+    }
+
+    // دوال زيادة وتقليل الكمية
+    function increaseQuantity() {
+      const quantityInput = document.getElementById('quantity');
+      let currentValue = parseInt(quantityInput.value) || 1;
+      quantityInput.value = currentValue + 1;
+      updatePrice();
+    }
+
+    // دالة تقليل الكمية
+    function decreaseQuantity() {
+      const quantityInput = document.getElementById('quantity');
+      let currentValue = parseInt(quantityInput.value) || 1;
+      if (currentValue > 1) {
+        quantityInput.value = currentValue - 1;
+        updatePrice();
+      }
+    }
+
+    // دالة حساب السعر حسب الكمية
+    function updatePrice() {
+      const basePrice = parseInt(document.getElementById('base_price').value) || 0;
+      const quantity = parseInt(document.getElementById('quantity').value) || 1;
+      const shippingCost = selectedShippingCost || 0;
+      
+      // حساب السعر النهائي = (السعر الأساسي × الكمية) + مصاريف الشحن
+      const finalPrice = (basePrice * quantity) + shippingCost;
+      
+      // تحديث السعر في hidden input
+      document.getElementById('offer_price').value = finalPrice;
+      
+      // تحديث العرض
+      const priceDisplay = document.getElementById('offerPriceDisplay');
+      if (quantity > 1) {
+        priceDisplay.innerHTML = `<span style="font-size: 16px; color: #047857;">${basePrice} ج.م × ${quantity} =</span> <span style="font-size: 22px;">${basePrice * quantity} ج.م</span>`;
+      } else {
+        priceDisplay.textContent = basePrice + ' ج.م';
+      }
+      
+      selectedProductPrice = finalPrice;
+    }
+
+    // Meta Pixel Events
+    function trackEvent(eventName, data = {}) {
+      if (typeof fbq !== 'undefined') {
+        fbq('track', eventName, data);
+        console.log('✅ Pixel Event:', eventName, data);
+      }
+    }
+
+    // Track ViewContent
+    setTimeout(function() {
+      trackEvent('ViewContent', {
+        content_name: 'Karseell Hair Set',
+        content_category: 'Hair Care',
+        content_ids: ['karseell-set'],
+        content_type: 'product',
+        value: 650,
+        currency: 'EGP'
+      });
+    }, 1000);
+
+    // Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCeNB039x1upWsphRvAiPnR-rmLMIexL_c",
+      authDomain: "elfahd-8cb19.firebaseapp.com",
+      databaseURL: "https://elfahd-8cb19-default-rtdb.firebaseio.com",
+      projectId: "elfahd-8cb19",
+      storageBucket: "elfahd-8cb19.firebasestorage.app",
+      messagingSenderId: "378813778797",
+      appId: "1:378813778797:web:d5b691461ff60b6d672864",
+      measurementId: "G-P72MDNMW73"
+    };
+
+    // Initialize Firebase
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+    const database = firebase.database();
+    console.log('🔥 Firebase initialized for ElFahd orders!');
+
+    // إضافة event listener لتغيير الكمية
+    document.addEventListener('DOMContentLoaded', function() {
+      const quantityInput = document.getElementById('quantity');
+      if (quantityInput) {
+        quantityInput.addEventListener('input', updatePrice);
+        quantityInput.addEventListener('change', updatePrice);
+      }
+    });
+
+    // Phone Validation Function
+    function validatePhone(phoneNumber) {
+      // Remove spaces and any special characters
+      const cleaned = phoneNumber.replace(/\s+/g, '').replace(/[-()]/g, '');
+      
+      // Check if it's a valid Egyptian phone number (11 digits starting with 01)
+      const egyptianPattern = /^01[0-2,5]{1}[0-9]{8}$/;
+      
+      return egyptianPattern.test(cleaned);
+    }
+
+    // Add validation for phone inputs
+    document.getElementById('phone').addEventListener('blur', function() {
+      if (this.value && !validatePhone(this.value)) {
+        Swal.fire({
+          title: '⚠️ رقم هاتف غير صحيح',
+          text: 'برجاء إدخال رقم موبايل مصري صحيح يبدأ بـ 01',
+          icon: 'warning',
+          confirmButtonText: 'تمام',
+          confirmButtonColor: 'var(--accent)'
+        });
+      }
+    });
+
+    document.getElementById('phone2').addEventListener('blur', function() {
+      if (this.value && !validatePhone(this.value)) {
+        Swal.fire({
+          title: '⚠️ رقم هاتف غير صحيح',
+          text: 'برجاء إدخال رقم موبايل مصري صحيح يبدأ بـ 01',
+          icon: 'warning',
+          confirmButtonText: 'تمام',
+          confirmButtonColor: 'var(--accent)'
+        });
+      }
+    });
+
+    // Form Submission
+    document.getElementById('orderForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      // Get offer data from hidden inputs
+      const offerType = document.getElementById('offer_type').value;
+      const offerPrice = document.getElementById('offer_price').value;
+      const quantity = document.getElementById('quantity').value;
+
+      // Check if offer is selected
+      if (!offerType || !offerPrice) {
+        Swal.fire({
+          title: '⚠️ لم تختاري عرض بعد',
+          text: 'برجاء اختيار العرض المطلوب من الأعلى أولاً',
+          icon: 'warning',
+          confirmButtonText: 'تمام',
+          confirmButtonColor: 'var(--accent)'
+        });
+        // Scroll to products section
+        document.querySelector('.offers-row').scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'center' 
+        });
+        return;
+      }
+
+      const formData = new FormData(this);
+      
+      // Validate primary phone
+      const primaryPhone = formData.get('phone');
+      if (!validatePhone(primaryPhone)) {
+        Swal.fire({
+          title: '⚠️ رقم الهاتف الأساسي غير صحيح',
+          text: 'برجاء إدخال رقم موبايل مصري صحيح يبدأ بـ 01',
+          icon: 'error',
+          confirmButtonText: 'تمام',
+          confirmButtonColor: 'var(--accent)'
+        });
+        return;
+      }
+
+      // Validate secondary phone if provided
+      const secondaryPhone = formData.get('phone2');
+      if (secondaryPhone && !validatePhone(secondaryPhone)) {
+        Swal.fire({
+          title: '⚠️ رقم الهاتف البديل غير صحيح',
+          text: 'برجاء إدخال رقم موبايل مصري صحيح يبدأ بـ 01',
+          icon: 'error',
+          confirmButtonText: 'تمام',
+          confirmButtonColor: 'var(--accent)'
+        });
+        return;
+      }
+
+      // Disable submit button during submission to prevent duplicates
+      const submitBtn = this.querySelector('button[type="submit"]');
+      let originalBtnHtml = '';
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        originalBtnHtml = submitBtn.innerHTML;
+        submitBtn.innerHTML = '⏱️ جاري إرسال طلبك... برجاء الانتظار';
+      }
+
+      const reEnableSubmitButton = () => {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnHtml || 'تأكيد طلبي الآن';
+        }
+      };
+
+      const now = new Date();
+      const dateStr = now.toLocaleDateString('ar-EG');
+      const timeStr = now.toLocaleTimeString('ar-EG');
+
+      const orderData = {
+        name: formData.get('name'),
+        phone: formData.get('phone'),
+        phone2: formData.get('phone2') || '',
+        governorate: formData.get('governorate'),
+        address: formData.get('address'),
+        notes: formData.get('notes') || '',
+        product: offerType,
+        quantity: quantity,
+        price: offerPrice,
+        shipping: selectedShippingCost || 0,
+        productType: selectedProduct,
+        date: dateStr,
+        time: timeStr,
+        timestamp: now.getTime(),
+        sourcePage: 'جملة ماركت',
+        piecesCount: quantity
+      };
+
+      // Track Purchase
+      trackEvent('Purchase', {
+        content_name: orderData.product,
+        content_ids: ['karseell-' + selectedProduct],
+        content_type: 'product',
+        value: selectedProductPrice,
+        currency: 'EGP',
+        num_items: 1
+      });
+
+      try {
+        await database.ref('orders').push(orderData);
+        console.log('✅ Order saved to Firebase!');
+
+        Swal.fire({
+          title: '🎉 تم تأكيد طلبك بنجاح!',
+          html: `
+            <div style="text-align: right; padding: 15px;">
+              <p style="font-size: 0.95rem; margin-bottom: 12px;"><strong>📋 بيانات الطلب:</strong></p>
+              <p style="margin: 6px 0; font-size: 0.9rem;"><strong>👤 الاسم:</strong> ${orderData.name}</p>
+              <p style="margin: 6px 0; font-size: 0.9rem;"><strong>📱 الهاتف الأساسي:</strong> ${orderData.phone}</p>
+              ${orderData.phone2 ? `<p style="margin: 6px 0; font-size: 0.9rem;"><strong>📱 الهاتف البديل:</strong> ${orderData.phone2}</p>` : ''}
+              <p style="margin: 6px 0; font-size: 0.9rem;"><strong>📍 المحافظة:</strong> ${orderData.governorate}</p>
+              ${orderData.notes ? `<p style="margin: 6px 0; font-size: 0.9rem;"><strong>📝 ملاحظات:</strong> ${orderData.notes}</p>` : ''}
+              <p style="margin: 6px 0; font-size: 0.9rem;"><strong>📦 المنتج:</strong> ${orderData.product}</p>
+              <p style="margin: 6px 0; font-size: 0.9rem;"><strong>🔢 الكمية:</strong> ${orderData.quantity}</p>
+              <p style="margin: 6px 0; font-size: 0.9rem;"><strong>💵 سعر المنتج:</strong> ${Math.round((orderData.price - (orderData.shipping || 0)) / orderData.quantity)} ج.م × ${orderData.quantity} = <strong style="color: var(--accent);">${orderData.price - (orderData.shipping || 0)} ج.م</strong></p>
+              <p style="margin: 6px 0; font-size: 0.9rem;"><strong>🚚 الشحن:</strong> <strong style="color: #059669;">${orderData.shipping > 0 ? orderData.shipping + ' ج.م' : 'مجاني'}</strong></p>
+              <div style="background: linear-gradient(135deg, var(--card-bg) 0%, var(--bg) 100%); padding: 10px; border-radius: 8px; margin: 10px 0; border: 2px solid var(--accent);">
+                <p style="margin: 0; font-size: 1.1rem; font-weight: 800; color: var(--primary);"><strong>💰 الإجمالي النهائي:</strong> <span style="font-size: 1.3rem; color: var(--accent);">${orderData.price} جنيه</span></p>
+              </div>
+              <p style="margin: 6px 0; font-size: 0.9rem;"><strong>📅 التاريخ:</strong> ${orderData.date} - ${orderData.time}</p>
+              <hr style="margin: 15px 0;">
+              <p style="font-size: 1rem; font-weight: 700; color: #16a34a;">✅ تم تأكيد الطلب بنجاح</p>
+              <p style="font-size: 0.85rem; margin-top: 8px;">🚚 هيتم التواصل معاكي من شركة الشحن لتسليم الطلب في خلال يومين</p>
+            </div>
+          `,
+          icon: 'success',
+          confirmButtonText: 'تمام، شكراً! 💖',
+          confirmButtonColor: 'var(--accent)',
+          width: window.innerWidth <= 768 ? '95%' : '600px',
+          showClass: {
+            popup: 'animate__animated animate__fadeInDown'
+          }
+        }).then(() => {
+          reEnableSubmitButton();
+        });
+
+        // Reset form and selection
+        this.reset();
+        selectedProduct = null;
+        selectedProductName = '';
+        selectedProductPrice = 0;
+        document.getElementById('selectedOfferDisplay').style.display = 'none';
+        document.getElementById('offer_type').value = '';
+        document.getElementById('offer_price').value = '';
+        document.querySelectorAll('.product-card, .offer-card').forEach(card => {
+          card.classList.remove('selected');
+        });
+      } catch (error) {
+        console.error('❌ Firebase Error:', error);
+        Swal.fire({
+          title: '✅ تم حفظ طلبك!',
+          text: 'سيتم التواصل معك قريباً 💖',
+          icon: 'success',
+          confirmButtonText: 'تمام',
+          confirmButtonColor: 'var(--accent)'
+        }).then(() => {
+          reEnableSubmitButton();
+        });
+        // Reset form and selection
+        this.reset();
+        selectedProduct = null;
+        selectedProductName = '';
+        selectedProductPrice = 0;
+        document.getElementById('selectedProductDisplay').style.display = 'none';
+        document.querySelectorAll('.product-card, .offer-card').forEach(card => {
+          card.classList.remove('selected');
+        });
+      }
+    });
+
+    // Track Lead when phone number entered
+    let leadTracked = false;
+    document.querySelector('input[name="phone"]').addEventListener('input', function(e) {
+      if (!leadTracked && e.target.value.length >= 10) {
+        trackEvent('Lead', {
+          content_name: 'Karseell Hair Set',
+          content_category: 'Hair Care',
+          currency: 'EGP'
+        });
+        leadTracked = true;
+      }
+    });
+
+    // Track Order System
+    let currentOrderData = null;
+    let currentOrderKey = null;
+
+    async function trackOrder() {
+      const phoneInput = document.getElementById('trackPhone');
+      const phone = phoneInput.value.trim();
+      
+      if (!phone) {
+        Swal.fire({
+          title: '⚠️ من فضلك أدخل رقم الهاتف',
+          icon: 'warning',
+          confirmButtonText: 'تمام',
+          confirmButtonColor: 'var(--accent)'
+        });
+        return;
+      }
+
+      if (!validatePhone(phone)) {
+        Swal.fire({
+          title: '⚠️ رقم هاتف غير صحيح',
+          text: 'برجاء إدخال رقم موبايل مصري صحيح يبدأ بـ 01',
+          icon: 'warning',
+          confirmButtonText: 'تمام',
+          confirmButtonColor: 'var(--accent)'
+        });
+        return;
+      }
+
+      // Show loading
+      Swal.fire({
+        title: '🔍 جاري البحث...',
+        text: 'برجاء الانتظار',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        }
+      });
+
+      try {
+        const ordersRef = database.ref('orders');
+        const snapshot = await ordersRef.orderByChild('phone').equalTo(phone).limitToLast(1).once('value');
+        
+        Swal.close();
+
+        if (snapshot.exists()) {
+          // Get the first (and only) order
+          snapshot.forEach((childSnapshot) => {
+            currentOrderKey = childSnapshot.key;
+            currentOrderData = childSnapshot.val();
+          });
+
+          displayOrderDetails(currentOrderData);
+          document.getElementById('trackResults').style.display = 'block';
+          document.getElementById('trackNoResults').style.display = 'none';
+        } else {
+          document.getElementById('trackResults').style.display = 'none';
+          document.getElementById('trackNoResults').style.display = 'block';
+        }
+      } catch (error) {
+        console.error('Error tracking order:', error);
+        Swal.fire({
+          title: '❌ حدث خطأ',
+          text: 'برجاء المحاولة مرة أخرى',
+          icon: 'error',
+          confirmButtonText: 'تمام',
+          confirmButtonColor: 'var(--accent)'
+        });
+      }
+    }
+
+    function displayOrderDetails(order) {
+      const detailsDiv = document.getElementById('orderDetails');
+      detailsDiv.innerHTML = `
+        <div style="margin-bottom: 10px;">
+          <div style="color: var(--secondary); font-size: 13px; font-weight: 600; margin-bottom: 4px;">👤 الاسم:</div>
+          <div style="color: var(--primary); font-size: 16px; font-weight: 700;">${order.name}</div>
+        </div>
+        <div style="margin-bottom: 10px;">
+          <div style="color: var(--secondary); font-size: 13px; font-weight: 600; margin-bottom: 4px;">📱 الهاتف:</div>
+          <div style="color: var(--primary); font-size: 16px; font-weight: 700;">${order.phone}</div>
+        </div>
+        ${order.phone2 ? `
+        <div style="margin-bottom: 10px;">
+          <div style="color: var(--secondary); font-size: 13px; font-weight: 600; margin-bottom: 4px;">📱 الهاتف البديل:</div>
+          <div style="color: var(--primary); font-size: 16px; font-weight: 700;">${order.phone2}</div>
+        </div>
+        ` : ''}
+        <div style="margin-bottom: 10px;">
+          <div style="color: var(--secondary); font-size: 13px; font-weight: 600; margin-bottom: 4px;">📍 المحافظة:</div>
+          <div style="color: var(--primary); font-size: 16px; font-weight: 700;">${order.governorate}</div>
+        </div>
+        <div style="margin-bottom: 10px;">
+          <div style="color: var(--secondary); font-size: 13px; font-weight: 600; margin-bottom: 4px;">📍 العنوان:</div>
+          <div style="color: var(--primary); font-size: 15px; font-weight: 600;">${order.address}</div>
+        </div>
+        <div style="margin-bottom: 10px;">
+          <div style="color: var(--secondary); font-size: 13px; font-weight: 600; margin-bottom: 4px;">📦 المنتج:</div>
+          <div style="color: var(--primary); font-size: 16px; font-weight: 700;">${order.product}</div>
+        </div>
+        <div style="margin-bottom: 10px;">
+          <div style="color: var(--secondary); font-size: 13px; font-weight: 600; margin-bottom: 4px;">🔢 الكمية:</div>
+          <div style="color: var(--primary); font-size: 16px; font-weight: 700;">${order.quantity || 1}</div>
+        </div>
+        <div style="margin-bottom: 10px;">
+          <div style="color: var(--secondary); font-size: 13px; font-weight: 600; margin-bottom: 4px;">💰 الإجمالي:</div>
+          <div style="color: var(--accent); font-size: 20px; font-weight: 900;">${order.price} جنيه</div>
+        </div>
+        ${order.notes ? `
+        <div style="margin-bottom: 10px;">
+          <div style="color: var(--secondary); font-size: 13px; font-weight: 600; margin-bottom: 4px;">📝 ملاحظات:</div>
+          <div style="color: var(--primary); font-size: 14px; font-weight: 600;">${order.notes}</div>
+        </div>
+        ` : ''}
+        <div style="margin-top: 12px; padding-top: 12px; border-top: 2px dashed var(--accent);">
+          <div style="color: var(--secondary); font-size: 13px; font-weight: 600; margin-bottom: 4px;">📅 تاريخ الطلب:</div>
+          <div style="color: var(--primary); font-size: 14px; font-weight: 600;">${order.date} - ${order.time}</div>
+        </div>
+      `;
+    }
+
+    function requestEditOrder() {
+      if (!currentOrderData) return;
+
+      const message = `مرحباً، أنا ${currentOrderData.name}
+📱 رقم الهاتف: ${currentOrderData.phone}
+📦 المنتج: ${currentOrderData.product}
+💰 الإجمالي: ${currentOrderData.price} جنيه
+
+أرغب في تعديل طلبي، برجاء التواصل معي.`;
+
+      const whatsappUrl = `https://wa.me/201021323577?text=${encodeURIComponent(message)}`;
+      window.open(whatsappUrl, '_blank');
+    }
+
+    function requestCancelOrder() {
+      if (!currentOrderData) return;
+
+      Swal.fire({
+        title: '⚠️ هل أنت متأكد من إلغاء الطلب؟',
+        text: 'سيتم التواصل معك عبر واتساب لتأكيد الإلغاء',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#ef4444',
+        cancelButtonColor: '#6b7280',
+        confirmButtonText: 'نعم، إلغاء الطلب',
+        cancelButtonText: 'تراجع'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const message = `مرحباً، أنا ${currentOrderData.name}
+📱 رقم الهاتف: ${currentOrderData.phone}
+📦 المنتج: ${currentOrderData.product}
+💰 الإجمالي: ${currentOrderData.price} جنيه
+
+أرغب في إلغاء طلبي، برجاء التواصل معي.`;
+
+          const whatsappUrl = `https://wa.me/201021323577?text=${encodeURIComponent(message)}`;
+          window.open(whatsappUrl, '_blank');
+        }
+      });
+    }
+
+    // Allow Enter key to search
+    document.getElementById('trackPhone').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        trackOrder();
+      }
+    });
+  </script>
+</body>
+</html>
