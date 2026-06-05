@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,14 +8,16 @@
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="https://i.ibb.co/4nRFRb47/logo2.png">
     <link rel="shortcut icon" type="image/png" href="https://i.ibb.co/4nRFRb47/logo2.png">
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700;800&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700;800&family=Cairo:wght@400;600;700;800&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
+
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
-    
+
     <style>
         :root {
             --primary-color: #0C5CAB;
@@ -38,13 +41,13 @@
             --radius-md: 12px;
             --radius-sm: 8px;
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: 'IBM Plex Sans', 'Cairo', sans-serif;
             background: radial-gradient(circle at 20% 20%, #0B1120 0%, #050816 70%),
@@ -53,12 +56,12 @@
             min-height: 100vh;
             padding: 16px;
         }
-        
+
         .container {
             max-width: 1480px;
             margin: 0 auto;
         }
-        
+
         .header {
             background: var(--surface-2);
             padding: 14px 20px;
@@ -78,7 +81,7 @@
             flex-direction: column;
             gap: 8px;
         }
-        
+
         .header h1 {
             color: var(--text-primary);
             font-size: 1.85rem;
@@ -117,13 +120,13 @@
             background: var(--success);
             box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.18);
         }
-        
+
         .stats {
             display: flex;
             gap: 12px;
             flex-wrap: wrap;
         }
-        
+
         .stat-box {
             background: var(--surface-2);
             color: var(--text-primary);
@@ -134,19 +137,19 @@
             box-shadow: var(--shadow-soft);
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
-        
+
         .stat-box .number {
             font-size: 2rem;
             font-weight: 900;
             display: block;
             color: #7dd3fc;
         }
-        
+
         .stat-box .label {
             font-size: 0.9rem;
             color: var(--text-muted);
         }
-        
+
         .controls {
             background: var(--surface-2);
             padding: 12px 14px;
@@ -170,7 +173,7 @@
             box-shadow: var(--shadow-in);
             border: 1px solid rgba(255, 255, 255, 0.06);
         }
-        
+
         .btn-export-to-system {
             background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
             color: white;
@@ -181,11 +184,11 @@
             font-size: 0.95rem;
             border: 1px solid rgba(125, 211, 252, 0.35);
         }
-        
+
         .btn-export-to-system.show {
             display: inline-flex;
         }
-        
+
         .btn-export-to-system:hover {
             background: linear-gradient(135deg, #0f6fd0 0%, #0a4a8a 100%);
         }
@@ -194,21 +197,21 @@
             box-shadow: 0 0 0 2px rgba(125, 211, 252, 0.2), 0 14px 26px rgba(12, 92, 171, 0.45);
             transform: translateY(-1px);
         }
-        
+
         .order-checkbox {
             width: 22px;
             height: 22px;
             cursor: pointer;
             accent-color: #7dd3fc;
         }
-        
+
         #selectAll {
             width: 22px;
             height: 22px;
             cursor: pointer;
             accent-color: #7dd3fc;
         }
-        
+
         .selected-count {
             background: rgba(255, 255, 255, 0.15);
             color: white;
@@ -218,13 +221,13 @@
             font-weight: 700;
             margin-left: 8px;
         }
-        
+
         .search-box {
             flex: 1.6 1 440px;
             min-width: 260px;
             position: relative;
         }
-        
+
         .search-box input {
             width: 100%;
             padding: 12px 42px 12px 14px;
@@ -238,7 +241,7 @@
             transition: all 0.2s ease;
             color: var(--text-primary);
         }
-        
+
         .search-box input:focus {
             outline: none;
             border-color: rgba(12, 92, 171, 0.6);
@@ -249,7 +252,7 @@
             color: rgba(250, 250, 250, 0.45);
             font-weight: 500;
         }
-        
+
         .search-box i {
             position: absolute;
             right: 16px;
@@ -257,7 +260,7 @@
             transform: translateY(-50%);
             color: rgba(250, 250, 250, 0.6);
         }
-        
+
         .btn {
             padding: 9px 16px;
             border: 1px solid transparent;
@@ -315,18 +318,18 @@
             clip: rect(0, 0, 0, 0);
             border: 0;
         }
-        
+
         .btn-primary {
             background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
             color: white;
             box-shadow: var(--shadow-soft);
         }
-        
+
         .btn-success {
             background: linear-gradient(135deg, rgba(16, 185, 129, 0.85) 0%, rgba(5, 150, 105, 0.9) 100%);
             color: white;
         }
-        
+
         .btn-danger {
             background: linear-gradient(135deg, var(--danger) 0%, #dc2626 100%);
             color: white;
@@ -361,7 +364,7 @@
             background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
             color: white;
         }
-        
+
         .btn:hover {
             transform: translateY(-1px);
             box-shadow: var(--shadow-float);
@@ -392,7 +395,7 @@
             outline: 3px solid rgba(12, 92, 171, 0.35);
             outline-offset: 2px;
         }
-        
+
         .orders-table {
             background: var(--surface);
             border-radius: var(--radius-lg);
@@ -405,17 +408,17 @@
             border: 1px solid rgba(125, 211, 252, 0.5);
             box-shadow: 0 0 0 1px rgba(12, 92, 171, 0.25), var(--shadow-soft);
         }
-        
+
         table {
             width: 100%;
             border-collapse: collapse;
         }
-        
+
         thead {
             background: linear-gradient(135deg, #0b4f9b 0%, #0a3f77 100%);
             color: white;
         }
-        
+
         th {
             padding: 12px 8px;
             text-align: center;
@@ -427,7 +430,7 @@
             z-index: 2;
             background: inherit;
         }
-        
+
         tbody tr {
             border-bottom: 1px solid rgba(255, 255, 255, 0.06);
             transition: all 0.2s ease;
@@ -436,7 +439,7 @@
         tbody tr:nth-child(even) {
             background: rgba(255, 255, 255, 0.04);
         }
-        
+
         tbody tr:hover {
             background: rgba(12, 92, 171, 0.08);
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
@@ -445,7 +448,7 @@
         tbody tr:hover td {
             background: rgba(12, 92, 171, 0.06);
         }
-        
+
         td {
             padding: 16px 8px;
             text-align: center;
@@ -464,13 +467,13 @@
             font-size: 0.75rem;
             color: var(--text-muted);
         }
-        
+
         .order-id {
             font-weight: 700;
             color: #7dd3fc;
             text-align: center;
         }
-        
+
         .phone {
             direction: ltr;
             text-align: center;
@@ -482,14 +485,14 @@
             font-size: 0.95rem;
             letter-spacing: 0.3px;
         }
-        
+
         .price {
             font-weight: 900;
             color: #7dd3fc;
             font-size: 1rem;
             text-align: center;
         }
-        
+
         .address {
             max-width: 150px;
             overflow: hidden;
@@ -499,7 +502,7 @@
             color: var(--text-muted);
             text-align: center;
         }
-        
+
         .actions {
             display: flex;
             gap: 8px;
@@ -511,22 +514,22 @@
         .mobile-only {
             display: none;
         }
-        
+
         .btn-small {
             padding: 6px 10px;
             font-size: 0.8rem;
             min-height: 34px;
         }
-        
+
         .order-exported {
             background: rgba(16, 185, 129, 0.12) !important;
             border-right: 4px solid var(--success) !important;
         }
-        
+
         .order-exported .order-id {
             color: var(--success) !important;
         }
-        
+
         .exported-badge {
             background: var(--success);
             color: white;
@@ -550,7 +553,7 @@
             box-shadow: var(--shadow-soft);
             border: 1px solid rgba(255, 255, 255, 0.06);
         }
-        
+
         .empty-state {
             text-align: center;
             padding: 50px 20px;
@@ -560,34 +563,34 @@
             box-shadow: var(--shadow-in);
             margin: 12px;
         }
-        
+
         .empty-state i {
             font-size: 3.5rem;
             margin-bottom: 12px;
             opacity: 0.35;
             color: #7dd3fc;
         }
-        
+
         .empty-state h3 {
             font-size: 1.3rem;
             margin-bottom: 6px;
             color: var(--text-primary);
             font-weight: 700;
         }
-        
+
         .empty-state p {
             font-size: 0.95rem;
         }
-        
+
         @media (max-width: 768px) {
             body {
                 padding: 10px;
             }
-            
+
             .orders-table {
                 overflow: visible;
             }
-            
+
             table {
                 min-width: 0;
             }
@@ -822,7 +825,7 @@
                 font-size: 1rem;
             }
         }
-        
+
         .modal {
             display: none;
             position: fixed;
@@ -835,11 +838,11 @@
             align-items: center;
             justify-content: center;
         }
-        
+
         .modal.active {
             display: flex;
         }
-        
+
         .modal-content {
             background: var(--surface-2);
             padding: 30px;
@@ -851,13 +854,13 @@
             box-shadow: var(--shadow-out);
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
-        
+
         .modal-content h2 {
             color: var(--text-primary);
             margin-bottom: 20px;
             font-size: 1.5rem;
         }
-        
+
         .detail-row {
             padding: 10px;
             background: rgba(17, 17, 21, 0.9);
@@ -866,18 +869,18 @@
             border-right: 3px solid var(--primary-color);
             box-shadow: var(--shadow-in);
         }
-        
+
         .detail-row strong {
             display: block;
             color: var(--text-primary);
             font-size: 0.85rem;
             margin-bottom: 5px;
         }
-        
+
         .close-modal {
             margin-top: 20px;
         }
-        
+
         /* ===== Blur Overlay for Login ===== */
         .blur-overlay {
             position: fixed;
@@ -895,36 +898,41 @@
             animation: fadeIn 0.5s ease;
             transition: opacity 0.5s ease;
         }
-        
+
         .blur-overlay.hidden {
             opacity: 0;
             pointer-events: none;
             animation: fadeOut 0.5s ease;
         }
-        
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
             }
+
             to {
                 opacity: 1;
             }
         }
-        
+
         @keyframes fadeOut {
             from {
                 opacity: 1;
             }
+
             to {
                 opacity: 0;
             }
         }
-        
+
         @keyframes pulse {
-            0%, 100% {
+
+            0%,
+            100% {
                 transform: scale(1);
                 box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
             }
+
             50% {
                 transform: scale(1.05);
                 box-shadow: 0 8px 25px rgba(255, 107, 107, 0.6);
@@ -982,10 +990,11 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Blur Overlay (Background for login form) -->
     <div class="blur-overlay" id="blurOverlay"></div>
-    
+
     <div class="container">
         <!-- Header -->
         <div class="header">
@@ -1005,16 +1014,19 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Ad Blocker Warning (initially hidden) -->
-        <div id="adBlockerWarning" style="display: none; background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%); color: white; padding: 12px 20px; border-radius: 10px; margin-bottom: 15px; text-align: center; box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);">
+        <div id="adBlockerWarning"
+            style="display: none; background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%); color: white; padding: 12px 20px; border-radius: 10px; margin-bottom: 15px; text-align: center; box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);">
             <i class="fas fa-exclamation-triangle"></i>
-            <strong>تنبيه:</strong> إذا واجهت مشكلة في إضافة الطلبات، قم بإيقاف Ad Blocker على localhost أو استخدم التصفح الخفي
+            <strong>تنبيه:</strong> إذا واجهت مشكلة في إضافة الطلبات، قم بإيقاف Ad Blocker على localhost أو استخدم
+            التصفح الخفي
         </div>
-        
+
         <!-- Controls -->
         <div class="controls">
-            <button class="btn btn-utility btn-sound" id="enableSoundBtn" onclick="enableSound()" aria-label="تفعيل الصوت">
+            <button class="btn btn-utility btn-sound" id="enableSoundBtn" onclick="enableSound()"
+                aria-label="تفعيل الصوت">
                 <i class="fas fa-volume-up"></i>
                 <span class="btn-label">تفعيل الصوت</span>
                 <span class="sr-only">تفعيل الصوت</span>
@@ -1039,18 +1051,20 @@
                     <option value="not-exported">غير مُضافة</option>
                 </select>
             </div>
-            <button class="btn btn-export-to-system btn-compact" id="exportToSystemBtn" onclick="exportSelectedToSystem()">
+            <button class="btn btn-export-to-system btn-compact" id="exportToSystemBtn"
+                onclick="exportSelectedToSystem()">
                 <i class="fas fa-truck"></i>
                 إضافة إلى Logexa
                 <span class="selected-count" id="selectedCount">0</span>
             </button>
-            <button class="btn btn-danger btn-compact" id="deleteSelectedBtn" onclick="deleteSelectedOrders()" style="display: none;">
+            <button class="btn btn-danger btn-compact" id="deleteSelectedBtn" onclick="deleteSelectedOrders()"
+                style="display: none;">
                 <i class="fas fa-trash-alt"></i>
                 حذف المحدد
                 <span class="selected-count" id="deleteCount">0</span>
             </button>
         </div>
-        
+
         <!-- Orders Table -->
         <div class="orders-table">
             <table>
@@ -1081,13 +1095,13 @@
                 </tbody>
             </table>
         </div>
-        
+
         <!-- Footer -->
         <div class="footer">
             <p style="margin: 0;">A.Ala3m OMS • جميع الحقوق محفوظة</p>
         </div>
     </div>
-    
+
     <!-- Order Details Modal -->
     <div class="modal" id="detailsModal">
         <div class="modal-content">
@@ -1099,7 +1113,7 @@
             </button>
         </div>
     </div>
-    
+
     <script>
         // Detect Ad Blocker
         function detectAdBlocker() {
@@ -1113,11 +1127,11 @@
                 document.getElementById('adBlockerWarning').style.display = 'block';
             });
         }
-        
+
         // Authentication System
         const ADMIN_USERNAME = "Ahmed22";
         const ADMIN_PASSWORD = "Aloom2022@";
-        
+
         async function checkAuthentication() {
             // Check if already authenticated in this session
             const isAuthenticated = sessionStorage.getItem('adminAuthenticated');
@@ -1136,7 +1150,7 @@
                 }
                 return true;
             }
-            
+
             if (isAuthenticated === 'true') {
                 // Remove blur overlay if already authenticated
                 const blurOverlay = document.getElementById('blurOverlay');
@@ -1148,11 +1162,11 @@
                 }
                 return true;
             }
-            
+
             // Show login form (blur stays as background)
             let attempts = 0;
             const maxAttempts = 3;
-            
+
             while (attempts < maxAttempts) {
                 const { value: formValues } = await Swal.fire({
                     title: '<i class="fas fa-lock" style="color: #7dd3fc;"></i> تسجيل الدخول',
@@ -1176,16 +1190,16 @@
                         const username = document.getElementById('swal-username').value;
                         const password = document.getElementById('swal-password').value;
                         const rememberMe = document.getElementById('rememberMe').checked;
-                        
+
                         if (!username || !password) {
                             Swal.showValidationMessage('يرجى إدخال اسم المستخدم وكلمة المرور');
                             return false;
                         }
-                        
+
                         return { username, password, rememberMe };
                     }
                 });
-                
+
                 if (!formValues) {
                     // User cancelled
                     await Swal.fire({
@@ -1198,7 +1212,7 @@
                     window.location.href = "https://google.com";
                     return false;
                 }
-                
+
                 if (formValues.username === ADMIN_USERNAME && formValues.password === ADMIN_PASSWORD) {
                     // Successful login
                     sessionStorage.setItem('adminAuthenticated', 'true');
@@ -1210,7 +1224,7 @@
                         localStorage.removeItem('adminUsername');
                         localStorage.removeItem('adminPassword');
                     }
-                    
+
                     // Remove blur overlay after successful login
                     const blurOverlay = document.getElementById('blurOverlay');
                     if (blurOverlay) {
@@ -1219,7 +1233,7 @@
                             blurOverlay.style.display = 'none';
                         }, 500);
                     }
-                    
+
                     await Swal.fire({
                         icon: 'success',
                         title: 'مرحباً بك!',
@@ -1251,10 +1265,10 @@
                     }
                 }
             }
-            
+
             return false;
         }
-        
+
         // Check authentication before loading page
         checkAuthentication().then(authenticated => {
             if (!authenticated) {
@@ -1264,10 +1278,10 @@
                 setTimeout(detectAdBlocker, 1000);
             }
         });
-        
+
         // Google Sheets URL (للحفظ فقط من صفحة الهبوط)
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw7nUF8Wcw8IXgXaYLgC5seP7LwHM9Qxl_h0ueAX6v5MjDKxEHlOreCNjOxfEwTCcXacg/exec';
-        
+
         // ===== Firebase Configuration =====
         const firebaseConfig = {
             apiKey: "AIzaSyCVJYD2adDrZD2C7jnTjVhiewxVohZzM38",
@@ -1278,76 +1292,76 @@
             messagingSenderId: "866663461200",
             appId: "1:866663461200:web:0b891e0eb53a16c555fc55"
         };
-        
+
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
-        
+
         // متغير لتتبع تفعيل الصوت
         let soundEnabled = false;
         let audioContext = null;
-        
+
         // دالة إنشاء صوت beep باستخدام Web Audio API
         function playBeep() {
             if (!audioContext) {
                 audioContext = new (window.AudioContext || window.webkitAudioContext)();
             }
-            
+
             // إنشاء oscillator (مولد الصوت)
             const oscillator = audioContext.createOscillator();
             const gainNode = audioContext.createGain();
-            
+
             oscillator.connect(gainNode);
             gainNode.connect(audioContext.destination);
-            
+
             // إعدادات الصوت
             oscillator.frequency.value = 800; // تردد عالي (صوت واضح)
             oscillator.type = 'sine'; // نوع الموجة
-            
+
             // تأثير fade in/out
             gainNode.gain.setValueAtTime(0, audioContext.currentTime);
             gainNode.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.01);
             gainNode.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.2);
             gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + 0.3);
-            
+
             // تشغيل الصوت
             oscillator.start(audioContext.currentTime);
             oscillator.stop(audioContext.currentTime + 0.3);
-            
+
             // صوت ثاني (نغمة أعلى) بعد قليل
             setTimeout(() => {
                 const oscillator2 = audioContext.createOscillator();
                 const gainNode2 = audioContext.createGain();
-                
+
                 oscillator2.connect(gainNode2);
                 gainNode2.connect(audioContext.destination);
-                
+
                 oscillator2.frequency.value = 1000;
                 oscillator2.type = 'sine';
-                
+
                 gainNode2.gain.setValueAtTime(0, audioContext.currentTime);
                 gainNode2.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.01);
                 gainNode2.gain.linearRampToValueAtTime(0, audioContext.currentTime + 0.2);
-                
+
                 oscillator2.start(audioContext.currentTime);
                 oscillator2.stop(audioContext.currentTime + 0.2);
             }, 100);
         }
-        
+
         // دالة تفعيل الصوت (تحتاج تفاعل المستخدم)
         async function enableSound() {
             const btn = document.getElementById('enableSoundBtn');
-            
+
             try {
                 // تشغيل صوت تجريبي
                 playBeep();
-                
+
                 soundEnabled = true;
                 btn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
                 btn.innerHTML = '<i class="fas fa-volume-up"></i> الصوت مُفعّل ✓';
                 btn.style.animation = 'none';
                 btn.disabled = true;
-                
+
                 await Swal.fire({
                     icon: 'success',
                     title: 'تم تفعيل الصوت!',
@@ -1358,7 +1372,7 @@
                     timer: 2000,
                     timerProgressBar: true
                 });
-                
+
                 console.log('✅ تم تفعيل الصوت بنجاح');
             } catch (e) {
                 console.error('❌ فشل تفعيل الصوت:', e);
@@ -1370,8 +1384,8 @@
                 });
             }
         }
-        
-        // دالة لتصحيح أسعار Karseell الصحيحة (عروض عيد الأضحى)
+
+        // دالة لتصحيح أسعار Karseell الصحيحة
         function correctKarseellPrice(order) {
             if (!order.productType || !order.productType.includes('Karseell')) {
                 return order;
@@ -1380,48 +1394,56 @@
             const productName = String(order.product || order.productType || '');
             const quantity = parseInt(order.quantity) || 1;
 
-            const offerPrices = {
+            // ===== أسعار Karseell Mask الحالية =====
+            const maskPrices = {
+                'عبوة واحدة': 700,        // 650 + 50 شحن
+                'عبوتين كارسيل': 1250,    // شحن مجاني
+                '3 عبوات كارسيل': 1800,   // شحن مجاني
+            };
+
+            // ===== أسعار عروض العيد القديمة =====
+            const eidPrices = {
                 'عرض القطعتين': 1200,
                 'العرض الأقوى': 1700,
                 'عرض العيد الأساسي': 650,
-                'عبوة واحدة': 1100,
-                'عبوتين كارسيل': 1000, // 2000 / 2 = 1000 per unit
-                '3 عبوات كارسيل': 933.33 // 2800 / 3 ≈ 933.33 per unit
             };
 
-            let unitPrice = null;
+            let correctTotal = null;
 
-            if (productName.includes('عرض القطعتين')) {
-                unitPrice = offerPrices['عرض القطعتين'];
-            } else if (productName.includes('العرض الأقوى')) {
-                unitPrice = offerPrices['العرض الأقوى'];
-            } else if (productName.includes('عرض العيد الأساسي')) {
-                unitPrice = offerPrices['عرض العيد الأساسي'];
-            } else if (productName.includes('عبوة واحدة')) {
-                unitPrice = offerPrices['عبوة واحدة'];
+            // Mask offers (الأسعار الإجمالية — ليست لكل قطعة)
+            if (productName.includes('عبوة واحدة')) {
+                correctTotal = maskPrices['عبوة واحدة'];
             } else if (productName.includes('عبوتين كارسيل')) {
-                unitPrice = offerPrices['عبوتين كارسيل'];
+                correctTotal = maskPrices['عبوتين كارسيل'];
             } else if (productName.includes('3 عبوات كارسيل')) {
-                unitPrice = offerPrices['3 عبوات كارسيل'];
+                correctTotal = maskPrices['3 عبوات كارسيل'];
+                // Eid offers (سعر لكل قطعة × الكمية)
+            } else if (productName.includes('عرض القطعتين')) {
+                correctTotal = eidPrices['عرض القطعتين'] * Math.max(quantity, 1);
+            } else if (productName.includes('العرض الأقوى')) {
+                correctTotal = eidPrices['العرض الأقوى'] * Math.max(quantity, 1);
+            } else if (productName.includes('عرض العيد الأساسي')) {
+                correctTotal = eidPrices['عرض العيد الأساسي'] * Math.max(quantity, 1);
             }
 
-            if (unitPrice === null) {
+            if (correctTotal === null) {
                 return order;
             }
 
-            const correctPrice = unitPrice * Math.max(quantity, 1);
             const currentPrice = parseInt(order.price) || 0;
 
-            if (currentPrice !== correctPrice) {
+            if (currentPrice !== correctTotal) {
                 order.originalPriceBeforeCorrection = currentPrice;
-                order.price = correctPrice;
-                order.finalPrice = correctPrice;
+                order.price = correctTotal;
+                order.finalPrice = correctTotal;
                 order.priceWasCorrected = true;
-                order.shipping = 0;
+                // تحديد الشحن: عبوة واحدة = 50، الباقي مجاني
+                order.shipping = productName.includes('عبوة واحدة') ? 50 : 0;
             }
 
             return order;
         }
+
 
         // Get unified order total regardless of source page fields
         function getOrderTotalPrice(order) {
@@ -1447,10 +1469,10 @@
 
             return database.ref('orders').child(order.firebaseId);
         }
-        
+
         // Load orders from Firebase Realtime Database
         let ordersCache = [];
-        
+
         async function loadOrders() {
             return new Promise((resolve, reject) => {
                 // Load oil and Karseell orders separately
@@ -1467,15 +1489,15 @@
                         order.productType = order.productType || '🌿 زيت 108 عشبة';
                         orders.push(order);
                     });
-                    
+
                     // Load Karseell orders
                     karseellSnapshot.forEach((childSnapshot) => {
                         let order = childSnapshot.val();
                         order.firebaseId = childSnapshot.key;
-                        
+
                         // تحديد نوع المنتج بناءً على اسم الطلب - التحقق من Bundle أولاً!
                         const productName = order.product || '';
-                        
+
                         // عروض عيد الأضحى الحالية
                         if (productName.includes('عرض القطعتين')) {
                             order.productType = '👑 Karseell Eid - عرض القطعتين';
@@ -1489,8 +1511,8 @@
                             order.productType = '📦 Karseell Mask - عبوتين';
                         } else if (productName.includes('3 عبوات كارسيل')) {
                             order.productType = '💎 Karseell Mask - 3 عبوات';
-                        } else if (productName.includes('باكدج') || 
-                            productName.includes('2×') || 
+                        } else if (productName.includes('باكدج') ||
+                            productName.includes('2×') ||
                             (productName.includes('كريم') && productName.includes('سيروم')) ||
                             productName.includes('+')) {
                             order.productType = '📦 Karseell Bundle';
@@ -1501,15 +1523,15 @@
                         } else {
                             order.productType = '💆 Karseell';
                         }
-                        
+
                         // تصحيح السعر تلقائياً
                         order = correctKarseellPrice(order);
                         orders.push(order);
                     });
-                    
+
                     // Sort by timestamp (newest first)
                     orders.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-                    
+
                     ordersCache = orders;
                     resolve(orders);
                 }).catch((error) => {
@@ -1519,10 +1541,10 @@
                 });
             });
         }
-        
+
         // Listen for real-time updates
         let isInitialLoad = true;
-        
+
         // Function to play notification and show alert
         async function notifyNewOrder(productType) {
             // تشغيل الصوت فقط إذا تم تفعيله
@@ -1536,7 +1558,7 @@
             } else {
                 console.log('🔇 الصوت غير مُفعّل - اضغط زر "تفعيل الصوت"');
             }
-            
+
             // تحديد الأيقونة والرسالة حسب نوع المنتج
             let icon = '🎉';
             let bgColor = '#10b981';
@@ -1547,7 +1569,7 @@
                 icon = '🌿';
                 bgColor = '#10b981';
             }
-            
+
             // Show notification with animation
             if (!document.hidden) {
                 Swal.fire({
@@ -1586,7 +1608,7 @@
                     }
                 });
             }
-            
+
             // تحديث عنوان الصفحة للفت الانتباه
             let originalTitle = document.title;
             let blinkCount = 0;
@@ -1599,7 +1621,7 @@
                 }
             }, 500);
         }
-        
+
         database.ref('karseell-orders').on('child_added', (snapshot) => {
             if (!isInitialLoad && ordersCache.length > 0) {
                 notifyNewOrder('💆 Karseell');
@@ -1613,10 +1635,10 @@
                 displayOrders();
             }
         });
-        
+
         // After first load, enable real-time updates
         setTimeout(() => { isInitialLoad = false; }, 2000);
-        
+
         // Display orders in table
         let lastDisplayedOrders = [];
 
@@ -1624,7 +1646,7 @@
             const ordersData = orders || await loadOrders();
             lastDisplayedOrders = ordersData;
             const tbody = document.getElementById('ordersTableBody');
-            
+
             if (ordersData.length === 0) {
                 tbody.innerHTML = `
                     <tr>
@@ -1639,11 +1661,11 @@
                 `;
                 return;
             }
-            
+
             tbody.innerHTML = ordersData.map((order, index) => {
                 // تحديد لون المنتج
                 let productColor = '#f97316'; // لون Karseell الافتراضي
-                
+
                 if (order.productType?.includes('Karseell')) {
                     if (order.productType.includes('Cream')) {
                         productColor = '#7c3aed'; // بنفسجي للكريم
@@ -1657,11 +1679,11 @@
                 } else if (order.productType?.includes('زيت')) {
                     productColor = '#10b981'; // أخضر للزيت
                 }
-                
+
                 // التحقق إذا كان الطلب تم تصديره
                 const isExported = order.exportedToSystem === true;
                 const exportedClass = isExported ? 'order-exported' : '';
-                
+
                 // تحسين عرض أرقام الهاتف
                 const phonePrimary = String(order.phone || '').trim() || '-';
                 const phoneSecondary = String(order.phone2 || '').trim();
@@ -1675,8 +1697,8 @@
                 // حساب تفاصيل الأسعار
                 const quantity = parseInt(order.quantity) || 1;
                 const totalPrice = getOrderTotalPrice(order);
-                
-                
+
+
                 return `
                 <tr class="${exportedClass}">
                     <td class="cell-select"><input type="checkbox" class="order-checkbox" data-firebase-id="${order.firebaseId}" onchange="updateSelectedCount()"></td>
@@ -1720,7 +1742,7 @@
                     </td>
                 </tr>
             `}).join('');
-            
+
             updateStats(ordersData);
         }
 
@@ -1748,7 +1770,7 @@
 
             copyToClipboard(summary, 'بيانات الطلب كاملة');
         }
-        
+
         // Update statistics
         function updateStats(orders) {
             document.getElementById('totalOrders').textContent = orders.length;
@@ -1758,7 +1780,7 @@
             }, 0);
             document.getElementById('totalRevenue').textContent = totalRevenue.toLocaleString();
         }
-        
+
         // View order details
         async function viewDetails(index) {
             const orders = await loadOrders();
@@ -1768,7 +1790,7 @@
             const quantity = parseInt(order.quantity) || 1;
             const basePrice = Math.max(totalPrice - shippingCost, 0);
             const unitBasePrice = quantity > 0 ? Math.round(basePrice / quantity) : basePrice;
-            
+
             const detailsHTML = `
                 <div class="detail-row">
                     <strong>رقم الطلب:</strong>
@@ -1855,21 +1877,21 @@
                 </div>
                 `}
             `;
-            
+
             document.getElementById('orderDetails').innerHTML = detailsHTML;
             document.getElementById('detailsModal').classList.add('active');
         }
-        
+
         // Close modal
         function closeModal() {
             document.getElementById('detailsModal').classList.remove('active');
         }
-        
+
         // Call customer
         function callCustomer(phone) {
             window.location.href = `tel:${phone}`;
         }
-        
+
         // WhatsApp customer with full order details
         async function whatsappCustomer(phone, name, governorate, address, bottleSize, price, date, time, productType = '💆 Karseell', quantity = 1, notes = '', phone2 = '') {
             const rawPhone = String(phone || '').trim();
@@ -1927,32 +1949,32 @@
 
             window.open('https://wa.me/' + selectedPhone + '?text=' + encodeURIComponent(orderMessage), '_blank');
         }
-        
-        
+
+
         // Search orders
-        document.getElementById('searchInput').addEventListener('input', async function(e) {
+        document.getElementById('searchInput').addEventListener('input', async function (e) {
             const searchTerm = e.target.value.toLowerCase();
             const orders = await loadOrders();
-            
+
             if (!searchTerm) {
                 displayOrders(orders);
                 return;
             }
-            
-            const filtered = orders.filter(order => 
+
+            const filtered = orders.filter(order =>
                 order.name.toLowerCase().includes(searchTerm) ||
                 order.phone.includes(searchTerm) ||
                 order.governorate.toLowerCase().includes(searchTerm)
             );
-            
+
             displayOrders(filtered);
         });
-        
+
         // Export to CSV
         async function exportToCSV() {
             const orders = await loadOrders();
             const reversedOrders = [...orders].reverse();
-            
+
             if (reversedOrders.length === 0) {
                 await Swal.fire({
                     icon: 'info',
@@ -1962,10 +1984,10 @@
                 });
                 return;
             }
-            
+
             let csv = '\uFEFF'; // BOM for Excel UTF-8
             csv += 'رقم الطلب,التاريخ,الوقت,الاسم,الهاتف,المحافظة,العنوان,المنتج,الحجم,السعر\n';
-            
+
             reversedOrders.forEach((order, index) => {
                 csv += `${index + 1},`;
                 csv += `"${order.date || new Date(order.timestamp).toLocaleDateString('ar-EG')}",`;
@@ -1978,7 +2000,7 @@
                 csv += `"${order.bottleSize || order.size}",`;
                 csv += `${getOrderTotalPrice(order)}\n`;
             });
-            
+
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement('a');
             const url = URL.createObjectURL(blob);
@@ -1988,7 +2010,7 @@
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-            
+
             await Swal.fire({
                 icon: 'success',
                 title: 'تم التصدير بنجاح',
@@ -1997,13 +2019,13 @@
                 timer: 2000
             });
         }
-        
+
         // Refresh data
         function refreshData() {
             displayOrders();
             alert('✅ تم تحديث البيانات');
         }
-        
+
         // Logout function
         async function logout() {
             const result = await Swal.fire({
@@ -2016,7 +2038,7 @@
                 confirmButtonColor: '#d33',
                 cancelButtonColor: '#0C5CAB'
             });
-            
+
             if (result.isConfirmed) {
                 sessionStorage.removeItem('adminAuthenticated');
                 await Swal.fire({
@@ -2030,15 +2052,15 @@
                 window.location.href = 'https://google.com';
             }
         }
-        
+
         // Copy to clipboard function
         function copyToClipboard(text, fieldName) {
             // Decode HTML entities if any
             const tempDiv = document.createElement('div');
             tempDiv.innerHTML = text;
             const decodedText = tempDiv.textContent || tempDiv.innerText || text;
-            
-            navigator.clipboard.writeText(decodedText).then(function() {
+
+            navigator.clipboard.writeText(decodedText).then(function () {
                 // Show success notification
                 Swal.fire({
                     icon: 'success',
@@ -2050,7 +2072,7 @@
                     timer: 1500,
                     timerProgressBar: true
                 });
-            }).catch(function(err) {
+            }).catch(function (err) {
                 // Fallback for older browsers
                 const textArea = document.createElement('textarea');
                 textArea.value = decodedText;
@@ -2082,24 +2104,24 @@
                 document.body.removeChild(textArea);
             });
         }
-        
+
         // Close modal on outside click
-        document.getElementById('detailsModal').addEventListener('click', function(e) {
+        document.getElementById('detailsModal').addEventListener('click', function (e) {
             if (e.target === this) {
                 closeModal();
             }
         });
-        
+
         // Initial load
         displayOrders();
-        
+
         // تحديد/إلغاء تحديد الكل
         function toggleSelectAll(checkbox) {
             const checkboxes = document.querySelectorAll('.order-checkbox');
             checkboxes.forEach(cb => cb.checked = checkbox.checked);
             updateSelectedCount();
         }
-        
+
         // تحديث عدد الطلبات المحددة
         function updateSelectedCount() {
             const selected = document.querySelectorAll('.order-checkbox:checked');
@@ -2108,10 +2130,10 @@
             const deleteBtn = document.getElementById('deleteSelectedBtn');
             const countSpan = document.getElementById('selectedCount');
             const deleteCountSpan = document.getElementById('deleteCount');
-            
+
             countSpan.textContent = count;
             deleteCountSpan.textContent = count;
-            
+
             if (count > 0) {
                 exportBtn.classList.add('show');
                 exportBtn.classList.add('active');
@@ -2128,20 +2150,20 @@
                     row.classList.toggle('row-selected', checkbox.checked);
                 }
             });
-            
+
             // تحديث حالة checkbox "تحديد الكل"
             const allCheckboxes = document.querySelectorAll('.order-checkbox');
             const selectAllCheckbox = document.getElementById('selectAll');
             selectAllCheckbox.checked = allCheckboxes.length > 0 && count === allCheckboxes.length;
         }
-        
+
         // تصدير الطلبات المحددة إلى نظام الشحن
         async function exportSelectedToSystem() {
             const selected = document.querySelectorAll('.order-checkbox:checked');
             const apiBaseUrl = (window.location.origin && window.location.origin !== 'null')
                 ? window.location.origin
                 : 'http://127.0.0.1:8000';
-            
+
             if (selected.length === 0) {
                 await Swal.fire({
                     icon: 'warning',
@@ -2151,12 +2173,12 @@
                 });
                 return;
             }
-            
+
             // الحصول على الطلبات المحددة
             const orders = await loadOrders();
             const selectedOrders = [];
             const invalidOrders = [];
-            
+
             selected.forEach(checkbox => {
                 const firebaseId = checkbox.getAttribute('data-firebase-id');
                 const order = orders.find(o => o.firebaseId === firebaseId);
@@ -2164,13 +2186,13 @@
                     // التحقق من البيانات الأساسية
                     if (!order.name || !order.phone || order.name.trim() === '' || order.phone.trim() === '') {
                         invalidOrders.push(order);
-                        console.warn('⚠️ طلب ببيانات ناقصة:', order.firebaseId, {name: order.name, phone: order.phone});
+                        console.warn('⚠️ طلب ببيانات ناقصة:', order.firebaseId, { name: order.name, phone: order.phone });
                     } else {
                         selectedOrders.push(order);
                     }
                 }
             });
-            
+
             // تحذير إذا كان هناك طلبات غير صالحة
             if (invalidOrders.length > 0) {
                 await Swal.fire({
@@ -2180,7 +2202,7 @@
                     confirmButtonColor: '#ff9800'
                 });
             }
-            
+
             if (selectedOrders.length === 0) {
                 await Swal.fire({
                     icon: 'error',
@@ -2190,7 +2212,7 @@
                 });
                 return;
             }
-            
+
             // تأكيد العملية
             const result = await Swal.fire({
                 title: 'تأكيد الإضافة',
@@ -2202,9 +2224,9 @@
                 confirmButtonColor: '#0C5CAB',
                 cancelButtonColor: '#6c757d'
             });
-            
+
             if (!result.isConfirmed) return;
-            
+
             // عرض مؤشر التحميل
             Swal.fire({
                 title: 'جاري الإضافة...',
@@ -2215,14 +2237,14 @@
                     Swal.showLoading();
                 }
             });
-            
+
             try {
                 // إعداد بيانات الطلبات
                 const orderData = {
                     orders: selectedOrders.map(order => {
                         // توحيد حقل الحجم/المقاس
                         const unifiedSize = order.bottleSize || order.size || '1 قطعة';
-                        
+
                         return {
                             customer_name: order.name,
                             phone_number: order.phone,
@@ -2244,7 +2266,7 @@
                         };
                     })
                 };
-                
+
                 // محاولة الإرسال عبر عدة عناوين API حتى نجد الخادم الصحيح
                 const pageOrigin = (window.location.origin && window.location.origin !== 'null')
                     ? window.location.origin
@@ -2322,7 +2344,7 @@
                     console.error('❌ فشلت كل المحاولات', { lastError, lastAttemptInfo });
                     throw new Error(`لم يتم العثور على API صالح. آخر محاولة: ${lastAttemptInfo || 'غير معروفة'}${lastError ? `، السبب: ${lastError.message || lastError}` : ''}`);
                 }
-                
+
                 if (response.ok) {
                     // تمييز الطلبات المصدرة في Firebase
                     for (const order of selectedOrders) {
@@ -2333,7 +2355,7 @@
                             console.error('Error marking order as exported:', error);
                         }
                     }
-                    
+
                     // دعم كلا الصيغتين: imported_count (API الجديد) و success_count (API القديم)
                     const successCount = data.success_count ?? data.imported_count ?? 0;
                     const failedCount = data.failed_count ?? 0;
@@ -2345,12 +2367,12 @@
                         confirmButtonColor: '#0C5CAB',
                         timer: 3000
                     });
-                    
+
                     // إلغاء تحديد الطلبات المضافة
                     selected.forEach(cb => cb.checked = false);
                     document.getElementById('selectAll').checked = false;
                     updateSelectedCount();
-                    
+
                     // تحديث العرض مع الحفاظ على الفلترة الحالية
                     await filterByProduct();
                 } else {
@@ -2358,7 +2380,7 @@
                 }
             } catch (error) {
                 console.error('Error:', error);
-                
+
                 // رسالة خاصة إذا كان الخطأ بسبب Ad Blocker
                 if (error.message?.includes('ERR_BLOCKED') || error.message?.includes('Failed to fetch')) {
                     await Swal.fire({
@@ -2390,31 +2412,31 @@
                 }
             }
         }
-        
+
         // فلترة الطلبات حسب نوع المنتج وحالة التصدير
         async function applyFilters() {
             const productFilter = document.getElementById('productFilter').value;
             const exportFilter = document.getElementById('exportFilter').value;
             const orders = await loadOrders();
-            
+
             let filteredOrders = orders;
-            
+
             // تطبيق فلتر نوع المنتج
             if (productFilter === 'oil') {
                 filteredOrders = filteredOrders.filter(order => order.productType?.includes('زيت'));
             } else if (productFilter === 'karseell') {
                 filteredOrders = filteredOrders.filter(order => order.productType?.includes('Karseell'));
             }
-            
+
             // تطبيق فلتر حالة التصدير
             if (exportFilter === 'exported') {
                 filteredOrders = filteredOrders.filter(order => order.exportedToSystem === true);
             } else if (exportFilter === 'not-exported') {
                 filteredOrders = filteredOrders.filter(order => !order.exportedToSystem);
             }
-            
+
             await displayOrders(filteredOrders);
-            
+
             // تحديث عدد الطلبات في الإحصائيات
             document.getElementById('totalOrders').textContent = filteredOrders.length;
             const totalRevenue = filteredOrders.reduce((sum, order) => {
@@ -2423,16 +2445,16 @@
             }, 0);
             document.getElementById('totalRevenue').textContent = totalRevenue.toLocaleString();
         }
-        
+
         // فلترة الطلبات حسب نوع المنتج (الدالة القديمة - للتوافق)
         async function filterByProduct() {
             await applyFilters();
         }
-        
+
         // حذف الطلبات المحددة
         async function deleteSelectedOrders() {
             const selected = document.querySelectorAll('.order-checkbox:checked');
-            
+
             if (selected.length === 0) {
                 await Swal.fire({
                     icon: 'warning',
@@ -2442,17 +2464,17 @@
                 });
                 return;
             }
-            
+
             // الحصول على الطلبات المحددة
             const orders = await loadOrders();
             const selectedOrders = [];
-            
+
             selected.forEach(checkbox => {
                 const firebaseId = checkbox.getAttribute('data-firebase-id');
                 const order = orders.find(o => o.firebaseId === firebaseId);
                 if (order) selectedOrders.push(order);
             });
-            
+
             // تأكيد الحذف
             const result = await Swal.fire({
                 title: 'تحذير!',
@@ -2464,9 +2486,9 @@
                 confirmButtonColor: '#d33',
                 cancelButtonColor: '#0C5CAB'
             });
-            
+
             if (!result.isConfirmed) return;
-            
+
             // عرض مؤشر التحميل
             Swal.fire({
                 title: 'جاري الحذف...',
@@ -2477,11 +2499,11 @@
                     Swal.showLoading();
                 }
             });
-            
+
             try {
                 let successCount = 0;
                 let failedCount = 0;
-                
+
                 // حذف كل طلب من Firebase
                 for (const order of selectedOrders) {
                     try {
@@ -2494,15 +2516,15 @@
                         failedCount++;
                     }
                 }
-                
+
                 // إلغاء تحديد الكل
                 selected.forEach(cb => cb.checked = false);
                 document.getElementById('selectAll').checked = false;
                 updateSelectedCount();
-                
+
                 // تحديث العرض مع الحفاظ على الفلترة الحالية
                 await filterByProduct();
-                
+
                 // إظهار النتيجة
                 await Swal.fire({
                     icon: successCount > 0 ? 'success' : 'error',
@@ -2523,4 +2545,5 @@
         }
     </script>
 </body>
+
 </html>
