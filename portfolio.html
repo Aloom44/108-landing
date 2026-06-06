@@ -80,8 +80,16 @@
             --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
         }
 
-        * {
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden;
             box-sizing: border-box;
+        }
+        *, *:before, *:after {
+            box-sizing: inherit;
+        }
+
+        * {
             margin: 0;
             padding: 0;
         }
@@ -98,7 +106,6 @@
             min-height: 100vh;
             line-height: 1.6;
             transition: var(--transition);
-            overflow-x: hidden;
         }
 
         /* Custom Scrollbar */
@@ -847,7 +854,16 @@
             .nav-link-item {
                 padding: 8px 14px;
                 font-size: 0.85rem;
-                flex-shrink: 0;
+                flex-shrink: 0 !important;
+            }
+
+            .nav-card, nav, aside {
+                display: flex !important;
+                flex-wrap: nowrap !important;
+                overflow-x: auto !important;
+                -webkit-overflow-scrolling: touch;
+                max-width: 100% !important;
+                width: 100% !important;
             }
 
             .app-header {
@@ -1658,6 +1674,11 @@
             .flow-step-node {
                 align-self: flex-start;
             }
+        }
+
+        .timeline-container, .dashboard-grid, .concept-card, .table-wrapper, .checklist-container {
+            max-width: 100% !important;
+            width: 100% !important;
         }
     </style>
 </head>
