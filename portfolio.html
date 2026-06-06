@@ -299,10 +299,23 @@
         .sidebar {
             position: sticky;
             top: 24px;
-            height: fit-content;
+            align-self: start;
+            max-height: calc(100vh - 48px);
+            overflow-y: auto;
             display: flex;
             flex-direction: column;
             gap: 16px;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .sidebar::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
         }
 
         .search-box-card {
@@ -832,6 +845,8 @@
                 display: flex;
                 flex-direction: column-reverse;
                 gap: 10px;
+                max-height: none !important;
+                overflow-y: visible !important;
             }
 
             .nav-card {
