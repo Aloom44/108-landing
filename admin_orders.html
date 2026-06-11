@@ -130,24 +130,92 @@
         .stat-box {
             background: var(--surface-2);
             color: var(--text-primary);
-            padding: 16px 22px;
+            padding: 14px 20px;
             border-radius: var(--radius-md);
             text-align: center;
             min-width: 170px;
             box-shadow: var(--shadow-soft);
             border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .stat-box-value {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         .stat-box .number {
-            font-size: 2rem;
+            font-size: 1.85rem;
             font-weight: 900;
-            display: block;
             color: #7dd3fc;
+            background: rgba(125, 211, 252, 0.08);
+            padding: 2px 14px;
+            border-radius: var(--radius-sm);
+            border: 1px solid rgba(125, 211, 252, 0.15);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+            font-family: 'IBM Plex Sans', monospace;
+            letter-spacing: 0.5px;
+            display: inline-block;
         }
 
         .stat-box .label {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        /* ===== New Orders Special Style (Warning Odometer Counter) ===== */
+        .stat-box-new-orders {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.05) 0%, rgba(17, 24, 39, 0.9) 100%) !important;
+            border: 1px solid rgba(245, 158, 11, 0.2) !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .stat-box-new-orders.has-new {
+            border-color: rgba(245, 158, 11, 0.55) !important;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.12), var(--shadow-soft) !important;
+        }
+
+        .stat-box-new-orders .number {
+            color: #f59e0b !important;
+            background: rgba(245, 158, 11, 0.12) !important;
+            border: 1px solid rgba(245, 158, 11, 0.35) !important;
+            text-shadow: 0 0 8px rgba(245, 158, 11, 0.3);
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #f59e0b;
+            box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7);
+            display: none;
+        }
+
+        .pulse-dot.active {
+            display: inline-block;
+            animation: pulse-orange 1.5s infinite;
+        }
+
+        @keyframes pulse-orange {
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7);
+            }
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 8px rgba(245, 158, 11, 0);
+            }
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(245, 158, 11, 0);
+            }
         }
 
         .controls {
@@ -1005,12 +1073,17 @@
             </div>
             <div class="stats">
                 <div class="stat-box">
-                    <span class="number" id="totalOrders">0</span>
+                    <div class="stat-box-value">
+                        <span class="number" id="totalOrders">0</span>
+                    </div>
                     <span class="label">إجمالي الطلبات</span>
                 </div>
-                <div class="stat-box">
-                    <span class="number" id="totalRevenue">0</span>
-                    <span class="label">الإيرادات (جنيه)</span>
+                <div class="stat-box stat-box-new-orders" id="newOrdersCard">
+                    <div class="stat-box-value">
+                        <span class="number" id="newOrders">0</span>
+                        <span class="pulse-dot" id="newOrdersPulse"></span>
+                    </div>
+                    <span class="label">الطلبـات الجديـدة</span>
                 </div>
             </div>
         </div>
@@ -1449,7 +1522,7 @@
         function getOrderTotalPrice(order) {
             const rawTotal = order?.finalPrice ?? order?.total ?? order?.price;
             const total = parseFloat(rawTotal);
-            return Number.isFinite(total) ? total : 0;
+            return Number.isFinite(total) ? Math.round(total) : 0;
         }
 
         // Get shipping cost if available; fallback for old Karseell records
@@ -1774,11 +1847,20 @@
         // Update statistics
         function updateStats(orders) {
             document.getElementById('totalOrders').textContent = orders.length;
-            const totalRevenue = orders.reduce((sum, order) => {
-                const price = getOrderTotalPrice(order);
-                return sum + price;
-            }, 0);
-            document.getElementById('totalRevenue').textContent = totalRevenue.toLocaleString();
+            const newOrdersCount = orders.filter(order => !order.exportedToSystem).length;
+            document.getElementById('newOrders').textContent = newOrdersCount.toLocaleString();
+
+            const card = document.getElementById('newOrdersCard');
+            const pulse = document.getElementById('newOrdersPulse');
+            if (card && pulse) {
+                if (newOrdersCount > 0) {
+                    card.classList.add('has-new');
+                    pulse.classList.add('active');
+                } else {
+                    card.classList.remove('has-new');
+                    pulse.classList.remove('active');
+                }
+            }
         }
 
         // View order details
@@ -2439,11 +2521,20 @@
 
             // تحديث عدد الطلبات في الإحصائيات
             document.getElementById('totalOrders').textContent = filteredOrders.length;
-            const totalRevenue = filteredOrders.reduce((sum, order) => {
-                const price = getOrderTotalPrice(order);
-                return sum + price;
-            }, 0);
-            document.getElementById('totalRevenue').textContent = totalRevenue.toLocaleString();
+            const newOrdersCount = filteredOrders.filter(order => !order.exportedToSystem).length;
+            document.getElementById('newOrders').textContent = newOrdersCount.toLocaleString();
+
+            const card = document.getElementById('newOrdersCard');
+            const pulse = document.getElementById('newOrdersPulse');
+            if (card && pulse) {
+                if (newOrdersCount > 0) {
+                    card.classList.add('has-new');
+                    pulse.classList.add('active');
+                } else {
+                    card.classList.remove('has-new');
+                    pulse.classList.remove('active');
+                }
+            }
         }
 
         // فلترة الطلبات حسب نوع المنتج (الدالة القديمة - للتوافق)
