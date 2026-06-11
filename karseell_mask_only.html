@@ -3,20 +3,20 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title>كارسيل كولاجين – كريم ترميم الشعر وتنعيمه</title>
+  <title>ماسك كارسيل الأصلي – كريم ترميم الشعر وتنعيمه</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description"
-    content="وداعاً للهيشان والتقصف مع كريم كارسيل كولاجين الطبيعي – ترميم عميق ونعومة فائقة من أول استخدام." />
+    content="وداعاً للهيشان والتقصف مع ماسك كارسيل كولاجين الطبيعي – ترميم عميق ونعومة فائقة من أول استخدام." />
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="https://i.ibb.co/1fHj8NND/cropped-karseell-logo-400x100-1.png" />
   <link rel="shortcut icon" type="image/png" href="https://i.ibb.co/1fHj8NND/cropped-karseell-logo-400x100-1.png" />
 
   <!-- OG -->
-  <meta property="og:title" content="كارسيل كولاجين – ترميم عميق ونعومة فائقة" />
-  <meta property="og:description" content="كريم كارسيل بالكولاجين والأرجان لترميم الشعر الجاف والتالف وعلاج الهيشان." />
+  <meta property="og:title" content="ماسك كارسيل كولاجين – ترميم عميق ونعومة فائقة" />
+  <meta property="og:description" content="ماسك كارسيل بالكولاجين والأرجان لترميم الشعر الجاف والتالف وعلاج الهيشان." />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://i.ibb.co/qLg3GMKN/Chat-GPT-Image-May-9-2026-09-53-16-PM.png" />
+  <meta property="og:image" content="https://i.ibb.co/kgpSxMqK/karseell-collagen-hair-masks.webp" />
 
   <!-- Meta Pixel Code -->
   <script>
@@ -33,10 +33,14 @@
       'https://connect.facebook.net/en_US/fbevents.js');
     fbq('init', '25914318858170088');
     fbq('init', '1664645988274778');
+    fbq('init', '1479332870606960');
     fbq('track', 'PageView');
   </script>
-  <noscript><img height="1" width="1" style="display:none"
-      src="https://www.facebook.com/tr?id=25914318858170088&ev=PageView&noscript=1" /></noscript>
+  <noscript>
+    <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=25914318858170088&ev=PageView&noscript=1" />
+    <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1664645988274778&ev=PageView&noscript=1" />
+    <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1479332870606960&ev=PageView&noscript=1" />
+  </noscript>
   <!-- End Meta Pixel Code -->
 
   <!-- Firebase SDK -->
@@ -64,24 +68,24 @@
     @import url('https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap');
 
     :root {
-      --bg: #F8F6F2;
-      /* Luxury warm cream */
+      --bg: #FFFFFF;
+      /* Pure White */
       --cream: #FFFFFF;
-      /* Secondary pure white for layout items */
-      --primary: #111827;
-      /* Deep Charcoal Black */
-      --gold: #C8A45D;
-      /* Premium Gold Accent */
-      --gold-light: #DCC48E;
-      /* Luxury Soft Gold */
-      --text-main: #1F2937;
-      --text-muted: #57534e;
-      --border-color: rgba(17, 24, 39, 0.08);
-      --border-light: rgba(17, 24, 39, 0.1);
-      --border-input: rgba(17, 24, 39, 0.15);
+      --primary: #8B1818;
+      /* Primary Brand Color: Burgundy */
+      --gold: #8B1818;
+      /* Primary Burgundy */
+      --gold-light: #A32828;
+      /* Soft burgundy */
+      --text-main: #333333;
+      /* Paragraphs */
+      --text-muted: #666666;
+      --border-color: rgba(139, 24, 24, 0.08);
+      --border-light: rgba(139, 24, 24, 0.1);
+      --border-input: rgba(139, 24, 24, 0.15);
       --container: 1100px;
-      --radius-lg: 24px;
-      --radius-md: 16px;
+      --radius-lg: 12px;
+      --radius-md: 8px;
     }
 
     * {
@@ -112,8 +116,8 @@
     h4,
     h5,
     h6 {
-      font-family: 'Almarai', sans-serif;
-      color: var(--primary);
+      font-family: 'Cairo', sans-serif;
+      color: #000000;
     }
 
     img {
@@ -135,44 +139,81 @@
 
     /* Promo Bar */
     .promo-bar {
-      background: #111827;
+      background: #8B1818;
       color: #FFFFFF;
       text-align: center;
       font-family: 'IBM Plex Sans Arabic', sans-serif;
       font-weight: 600;
       font-size: 13px;
-      letter-spacing: 0.5px;
-      height: 36px;
+      height: 38px;
       padding: 0 12px;
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
+      z-index: 100;
     }
 
     /* Header */
     header {
       background: #FFFFFF;
-      border-bottom: 1px solid #ECECEC;
+      border-bottom: 1px solid #EAEAEA;
       position: sticky;
       top: 0;
       z-index: 50;
       height: 64px;
       display: flex;
       align-items: center;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
     }
 
-    .nav {
+    .header-container {
       display: flex;
       align-items: center;
       justify-content: space-between;
       width: 100%;
+      direction: ltr;
+      /* Keeps layout order physical: left=hamburger, right=user/cart */
     }
 
-    .logo {
+    .header-left,
+    .header-right {
       display: flex;
       align-items: center;
+      width: 80px;
+    }
+
+    .header-left {
+      justify-content: flex-start;
+    }
+
+    .header-right {
+      justify-content: flex-end;
+      gap: 12px;
+    }
+
+    .header-center {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-grow: 1;
+    }
+
+    .icon-btn {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      color: #333333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px;
+      transition: color 0.2s ease, transform 0.2s ease;
+      border-radius: 50%;
+    }
+
+    .icon-btn:hover {
+      color: #8B1818;
+      transform: scale(1.05);
     }
 
     .btn {
@@ -180,9 +221,9 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      border-radius: 50px;
+      border-radius: 4px;
       padding: 10px 24px;
-      font-weight: 500;
+      font-weight: 600;
       cursor: pointer;
       border: none;
       transition: all 0.3s ease;
@@ -196,7 +237,7 @@
     }
 
     .btn-primary:hover {
-      background: var(--gold);
+      background: #6D1010;
       transform: translateY(-2px);
     }
 
@@ -211,213 +252,84 @@
       color: #FFFFFF;
     }
 
+    /* Hero Section */
     .hero {
-      background: linear-gradient(180deg, #FFFFFF 0%, #F8F6F2 100%);
-      padding: 40px 0 50px;
+      position: relative;
+      background: url('https://i.ibb.co/HT90Xxw9/Chat-GPT-Image-Jun-9-2026-04-23-52-PM-11zon.webp') no-repeat center center;
+      background-size: cover;
+      padding: 100px 0;
+      min-height: 520px;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #EAEAEA;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.45);
+      /* Overlay for high text legibility */
+      z-index: 1;
     }
 
     .hero .container {
-      max-width: 1200px;
+      position: relative;
+      z-index: 2;
     }
 
-    .hero-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
-      gap: 40px;
-      align-items: center;
-    }
-
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px 18px;
-      border-radius: 50px;
-      background: rgba(200, 164, 93, 0.07);
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--gold);
-      margin-bottom: 18px;
-      border: 1px solid rgba(200, 164, 93, 0.22);
-      letter-spacing: 0.5px;
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      /* aligns right in RTL */
+      text-align: right;
+      max-width: 600px;
     }
 
     .hero-title {
-      font-size: clamp(28px, 3.6vw, 38px);
-      font-weight: 700;
-      margin-bottom: 18px;
-      line-height: 1.45;
-      color: var(--primary);
-      letter-spacing: -0.02em;
-    }
-
-    .hero-title-desc {
-      display: block;
-      font-size: clamp(20px, 2.5vw, 26px);
-      font-weight: 700;
-      color: var(--gold);
-      margin-top: 10px;
-      line-height: 1.45;
-    }
-
-    .hero-sub {
-      font-size: 16px;
-      color: #374151;
-      margin-bottom: 24px;
-      line-height: 1.85;
-      max-width: 520px;
-    }
-
-    .hero-trust-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 18px;
-      margin-bottom: 28px;
-      align-items: center;
-    }
-
-    .trust-item {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 14.5px;
-      font-weight: 600;
-      color: var(--text-main);
-    }
-
-    .trust-icon {
-      color: var(--gold);
+      font-family: 'Cairo', sans-serif;
+      font-size: clamp(32px, 4.2vw, 48px);
       font-weight: 800;
-      font-size: 16px;
+      color: #FFFFFF;
+      line-height: 1.3;
+      margin-bottom: 20px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .hero-subtitle {
+      font-family: 'IBM Plex Sans Arabic', sans-serif;
+      font-size: clamp(16px, 1.8vw, 22px);
+      color: #FFFFFF;
+      margin-bottom: 36px;
+      line-height: 1.6;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     }
 
     .hero-cta-btn {
-      background: #111827;
+      background: #8B1818;
       color: #FFFFFF;
-      border-radius: 50px;
-      padding: 14px 38px;
-      font-weight: 600;
-      font-size: 15px;
       border: none;
+      padding: 16px 44px;
+      font-size: 16px;
+      font-weight: 700;
+      font-family: 'IBM Plex Sans Arabic', sans-serif;
+      border-radius: 4px;
       cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 10px 25px rgba(17, 24, 39, 0.12);
+      transition: background-color 0.2s ease, transform 0.2s ease;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      box-shadow: 0 4px 15px rgba(139, 24, 24, 0.4);
     }
 
     .hero-cta-btn:hover {
-      background: #C8A45D;
-      color: #FFFFFF;
+      background: #6D1010;
       transform: translateY(-2px);
-      box-shadow: 0 12px 30px rgba(200, 164, 93, 0.25);
     }
-
-    .hero-img-card {
-      background: transparent;
-      position: relative;
-      min-width: 0;
-      overflow: hidden;
-      max-height: 500px;
-    }
-
-    /* Swiper Gallery Styles */
-    .hero-gallery {
-      width: 100%;
-      position: relative;
-      overflow: hidden;
-      contain: layout;
-    }
-
-    /* ---- Custom Hero Gallery ---- */
-    .custom-gallery {
-      width: 100%;
-      max-width: 420px;
-      margin-inline: auto;
-    }
-
-    .cg-main {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      max-height: 420px;
-      border-radius: 28px;
-      overflow: hidden;
-      background: #fff;
-      border: 1px solid rgba(200, 164, 93, 0.15);
-      box-shadow: 0 25px 60px rgba(17, 24, 39, 0.06);
-      margin-bottom: 12px;
-    }
-
-    .cg-slide {
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      transition: opacity 0.6s ease;
-      pointer-events: none;
-    }
-
-    .cg-slide.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .cg-slide a {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-
-    .cg-slide img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      display: block;
-    }
-
-    .cg-thumbs {
-      display: flex;
-      gap: 8px;
-      justify-content: center;
-      padding: 4px 0;
-    }
-
-    .cg-thumb {
-      width: 64px;
-      height: 64px;
-      border-radius: 10px;
-      overflow: hidden;
-      cursor: pointer;
-      opacity: 0.45;
-      border: 2px solid transparent;
-      background: #fff;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-      transition: all 0.35s ease;
-      padding: 0;
-      flex-shrink: 0;
-    }
-
-    .cg-thumb.active {
-      opacity: 1;
-      border-color: var(--gold);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(200, 164, 93, 0.2);
-    }
-
-    .cg-thumb:hover {
-      opacity: 0.85;
-    }
-
-    .cg-thumb img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-
 
     /* Verification Slider Styles */
     .verify-swiper {
@@ -505,53 +417,68 @@
 
     .card {
       background: #FFFFFF;
-      border-radius: 16px;
-      padding: 24px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+      border-radius: 20px;
+      padding: 32px 24px;
+      box-shadow: 0 10px 30px rgba(139, 24, 24, 0.02);
       text-align: center;
-      border: 1px solid var(--border-color);
-      transition: all 0.4s ease;
+      border: 1px solid rgba(139, 24, 24, 0.06);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
     }
 
     .card:hover {
-      border-color: var(--gold);
-      transform: translateY(-4px);
-      box-shadow: 0 12px 35px rgba(200, 164, 93, 0.06);
+      border-color: rgba(139, 24, 24, 0.25);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(139, 24, 24, 0.08);
     }
 
     .card-icon {
-      width: 48px;
-      height: 48px;
-      margin-bottom: 4px;
+      width: 60px;
+      height: 60px;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: rgba(200, 164, 93, 0.08);
-      border-radius: 12px;
-      color: var(--gold);
+      background: rgba(139, 24, 24, 0.05);
+      border-radius: 50%;
+      color: var(--primary);
+      margin-bottom: 4px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .card:hover .card-icon {
+      background: var(--primary);
+      color: #FFFFFF;
+      transform: scale(1.1);
     }
 
     .card-icon svg {
-      width: 24px;
-      height: 24px;
-      fill: currentColor;
+      width: 26px;
+      height: 26px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.8px;
     }
 
     .card-title {
-      font-weight: 600;
-      font-size: 15px;
-      color: var(--primary);
+      font-weight: 700;
+      font-size: 16.5px;
+      color: #000000;
       line-height: 1.4;
+      font-family: 'Cairo', sans-serif;
+      transition: color 0.3s ease;
+    }
+
+    .card:hover .card-title {
+      color: var(--primary);
     }
 
     .card-text {
-      font-size: 13px;
-      color: var(--text-muted);
-      line-height: 1.6;
+      font-size: 13.5px;
+      color: #555555;
+      line-height: 1.7;
     }
 
     .how-steps {
@@ -1049,67 +976,138 @@
 
     @media (max-width: 900px) {
       .hero {
-        padding: 18px 0;
+        padding: 120px 0 35px 0;
+        /* Shift layout to top-heavy to expose product jar */
+        min-height: 480px;
+        background-position: 22% center;
+        display: flex;
+        align-items: flex-end;
       }
 
-      .hero-grid {
-        grid-template-columns: 1fr;
-        gap: 18px;
+      .hero::before {
+        background: linear-gradient(to top, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.8) 35%, rgba(255, 255, 255, 0.1) 70%, transparent 100%);
+        display: block;
+      }
+
+      .hero-content {
+        align-items: center;
         text-align: center;
-      }
-
-      .hero-gallery {
-        padding: 0 9px;
-      }
-
-      .hero-img-card {
-        order: 1;
-        max-width: 315px;
         margin: 0 auto;
-      }
-
-      .hero-grid>div:first-child {
-        order: 2;
+        padding: 0 16px;
+        background: none;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        border: none;
+        box-shadow: none;
+        width: 100%;
+        max-width: 360px;
+        z-index: 2;
       }
 
       .hero-title {
-        font-size: 21px;
+        font-size: 26px;
+        color: #8B1818;
+        /* Burgundy brand color */
+        text-shadow: 0 1px 3px rgba(255, 255, 255, 0.9);
+        margin-bottom: 10px;
+        font-weight: 800;
+        line-height: 1.3;
       }
 
-      .hero-title-desc {
+      .hero-subtitle {
+        font-size: 15px;
+        color: #333333;
+        /* Dark charcoal */
+        text-shadow: 0 1px 3px rgba(255, 255, 255, 0.9);
+        margin-bottom: 20px;
+        line-height: 1.5;
+        font-weight: 600;
+      }
+
+      .hero-cta-btn {
+        background: #8B1818;
+        color: #FFFFFF;
+        box-shadow: 0 4px 15px rgba(139, 24, 24, 0.35);
+        width: 100%;
+        max-width: 220px;
+        padding: 14px 28px;
         font-size: 15px;
       }
 
-      .hero-sub {
-        font-size: 11px;
-        margin-inline: auto;
-      }
-
-      .hero-trust-row {
-        justify-content: center;
-        gap: 9px;
-        margin-bottom: 18px;
-      }
-
-      .custom-gallery {
-        max-width: 100%;
-        padding: 0 3px;
-      }
-
-      .cg-main {
-        max-height: none;
-        aspect-ratio: 1 / 1;
-      }
-
-      .cg-thumb {
-        width: 48px;
-        height: 48px;
+      .hero-cta-btn:hover {
+        background: #6D1010;
       }
 
       .order-grid,
       .grid-3,
       .how-steps {
         grid-template-columns: 1fr;
+      }
+
+      /* Horizontal benefits layout on mobile to save vertical space */
+      .grid-3 {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .grid-3 .card {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        grid-template-rows: auto auto;
+        column-gap: 14px;
+        row-gap: 4px;
+        text-align: right;
+        align-items: start;
+        padding: 12px 0;
+        background: transparent;
+        border: none;
+        box-shadow: none;
+        border-radius: 0;
+        border-bottom: 1px dashed rgba(139, 24, 24, 0.12);
+      }
+
+      .grid-3 .card:last-child {
+        border-bottom: none;
+      }
+
+      .grid-3 .card .card-icon {
+        grid-column: 1;
+        grid-row: 1 / span 2;
+        margin-bottom: 0;
+        align-self: start;
+        width: 38px;
+        height: 38px;
+        background: rgba(139, 24, 24, 0.05);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .grid-3 .card .card-icon svg {
+        width: 18px;
+        height: 18px;
+      }
+
+      .grid-3 .card .card-title {
+        grid-column: 2;
+        grid-row: 1;
+        margin: 0;
+        text-align: right;
+        font-size: 14.5px;
+        font-weight: 700;
+        color: #0F172A;
+      }
+
+      .grid-3 .card .card-text {
+        grid-column: 2;
+        grid-row: 2;
+        margin: 0;
+        text-align: right;
+        font-size: 12px;
+        line-height: 1.5;
+        color: #475569;
       }
 
       .offers-row {
@@ -1136,7 +1134,7 @@
       }
 
       .whatsapp-float {
-        bottom: 68px;
+        bottom: 85px;
       }
 
       /* Hide count row on mobile */
@@ -1234,7 +1232,7 @@
       width: 100%;
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(10px);
-      padding: 9px 15px;
+      padding: 6px 12px;
       z-index: 1000;
       box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.04);
       border-top: 1px solid var(--border-color);
@@ -1385,21 +1383,584 @@
         font-size: 9px;
       }
     }
+
+    /* Best Sellers Section */
+    .best-sellers-sec {
+      background: #FFFFFF;
+      padding: 60px 0;
+      border-bottom: 1px solid #EAEAEA;
+    }
+
+    .trust-badge-banner {
+      background: #FFFFFF;
+      border: 1px solid #8B1818;
+      color: #8B1818;
+      font-family: 'IBM Plex Sans Arabic', sans-serif;
+      font-size: clamp(12px, 1.5vw, 14px);
+      font-weight: 600;
+      text-align: center;
+      padding: 12px 20px;
+      border-radius: 4px;
+      margin-bottom: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1.4;
+    }
+
+    .best-sellers-title {
+      font-family: 'Cairo', sans-serif;
+      font-size: clamp(24px, 3vw, 32px);
+      font-weight: 700;
+      color: #000000;
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .best-sellers-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      max-width: 500px;
+      margin-inline: auto;
+    }
+
+    .product-card {
+      background: #FFFFFF;
+      border: 1px solid #EAEAEA;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+      border-color: #8B1818;
+    }
+
+    .card-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: #8B1818;
+      color: #FFFFFF;
+      font-family: 'Cairo', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 2px;
+      z-index: 10;
+    }
+
+    .product-img-box {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #FFFFFF;
+      padding: 16px;
+    }
+
+    .product-img-box img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .product-info {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex-grow: 1;
+      border-top: 1px solid #F7F7F7;
+    }
+
+    .product-title {
+      font-family: 'Cairo', sans-serif;
+      font-size: clamp(13px, 1.6vw, 15px);
+      font-weight: 600;
+      color: #000000;
+      margin: 0;
+      line-height: 1.4;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    .product-price-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: auto;
+    }
+
+    .price-current {
+      font-family: 'Cairo', sans-serif;
+      font-size: clamp(14px, 1.8vw, 16px);
+      font-weight: 700;
+      color: #8B1818;
+    }
+
+    .price-old {
+      font-family: 'Cairo', sans-serif;
+      font-size: clamp(11px, 1.4vw, 13px);
+      text-decoration: line-through;
+      color: #888888;
+    }
+
+    /* Phase 2: Dynamic Tabbed Products Styling */
+    .product-tab-card {
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+
+    .product-tab-card.active-product-tab {
+      border-color: #8B1818 !important;
+      box-shadow: 0 12px 30px rgba(139, 24, 24, 0.15) !important;
+      transform: translateY(-4px);
+    }
+
+    .product-tab-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%) scaleX(0);
+      width: 60px;
+      height: 4px;
+      background: #8B1818;
+      border-radius: 4px 4px 0 0;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 5;
+    }
+
+    .product-tab-card.active-product-tab::after {
+      transform: translateX(-50%) scaleX(1);
+    }
+
+    .product-details-wrapper {
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .product-details-wrapper.fade-in {
+      opacity: 1;
+    }
+
+    /* Luxury Gallery Grid Styling */
+    .luxury-gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 32px;
+      margin-top: 16px;
+      max-width: 400px;
+      margin-inline: auto;
+    }
+
+    .luxury-gallery-item {
+      aspect-ratio: 1 / 1;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      cursor: zoom-in;
+    }
+
+    .luxury-gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .luxury-gallery-item:hover img {
+      transform: scale(1.05);
+    }
+
+    @media (max-width: 768px) {
+      .luxury-gallery-grid {
+        gap: 8px;
+      }
+    }
+
+    /* =============================================
+       INNER TAB SYSTEM - Premium e-commerce style
+       ============================================= */
+    .inner-tabs-nav {
+      display: flex;
+      gap: 24px;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 24px;
+      overflow-x: auto;
+      white-space: nowrap;
+      scrollbar-width: none;
+    }
+
+    .inner-tabs-nav::-webkit-scrollbar {
+      display: none;
+    }
+
+    .inner-tab-btn {
+      background: none;
+      border: none;
+      padding: 12px 4px;
+      font-family: 'Cairo', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all 0.3s ease;
+    }
+
+    .inner-tab-btn.active-inner-tab {
+      color: #8B1818;
+      border-bottom-color: #8B1818;
+    }
+
+    .inner-tab-pane {
+      display: none;
+      animation: fadeIn 0.4s ease-in-out;
+    }
+
+    .inner-tab-pane.active-pane {
+      display: block;
+    }
+
+    /* Mobile Track Order Modal */
+    .track-modal {
+      display: none;
+      position: fixed;
+      z-index: 10000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .track-modal.show {
+      display: flex;
+      opacity: 1;
+    }
+
+    .track-modal-content {
+      background-color: #FFFFFF;
+      margin: auto;
+      padding: 24px;
+      border: 1px solid rgba(139, 24, 24, 0.15);
+      width: 90%;
+      max-width: 450px;
+      border-radius: 16px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      position: relative;
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+      font-family: 'IBM Plex Sans Arabic', sans-serif;
+      text-align: center;
+    }
+
+    .track-modal.show .track-modal-content {
+      transform: translateY(0);
+    }
+
+    .track-modal-close {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      color: #888888;
+      background: none;
+      border: none;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      line-height: 1;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .track-modal-close:hover {
+      background: #F3F4F6;
+      color: #8B1818;
+    }
+
+    .track-modal-header {
+      margin-bottom: 20px;
+    }
+
+    .track-modal-icon {
+      font-size: 28px;
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+
+    .track-modal-header h3 {
+      font-family: 'Cairo', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: #8B1818;
+      margin-bottom: 6px;
+    }
+
+    .track-modal-header p {
+      font-size: 13px;
+      color: #666666;
+    }
+
+    .modal-input-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .modal-input-group .form-control {
+      flex-grow: 1;
+      padding: 12px 14px;
+      font-size: 14px;
+      border: 1px solid rgba(139, 24, 24, 0.15);
+      border-radius: 10px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+      text-align: center;
+    }
+
+    .modal-input-group .form-control:focus {
+      border-color: #8B1818;
+    }
+
+    .modal-search-btn {
+      background: #8B1818;
+      color: #FFFFFF;
+      border: none;
+      padding: 12px 24px;
+      font-size: 15px;
+      font-weight: 600;
+      border-radius: 10px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+
+    .modal-search-btn:hover {
+      background: #6D1010;
+    }
+
+    .modal-track-results {
+      margin-top: 15px;
+      background: #FAF8F5;
+      border: 1px solid rgba(139, 24, 24, 0.08);
+      padding: 16px;
+      border-radius: 12px;
+      font-size: 14px;
+      text-align: right;
+      animation: fadeIn 0.3s ease;
+    }
+
+    /* Mobile Sidebar Drawer Styling */
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 9999;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      backdrop-filter: blur(2px);
+    }
+
+    .sidebar-overlay.active {
+      display: block;
+      opacity: 1;
+    }
+
+    .sidebar-drawer {
+      position: fixed;
+      top: 0;
+      left: -270px; /* Hidden on left side */
+      width: 260px;
+      height: 100%;
+      background: #FFFFFF;
+      box-shadow: 4px 0 25px rgba(139, 24, 24, 0.08);
+      z-index: 10000;
+      transition: left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      padding: 40px 24px;
+      font-family: 'Cairo', sans-serif;
+      text-align: right;
+      border-radius: 0 16px 16px 0;
+    }
+
+    .sidebar-drawer.active {
+      left: 0;
+    }
+
+    .sidebar-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: #888888;
+      cursor: pointer;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: all 0.2s;
+    }
+
+    .sidebar-close:hover {
+      background: rgba(139, 24, 24, 0.05);
+      color: #8B1818;
+    }
+
+    .sidebar-logo {
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(139, 24, 24, 0.08);
+      display: flex;
+      justify-content: center;
+    }
+
+    .sidebar-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .sidebar-menu .menu-item {
+      display: block;
+      padding: 14px 16px;
+      color: #333333;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 600;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+    }
+
+    .sidebar-menu .menu-item:hover {
+      background: rgba(139, 24, 24, 0.04);
+      color: #8B1818;
+      padding-right: 20px;
+    }
+
+    /* Track Button Specific Styling */
+    .sidebar-menu .menu-item.track-btn {
+      margin-top: 12px;
+      background: rgba(139, 24, 24, 0.05);
+      color: #8B1818;
+      border: 1px solid rgba(139, 24, 24, 0.1);
+      text-align: center;
+    }
+
+    /* Custom SweetAlert Confirmation Modal Styling */
+    .custom-swal-popup {
+      border-radius: 20px !important;
+      border: 1px solid rgba(139, 24, 24, 0.12) !important;
+      font-family: 'IBM Plex Sans Arabic', 'Cairo', sans-serif !important;
+      padding: 24px 20px !important;
+      max-width: 92% !important;
+      width: 480px !important;
+    }
+    .custom-swal-title {
+      font-size: 1.4rem !important;
+      color: #8B1818 !important;
+      font-weight: 800 !important;
+      margin-bottom: 8px !important;
+      font-family: 'Cairo', sans-serif !important;
+    }
+    .custom-swal-confirm {
+      background: #8B1818 !important;
+      color: #FFFFFF !important;
+      font-weight: 700 !important;
+      padding: 12px 32px !important;
+      border-radius: 12px !important;
+      font-size: 0.95rem !important;
+      box-shadow: 0 4px 15px rgba(139, 24, 24, 0.2) !important;
+      transition: all 0.2s ease !important;
+      border: none !important;
+    }
+    .custom-swal-confirm:hover {
+      background: #6D1010 !important;
+      transform: translateY(-1px) !important;
+    }
   </style>
 
 </head>
 
 <body>
 
+  <!-- PROMO BAR -->
+  <div class="promo-bar">
+    شحن مجاني على الطلبات فوق 1200 ج.م
+  </div>
 
+  <!-- HEADER -->
   <header>
     <div class="container">
-      <nav class="nav">
-        <div class="logo">
-          <img src="https://i.ibb.co/1fHj8NND/cropped-karseell-logo-400x100-1.png" alt="Karseell Egypt"
-            style="height: 45px; width: auto;">
+      <nav class="header-container">
+        <!-- Hamburger Icon (Left) -->
+        <div class="header-left">
+          <button class="icon-btn" aria-label="القائمة" onclick="openSidebar()">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
         </div>
-        <button class="btn btn-primary" onclick="scrollToOrder()">اطلبي الآن</button>
+
+        <!-- Logo (Center) -->
+        <div class="header-center">
+          <div class="logo">
+            <img src="https://i.ibb.co/1fHj8NND/cropped-karseell-logo-400x100-1.png" alt="Karseell Logo"
+              style="height: 38px; width: auto;">
+          </div>
+        </div>
+
+        <!-- User Icon (Right) -->
+        <div class="header-right">
+          <button class="icon-btn" aria-label="تتبع الطلب وتعديله أو إلغائه" onclick="scrollToTrack()">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </button>
+        </div>
       </nav>
     </div>
   </header>
@@ -1407,252 +1968,660 @@
   <!-- HERO -->
   <section class="hero">
     <div class="container">
-      <div class="hero-grid">
-        <div>
-          <div class="hero-badge">✨ عناية احترافية بالشعر</div>
-          <h1 class="hero-title">
-            كارسيل كولاجين
-            <span class="hero-title-desc">شعر أكثر نعومة ولمعاناً من أول استخدام</span>
-          </h1>
-          <p class="hero-sub">
-            ماسك كولاجين غني بالمكونات المغذية يساعد على تحسين مظهر الشعر الجاف والمتضرر ويمنحه نعومة ولمعاناً يدومان.
-          </p>
-          <div class="hero-trust-row">
-            <span class="trust-item">
-              <span class="trust-icon">✓</span>
-              <span>أكثر من 1000 عميلة</span>
-            </span>
-            <span class="trust-item">
-              <span class="trust-icon">✓</span>
-              <span>تقييم 4.9/5</span>
-            </span>
-            <span class="trust-item">
-              <span class="trust-icon">✓</span>
-              <span>الدفع عند الاستلام</span>
-            </span>
-          </div>
-          <button class="hero-cta-btn" onclick="scrollToOrder()">تسوق الآن</button>
-        </div>
-        <div class="hero-img-card">
-          <div class="hero-gallery">
-            <!-- Custom Gallery -->
-            <div class="custom-gallery" id="heroGallery">
-              <div class="cg-main">
-                <div class="cg-slide active" data-index="0">
-                  <a href="https://i.ibb.co/qLg3GMKN/Chat-GPT-Image-May-9-2026-09-53-16-PM.png" data-fancybox="gallery">
-                    <img src="https://i.ibb.co/qLg3GMKN/Chat-GPT-Image-May-9-2026-09-53-16-PM.png"
-                      alt="ماسك كارسيل كولاجين" loading="lazy">
-                  </a>
-                </div>
-                <div class="cg-slide" data-index="1">
-                  <a href="https://i.ibb.co/JWn3J8qv/karseell-collagen-hair-mask-2.webp" data-fancybox="gallery">
-                    <img src="https://i.ibb.co/JWn3J8qv/karseell-collagen-hair-mask-2.webp" alt="تفاصيل ماسك كارسيل"
-                      loading="lazy">
-                  </a>
-                </div>
-                <div class="cg-slide" data-index="2">
-                  <a href="https://i.ibb.co/0VcMdzB6/karseell-collagen-hair-mask-5.webp" data-fancybox="gallery">
-                    <img src="https://i.ibb.co/0VcMdzB6/karseell-collagen-hair-mask-5.webp" alt="طريقة استخدام كارسيل"
-                      loading="lazy">
-                  </a>
-                </div>
-              </div>
-              <div class="cg-thumbs">
-                <button class="cg-thumb active" data-target="0" onclick="cgGoTo(0)">
-                  <img src="https://i.ibb.co/qLg3GMKN/Chat-GPT-Image-May-9-2026-09-53-16-PM.png" alt="">
-                </button>
-                <button class="cg-thumb" data-target="1" onclick="cgGoTo(1)">
-                  <img src="https://i.ibb.co/JWn3J8qv/karseell-collagen-hair-mask-2.webp" alt="">
-                </button>
-                <button class="cg-thumb" data-target="2" onclick="cgGoTo(2)">
-                  <img src="https://i.ibb.co/0VcMdzB6/karseell-collagen-hair-mask-5.webp" alt="">
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="hero-content">
+        <h1 class="hero-title">ماسك كارسيل بالكولاجين</h1>
+        <p class="hero-subtitle">إصلاح عميق. تغذية مكثفة. لمعان يدوم.</p>
+        <button class="hero-cta-btn" onclick="scrollToOrder()">أطلبي الآن</button>
       </div>
     </div>
   </section>
 
-  <!-- WHY KARSEELL (BENEFITS & FEATURES) -->
-  <section class="sec" style="background: linear-gradient(180deg, #fdfaf5 0%, #fff 100%);">
+  <!-- BEST SELLERS -->
+  <section class="best-sellers-sec">
     <div class="container">
-      <h2 class="sec-title">ليه كارسيل بقى اختيار آلاف البنات؟</h2>
-      <p class="sec-sub" style="max-width: 600px; margin-inline: auto;">
-        تركيبة غنية بالكولاجين الطبيعي تساعد على الحصول على شعر أنعم وأكثر حيوية من أول استخدام.
-      </p>
-
-      <div class="grid-3">
-        <!-- Card 1: Natural straightening -->
-        <div class="card">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-              stroke-linejoin="round">
-              <path d="M12 22a7 7 0 0 0 7-7c0-4.3-7-11-7-11S5 10.7 5 15a7 7 0 0 0 7 7z" />
-              <path d="M19 3h.01M22 6h.01M21 2h.01" />
-            </svg>
+      <div class="trust-badge-banner">
+        شحن مجاني على الطلبات فوق 1200 ج.م... موثوق به من أكثر من 10,000,000 عميلة - تسوقي الآن
+      </div>
+      <h2 class="best-sellers-title">الأكثر مبيعاً</h2>
+      <div class="best-sellers-grid">
+        <!-- Card 1 -->
+        <div id="tab-mask" class="product-card product-tab-card"
+          onclick="toggleProductDetails('mask')">
+          <span class="card-badge">Sale</span>
+          <div class="product-img-box">
+            <img src="https://i.ibb.co/kgpSxMqK/karseell-collagen-hair-masks.webp" alt="Karseell Collagen Hair Mask">
           </div>
-          <h3 class="card-title">فرد الشعر بشكل طبيعي</h3>
-          <p class="card-text">يساعد على فرد الشعر بشكل طبيعي دون الإضرار بالشعر أو التأثير على مظهره الطبيعي.</p>
+          <div class="product-info">
+            <h3 class="product-title">ماسك كارسيل</h3>
+            <div class="product-price-row">
+              <span class="price-current">500 ج.م</span>
+              <span class="price-old">850 ج.م</span>
+            </div>
+          </div>
         </div>
 
-        <!-- Card 2: Anti-frizz -->
-        <div class="card">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-              stroke-linejoin="round">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-              <path d="m9 11 2 2 4-4" />
-            </svg>
+        <!-- Card 2 -->
+        <div id="tab-serum" class="product-card product-tab-card active-product-tab" onclick="toggleProductDetails('serum')">
+          <span class="card-badge">Offer</span>
+          <div class="product-img-box">
+            <img src="https://i.ibb.co/zhsmJGHF/karseell-collagen-hair-maskhair-oil-set-2.webp"
+              alt="ماسك وسيروم كارسيل">
           </div>
-          <h3 class="card-title">القضاء على الهيشان والتقصف</h3>
-          <p class="card-text">يساعد على تقليل الهيشان والتقصف ويجعل الشعر أكثر نعومة وأسهل في التصفيف.</p>
-        </div>
-
-        <!-- Card 3: Safe for kids/pregnant -->
-        <div class="card">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-              stroke-linejoin="round">
-              <path
-                d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-            </svg>
+          <div class="product-info">
+            <h3 class="product-title">ماسك وسيروم كارسيل</h3>
+            <div class="product-price-row">
+              <span class="price-current">650 ج.م</span>
+              <span class="price-old">1200 ج.م</span>
+            </div>
           </div>
-          <h3 class="card-title">آمن على الأطفال والحوامل</h3>
-          <p class="card-text">تركيبة غنية بالكولاجين الطبيعي ولطيفة على الشعر ومناسبة للاستخدام اليومي.</p>
         </div>
       </div>
     </div>
   </section>
+  <!-- DYNAMIC PRODUCT DETAILS CONTAINER -->
+  <div id="dynamic-product-details">
 
-  <!-- CUSTOMER REVIEWS SECTION -->
-  <section class="sec reviews-sec"
-    style="background: linear-gradient(180deg, #F8F6F2 0%, #FFFFFF 100%); border-bottom: 1px solid var(--border-color);">
-    <div class="container">
-      <h2 class="sec-title">تجارب وآراء عميلاتنا</h2>
-      <p class="sec-sub">مراجعات وتجارب حقيقية لنتائج فورية من أول استخدام</p>
+    <!-- Mask Details Wrapper (Visible by default) -->
+    <div id="details-mask" class="product-details-wrapper" style="display: none;">
 
-      <div class="swiper reviews-swiper">
-        <div class="swiper-wrapper">
-          <!-- Review 1 -->
-          <div class="swiper-slide">
-            <div class="review-card">
-              <div class="review-img-wrapper">
-                <a href="https://i.ibb.co/fd0m125x/Whats-App-Image-2026-06-05-at-6-27-30-PM-1.jpg" data-fancybox="reviews">
-                  <img src="https://i.ibb.co/fd0m125x/Whats-App-Image-2026-06-05-at-6-27-30-PM-1.jpg" alt="رأي عميلة كارسيل"
-                    loading="lazy">
-                </a>
-              </div>
-              <div class="review-meta">
-                <div class="review-stars">⭐⭐⭐⭐⭐</div>
-                <span class="review-buyer">عميلة مؤكدة ✓</span>
-              </div>
-            </div>
+      <!-- GALLERY GRID -->
+      <div class="container" style="margin-top: 24px;">
+        <div class="luxury-gallery-grid">
+          <div class="luxury-gallery-item">
+            <a href="https://i.ibb.co/nV9J0F2/Chat-GPT-Image-May-21-2026-04-03-18-PM-11zon.webp"
+              data-fancybox="gallery-mask">
+              <img src="https://i.ibb.co/nV9J0F2/Chat-GPT-Image-May-21-2026-04-03-18-PM-11zon.webp"
+                alt="Karseell Collagen Hair Mask Texture">
+            </a>
           </div>
-
-          <!-- Review 2 -->
-          <div class="swiper-slide">
-            <div class="review-card">
-              <div class="review-img-wrapper">
-                <a href="https://i.ibb.co/SDckc5y7/Whats-App-Image-2026-06-05-at-6-27-30-PM-2.jpg" data-fancybox="reviews">
-                  <img src="https://i.ibb.co/SDckc5y7/Whats-App-Image-2026-06-05-at-6-27-30-PM-2.jpg" alt="رأي عميلة كارسيل"
-                    loading="lazy">
-                </a>
-              </div>
-              <div class="review-meta">
-                <div class="review-stars">⭐⭐⭐⭐⭐</div>
-                <span class="review-buyer">عميلة مؤكدة ✓</span>
-              </div>
-            </div>
+          <div class="luxury-gallery-item">
+            <a href="https://i.ibb.co/DPryhS50/karseell-1-11zon.webp"
+              data-fancybox="gallery-mask">
+              <img src="https://i.ibb.co/DPryhS50/karseell-1-11zon.webp"
+                alt="Karseell Collagen Hair Mask Packaging">
+            </a>
           </div>
-
-          <!-- Review 3 -->
-          <div class="swiper-slide">
-            <div class="review-card">
-              <div class="review-img-wrapper">
-                <a href="https://i.ibb.co/rK06SvW1/Whats-App-Image-2026-06-05-at-6-27-30-PM.jpg" data-fancybox="reviews">
-                  <img src="https://i.ibb.co/rK06SvW1/Whats-App-Image-2026-06-05-at-6-27-30-PM.jpg" alt="رأي عميلة كارسيل"
-                    loading="lazy">
-                </a>
-              </div>
-              <div class="review-meta">
-                <div class="review-stars">⭐⭐⭐⭐⭐</div>
-                <span class="review-buyer">تعليقات عملاء متعددة ✓</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Review 4 -->
-          <div class="swiper-slide">
-            <div class="review-card">
-              <div class="review-img-wrapper">
-                <a href="https://i.ibb.co/SDmTLGjH/Whats-App-Image-2026-06-05-at-11-37-31-PM.jpg" data-fancybox="reviews">
-                  <img src="https://i.ibb.co/SDmTLGjH/Whats-App-Image-2026-06-05-at-11-37-31-PM.jpg" alt="رأي عميلة كارسيل"
-                    loading="lazy">
-                </a>
-              </div>
-              <div class="review-meta">
-                <div class="review-stars">⭐⭐⭐⭐⭐</div>
-                <span class="review-buyer">عميلة مؤكدة ✓</span>
-              </div>
-            </div>
+          <div class="luxury-gallery-item">
+            <a href="https://i.ibb.co/fVSwnLGR/karseell-collagen-hair-mask-2-1.jpg"
+              data-fancybox="gallery-mask">
+              <img src="https://i.ibb.co/fVSwnLGR/karseell-collagen-hair-mask-2-1.jpg"
+                alt="Karseell Collagen Hair Mask Application">
+            </a>
           </div>
         </div>
-        <!-- Reviews Pagination -->
-        <div class="swiper-pagination reviews-pagination"></div>
       </div>
 
-      <div style="text-align: center; margin-top: 32px;">
-        <a href="https://www.facebook.com/share/r/18vsf3rhcg/?mibextid=wwXIfr" target="_blank"
-          class="btn-facebook-link">
-          شاهد المراجعات والتعليقات الأصلية على فيسبوك 🔗
-        </a>
+      <!-- INNER TABS FOR MASK -->
+      <div class="container" style="margin-top: 8px;">
+
+        <!-- Tab Navigation -->
+        <nav class="inner-tabs-nav" role="tablist" aria-label="تبويبات تفاصيل الماسك">
+          <button class="inner-tab-btn active-inner-tab" onclick="switchInnerTab(this, 'mask-benefits')"
+            role="tab">المميزات</button>
+          <button class="inner-tab-btn" onclick="switchInnerTab(this, 'mask-reviews')" role="tab">المراجعات</button>
+          <button class="inner-tab-btn" onclick="switchInnerTab(this, 'mask-howtouse')" role="tab">طريقة
+            الاستخدام</button>
+          <button class="inner-tab-btn" onclick="switchInnerTab(this, 'mask-verify')" role="tab">التأكد من
+            الأصلي</button>
+        </nav>
+
+        <!-- Pane 1: Benefits -->
+        <div id="mask-benefits" class="inner-tab-pane active-pane">
+          <section class="sec" style="background: linear-gradient(180deg, #FFFDF9 0%, #FFFFFF 100%); padding-top: 0;">
+            <div class="container">
+              <div style="text-align: center; margin-bottom: 32px;">
+                <span
+                  style="background: rgba(139, 24, 24, 0.08); color: #8B1818; font-family: 'Cairo', sans-serif; font-size: 11px; font-weight: 700; padding: 4px 14px; border-radius: 50px; display: inline-block; margin-bottom: 12px; letter-spacing: 0.5px;">مميزات
+                  المنتج الأصلي</span>
+                <h2 class="sec-title"
+                  style="font-size: clamp(24px, 3vw, 32px); font-weight: 800; color: #000000; margin-bottom: 12px;">أهم
+                  ما يميز ماسك كارسيل</h2>
+                <p class="sec-sub"
+                  style="max-width: 600px; margin-inline: auto; font-size: 14px; color: #555555; line-height: 1.6;">
+                  تركيبة غنية بالكولاجين الطبيعي تساعد على الحصول على شعر أنعم وأكثر حيوية من أول استخدام.
+                </p>
+              </div>
+
+              <div style="text-align: center; margin-top: 16px;">
+                <img src="https://i.ibb.co/LDPHvZjk/Chat-GPT-Image-Jun-11-2026-03-28-18-PM-11zon.webp" alt="Karseell Collagen Hair Mask Upright" style="width: 100%; max-width: 420px; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: 0 4px 20px rgba(0,0,0,0.06); object-fit: contain;">
+              </div>
+            </div>
+          </section>
+        </div>
+        <!-- /Pane 1 -->
+
+        <!-- Pane 2: How To Use -->
+        <div id="mask-howtouse" class="inner-tab-pane">
+          <section class="sec" style="background: #fdf6e3; padding-top: 0;">
+            <div class="container">
+              <h2 class="sec-title">طريقة الاستخدام المثالية</h2>
+              <p class="sec-sub">دليلك البسيط للحصول على أفضل النتائج لشعرك</p>
+              <div style="text-align: center; margin-top: 16px;">
+                <img src="https://i.ibb.co/8pK7bcN/Chat-GPT-Image-Jun-11-2026-03-48-15-PM-11zon.webp" alt="طريقة استخدام ماسك كارسيل"
+                  style="width: 100%; max-width: 420px; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: 0 4px 20px rgba(0,0,0,0.06); object-fit: contain;">
+              </div>
+            </div>
+          </section>
+        </div>
+        <!-- /Pane 2 -->
+
+        <!-- Pane 3: Verify -->
+        <div id="mask-verify" class="inner-tab-pane">
+          <section class="sec" style="background: linear-gradient(180deg, #fff 0%, #fdfaf5 100%); padding-top: 0;">
+            <div class="container">
+              <h2 class="sec-title">كيف تتأكد أن منتج Karseell أصلي؟</h2>
+              <p class="sec-sub">تحققي من العلامات التالية لضمان حصولك على النسخة الأصلية</p>
+              <div class="swiper swiper-verify verify-swiper">
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide">
+                    <div class="verify-card">
+                      <div class="verify-img-wrapper">
+                        <a href="https://i.ibb.co/5xhdcDsF/Chat-GPT-Image-Jun-5-2026-05-39-54-PM.png"
+                          data-fancybox="verify-mask">
+                          <img src="https://i.ibb.co/5xhdcDsF/Chat-GPT-Image-Jun-5-2026-05-39-54-PM.png"
+                            alt="شعار محفور على الغطاء">
+                        </a>
+                      </div>
+                      <h3>شعار محفور على الغطاء</h3>
+                      <p>المنتج الأصلي يحتوي على شعار Karseell محفور بوضوح على الغطاء العلوي.</p>
+                    </div>
+                  </div>
+                  <div class="swiper-slide">
+                    <div class="verify-card">
+                      <div class="verify-img-wrapper">
+                        <a href="https://i.ibb.co/HMTS7Wy/verify-expiry.jpg" data-fancybox="verify-mask">
+                          <img src="https://i.ibb.co/HMTS7Wy/verify-expiry.jpg" alt="تاريخ إنتاج وانتهاء واضح">
+                        </a>
+                      </div>
+                      <h3>تاريخ إنتاج وانتهاء واضح</h3>
+                      <p>العبوة الأصلية تحتوي على بيانات مطبوعة بوضوح ودقة أسفل المنتج.</p>
+                    </div>
+                  </div>
+                  <div class="swiper-slide">
+                    <div class="verify-card">
+                      <div class="verify-img-wrapper">
+                        <a href="https://i.ibb.co/bRJ7JrLF/verify-barcode.jpg" data-fancybox="verify-mask">
+                          <img src="https://i.ibb.co/bRJ7JrLF/verify-barcode.jpg" alt="باركود و QR أصلي">
+                        </a>
+                      </div>
+                      <h3>باركود و QR أصلي</h3>
+                      <p>وجود باركود ورمز QR واضح وقابل للمسح من أهم علامات المنتج الأصلي.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="swiper-pagination"></div>
+              </div>
+              <div style="text-align: center; margin-top: 32px;">
+                <button class="btn btn-primary" onclick="scrollToOrder()" style="padding: 14px 40px;">اطلبي المنتج
+                  الأصلي الآن ✨</button>
+              </div>
+            </div>
+          </section>
+        </div>
+        <!-- /Pane 3 -->
+
+        <!-- Pane 4: Reviews -->
+        <div id="mask-reviews" class="inner-tab-pane">
+          <section class="sec reviews-sec"
+            style="background: linear-gradient(180deg, #F8F6F2 0%, #FFFFFF 100%); padding-top: 0;">
+            <div class="container">
+              <h2 class="sec-title">تجارب وآراء عميلاتنا</h2>
+              <p class="sec-sub">مراجعات وتجارب حقيقية لنتائج فورية من أول استخدام</p>
+              <div class="swiper reviews-swiper">
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide">
+                    <div class="review-card">
+                      <div class="review-img-wrapper">
+                        <a href="https://i.ibb.co/fd0m125x/Whats-App-Image-2026-06-05-at-6-27-30-PM-1.jpg"
+                          data-fancybox="reviews-mask">
+                          <img src="https://i.ibb.co/fd0m125x/Whats-App-Image-2026-06-05-at-6-27-30-PM-1.jpg"
+                            alt="رأي عميلة كارسيل" loading="lazy">
+                        </a>
+                      </div>
+                      <div class="review-meta">
+                        <div class="review-stars">⭐⭐⭐⭐⭐</div><span class="review-buyer">عميلة مؤكدة ✓</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="swiper-slide">
+                    <div class="review-card">
+                      <div class="review-img-wrapper">
+                        <a href="https://i.ibb.co/SDckc5y7/Whats-App-Image-2026-06-05-at-6-27-30-PM-2.jpg"
+                          data-fancybox="reviews-mask">
+                          <img src="https://i.ibb.co/SDckc5y7/Whats-App-Image-2026-06-05-at-6-27-30-PM-2.jpg"
+                            alt="رأي عميلة كارسيل" loading="lazy">
+                        </a>
+                      </div>
+                      <div class="review-meta">
+                        <div class="review-stars">⭐⭐⭐⭐⭐</div><span class="review-buyer">عميلة مؤكدة ✓</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="swiper-slide">
+                    <div class="review-card">
+                      <div class="review-img-wrapper">
+                        <a href="https://i.ibb.co/rK06SvW1/Whats-App-Image-2026-06-05-at-6-27-30-PM.jpg"
+                          data-fancybox="reviews-mask">
+                          <img src="https://i.ibb.co/rK06SvW1/Whats-App-Image-2026-06-05-at-6-27-30-PM.jpg"
+                            alt="رأي عميلة كارسيل" loading="lazy">
+                        </a>
+                      </div>
+                      <div class="review-meta">
+                        <div class="review-stars">⭐⭐⭐⭐⭐</div><span class="review-buyer">تعليقات عملاء متعددة ✓</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="swiper-slide">
+                    <div class="review-card">
+                      <div class="review-img-wrapper">
+                        <a href="https://i.ibb.co/SDmTLGjH/Whats-App-Image-2026-06-05-at-11-37-31-PM.jpg"
+                          data-fancybox="reviews-mask">
+                          <img src="https://i.ibb.co/SDmTLGjH/Whats-App-Image-2026-06-05-at-11-37-31-PM.jpg"
+                            alt="رأي عميلة كارسيل" loading="lazy">
+                        </a>
+                      </div>
+                      <div class="review-meta">
+                        <div class="review-stars">⭐⭐⭐⭐⭐</div><span class="review-buyer">عميلة مؤكدة ✓</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="swiper-pagination reviews-pagination"></div>
+              </div>
+              <div style="text-align: center; margin-top: 32px;">
+                <a href="https://www.facebook.com/share/r/18vsf3rhcg/?mibextid=wwXIfr" target="_blank"
+                  class="btn-facebook-link">شاهد المراجعات والتعليقات الأصلية على فيسبوك 🔗</a>
+              </div>
+            </div>
+          </section>
+        </div>
+        <!-- /Pane 4 -->
+
+      </div><!-- /inner-tabs container mask -->
+    </div><!-- /details-mask -->
+
+    <!-- Serum Details Wrapper (Hidden by default) -->
+    <div id="details-serum" class="product-details-wrapper fade-in">
+
+      <!-- GALLERY GRID -->
+      <div class="container" style="margin-top: 24px;">
+        <div class="luxury-gallery-grid">
+          <div class="luxury-gallery-item">
+            <a href="https://i.ibb.co/MDGtQDz7/karseell-collagen-hair-maskhair-oil-set-9.webp"
+              data-fancybox="gallery-serum">
+              <img src="https://i.ibb.co/MDGtQDz7/karseell-collagen-hair-maskhair-oil-set-9.webp"
+                alt="Karseell Maca Essence Repair Serum Set 9">
+            </a>
+          </div>
+          <div class="luxury-gallery-item">
+            <a href="https://i.ibb.co/cRnLyQd/Chat-GPT-Image-Jun-11-2026-02-53-43-PM-11zon.webp"
+              data-fancybox="gallery-serum">
+              <img src="https://i.ibb.co/cRnLyQd/Chat-GPT-Image-Jun-11-2026-02-53-43-PM-11zon.webp"
+                alt="Karseell Maca Essence Repair Serum Set 3">
+            </a>
+          </div>
+          <div class="luxury-gallery-item">
+            <a href="https://i.ibb.co/Z046hJp/Chat-GPT-Image-Jun-11-2026-02-57-10-PM-11zon.webp"
+              data-fancybox="gallery-serum">
+              <img src="https://i.ibb.co/Z046hJp/Chat-GPT-Image-Jun-11-2026-02-57-10-PM-11zon.webp"
+                alt="Karseell Maca Essence Repair Serum Set 4">
+            </a>
+          </div>
+          <div class="luxury-gallery-item">
+            <a href="https://i.ibb.co/M5S2YPHG/Chat-GPT-Image-Jun-11-2026-03-04-50-PM-11zon.webp"
+              data-fancybox="gallery-serum">
+              <img src="https://i.ibb.co/M5S2YPHG/Chat-GPT-Image-Jun-11-2026-03-04-50-PM-11zon.webp"
+                alt="Karseell Maca Essence Repair Serum Set 5">
+            </a>
+          </div>
+          <div class="luxury-gallery-item">
+            <a href="https://i.ibb.co/PZLGyF40/karseell-collagen-hair-maskhair-oil-set-2.webp"
+              data-fancybox="gallery-serum">
+              <img src="https://i.ibb.co/PZLGyF40/karseell-collagen-hair-maskhair-oil-set-2.webp"
+                alt="Karseell Maca Essence Repair Serum Set 2">
+            </a>
+          </div>
+        </div>
       </div>
-    </div>
-  </section>
+
+      <!-- INNER TABS FOR SERUM -->
+      <div class="container" style="margin-top: 8px;">
+
+        <!-- Tab Navigation -->
+        <nav class="inner-tabs-nav" role="tablist" aria-label="تبويبات تفاصيل السيروم">
+          <button class="inner-tab-btn active-inner-tab" onclick="switchInnerTab(this, 'serum-benefits')"
+            role="tab">المميزات</button>
+          <button class="inner-tab-btn" onclick="switchInnerTab(this, 'serum-reviews')" role="tab">المراجعات</button>
+          <button class="inner-tab-btn" onclick="switchInnerTab(this, 'serum-howtouse')" role="tab">طريقة
+            الاستخدام</button>
+          <button class="inner-tab-btn" onclick="switchInnerTab(this, 'serum-verify')" role="tab">التأكد من
+            الأصلي</button>
+        </nav>
+
+        <!-- Pane 1: Serum Benefits -->
+        <div id="serum-benefits" class="inner-tab-pane active-pane">
+          <!-- WHY KARSEELL SERUM (BENEFITS & FEATURES) -->
+          <section class="sec" style="background: linear-gradient(180deg, #FFFDF9 0%, #FFFFFF 100%);">
+            <div class="container">
+              <div style="text-align: center; margin-bottom: 32px;">
+                <span
+                  style="background: rgba(139, 24, 24, 0.08); color: #8B1818; font-family: 'Cairo', sans-serif; font-size: 11px; font-weight: 700; padding: 4px 14px; border-radius: 50px; display: inline-block; margin-bottom: 12px; letter-spacing: 0.5px;">مميزات
+                  المنتج الأصلي</span>
+                <h2 class="sec-title"
+                  style="font-size: clamp(24px, 3vw, 32px); font-weight: 800; color: #000000; margin-bottom: 12px;">أهم
+                  ما يميز ماسك وسيروم كارسيل</h2>
+                <p class="sec-sub"
+                  style="max-width: 600px; margin-inline: auto; font-size: 14px; color: #555555; line-height: 1.6;">
+                  تركيبة غنية بخلاصة الماكا الطبيعية وزيت الأرجان النقي لترطيب عميق وحماية متكاملة للشعر.
+                </p>
+              </div>
+
+              <div class="grid-3">
+                <!-- Card 1: Hydration -->
+                <div class="card">
+                  <div class="card-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                      stroke-linejoin="round">
+                      <path d="M12 22a7 7 0 0 0 7-7c0-4.3-7-11-7-11S5 10.7 5 15a7 7 0 0 0 7 7z" />
+                      <path d="M19 3h.01M22 6h.01M21 2h.01" />
+                    </svg>
+                  </div>
+                  <h3 class="card-title">ترطيب وتغذية فائقة</h3>
+                  <p class="card-text">يتغلغل بعمق في خصلات الشعر ليرطبها ويغذيها بالفيتامينات والمعادن الأساسية لحيوية
+                    تدوم.</p>
+                </div>
+
+                <!-- Card 2: Frizz treatment -->
+                <div class="card">
+                  <div class="card-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                      stroke-linejoin="round">
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                      <path d="m9 11 2 2 4-4" />
+                    </svg>
+                  </div>
+                  <h3 class="card-title">علاج الهيشان والتنعيم</h3>
+                  <p class="card-text">يقضي على تطاير الشعر وهيشان الأطراف، ويمنحه لمعاناً كريستالياً وملمساً ناعماً
+                    كالحرير.</p>
+                </div>
+
+                <!-- Card 3: Heat protection -->
+                <div class="card">
+                  <div class="card-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                      stroke-linejoin="round">
+                      <path
+                        d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                    </svg>
+                  </div>
+                  <h3 class="card-title">حماية من الحرارة والتقصف</h3>
+                  <p class="card-text">يشكل طبقة واقية تحمي الشعر من أضرار الحرارة والتصفيف وتمنع التقصف والتساقط.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+        <!-- /Pane 1 Serum -->
+
+        <!-- Pane 2: Serum How To Use -->
+        <div id="serum-howtouse" class="inner-tab-pane">
+          <section class="sec" style="background: #fdf6e3; padding-top: 0;">
+            <div class="container">
+              <h2 class="sec-title">طريقة الاستخدام المثالية للسيروم</h2>
+              <p class="sec-sub">3 خطوات بسيطة لشعر لامع ومحمي</p>
+              <div class="how-steps">
+                <div class="step-card">
+                  <div class="step-number">1</div>
+                  <h3 class="card-title">تجفيف الشعر</h3>
+                  <p class="card-text">اغسلي شعرك جيداً بالماء وجففيه بالمنشفة حتى يظل رطباً قليلاً.</p>
+                </div>
+                <div class="step-card">
+                  <div class="step-number">2</div>
+                  <h3 class="card-title">توزيع السيروم</h3>
+                  <p class="card-text">ضعي بضع قطرات من السيروم على راحة يدك ووزعيها بالتساوي على طول الشعر وأطرافه.</p>
+                </div>
+                <div class="step-card">
+                  <div class="step-number">3</div>
+                  <h3 class="card-title">التصفيف</h3>
+                  <p class="card-text">صففي شعرك كالمعتاد لحمايته من الحرارة والاستمتاع بلمعان ونعومة فائقة.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+        <!-- /Pane 2 Serum -->
+
+        <!-- Pane 3: Serum Verify -->
+        <div id="serum-verify" class="inner-tab-pane">
+          <section class="sec" style="background: linear-gradient(180deg, #fff 0%, #fdfaf5 100%); padding-top: 0;">
+            <div class="container">
+              <h2 class="sec-title">كيف تتأكد أن منتج Karseell أصلي؟</h2>
+              <p class="sec-sub">تحققي من العلامات التالية لضمان حصولك على النسخة الأصلية</p>
+              <div class="swiper swiper-verify verify-swiper">
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide">
+                    <div class="verify-card">
+                      <div class="verify-img-wrapper">
+                        <a href="https://i.ibb.co/5xhdcDsF/Chat-GPT-Image-Jun-5-2026-05-39-54-PM.png"
+                          data-fancybox="verify-serum">
+                          <img src="https://i.ibb.co/5xhdcDsF/Chat-GPT-Image-Jun-5-2026-05-39-54-PM.png"
+                            alt="شعار محفور على الغطاء">
+                        </a>
+                      </div>
+                      <h3>شعار محفور على الغطاء</h3>
+                      <p>المنتج الأصلي يحتوي على شعار Karseell محفور بوضوح على الغطاء العلوي.</p>
+                    </div>
+                  </div>
+                  <div class="swiper-slide">
+                    <div class="verify-card">
+                      <div class="verify-img-wrapper">
+                        <a href="https://i.ibb.co/HMTS7Wy/verify-expiry.jpg" data-fancybox="verify-serum">
+                          <img src="https://i.ibb.co/HMTS7Wy/verify-expiry.jpg" alt="تاريخ إنتاج وانتهاء واضح">
+                        </a>
+                      </div>
+                      <h3>تاريخ إنتاج وانتهاء واضح</h3>
+                      <p>العبوة الأصلية تحتوي على بيانات مطبوعة بوضوح ودقة أسفل المنتج.</p>
+                    </div>
+                  </div>
+                  <div class="swiper-slide">
+                    <div class="verify-card">
+                      <div class="verify-img-wrapper">
+                        <a href="https://i.ibb.co/bRJ7JrLF/verify-barcode.jpg" data-fancybox="verify-serum">
+                          <img src="https://i.ibb.co/bRJ7JrLF/verify-barcode.jpg" alt="باركود و QR أصلي">
+                        </a>
+                      </div>
+                      <h3>باركود و QR أصلي</h3>
+                      <p>وجود باركود ورمز QR واضح وقابل للمسح من أهم علامات المنتج الأصلي.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="swiper-pagination"></div>
+              </div>
+              <div style="text-align: center; margin-top: 32px;">
+                <button class="btn btn-primary" onclick="scrollToOrder()" style="padding: 14px 40px;">اطلبي المنتج
+                  الأصلي الآن ✨</button>
+              </div>
+            </div>
+          </section>
+        </div>
+        <!-- /Pane 3 Serum -->
+
+        <!-- Pane 4: Serum Reviews -->
+        <div id="serum-reviews" class="inner-tab-pane">
+          <section class="sec reviews-sec"
+            style="background: linear-gradient(180deg, #F8F6F2 0%, #FFFFFF 100%); padding-top: 0;">
+            <div class="container">
+              <h2 class="sec-title">تجارب وآراء عميلاتنا</h2>
+              <p class="sec-sub">مراجعات وتجارب حقيقية لنتائج فورية من أول استخدام</p>
+              <div class="swiper reviews-swiper">
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide">
+                    <div class="review-card">
+                      <div class="review-img-wrapper">
+                        <a href="https://i.ibb.co/fd0m125x/Whats-App-Image-2026-06-05-at-6-27-30-PM-1.jpg"
+                          data-fancybox="reviews-serum">
+                          <img src="https://i.ibb.co/fd0m125x/Whats-App-Image-2026-06-05-at-6-27-30-PM-1.jpg"
+                            alt="رأي عميلة كارسيل" loading="lazy">
+                        </a>
+                      </div>
+                      <div class="review-meta">
+                        <div class="review-stars">⭐⭐⭐⭐⭐</div><span class="review-buyer">عميلة مؤكدة ✓</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="swiper-slide">
+                    <div class="review-card">
+                      <div class="review-img-wrapper">
+                        <a href="https://i.ibb.co/SDckc5y7/Whats-App-Image-2026-06-05-at-6-27-30-PM-2.jpg"
+                          data-fancybox="reviews-serum">
+                          <img src="https://i.ibb.co/SDckc5y7/Whats-App-Image-2026-06-05-at-6-27-30-PM-2.jpg"
+                            alt="رأي عميلة كارسيل" loading="lazy">
+                        </a>
+                      </div>
+                      <div class="review-meta">
+                        <div class="review-stars">⭐⭐⭐⭐⭐</div><span class="review-buyer">عميلة مؤكدة ✓</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="swiper-slide">
+                    <div class="review-card">
+                      <div class="review-img-wrapper">
+                        <a href="https://i.ibb.co/rK06SvW1/Whats-App-Image-2026-06-05-at-6-27-30-PM.jpg"
+                          data-fancybox="reviews-serum">
+                          <img src="https://i.ibb.co/rK06SvW1/Whats-App-Image-2026-06-05-at-6-27-30-PM.jpg"
+                            alt="رأي عميلة كارسيل" loading="lazy">
+                        </a>
+                      </div>
+                      <div class="review-meta">
+                        <div class="review-stars">⭐⭐⭐⭐⭐</div><span class="review-buyer">تعليقات عملاء متعددة ✓</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="swiper-slide">
+                    <div class="review-card">
+                      <div class="review-img-wrapper">
+                        <a href="https://i.ibb.co/SDmTLGjH/Whats-App-Image-2026-06-05-at-11-37-31-PM.jpg"
+                          data-fancybox="reviews-serum">
+                          <img src="https://i.ibb.co/SDmTLGjH/Whats-App-Image-2026-06-05-at-11-37-31-PM.jpg"
+                            alt="رأي عميلة كارسيل" loading="lazy">
+                        </a>
+                      </div>
+                      <div class="review-meta">
+                        <div class="review-stars">⭐⭐⭐⭐⭐</div><span class="review-buyer">عميلة مؤكدة ✓</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="swiper-pagination reviews-pagination"></div>
+              </div>
+              <div style="text-align: center; margin-top: 32px;">
+                <a href="https://www.facebook.com/share/r/18vsf3rhcg/?mibextid=wwXIfr" target="_blank"
+                  class="btn-facebook-link">شاهد المراجعات والتعليقات الأصلية على فيسبوك 🔗</a>
+              </div>
+            </div>
+          </section>
+        </div>
+        <!-- /Pane 4 Serum -->
+
+      </div><!-- /inner-tabs container serum -->
+    </div><!-- /details-serum -->
+  </div><!-- /dynamic-product-details -->
 
   <!-- ORDER SECTION (CHECKOUT STYLE) -->
   <section class="order-section" id="order">
     <div class="container">
-      <h2 class="sec-title">اختاري عرض كارسيل المناسب ليكي</h2>
+      <h2 class="sec-title" id="order-title">اختاري عرض ماسك وسيروم كارسيل المناسب ليكي</h2>
 
-      <div class="offers-row">
+      <!-- Mask Offers Row -->
+      <div class="offers-row" id="offers-mask" style="display: none;">
         <!-- Card 1 -->
-        <div class="offer-card" onclick="selectOffer('عبوة واحدة', 650)">
+        <div class="offer-card" onclick="selectOffer('عبوة واحدة', 500)">
           <span class="offer-badge">تجربة أولى</span>
           <h3>عبوة واحدة</h3>
           <div class="offer-img-wrapper">
             <img src="https://i.ibb.co/ynvJSQkD/karseell-1.png" alt="عبوة واحدة كارسيل" class="offer-img">
           </div>
-          <span class="offer-price-new">650 <span>ج.م</span></span>
+          <span class="offer-price-new">500 <span>ج.م</span></span>
           <p class="offer-desc">+ 50 ج.م مصاريف الشحن</p>
           <div class="offer-cta-btn">اختاري هذا العرض</div>
         </div>
 
         <!-- Card 2: Featured (Standing Out) -->
-        <div class="offer-card most-popular" onclick="selectOffer('عبوتين كارسيل', 1250)">
+        <div class="offer-card most-popular" onclick="selectOffer('عبوتين كارسيل', 1000)">
           <span class="offer-badge">الأكثر طلباً 🔥</span>
           <h3>عبوتين كارسيل</h3>
           <div class="offer-img-wrapper">
             <img src="https://i.ibb.co/G3Vd620y/karseell-2.jpg" alt="عبوتين كارسيل" class="offer-img">
           </div>
-          <span class="offer-price-new">1250 <span>ج.م</span></span>
+          <span class="offer-price-new">1000 <span>ج.م</span></span>
           <p class="offer-desc">شحن مجاني</p>
           <div class="offer-cta-btn">اختاري هذا العرض</div>
         </div>
 
         <!-- Card 3 -->
-        <div class="offer-card" onclick="selectOffer('3 عبوات كارسيل', 1800)">
+        <div class="offer-card" onclick="selectOffer('3 عبوات كارسيل', 1450)">
           <span class="offer-badge">أفضل قيمة</span>
           <h3>3 عبوات كارسيل</h3>
           <div class="offer-img-wrapper">
             <img src="https://i.ibb.co/N23VSjXn/karseell-3.jpg" alt="3 عبوات كارسيل" class="offer-img">
           </div>
-          <span class="offer-price-new">1800 <span>ج.م</span></span>
+          <span class="offer-price-new">1450 <span>ج.م</span></span>
           <p class="offer-desc">شحن مجاني</p>
           <div class="offer-cta-btn">اختاري هذا العرض</div>
         </div>
+      </div>
+
+      <!-- Serum/Combo Offers Row -->
+      <div class="offers-row" id="offers-serum">
+        <!-- Card 1 -->
+        <div class="offer-card" onclick="selectOffer('عرض العيد الأساسي - كريم كارسيل + سيرم', 600)">
+          <span class="offer-badge">تجربة أولى</span>
+          <h3>عرض العيد الأساسي</h3>
+          <div class="offer-img-wrapper">
+            <img src="https://i.ibb.co/Z046hJp/Chat-GPT-Image-Jun-11-2026-02-57-10-PM-11zon.webp" alt="عرض العيد الأساسي (ماسك وسيروم كارسيل)" class="offer-img">
+          </div>
+          <span class="offer-price-new">600 <span>ج.م</span></span>
+          <p class="offer-desc">+ 50 ج.م مصاريف الشحن</p>
+          <div class="offer-cta-btn">اختاري هذا العرض</div>
+        </div>
+
+        <!-- Card 2: Featured (Standing Out) -->
+        <div class="offer-card most-popular" onclick="selectOffer('عرض القطعتين - 2 كريم + 2 سيرم', 1200)">
+          <span class="offer-badge">الأكثر طلباً 🔥</span>
+          <h3>عرض القطعتين</h3>
+          <div class="offer-img-wrapper">
+            <img src="https://i.ibb.co/S4W5wWQv/Chat-GPT-Image-Jun-11-2026-03-37-13-PM-11zon.webp" alt="عرض القطعتين (ماسك وسيروم كارسيل)" class="offer-img">
+          </div>
+          <span class="offer-price-new">1200 <span>ج.م</span></span>
+          <p class="offer-desc">شحن مجاني</p>
+          <div class="offer-cta-btn">اختاري هذا العرض</div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="offer-card" onclick="selectOffer('العرض الأقوى - 3 كريم + 3 سيرم', 1700)">
+          <span class="offer-badge">أفضل قيمة</span>
+          <h3>العرض الأقوى</h3>
+          <div class="offer-img-wrapper">
+            <img src="https://i.ibb.co/QvdJ7TJk/Chat-GPT-Image-Jun-11-2026-03-40-24-PM-11zon.webp" alt="العرض الأقوى (ماسك وسيروم كارسيل)" class="offer-img">
+          </div>
+          <span class="offer-price-new">1700 <span>ج.م</span></span>
+          <p class="offer-desc">شحن مجاني</p>
+          <div class="offer-cta-btn">اختاري هذا العرض</div>
+        </div>
+      </div>
+
+      <!-- Wholesale & Salon Special Offers Banner -->
+      <div style="background: linear-gradient(135deg, rgba(139, 24, 24, 0.04) 0%, rgba(139, 24, 24, 0.01) 100%); border: 1px dashed rgba(139, 24, 24, 0.2); border-radius: 16px; padding: 20px; margin-top: 10px; margin-bottom: 24px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 6px; box-shadow: 0 4px 15px rgba(0,0,0,0.01);">
+        <h3 style="font-family: 'Cairo', sans-serif; font-size: 16px; font-weight: 700; color: #8B1818; margin: 0;">عروض خاصة للتجار وأصحاب المحلات والكوافيرات</h3>
+        <p style="font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 13px; color: #666; font-weight: 500; max-width: 600px; margin: 0 auto 6px;">
+          نوفر أسعاراً خاصة وحصرية لطلبات الجملة والكميات الكبيرة للمحلات التجارية وصالونات التجميل.
+        </p>
+        <a href="https://wa.me/201515697085?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20Karseell%20Egypt%20%E2%9C%A8%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%B9%D8%B1%D9%88%D8%B6%20%D8%A7%D9%84%D8%AC%D9%85%D9%84%D9%86%D8%A9%20%D9%84%D9%84%D8%AA%D8%AC%D8%A7%D8%B1%20%D9%88%D8%A7%D9%84%D9%83%D9%88%D8%A7%D9%81%D9%8A%D8%B1%D8%A7%D8%AA%20%D9%88%D8%A7%D9%84%D9%85%D8%AD%D9%84%D8%A7%D8%AA." target="_blank" onclick="trackEvent('Contact', {content_name: 'Wholesale Inquiry'})" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: #25d366; color: white; border-radius: 10px; font-weight: 700; font-family: 'IBM Plex Sans Arabic', sans-serif; text-decoration: none; padding: 10px 24px; font-size: 13px; box-shadow: 0 4px 12px rgba(37, 211, 102, 0.25); transition: all 0.3s ease;">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="white" style="display: block;">
+            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.319 1.592 5.448 0 9.886-4.438 9.889-9.887.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.44-9.89 9.889-.001 2.225.586 4.391 1.697 6.26l-1.14 4.166 4.23-1.109l-.224.181zm12.384-5.378l-1.944-1.12c-.22-.127-.45-.192-.667-.192-.416 0-.795.236-1.05.67l-.76 1.298c-.144.246-.395.385-.662.366-.268-.019-.533-.18-.84-.452-.777-.687-1.464-1.41-2.072-2.186-.411-.524-.716-.94-.913-1.246l-.145-.226c-.167-.26-.178-.545-.03-.797l.76-1.298c.255-.434.316-.865.176-1.233l-1.121-1.944c-.237-.41-.58-.616-.98-.616-.328 0-.68.14-1.033.42l-.244.195c-.463.37-.894.887-1.18 1.414-.377.697-.68 1.748.243 3.52 1.34 2.571 3.242 4.673 5.56 6.13.111.07.247.163.411.267.893.56 1.764.792 2.513.792.203 0 .4-.018.59-.055 1.07-.208 1.833-.872 2.26-1.975l.135-.35c.168-.435.087-.847-.234-1.033z" />
+          </svg>
+          تواصل معنا عبر الواتساب للاستفسار
+        </a>
       </div>
 
       <div class="order-grid">
@@ -1666,9 +2635,9 @@
             <div class="form-group">
               <label>العرض المختار</label>
               <select id="offerSelect" class="form-control" onchange="updateSummary()">
-                <option value="650" data-name="عبوة واحدة" data-count="1">عبوة واحدة — 650 ج.م</option>
-                <option value="1250" data-name="عبوتين كارسيل" data-count="2" selected>عبوتين — 1250 ج.م</option>
-                <option value="1800" data-name="3 عبوات كارسيل" data-count="3">3 عبوات — 1800 ج.م</option>
+                <option value="600" data-name="عرض العيد الأساسي - كريم كارسيل + سيرم" data-count="1">عرض العيد الأساسي (كريم + سيرم) — 600 ج.م</option>
+                <option value="1200" data-name="عرض القطعتين - 2 كريم + 2 سيرم" data-count="2" selected>عرض القطعتين (2 كريم + 2 سيرم) — 1200 ج.م</option>
+                <option value="1700" data-name="العرض الأقوى - 3 كريم + 3 سيرم" data-count="3">العرض الأقوى (3 كريم + 3 سيرم) — 1700 ج.م</option>
               </select>
             </div>
 
@@ -1750,7 +2719,7 @@
             <div class="mobile-mini-summary" id="mobileMiniSummary">
               <div class="mms-row">
                 <span class="mms-label">سعر المنتجات</span>
-                <span class="mms-val" id="mmsPrice">1250 ج.م</span>
+                <span class="mms-val" id="mmsPrice">1000 ج.م</span>
               </div>
               <div class="mms-row">
                 <span class="mms-label">الشحن</span>
@@ -1759,7 +2728,7 @@
               <div class="mms-divider"></div>
               <div class="mms-row mms-total-row">
                 <span class="mms-total-label">الإجمالي</span>
-                <span class="mms-total-val" id="mmsTotal">1250 ج.م</span>
+                <span class="mms-total-val" id="mmsTotal">1000 ج.م</span>
               </div>
             </div>
 
@@ -1783,12 +2752,12 @@
             <span id="sumOfferName" style="font-weight: 700; color: var(--gold);">عبوتين كارسيل</span>
           </div>
           <div class="summary-row summary-row-count">
-            <span>عدد العبوات:</span>
+            <span id="sumOfferCountLabel">عدد البوكسات:</span>
             <span id="sumOfferCount" style="font-weight: 700;">2</span>
           </div>
           <div class="summary-row">
             <span>سعر المنتجات:</span>
-            <span id="sumOfferPrice" style="font-weight: 700;">1250 ج.م</span>
+            <span id="sumOfferPrice" style="font-weight: 700;">1000 ج.م</span>
           </div>
           <div class="summary-row">
             <span>الشحن:</span>
@@ -1797,7 +2766,7 @@
 
           <div class="summary-row total">
             <span>الإجمالي:</span>
-            <span id="sumTotal" style="font-size: 22px; font-weight: 800; color: var(--primary);">1250 ج.م</span>
+            <span id="sumTotal" style="font-size: 22px; font-weight: 800; color: var(--primary);">1000 ج.م</span>
           </div>
 
           <div class="summary-badges">
@@ -1805,11 +2774,11 @@
             <div class="summary-badge">✔ معاينة قبل الاستلام</div>
           </div>
 
-          <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(212, 175, 55, 0.2);">
-            <h4 style="font-size: 14px; margin-bottom: 10px; color: #78350f;">🔍 تتبع طلبك</h4>
+          <div id="track-section" style="margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(212, 175, 55, 0.2);">
+            <h4 style="font-size: 14px; margin-bottom: 10px; color: #78350f;">🔍 تتبع طلبك أو تعديله / إلغائه</h4>
             <div style="display:flex; gap:10px;">
               <input type="tel" id="trackPhone" class="form-control" style="padding: 10px; font-size: 13px;"
-                placeholder="رقم موبايلك">
+                placeholder="رقم موبايلك" onkeydown="if(event.key === 'Enter') trackOrder()">
               <button onclick="trackOrder()" class="btn btn-primary"
                 style="padding: 10px 20px; font-size: 14px;">بحث</button>
             </div>
@@ -1822,89 +2791,7 @@
     </div>
   </section>
 
-  <!-- VERIFICATION SECTION -->
-  <section class="sec" style="background: linear-gradient(180deg, #fff 0%, #fdfaf5 100%);">
-    <div class="container">
-      <h2 class="sec-title">كيف تتأكد أن منتج Karseell أصلي؟</h2>
-      <p class="sec-sub">تحققي من العلامات التالية لضمان حصولك على النسخة الأصلية</p>
 
-      <div class="swiper swiper-verify verify-swiper">
-        <div class="swiper-wrapper">
-          <!-- Slide 1: Lid -->
-          <div class="swiper-slide">
-            <div class="verify-card">
-              <div class="verify-img-wrapper">
-                <a href="https://i.ibb.co/5xhdcDsF/Chat-GPT-Image-Jun-5-2026-05-39-54-PM.png" data-fancybox="verify">
-                  <img src="https://i.ibb.co/5xhdcDsF/Chat-GPT-Image-Jun-5-2026-05-39-54-PM.png"
-                    alt="شعار محفور على الغطاء">
-                </a>
-              </div>
-              <h3>شعار محفور على الغطاء</h3>
-              <p>المنتج الأصلي يحتوي على شعار Karseell محفور بوضوح على الغطاء العلوي.</p>
-            </div>
-          </div>
-          <!-- Slide 2: Expiry -->
-          <div class="swiper-slide">
-            <div class="verify-card">
-              <div class="verify-img-wrapper">
-                <a href="https://i.ibb.co/HMTS7Wy/verify-expiry.jpg" data-fancybox="verify">
-                  <img src="https://i.ibb.co/HMTS7Wy/verify-expiry.jpg" alt="تاريخ إنتاج وانتهاء واضح">
-                </a>
-              </div>
-              <h3>تاريخ إنتاج وانتهاء واضح</h3>
-              <p>العبوة الأصلية تحتوي على بيانات مطبوعة بوضوح ودقة أسفل المنتج.</p>
-            </div>
-          </div>
-          <!-- Slide 3: Barcode -->
-          <div class="swiper-slide">
-            <div class="verify-card">
-              <div class="verify-img-wrapper">
-                <a href="https://i.ibb.co/bRJ7JrLF/verify-barcode.jpg" data-fancybox="verify">
-                  <img src="https://i.ibb.co/bRJ7JrLF/verify-barcode.jpg" alt="باركود و QR أصلي">
-                </a>
-              </div>
-              <h3>باركود و QR أصلي</h3>
-              <p>وجود باركود ورمز QR واضح وقابل للمسح من أهم علامات المنتج الأصلي.</p>
-            </div>
-          </div>
-        </div>
-        <!-- Pagination -->
-        <div class="swiper-pagination"></div>
-      </div>
-
-      <!-- CTA -->
-      <div style="text-align: center; margin-top: 40px;">
-        <button class="btn btn-primary" onclick="scrollToOrder()"
-          style="padding: 18px 50px; font-size: 1.3rem; box-shadow: 0 15px 35px rgba(234, 88, 12, 0.3);">اطلبي المنتج
-          الأصلي الآن ✨</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- HOW TO USE (MOVED) -->
-  <section class="sec" style="background: #fdf6e3;">
-    <div class="container">
-      <h2 class="sec-title">طريقة الاستخدام المثالية</h2>
-      <p class="sec-sub">3 خطوات بسيطة لشعر كالحرير</p>
-      <div class="how-steps">
-        <div class="step-card">
-          <div class="step-number">1</div>
-          <h3 class="card-title">غسل الشعر</h3>
-          <p class="card-text">اغسلي شعرك جيداً بالشامبو وجففيه بالمنشفة حتى يصبح رطباً.</p>
-        </div>
-        <div class="step-card">
-          <div class="step-number">2</div>
-          <h3 class="card-title">توزيع الكريم</h3>
-          <p class="card-text">ضعي كمية مناسبة من الكريم ووزعيها من منتصف الشعر للأطراف.</p>
-        </div>
-        <div class="step-card">
-          <div class="step-number">3</div>
-          <h3 class="card-title">الشطف</h3>
-          <p class="card-text">اتركيه لمدة 10-15 دقيقة ثم اشطفيه بالماء الفاتر واستمتعي بالنعومة.</p>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <!-- FAQ -->
   <section class="sec">
@@ -1936,7 +2823,7 @@
           </div>
           <div class="faq-answer" style="display:none;">
             <p style="font-weight:700; color:var(--gold); margin-bottom:8px;">نعم ✨</p>
-            <p style="margin-bottom:8px;">كارسيل مناسب لجميع أنواع الشعر (الجاف والمتقصف، الهايش، المصبوغ، والتالف من
+            <p style="margin-bottom:8px;">ماسك كارسيل مناسب لجميع أنواع الشعر (الجاف والمتقصف، الهايش، المصبوغ، والتالف من
               البروتين أو الحرارة).</p>
             <p>وبيعطي نعومة ولمعان وترطيب واضح من أول استخدام مع الاستمرار.</p>
           </div>
@@ -1950,8 +2837,8 @@
   </footer>
 
   <div class="whatsapp-float">
-    <a href="https://wa.me/201515697085?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20Karseell%20Egypt%20%E2%9C%A8%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D9%83%D8%A7%D8%B1%D8%B3%D9%8A%D9%84%20%D9%83%D9%88%D9%84%D8%A7%D8%AC%D9%8A%D9%86%20%D8%A7%D9%84%D8%A3%D8%B5%D9%84%D9%8A."
-      target="_blank">
+    <a href="https://wa.me/201515697085?text=%D8%B9%D8%A7%D9%8A%D8%B2%D8%A9%20%D8%A7%D8%B9%D8%B1%D9%81%20%D8%A7%D9%8A%D9%87%20%D8%A7%D9%84%D8%B9%D8%B1%D9%88%D8%B6%20%D8%A7%D9%84%D9%85%D8%AA%D8%A7%D8%AD%D8%A9"
+      target="_blank" onclick="trackEvent('Contact', {content_name: 'Floating WhatsApp Click'})">
       <svg viewBox="0 0 32 32">
         <path
           d="M16 0c-8.837 0-16 7.163-16 16 0 2.825 0.737 5.607 2.137 8.048l-2.137 7.952 8.135-2.135c2.369 1.228 5.021 1.885 7.865 1.885 8.837 0 16-7.163 16-16s-7.163-16-16-16zM16 29.333c-2.547 0-5.043-0.716-7.193-2.056l-0.517-0.323-5.365 1.408 1.44-5.365-0.36-0.557c-1.463-2.267-2.339-4.955-2.339-7.773 0-7.364 5.991-13.355 13.333-13.355s13.333 5.991 13.333 13.355-5.991 13.333-13.333 13.333z" />
@@ -1962,12 +2849,113 @@
   <!-- Mobile Sticky CTA -->
   <div class="mobile-sticky-cta">
     <button class="btn btn-primary" onclick="scrollToOrder()"
-      style="width: 100%; padding: 15px; font-size: 1.1rem; box-shadow: 0 10px 20px rgba(234, 88, 12, 0.3);">اطلبي عرض
-      كارسيل الآن 🔥</button>
+      style="width: 100%; max-width: 320px; padding: 10px 16px; font-size: 0.95rem; border-radius: 12px; box-shadow: 0 8px 16px rgba(234, 88, 12, 0.25);">اطلبي عرض ماسك كارسيل الآن 🔥</button>
+  </div>
+
+  <!-- Hidden dummy elements to satisfy the legacy hero gallery script queries -->
+  <div style="display: none !important;">
+    <div class="cg-slide active"></div>
+    <div class="cg-thumb active"></div>
+  </div>
+
+  <!-- Mobile Track Order Modal -->
+  <div id="trackModal" class="track-modal">
+    <div class="track-modal-content">
+      <button class="track-modal-close" onclick="closeTrackModal()">&times;</button>
+      <div class="track-modal-header">
+        <span class="track-modal-icon">🔍</span>
+        <h3>تتبع طلبك أو تعديله / إلغائه</h3>
+        <p>أدخلي رقم الهاتف المستخدم في الطلب للبحث عنه</p>
+      </div>
+      <div class="track-modal-body">
+        <div class="modal-input-group">
+          <input type="tel" id="modalTrackPhone" class="form-control" placeholder="رقم موبايلك" oninput="validatePhone(this)" onkeydown="if(event.key === 'Enter') trackOrderModal()">
+          <button onclick="trackOrderModal()" class="modal-search-btn">بحث</button>
+        </div>
+        <div id="modalTrackResults" class="modal-track-results" style="display: none;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Sidebar Drawer -->
+  <div id="mobileSidebarOverlay" class="sidebar-overlay" onclick="closeSidebar()"></div>
+  <div id="mobileSidebar" class="sidebar-drawer">
+    <button class="sidebar-close" onclick="closeSidebar()">&times;</button>
+    <div class="sidebar-logo">
+      <img src="https://i.ibb.co/1fHj8NND/cropped-karseell-logo-400x100-1.png" alt="Karseell Logo" style="height: 34px; width: auto;">
+    </div>
+    <div class="sidebar-menu">
+      <a href="#" class="menu-item" onclick="handleMenuClick(event, 'hero')">الرئيسية</a>
+      <a href="#" class="menu-item" onclick="handleMenuClick(event, 'offers-mask')">عروض ماسك كارسيل</a>
+      <a href="#" class="menu-item" onclick="handleMenuClick(event, 'offers-serum')">عروض ماسك وسيروم كارسيل</a>
+      <a href="#" class="menu-item track-btn" onclick="handleMenuClick(event, 'track')">تتبع أو تعديل الطلب</a>
+    </div>
   </div>
 
   <script>
     function scrollToOrder() { document.getElementById('order').scrollIntoView({ behavior: 'smooth' }); }
+
+    function openSidebar() {
+      document.getElementById('mobileSidebarOverlay').style.display = 'block';
+      setTimeout(() => {
+        document.getElementById('mobileSidebarOverlay').classList.add('active');
+        document.getElementById('mobileSidebar').classList.add('active');
+      }, 10);
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeSidebar() {
+      document.getElementById('mobileSidebarOverlay').classList.remove('active');
+      document.getElementById('mobileSidebar').classList.remove('active');
+      setTimeout(() => {
+        document.getElementById('mobileSidebarOverlay').style.display = 'none';
+      }, 300);
+      document.body.style.overflow = '';
+    }
+
+    function selectInnerTab(productId, tabName) {
+      const activeTabId = productId + '-' + tabName;
+      const targetPane = document.getElementById(activeTabId);
+      if (!targetPane) return;
+
+      const container = targetPane.closest('.product-details-wrapper');
+      if (!container) return;
+
+      const button = container.querySelector(`button[onclick*="${activeTabId}"]`);
+      if (button) {
+        switchInnerTab(button, activeTabId);
+      }
+    }
+
+    function handleMenuClick(event, target) {
+      event.preventDefault();
+      closeSidebar();
+
+      setTimeout(() => {
+        if (target === 'hero') {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else if (target === 'offers-mask') {
+          toggleProductDetails('mask');
+          document.getElementById('order').scrollIntoView({ behavior: 'smooth' });
+        } else if (target === 'offers-serum') {
+          toggleProductDetails('serum');
+          document.getElementById('order').scrollIntoView({ behavior: 'smooth' });
+        } else if (target === 'best-sellers') {
+          document.querySelector('.best-sellers-sec').scrollIntoView({ behavior: 'smooth' });
+        } else if (target === 'benefits' || target === 'howtouse' || target === 'verify' || target === 'reviews') {
+          const isMaskActive = document.getElementById('tab-mask').classList.contains('active-product-tab');
+          const productId = isMaskActive ? 'mask' : 'serum';
+          
+          selectInnerTab(productId, target);
+          
+          document.getElementById('dynamic-product-details').scrollIntoView({ behavior: 'smooth' });
+        } else if (target === 'faq') {
+          document.getElementById('faq').scrollIntoView({ behavior: 'smooth' });
+        } else if (target === 'track') {
+          scrollToTrack();
+        }
+      }, 300);
+    }
 
     // Initialize Hero Gallery (Custom - No Swiper to avoid mobile overflow bugs)
     document.addEventListener('DOMContentLoaded', function () {
@@ -1988,51 +2976,56 @@
 
       cgTimer = setInterval(() => cgGoTo((cgCurrent + 1) % cgSlides.length), 4000);
 
-      // Initialize Verification Swiper
-      new Swiper(".swiper-verify", {
-
-        slidesPerView: 1,
-        spaceBetween: 20,
-        loop: true,
-        observer: true,
-        observeParents: true,
-        pagination: {
-          el: ".swiper-pagination",
-          clickable: true,
-        },
-        breakpoints: {
-          640: { slidesPerView: 2 },
-          1024: { slidesPerView: 3 }
-        },
-        autoplay: {
-          delay: 5000,
-          disableOnInteraction: false,
-        }
+      // Initialize Verification Swipers
+      document.querySelectorAll('.swiper-verify').forEach(el => {
+        new Swiper(el, {
+          slidesPerView: 1,
+          spaceBetween: 20,
+          loop: true,
+          observer: true,
+          observeParents: true,
+          pagination: {
+            el: el.querySelector('.swiper-pagination') || '.swiper-pagination',
+            clickable: true,
+          },
+          breakpoints: {
+            640: { slidesPerView: 2 },
+            1024: { slidesPerView: 3 }
+          },
+          autoplay: {
+            delay: 5000,
+            disableOnInteraction: false,
+          }
+        });
       });
 
-      // Initialize Reviews Swiper
-      new Swiper(".reviews-swiper", {
-        slidesPerView: 1.8,
-        spaceBetween: 12,
-        loop: true,
-        centeredSlides: true,
-        autoplay: {
-          delay: 3500,
-          disableOnInteraction: false,
-        },
-        pagination: {
-          el: ".reviews-pagination",
-          clickable: true,
-        },
-        breakpoints: {
-          901: {
-            slidesPerView: 4,
-            spaceBetween: 16,
-            centeredSlides: false,
-            loop: false,
-            autoplay: false
+      // Initialize Reviews Swipers
+      document.querySelectorAll('.reviews-swiper').forEach(el => {
+        new Swiper(el, {
+          slidesPerView: 1.8,
+          spaceBetween: 12,
+          loop: true,
+          centeredSlides: true,
+          observer: true,
+          observeParents: true,
+          autoplay: {
+            delay: 3500,
+            disableOnInteraction: false,
+          },
+          pagination: {
+            el: el.querySelector('.reviews-pagination') || '.reviews-pagination',
+            clickable: true,
+          },
+          breakpoints: {
+            901: {
+              slidesPerView: 4,
+              spaceBetween: 16,
+              centeredSlides: false,
+              loop: false,
+              autoplay: false
+            }
           }
-        }
+        });
       });
 
       // FAQ Accordion Toggle Action
@@ -2075,11 +3068,11 @@
 
       // Track ViewContent on load
       trackEvent('ViewContent', {
-        content_name: 'Karseell Collagen Hair Mask',
+        content_name: 'ماسك وسيروم كارسيل',
         content_category: 'Hair Care',
-        content_ids: ['karseell-mask'],
+        content_ids: ['karseell-serum'],
         content_type: 'product',
-        value: 1250,
+        value: 1200,
         currency: 'EGP'
       });
 
@@ -2088,13 +3081,102 @@
       document.querySelector('input[name="phone"]').addEventListener('input', function (e) {
         if (!leadTracked && e.target.value.length >= 10) {
           trackEvent('Lead', {
-            content_name: 'Karseell Mask Checkout',
+            content_name: 'Karseell Serum Checkout',
             currency: 'EGP'
           });
           leadTracked = true;
         }
       });
     });
+
+    // Phase 2: Dynamic Toggle Logic
+    function toggleProductDetails(productId) {
+      // Remove active class from all tabs
+      document.querySelectorAll('.product-tab-card').forEach(card => card.classList.remove('active-product-tab'));
+      // Add active class to clicked tab
+      document.getElementById('tab-' + productId).classList.add('active-product-tab');
+
+      // Hide all details wrappers
+      document.querySelectorAll('.product-details-wrapper').forEach(wrapper => {
+        wrapper.style.display = 'none';
+        wrapper.classList.remove('fade-in');
+      });
+
+      // Show the target details wrapper with a smooth fade
+      const targetWrapper = document.getElementById('details-' + productId);
+      targetWrapper.style.display = 'block';
+      setTimeout(() => targetWrapper.classList.add('fade-in'), 10);
+
+      // --- Separate Offers Rows & Dropdown Options ---
+      const orderTitle = document.getElementById('order-title');
+      const offersMask = document.getElementById('offers-mask');
+      const offersSerum = document.getElementById('offers-serum');
+      const offerSelect = document.getElementById('offerSelect');
+
+      if (productId === 'mask') {
+        if (orderTitle) orderTitle.textContent = 'اختاري عرض ماسك كارسيل المناسب ليكي';
+        if (offersMask) offersMask.style.display = 'grid';
+        if (offersSerum) offersSerum.style.display = 'none';
+        
+        const countLabel = document.getElementById('sumOfferCountLabel');
+        if (countLabel) countLabel.textContent = 'عدد العبوات:';
+
+        if (offerSelect) {
+          offerSelect.innerHTML = `
+            <option value="500" data-name="عبوة واحدة" data-count="1">عبوة واحدة — 500 ج.م</option>
+            <option value="1000" data-name="عبوتين كارسيل" data-count="2" selected>عبوتين — 1000 ج.م</option>
+            <option value="1450" data-name="3 عبوات كارسيل" data-count="3">3 عبوات — 1450 ج.م</option>
+          `;
+          offerSelect.value = "1000";
+        }
+      } else {
+        if (orderTitle) orderTitle.textContent = 'اختاري عرض ماسك وسيروم كارسيل المناسب ليكي';
+        if (offersMask) offersMask.style.display = 'none';
+        if (offersSerum) offersSerum.style.display = 'grid';
+
+        const countLabel = document.getElementById('sumOfferCountLabel');
+        if (countLabel) countLabel.textContent = 'عدد البوكسات:';
+
+        if (offerSelect) {
+          offerSelect.innerHTML = `
+            <option value="600" data-name="عرض العيد الأساسي - كريم كارسيل + سيرم" data-count="1">عرض العيد الأساسي (كريم + سيرم) — 600 ج.م</option>
+            <option value="1200" data-name="عرض القطعتين - 2 كريم + 2 سيرم" data-count="2" selected>عرض القطعتين (2 كريم + 2 سيرم) — 1200 ج.م</option>
+            <option value="1700" data-name="العرض الأقوى - 3 كريم + 3 سيرم" data-count="3">العرض الأقوى (3 كريم + 3 سيرم) — 1700 ج.م</option>
+          `;
+          offerSelect.value = "1200";
+        }
+      }
+      // Re-trigger summary update to match new selected offer price/details
+      updateSummary();
+    }
+
+    // Inner Tab Switcher (scoped per product wrapper)
+    function switchInnerTab(btn, paneId) {
+      // Scope to the parent nav to avoid cross-product interference
+      const nav = btn.closest('.inner-tabs-nav');
+      const container = btn.closest('.product-details-wrapper');
+      if (!nav || !container) return;
+
+      // Remove active class from all buttons in this nav
+      nav.querySelectorAll('.inner-tab-btn').forEach(b => b.classList.remove('active-inner-tab'));
+      // Add active class to this button
+      btn.classList.add('active-inner-tab');
+
+      // Hide all panes in this container
+      container.querySelectorAll('.inner-tab-pane').forEach(p => {
+        p.classList.remove('active-pane');
+      });
+
+      // Show the selected pane
+      const target = document.getElementById(paneId);
+      if (target) {
+        target.classList.add('active-pane');
+        // If the pane contains a Swiper instance, update it
+        target.querySelectorAll('.swiper').forEach(el => {
+          if (el.swiper) el.swiper.update();
+        });
+      }
+    }
 
     // Meta Pixel Events Helper
     function trackEvent(eventName, data = {}) {
@@ -2112,8 +3194,8 @@
       const count = option.getAttribute('data-count');
       const price = parseInt(option.value);
 
-      // Shipping: 50 for single jar, free for 2+ jars
-      const shipping = (price === 650) ? 50 : 0;
+      // Shipping: 50 for single jar/combo, free for 2+
+      const shipping = (price === 500 || price === 600) ? 50 : 0;
       const total = price + shipping;
       const shippingText = shipping > 0 ? (shipping + ' ج.م') : 'مجاني ✨';
 
@@ -2142,16 +3224,19 @@
         mmsShipping.className = shipping > 0 ? 'mms-val' : 'mms-val mms-free';
       }
 
-      // Dynamically highlight the corresponding offer card
-      const cards = document.querySelectorAll('.offer-card');
-      if (cards.length === 3) {
-        cards.forEach(card => card.classList.remove('selected'));
-        if (price === "650") {
-          cards[0].classList.add('selected');
-        } else if (price === "1250") {
-          cards[1].classList.add('selected');
-        } else if (price === "1800") {
-          cards[2].classList.add('selected');
+      // Dynamically highlight the corresponding offer card inside the visible offers row
+      const visibleRow = document.querySelector('.offers-row:not([style*="display: none"])');
+      if (visibleRow) {
+        const cards = visibleRow.querySelectorAll('.offer-card');
+        if (cards.length === 3) {
+          cards.forEach(card => card.classList.remove('selected'));
+          if (price === 500 || price === 600) {
+            cards[0].classList.add('selected');
+          } else if (price === 1000 || price === 1200) {
+            cards[1].classList.add('selected');
+          } else if (price === 1450 || price === 1700) {
+            cards[2].classList.add('selected');
+          }
         }
       }
     }
@@ -2171,13 +3256,10 @@
 
     function selectOffer(name, price) {
       const select = document.getElementById('offerSelect');
-      // Simple matching logic
-      if (name.includes('عبوة واحدة')) select.value = "650";
-      else if (name.includes('عبوتين')) select.value = "1250";
-      else if (name.includes('3 عبوات')) select.value = "1800";
+      select.value = price.toString();
 
       updateSummary();
-      document.getElementById('order').scrollIntoView({ behavior: 'smooth' });
+      document.getElementById('orderForm').scrollIntoView({ behavior: 'smooth' });
 
       // Track InitiateCheckout
       trackEvent('InitiateCheckout', {
@@ -2222,17 +3304,82 @@
 
       // Basic Phone Validation
       if (!data.phone.startsWith('01') || data.phone.length !== 11) {
-        Swal.fire('خطأ في رقم الهاتف', 'برجاء إدخال رقم هاتف مصري صحيح (11 رقم يبدأ بـ 01)', 'error');
+        Swal.fire({
+          title: 'خطأ في رقم الهاتف',
+          text: 'برجاء إدخال رقم هاتف مصري صحيح (11 رقم يبدأ بـ 01)',
+          icon: 'error',
+          confirmButtonText: 'حسناً',
+          customClass: {
+            popup: 'custom-swal-popup',
+            title: 'custom-swal-title',
+            confirmButton: 'custom-swal-confirm'
+          }
+        });
         return;
       }
 
+      // Prevent multiple submissions / loading indicator
+      const submitBtn = this.querySelector('button[type="submit"]');
+      const originalBtnText = submitBtn.innerHTML;
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = 'جاري إرسال طلبك...';
+
       try {
         await database.ref('karseell-orders').push(data);
+
+        // Calculate total and shipping for the receipt
+        const priceVal = parseInt(data.price) || 0;
+        const shippingVal = (priceVal === 500 || priceVal === 600) ? 50 : 0;
+        const totalPriceVal = priceVal + shippingVal;
+        const shippingTextVal = shippingVal > 0 ? `${shippingVal} ج.م` : 'مجاني ✨';
+
         Swal.fire({
-          title: 'تم تأكيد طلبك بنجاح! 🎉',
-          text: 'سنتواصل معك خلال ساعات لتأكيد الشحن 💖',
+          title: 'تم تأكيد الطلب',
+          html: `
+            <div style="text-align: right; direction: rtl; font-family: 'IBM Plex Sans Arabic', sans-serif;">
+              <p style="text-align: center; font-size: 1rem; color: #555; margin-bottom: 16px; font-weight: 500;">
+                سنتصل بكِ لتأكيد الشحن قريباً
+              </p>
+              <div style="background: #FAF8F5; border: 1px solid rgba(139, 24, 24, 0.08); padding: 14px; border-radius: 12px; margin-bottom: 6px; font-size: 0.9rem; line-height: 1.7;">
+                <div style="border-bottom: 1px dashed rgba(139, 24, 24, 0.06); padding-bottom: 6px; margin-bottom: 6px; display: flex; justify-content: space-between;">
+                  <span style="color: #666;">الاسم:</span>
+                  <strong style="color: #111;">${data.name}</strong>
+                </div>
+                <div style="border-bottom: 1px dashed rgba(139, 24, 24, 0.06); padding-bottom: 6px; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center;">
+                  <span style="color: #666;">الهاتف:</span>
+                  <strong style="color: #111; direction: ltr; unicode-bidi: embed;">${data.phone}</strong>
+                </div>
+                <div style="border-bottom: 1px dashed rgba(139, 24, 24, 0.06); padding-bottom: 6px; margin-bottom: 6px; display: flex; justify-content: space-between;">
+                  <span style="color: #666;">العرض:</span>
+                  <strong style="color: #8B1818; text-align: left; max-width: 65%; font-weight: 700;">${data.product.replace(/ - .*/, '')}</strong>
+                </div>
+                <div style="border-bottom: 1px dashed rgba(139, 24, 24, 0.06); padding-bottom: 6px; margin-bottom: 6px; display: flex; justify-content: space-between;">
+                  <span style="color: #666;">العنوان:</span>
+                  <strong style="color: #111; text-align: left; max-width: 65%;">${data.governorate} - ${data.address}</strong>
+                </div>
+                <div style="border-bottom: 1px dashed rgba(139, 24, 24, 0.06); padding-bottom: 6px; margin-bottom: 6px; display: flex; justify-content: space-between;">
+                  <span style="color: #666;">الشحن:</span>
+                  <strong style="color: ${shippingVal > 0 ? '#111' : '#A32828'};">${shippingVal > 0 ? `${shippingVal} ج.م` : 'مجاني'}</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding-top: 4px;">
+                  <span style="color: #111; font-weight: 700;">الإجمالي:</span>
+                  <strong style="color: #8B1818; font-weight: 900; font-size: 1.2rem;">${totalPriceVal} ج.م</strong>
+                </div>
+              </div>
+              <p style="text-align: center; font-size: 0.8rem; color: #888; margin-top: 10px; font-weight: 600;">
+                الدفع عند الاستلام بعد المعاينة
+              </p>
+            </div>
+          `,
           icon: 'success',
-          confirmButtonColor: '#ea580c'
+          iconColor: '#8B1818',
+          confirmButtonText: 'موافق',
+          allowOutsideClick: false,
+          customClass: {
+            popup: 'custom-swal-popup',
+            title: 'custom-swal-title',
+            confirmButton: 'custom-swal-confirm'
+          }
         });
 
         // Track Purchase
@@ -2247,9 +3394,104 @@
         updateSummary();
       } catch (e) {
         console.error(e);
-        Swal.fire('تم استلام طلبك!', 'سنتواصل معك قريباً 💖', 'success');
+        Swal.fire({
+          title: 'تم استلام طلبك!',
+          text: 'سنتواصل معك قريباً لتأكيد الشحن 💖',
+          icon: 'success',
+          confirmButtonText: 'موافق',
+          customClass: {
+            popup: 'custom-swal-popup',
+            title: 'custom-swal-title',
+            confirmButton: 'custom-swal-confirm'
+          }
+        });
+      } finally {
+        // Restore button state
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnText;
       }
     });
+
+    function openTrackModal() {
+      const modal = document.getElementById('trackModal');
+      modal.style.display = 'flex';
+      setTimeout(() => {
+        modal.classList.add('show');
+        const input = document.getElementById('modalTrackPhone');
+        if (input) input.focus();
+      }, 10);
+    }
+
+    function closeTrackModal() {
+      const modal = document.getElementById('trackModal');
+      modal.classList.remove('show');
+      setTimeout(() => {
+        modal.style.display = 'none';
+        document.getElementById('modalTrackPhone').value = '';
+        document.getElementById('modalTrackResults').style.display = 'none';
+        document.getElementById('modalTrackResults').innerHTML = '';
+      }, 300);
+    }
+
+    // Close modal when clicking outside the modal content
+    window.addEventListener('click', function (event) {
+      const modal = document.getElementById('trackModal');
+      if (event.target === modal) {
+        closeTrackModal();
+      }
+    });
+
+    function scrollToTrack() {
+      if (window.innerWidth <= 900) {
+        openTrackModal();
+      } else {
+        const el = document.getElementById('track-section');
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' });
+          setTimeout(() => {
+            const input = document.getElementById('trackPhone');
+            if (input) input.focus();
+          }, 800);
+        }
+      }
+    }
+
+    async function trackOrderModal() {
+      const phone = document.getElementById('modalTrackPhone').value;
+      if (!phone) return;
+
+      const results = document.getElementById('modalTrackResults');
+      results.style.display = 'block';
+      results.innerHTML = '<p style="text-align: center; color: #666;">جاري البحث عن طلبك... 🔍</p>';
+
+      try {
+        const snapshot = await database.ref('karseell-orders').orderByChild('phone').equalTo(phone).limitToLast(1).once('value');
+        if (snapshot.exists()) {
+          snapshot.forEach(child => {
+            const val = child.val();
+            results.innerHTML = `
+              <div style="text-align: right;">
+                <p><strong>الاسم:</strong> ${val.name}</p>
+                <p><strong>المنتج:</strong> ${val.product}</p>
+                <p><strong>الإجمالي:</strong> ${val.price} ج.م</p>
+                <p style="color: #ea580c; font-weight: 800; margin-top: 10px; margin-bottom: 15px;">الحالة: جاري تجهيز الطلب للشحن 🚚</p>
+                <div style="border-top: 1px solid #e7e5e4; padding-top: 12px; margin-top: 10px; text-align: center;">
+                  <p style="font-size: 12px; color: #6b7280; margin-bottom: 8px;">تريد تعديل أو إلغاء طلبك؟</p>
+                  <a href="https://wa.me/201515697085?text=%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%AA%D8%B9%D8%AF%D9%8A%D9%84%20%D8%A3%D9%88%20%D8%A5%D9%84%D8%BA%D8%A7%D8%A1%20%D8%B7%D9%84%D8%A8%D9%8A%20%D9%84%D9%84%D8%B1%D9%82%D9%85%D9%90%20${val.phone}" target="_blank" style="padding: 10px 16px; font-size: 13px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: #25d366; border: 1px solid #25d366; text-decoration: none; border-radius: 8px; color: white; font-weight: 700; transition: all 0.3s ease; width: 100%;">
+                    تعديل أو إلغاء عبر الواتساب 💬
+                  </a>
+                </div>
+              </div>
+            `;
+          });
+        } else {
+          results.innerHTML = '<p style="text-align: center; color: #ea580c; font-weight: 600;">لم يتم العثور على طلب بهذا الرقم</p>';
+        }
+      } catch (err) {
+        console.error(err);
+        results.innerHTML = '<p style="text-align: center; color: #ef4444;">حدث خطأ أثناء البحث. يرجى المحاولة مرة أخرى.</p>';
+      }
+    }
 
     async function trackOrder() {
       const phone = document.getElementById('trackPhone').value;
@@ -2265,7 +3507,13 @@
               <p><strong>الاسم:</strong> ${val.name}</p>
               <p><strong>المنتج:</strong> ${val.product}</p>
               <p><strong>الإجمالي:</strong> ${val.price} ج.م</p>
-              <p style="color: #ea580c; font-weight: 800; margin-top: 10px;">الحالة: جاري تجهيز الطلب للشحن 🚚</p>
+              <p style="color: #ea580c; font-weight: 800; margin-top: 10px; margin-bottom: 15px;">الحالة: جاري تجهيز الطلب للشحن 🚚</p>
+              <div style="border-top: 1px solid #e7e5e4; padding-top: 12px; margin-top: 10px; text-align: center;">
+                <p style="font-size: 12px; color: #6b7280; margin-bottom: 8px;">تريد تعديل أو إلغاء طلبك؟</p>
+                <a href="https://wa.me/201515697085?text=%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%AA%D8%B9%D8%AF%D9%8A%D9%84%20%D8%A3%D9%88%20%D8%A5%D9%84%D8%BA%D8%A7%D8%A1%20%D8%B7%D9%84%D8%A8%D9%8A%20%D9%84%D9%84%D8%B1%D9%82%D9%85%D9%90%20${val.phone}" target="_blank" class="btn btn-primary" style="padding: 8px 16px; font-size: 13px; display: inline-flex; align-items: center; gap: 6px; background: #25d366; border-color: #25d366; text-decoration: none; border-radius: 8px; color: white; font-weight: 700; transition: all 0.3s ease;">
+                  تعديل أو إلغاء عبر الواتساب 💬
+                </a>
+              </div>
             </div>
           `;
         });
