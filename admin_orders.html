@@ -1490,13 +1490,13 @@
                 correctTotal = maskPrices['عبوتين كارسيل'];
             } else if (productName.includes('3 عبوات كارسيل')) {
                 correctTotal = maskPrices['3 عبوات كارسيل'];
-                // Eid offers (سعر لكل قطعة × الكمية)
+                // Eid offers (الأسعار الإجمالية — ليست لكل قطعة)
             } else if (productName.includes('عرض القطعتين')) {
-                correctTotal = eidPrices['عرض القطعتين'] * Math.max(quantity, 1);
+                correctTotal = eidPrices['عرض القطعتين'];
             } else if (productName.includes('العرض الأقوى')) {
-                correctTotal = eidPrices['العرض الأقوى'] * Math.max(quantity, 1);
+                correctTotal = eidPrices['العرض الأقوى'];
             } else if (productName.includes('عرض العيد الأساسي')) {
-                correctTotal = eidPrices['عرض العيد الأساسي'] * Math.max(quantity, 1);
+                correctTotal = eidPrices['عرض العيد الأساسي'];
             }
 
             if (correctTotal === null) {
