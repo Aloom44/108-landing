@@ -2554,7 +2554,7 @@
             <img src="https://i.ibb.co/G3Vd620y/karseell-2.jpg" alt="عبوتين كارسيل" class="offer-img">
           </div>
           <span class="offer-price-new">1000 <span>ج.م</span></span>
-          <p class="offer-desc">شحن مجاني</p>
+          <p class="offer-desc">شحن مجاني (في حالة الاستلام فقط)</p>
           <div class="offer-cta-btn">اختاري هذا العرض</div>
         </div>
 
@@ -2566,7 +2566,7 @@
             <img src="https://i.ibb.co/N23VSjXn/karseell-3.jpg" alt="3 عبوات كارسيل" class="offer-img">
           </div>
           <span class="offer-price-new">1450 <span>ج.م</span></span>
-          <p class="offer-desc">شحن مجاني</p>
+          <p class="offer-desc">شحن مجاني (في حالة الاستلام فقط)</p>
           <div class="offer-cta-btn">اختاري هذا العرض</div>
         </div>
       </div>
@@ -2593,7 +2593,7 @@
             <img src="https://i.ibb.co/S4W5wWQv/Chat-GPT-Image-Jun-11-2026-03-37-13-PM-11zon.webp" alt="عرض القطعتين (ماسك وسيروم كارسيل)" class="offer-img">
           </div>
           <span class="offer-price-new">1200 <span>ج.م</span></span>
-          <p class="offer-desc">شحن مجاني</p>
+          <p class="offer-desc">شحن مجاني (في حالة الاستلام فقط)</p>
           <div class="offer-cta-btn">اختاري هذا العرض</div>
         </div>
 
@@ -2605,7 +2605,7 @@
             <img src="https://i.ibb.co/QvdJ7TJk/Chat-GPT-Image-Jun-11-2026-03-40-24-PM-11zon.webp" alt="العرض الأقوى (ماسك وسيروم كارسيل)" class="offer-img">
           </div>
           <span class="offer-price-new">1700 <span>ج.م</span></span>
-          <p class="offer-desc">شحن مجاني</p>
+          <p class="offer-desc">شحن مجاني (في حالة الاستلام فقط)</p>
           <div class="offer-cta-btn">اختاري هذا العرض</div>
         </div>
       </div>
@@ -2740,6 +2740,13 @@
               </svg>
               اطلبي عبر الواتساب (سريع)
             </button>
+
+            <!-- تنبيه المعاينة والدفع للمندوب عند عدم الاستلام -->
+            <div style="background: #fffbeb; border: 1px solid #fef3c7; border-right: 4px solid #d97706; padding: 12px 16px; border-radius: 12px; margin: 20px 0 0 0; font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 13px; line-height: 1.6; color: #92400e; direction: rtl; text-align: right;">
+              <span style="font-weight: 700; font-size: 14px; display: block; margin-bottom: 4px;">⚠️ تنبيه هام (المعاينة قبل الدفع):</span>
+              متاح معاينة المنتج وتجربته قبل الاستلام والتأكد من جودته. 
+              في حالة <strong>عدم الاستلام (رفض الطلب)</strong>، يرجى دفع <strong>مصاريف الشحن للمندوب مباشرة</strong>، نظير تعبه ومشقة التوصيل لأن هذه المصاريف خاصة بشركة الشحن والمندوب فقط.
+            </div>
           </form>
         </div>
 
@@ -3197,7 +3204,7 @@
       // Shipping: 50 for single jar/combo, free for 2+
       const shipping = (price === 500 || price === 600) ? 50 : 0;
       const total = price + shipping;
-      const shippingText = shipping > 0 ? (shipping + ' ج.م') : 'مجاني ✨';
+      const shippingText = shipping > 0 ? (shipping + ' ج.م') : 'مجاني (في حالة الاستلام فقط) ✨';
 
       // Update desktop summary card
       document.getElementById('sumOfferName').textContent = name;
@@ -3331,7 +3338,7 @@
         const priceVal = parseInt(data.price) || 0;
         const shippingVal = (priceVal === 500 || priceVal === 600) ? 50 : 0;
         const totalPriceVal = priceVal + shippingVal;
-        const shippingTextVal = shippingVal > 0 ? `${shippingVal} ج.م` : 'مجاني ✨';
+        const shippingTextVal = shippingVal > 0 ? `${shippingVal} ج.م` : 'مجاني (في حالة الاستلام فقط) ✨';
 
         Swal.fire({
           title: 'تم تأكيد الطلب',
@@ -3359,7 +3366,7 @@
                 </div>
                 <div style="border-bottom: 1px dashed rgba(139, 24, 24, 0.06); padding-bottom: 6px; margin-bottom: 6px; display: flex; justify-content: space-between;">
                   <span style="color: #666;">الشحن:</span>
-                  <strong style="color: ${shippingVal > 0 ? '#111' : '#A32828'};">${shippingVal > 0 ? `${shippingVal} ج.م` : 'مجاني'}</strong>
+                  <strong style="color: ${shippingVal > 0 ? '#111' : '#A32828'};">${shippingVal > 0 ? `${shippingVal} ج.م` : 'مجاني (في حالة الاستلام فقط)'}</strong>
                 </div>
                 <div style="display: flex; justify-content: space-between; padding-top: 4px;">
                   <span style="color: #111; font-weight: 700;">الإجمالي:</span>
@@ -3536,7 +3543,7 @@
       const message = `مرحباً Karseell Egypt ✨
 أرغب في طلب عرض كارسيل المميز:
 🛍️ العرض: ${offerName}
-💰 السعر: ${price} ج.م (شحن مجاني)
+💰 السعر: ${price} ج.م (الشحن مجاني في حالة الاستلام فقط)
 
 بيانات الشحن:
 👤 الاسم: ${name}
