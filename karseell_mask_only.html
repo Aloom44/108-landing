@@ -3533,7 +3533,13 @@
       const select = document.getElementById('offerSelect');
       const option = select.options[select.selectedIndex];
       const offerName = option.getAttribute('data-name');
-      const price = select.value;
+      const priceVal = parseInt(select.value);
+
+      // Shipping: 50 for single jar/combo (500 or 600 EGP), free for 2+
+      const shippingVal = (priceVal === 500 || priceVal === 600) ? 50 : 0;
+      const totalVal = priceVal + shippingVal;
+      
+      const shippingText = shippingVal > 0 ? `${shippingVal} ج.م` : 'مجاني (في حالة الاستلام فقط) ✨';
 
       const name = document.querySelector('input[name="name"]').value || '[لم يتم إدخال الاسم]';
       const phone = document.querySelector('input[name="phone"]').value || '[لم يتم إدخال الهاتف]';
@@ -3543,7 +3549,9 @@
       const message = `مرحباً Karseell Egypt ✨
 أرغب في طلب عرض كارسيل المميز:
 🛍️ العرض: ${offerName}
-💰 السعر: ${price} ج.م (الشحن مجاني في حالة الاستلام فقط)
+💰 السعر: ${priceVal} ج.م
+🚚 الشحن: ${shippingText}
+💵 الإجمالي: ${totalVal} ج.م
 
 بيانات الشحن:
 👤 الاسم: ${name}
@@ -3559,7 +3567,7 @@
       // Track Pixel Event
       trackEvent('Contact', {
         content_name: 'WhatsApp Order Inquiry',
-        value: price,
+        value: priceVal,
         currency: 'EGP'
       });
     }
