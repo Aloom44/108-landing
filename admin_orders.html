@@ -2017,17 +2017,29 @@
                 selectedPhone = '20' + selectedPhone;
             }
 
-            const orderMessage = [
-                'مرحباً ' + (name || ''),
-                'تم تأكيد طلبك من منتجات Karseell.',
-                'المنتج: ' + (productType || 'Karseell'),
-                'الكمية: ' + (quantity || '-'),
-                'السعر الإجمالي: ' + (price || '-') + ' جنيه',
-                'المحافظة: ' + (governorate || '-'),
-                'العنوان: ' + (address || '-'),
-                notes ? 'ملاحظات: ' + notes : '',
-                'شكراً لثقتك بنا.'
-            ].filter(Boolean).join('\n');
+            const govName = String(governorate || '').trim();
+            const deliveryTime = (govName.includes('القاهرة') || govName.includes('الجيزة'))
+                ? 'خلال يوم إلى يومين.'
+                : 'خلال 3 إلى 5 أيام عمل.';
+
+            let orderMessage = `✅ تم تأكيد طلبكم بنجاح، وجارٍ حالياً تجهيزه وإرساله إلى أقرب مستودع لشركة الشحن بمنطقتكم.
+
+👤 الاسم: ${name || ''}
+🛍️ المنتج: ${productType || 'Karseell'}
+📦 الكمية: ${quantity || '-'}
+💰 السعر الإجمالي: ${price || '-'} جنيه
+📍 المحافظة: ${governorate || '-'}
+🏠 العنوان: ${address || '-'}`;
+
+            if (notes) {
+                orderMessage += `\n📝 ملاحظات: ${notes}`;
+            }
+
+            orderMessage += `\n\n🚚 موعد الاستلام المتوقع: ${deliveryTime}
+
+📌 تم حجز المنتج باسمكم وبدء إجراءات الشحن. نرجو منكم الالتزام باستلام الطلب عند وصوله، وفي حال طرأ أي ظرف يرجى التواصل معنا قبل وصول المندوب، حيث إن إلغاء الطلب بعد الشحن يترتب عليه تكاليف شحن وتجهيز.
+
+🤝 شكراً لثقتكم بنا، ونسعد دائماً بخدمتكم. ونتمنى أن تنال منتجات Karseell إعجابكم. ❤️`;
 
             window.open('https://wa.me/' + selectedPhone + '?text=' + encodeURIComponent(orderMessage), '_blank');
         }
