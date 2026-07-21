@@ -49,10 +49,13 @@
 
   <!-- SweetAlert2 -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- Preload Critical Luxury Video Asset -->
+  <link rel="preload" as="video" href="https://l.top4top.io/m_3854rdiq51.mp4" type="video/mp4" crossorigin="anonymous" />
+
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
     rel="stylesheet">
 
   <!-- Swiper.js & Fancybox -->
@@ -252,84 +255,438 @@
       color: #FFFFFF;
     }
 
-    /* Hero Section */
-    .hero {
+    /* ==========================================================================
+       WORLD-CLASS MASTER DUAL-MEDIA HERO SECTION (VIDEO + IMAGE IN SAME FRAME)
+       ========================================================================== */
+    .hero-luxury-section {
       position: relative;
-      background: url('https://i.ibb.co/HT90Xxw9/Chat-GPT-Image-Jun-9-2026-04-23-52-PM-11zon.webp') no-repeat center center;
-      background-size: cover;
-      padding: 100px 0;
-      min-height: 520px;
+      width: 100%;
+      height: 100vh;
+      height: 100dvh;
+      min-height: 650px;
+      overflow: hidden;
       display: flex;
       align-items: center;
-      border-bottom: 1px solid #EAEAEA;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.45);
-      /* Overlay for high text legibility */
+      background-color: #0A0A0A;
       z-index: 1;
+      direction: rtl;
+      will-change: opacity;
     }
 
-    .hero .container {
-      position: relative;
+    /* Media Slides Container */
+    .hero-media-wrapper {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .hero-media-slide {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      visibility: hidden;
+      transform: scale(1.06);
+      transition: opacity 1200ms cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 1200ms cubic-bezier(0.16, 1, 0.3, 1),
+                  visibility 1200ms;
+      will-change: opacity, transform;
+    }
+
+    .hero-media-slide.is-active {
+      opacity: 1;
+      visibility: visible;
+      transform: scale(1.0);
+    }
+
+    /* Slide 1 Video Element */
+    .hero-video-el {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      animation: heroKenBurns 20s cubic-bezier(0.25, 1, 0.5, 1) infinite alternate;
+    }
+
+    @keyframes heroKenBurns {
+      0% { transform: scale(1.0); }
+      100% { transform: scale(1.03); }
+    }
+
+    /* Slide 2 Image Element */
+    .hero-img-el {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+      display: block;
+      animation: bannerKenBurns 18s ease-in-out infinite alternate;
+    }
+
+    @keyframes bannerKenBurns {
+      0% { transform: scale(1.0); }
+      100% { transform: scale(1.03); }
+    }
+
+    /* Subtle Animated Luxury Gradient Overlay */
+    .hero-gradient-overlay {
+      position: absolute;
+      inset: 0;
       z-index: 2;
+      pointer-events: none;
+      background: linear-gradient(
+        270deg,
+        rgba(10, 10, 10, 0.75) 0%,
+        rgba(10, 10, 10, 0.48) 45%,
+        rgba(10, 10, 10, 0.20) 75%,
+        rgba(10, 10, 10, 0.10) 100%
+      );
+      background-size: 200% 200%;
+      animation: heroAmbientGradient 18s ease-in-out infinite alternate;
     }
 
-    .hero-content {
+    @keyframes heroAmbientGradient {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+
+    /* Solid Black Initial Curtain (300ms delay to prevent flicker) */
+    .hero-curtain-curtain {
+      position: absolute;
+      inset: 0;
+      background-color: #000000;
+      z-index: 10;
+      pointer-events: none;
+      opacity: 1;
+      transition: opacity 800ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .hero-curtain-curtain.is-hidden {
+      opacity: 0;
+    }
+
+    /* Content Layout Container */
+    .hero-luxury-container {
+      position: relative;
+      z-index: 3;
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 4rem;
       display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      /* aligns right in RTL */
-      text-align: right;
-      max-width: 600px;
+      align-items: center;
+      height: 100%;
+      direction: rtl;
     }
 
-    .hero-title {
-      font-family: 'Cairo', sans-serif;
-      font-size: clamp(32px, 4.2vw, 48px);
+    .hero-content-slide {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: calc(100% - 8rem);
+      max-width: 620px;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 800ms cubic-bezier(0.16, 1, 0.3, 1),
+                  visibility 800ms;
+    }
+
+    .hero-content-slide.slide-1 {
+      right: 4rem;
+      left: auto;
+      text-align: right;
+    }
+
+    .hero-content-slide.slide-2 {
+      right: 4rem;
+      left: auto;
+      text-align: right;
+    }
+
+    .hero-content-slide.is-active {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    /* Sequential Luxury Blur + Translate Animations */
+    .hero-animate-item {
+      opacity: 0;
+      transform: translateY(24px);
+      filter: blur(8px);
+      transition: opacity 900ms cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 900ms cubic-bezier(0.16, 1, 0.3, 1),
+                  filter 900ms cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform, filter;
+    }
+
+    .hero-content-slide.is-active .hero-animate-eyebrow {
+      opacity: 0.85;
+      transform: translateY(0);
+      filter: blur(0);
+      transition-delay: 0.15s;
+    }
+
+    .hero-content-slide.is-active .hero-animate-heading {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+      transition-delay: 0.30s;
+    }
+
+    .hero-content-slide.is-active .hero-animate-desc {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+      transition-delay: 0.45s;
+    }
+
+    .hero-content-slide.is-active .hero-animate-buttons {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+      transition-delay: 0.60s;
+    }
+
+    /* Eyebrow Styling */
+    .hero-eyebrow-text {
+      font-family: 'Cairo', 'IBM Plex Sans Arabic', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #FFFFFF;
+      margin-bottom: 1.25rem;
+      display: inline-block;
+    }
+
+    /* Main Heading Styling */
+    .hero-heading-main {
+      font-family: 'Cairo', 'IBM Plex Sans Arabic', sans-serif;
+      font-size: clamp(2.4rem, 4.5vw, 4.25rem);
+      line-height: 1.2;
       font-weight: 800;
       color: #FFFFFF;
-      line-height: 1.3;
-      margin-bottom: 20px;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.01em;
     }
 
-    .hero-subtitle {
-      font-family: 'IBM Plex Sans Arabic', sans-serif;
-      font-size: clamp(16px, 1.8vw, 22px);
-      color: #FFFFFF;
-      margin-bottom: 36px;
-      line-height: 1.6;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    .hero-heading-highlight {
+      color: #C9A15D;
+      font-weight: 900;
+      position: relative;
+      display: inline-block;
     }
 
-    .hero-cta-btn {
-      background: #8B1818;
-      color: #FFFFFF;
-      border: none;
-      padding: 16px 44px;
-      font-size: 16px;
-      font-weight: 700;
-      font-family: 'IBM Plex Sans Arabic', sans-serif;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background-color 0.2s ease, transform 0.2s ease;
+    .hero-heading-serif {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-style: italic;
+      font-weight: 600;
+      color: #C9A15D;
+    }
+
+    /* Description Styling */
+    .hero-desc-text {
+      font-family: 'IBM Plex Sans Arabic', 'Cairo', sans-serif;
+      font-size: clamp(1rem, 1.35vw, 1.2rem);
+      line-height: 1.7;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.85);
+      margin-bottom: 2.25rem;
+      max-width: 560px;
+    }
+
+    /* Buttons Styling */
+    .hero-btn-group {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-btn-lux {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 15px rgba(139, 24, 24, 0.4);
+      padding: 1.1rem 2.25rem;
+      border-radius: 9999px;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      cursor: pointer;
+      font-family: 'IBM Plex Sans Arabic', sans-serif;
+      transition: transform 400ms cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 400ms cubic-bezier(0.16, 1, 0.3, 1),
+                  background-color 400ms cubic-bezier(0.16, 1, 0.3, 1),
+                  color 400ms cubic-bezier(0.16, 1, 0.3, 1);
+      white-space: nowrap;
     }
 
-    .hero-cta-btn:hover {
-      background: #6D1010;
-      transform: translateY(-2px);
+    .hero-btn-primary {
+      background-color: #C9A15D;
+      color: #0A0A0A;
+      border: 1px solid #C9A15D;
+      box-shadow: 0 10px 30px -8px rgba(201, 161, 93, 0.35);
     }
+
+    .hero-btn-primary:hover {
+      transform: scale(1.03) translateY(-2px);
+      background-color: #E4C68B;
+      border-color: #E4C68B;
+      box-shadow: 0 18px 40px -6px rgba(201, 161, 93, 0.5);
+      color: #0A0A0A;
+    }
+
+    .hero-btn-secondary {
+      background-color: transparent;
+      color: #FFFFFF;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 0 8px 24px -10px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero-btn-secondary:hover {
+      background-color: #FFFFFF;
+      color: #0A0A0A;
+      border-color: #FFFFFF;
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px -8px rgba(255, 255, 255, 0.3);
+    }
+
+    /* Master Dual-Slide Pagination Controls */
+    .hero-pagination {
+      position: absolute;
+      bottom: 2.5rem;
+      right: 4rem;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    .hero-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: transparent;
+      border: none;
+      color: rgba(255, 255, 255, 0.45);
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: color 300ms ease;
+      padding: 6px 0;
+    }
+
+    .hero-nav-item:hover, .hero-nav-item.is-active {
+      color: #FFFFFF;
+    }
+
+    .hero-nav-line {
+      width: 32px;
+      height: 2px;
+      background: rgba(255, 255, 255, 0.25);
+      position: relative;
+      overflow: hidden;
+      border-radius: 2px;
+      transition: width 300ms ease, background-color 300ms ease;
+    }
+
+    .hero-nav-item.is-active .hero-nav-line {
+      width: 48px;
+      background: #C9A15D;
+    }
+
+    .hero-nav-progress {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 0%;
+      background: #FFFFFF;
+      transition: width 100ms linear;
+    }
+
+    /* Floating Scroll Indicator (Center Bottom) */
+    .hero-scroll-indicator {
+      position: absolute;
+      bottom: 2.25rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+      color: rgba(255, 255, 255, 0.60);
+      text-decoration: none;
+      cursor: pointer;
+      transition: opacity 1000ms cubic-bezier(0.16, 1, 0.3, 1), color 300ms ease;
+    }
+
+    .hero-scroll-indicator:hover {
+      color: #FFFFFF;
+    }
+
+    .hero-scroll-mouse {
+      width: 22px;
+      height: 36px;
+      border: 1.5px solid currentColor;
+      border-radius: 12px;
+      position: relative;
+    }
+
+    .hero-scroll-wheel {
+      width: 2.5px;
+      height: 7px;
+      background-color: currentColor;
+      border-radius: 2px;
+      position: absolute;
+      top: 6px;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: heroFloatWheel 2s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+    }
+
+    @keyframes heroFloatWheel {
+      0% { opacity: 1; transform: translate(-50%, 0); }
+      70% { opacity: 0.2; transform: translate(-50%, 12px); }
+      100% { opacity: 0; transform: translate(-50%, 12px); }
+    }
+
+    @media (max-width: 1024px) {
+      .hero-luxury-container { padding: 0 2.5rem; }
+      .hero-content-slide.slide-1 { right: 2.5rem; left: auto; }
+      .hero-content-slide.slide-2 { right: 2.5rem; left: auto; }
+      .hero-pagination { right: 2.5rem; }
+    }
+
+    @media (max-width: 768px) {
+      .hero-luxury-container { padding: 0 1.5rem; }
+      .hero-content-slide { width: calc(100% - 3rem) !important; max-width: 100% !important; text-align: center !important; left: 1.5rem !important; right: 1.5rem !important; }
+      .hero-heading-main { font-size: 2.2rem; margin-bottom: 1rem; }
+      .hero-desc-text { font-size: 0.95rem; margin-bottom: 1.75rem; }
+      .hero-btn-group { flex-direction: column; width: 100%; align-items: stretch; }
+      .hero-btn-lux { width: 100%; text-align: center; }
+      .hero-pagination { right: 50%; transform: translateX(50%); bottom: 1.25rem; }
+      .hero-scroll-indicator { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-media-slide { transition: opacity 300ms ease !important; transform: none !important; }
+      .hero-animate-item { transition: opacity 300ms ease !important; transform: none !important; filter: none !important; }
+    }
+
+
+
 
     /* Verification Slider Styles */
     .verify-swiper {
@@ -1965,16 +2322,115 @@
     </div>
   </header>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="container">
-      <div class="hero-content">
-        <h1 class="hero-title">ماسك كارسيل بالكولاجين</h1>
-        <p class="hero-subtitle">إصلاح عميق. تغذية مكثفة. لمعان يدوم.</p>
-        <button class="hero-cta-btn" onclick="scrollToOrder()">أطلبي الآن</button>
+  <!-- WORLD-CLASS MASTER DUAL-MEDIA HERO SECTION (VIDEO + IMAGE IN SAME FRAME) -->
+  <section class="hero-luxury-section" id="hero-luxury" aria-label="Luxury Hair Care Hero">
+    <!-- Solid Black Curtain for 300ms First-Load Flash Protection -->
+    <div class="hero-curtain-curtain" id="hero-curtain" aria-hidden="true"></div>
+
+    <!-- Media Slides (Video & Image in the same 100vh master frame) -->
+    <div class="hero-media-wrapper" id="hero-media-wrapper">
+      <!-- Media Slide 1: Video -->
+      <div class="hero-media-slide slide-1 is-active" id="media-slide-1">
+        <video
+          id="hero-video"
+          class="hero-video-el"
+          autoplay
+          muted
+          playsinline
+          loop
+          preload="auto"
+        >
+          <source src="https://l.top4top.io/m_3854rdiq51.mp4" type="video/mp4" />
+          Your browser does not support HTML5 video.
+        </video>
+      </div>
+
+      <!-- Media Slide 2: Image -->
+      <div class="hero-media-slide slide-2" id="media-slide-2">
+        <img
+          src="https://i.ibb.co/xt7ZjSRC/Chat-GPT-Image-Jul-20-2026-09-52-44-PM.png"
+          alt="Karseell Premium Hair Collection"
+          class="hero-img-el"
+          loading="lazy"
+        />
       </div>
     </div>
+
+    <!-- Subtle Luxury Gradient Overlay -->
+    <div class="hero-gradient-overlay" aria-hidden="true"></div>
+
+    <!-- Hero Content Container -->
+    <div class="hero-luxury-container">
+      <!-- Content Slide 1: Video Content (Desktop Right / Right Aligned) -->
+      <div class="hero-content-slide slide-1 is-active" id="content-slide-1">
+        <span class="hero-eyebrow-text hero-animate-item hero-animate-eyebrow">
+          العناية الفائقة بالشعر
+        </span>
+
+        <h1 class="hero-heading-main hero-animate-item hero-animate-heading">
+          حوّلي الشعر التالف إلى <span class="hero-heading-highlight">حرير فاخر</span>
+        </h1>
+
+        <p class="hero-desc-text hero-animate-item hero-animate-desc">
+          علاج الكولاجين الاحترافي المستوحى من أحدث تقنيات الصالونات العالمية. استعيدي النعومة الفائقة، التغذية العميقة، واللمعان الصحي.
+        </p>
+
+        <div class="hero-btn-group hero-animate-item hero-animate-buttons">
+          <a href="#tab-mask" onclick="scrollToOrder()" class="hero-btn-lux hero-btn-primary">
+            أطلبي الآن
+          </a>
+          <a href="#best-sellers" onclick="scrollToBestSellers()" class="hero-btn-lux hero-btn-secondary">
+            اكتشفي المزيد
+          </a>
+        </div>
+      </div>
+
+      <!-- Content Slide 2: Image Content (Desktop Left / Left Aligned) -->
+      <div class="hero-content-slide slide-2" id="content-slide-2">
+        <span class="hero-eyebrow-text hero-animate-item hero-animate-eyebrow">
+          PREMIUM COLLECTION
+        </span>
+
+        <h2 class="hero-heading-main hero-animate-item hero-animate-heading">
+          الجمال يبدأ من <span class="hero-heading-serif">شعر صحي.</span>
+        </h2>
+
+        <p class="hero-desc-text hero-animate-item hero-animate-desc">
+          عناية احترافية بمركب الكولاجين المستوحى من الصالونات العالمية. تغذية عميقة، نعومة حريرية، ولمعان ساحر.
+        </p>
+
+        <div class="hero-btn-group hero-animate-item hero-animate-buttons">
+          <a href="#tab-mask" onclick="scrollToOrder()" class="hero-btn-lux hero-btn-primary">
+            تسوقي المجموعة
+          </a>
+          <a href="#best-sellers" onclick="scrollToBestSellers()" class="hero-btn-lux hero-btn-secondary">
+            اكتشفي المنتجات
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Master Dual-Slide Pagination Indicators -->
+    <div class="hero-pagination" id="hero-pagination">
+      <button class="hero-nav-item is-active" onclick="switchHeroSlide(0)" aria-label="Slide 1">
+        <span>01</span>
+        <div class="hero-nav-line"></div>
+      </button>
+      <button class="hero-nav-item" onclick="switchHeroSlide(1)" aria-label="Slide 2">
+        <span>02</span>
+        <div class="hero-nav-line"></div>
+      </button>
+    </div>
+
+    <!-- Floating Scroll Indicator -->
+    <a href="#best-sellers" onclick="scrollToBestSellers()" class="hero-scroll-indicator" id="hero-scroll-indicator" aria-label="Scroll down">
+      <div class="hero-scroll-mouse">
+        <div class="hero-scroll-wheel"></div>
+      </div>
+    </a>
   </section>
+
+
 
   <!-- BEST SELLERS -->
   <section class="best-sellers-sec">
@@ -2741,11 +3197,12 @@
               اطلبي عبر الواتساب (سريع)
             </button>
 
-            <!-- تنبيه المعاينة والدفع للمندوب عند عدم الاستلام -->
-            <div style="background: #fffbeb; border: 1px solid #fef3c7; border-right: 4px solid #d97706; padding: 12px 16px; border-radius: 12px; margin: 20px 0 0 0; font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 13px; line-height: 1.6; color: #92400e; direction: rtl; text-align: right;">
-              <span style="font-weight: 700; font-size: 14px; display: block; margin-bottom: 4px;">⚠️ تنبيه هام (المعاينة قبل الدفع):</span>
-              متاح معاينة المنتج وتجربته قبل الاستلام والتأكد من جودته. 
-              في حالة <strong>عدم الاستلام (رفض الطلب)</strong>، يرجى دفع <strong>مصاريف الشحن للمندوب مباشرة</strong>، نظير تعبه ومشقة التوصيل لأن هذه المصاريف خاصة بشركة الشحن والمندوب فقط.
+            <!-- تنبيه المعاينة وثقة الاستلام -->
+            <div style="background: #fffbeb; border: 1px solid #fef3c7; border-right: 4px solid #d97706; padding: 14px 18px; border-radius: 12px; margin: 20px 0 0 0; font-family: 'IBM Plex Sans Arabic', 'Cairo', sans-serif; font-size: 13.5px; line-height: 1.65; color: #92400e; direction: rtl; text-align: right;">
+              <span style="font-weight: 700; font-size: 14.5px; display: block; margin-bottom: 6px;">✨ معاينة وتجربة المنتج قبل الدفع بكل ثقة:</span>
+              يمكنك معاينة المنتج والتأكد من جودته بنفسك قبل الدفع بكل راحة. 
+              نحن نثق تماماً في جودة منتجاتنا، ونسعد باستلامك للطلب بعد التأكد من مطابقته الكاملة لتوقعاتك. 
+              وفي حال قررت عدم استلام الطلب بعد المعاينة، يتم فقط سداد تكلفة الشحن للمندوب مباشرة مقابل خدمة التوصيل.
             </div>
           </form>
         </div>
@@ -3571,6 +4028,138 @@
         currency: 'EGP'
       });
     }
+
+    function scrollToBestSellers() {
+      const el = document.querySelector('.best-sellers-sec');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    /* World-Class Master Dual-Media Hero Controller */
+    (function () {
+      'use strict';
+
+      const curtain = document.getElementById('hero-curtain');
+      const video = document.getElementById('hero-video');
+      const heroSection = document.getElementById('hero-luxury');
+      
+      const mediaSlides = [
+        document.getElementById('media-slide-1'),
+        document.getElementById('media-slide-2')
+      ];
+
+      const contentSlides = [
+        document.getElementById('content-slide-1'),
+        document.getElementById('content-slide-2')
+      ];
+
+      const navItems = document.querySelectorAll('.hero-nav-item');
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      let currentSlide = 0;
+      let slideTimer = null;
+      const SLIDE_DURATION = 7000; // 7 seconds per slide
+
+      // Global function to switch slides
+      window.switchHeroSlide = function (index) {
+        if (index === currentSlide || index < 0 || index >= mediaSlides.length) return;
+
+        // Deactivate current slide
+        if (mediaSlides[currentSlide]) mediaSlides[currentSlide].classList.remove('is-active');
+        if (contentSlides[currentSlide]) contentSlides[currentSlide].classList.remove('is-active');
+        if (navItems[currentSlide]) navItems[currentSlide].classList.remove('is-active');
+
+        // Activate new slide
+        currentSlide = index;
+
+        if (mediaSlides[currentSlide]) mediaSlides[currentSlide].classList.add('is-active');
+        if (contentSlides[currentSlide]) contentSlides[currentSlide].classList.add('is-active');
+        if (navItems[currentSlide]) navItems[currentSlide].classList.add('is-active');
+
+        // Reset auto timer
+        resetSlideTimer();
+      };
+
+      function nextHeroSlide() {
+        const nextIdx = (currentSlide + 1) % mediaSlides.length;
+        window.switchHeroSlide(nextIdx);
+      }
+
+      function startSlideTimer() {
+        if (prefersReducedMotion) return;
+        clearInterval(slideTimer);
+        slideTimer = setInterval(nextHeroSlide, SLIDE_DURATION);
+      }
+
+      function resetSlideTimer() {
+        clearInterval(slideTimer);
+        startSlideTimer();
+      }
+
+      // First Load Sequence: 300ms curtain delay -> 800ms video fade -> content stagger
+      function initHeroEntrance() {
+        setTimeout(() => {
+          if (curtain) curtain.classList.add('is-hidden');
+
+          if (video) {
+            video.playbackRate = 0.65; // Slow down video to 65% speed for luxury cinematic motion
+            video.addEventListener('play', () => { video.playbackRate = 0.65; });
+            const p = video.play();
+            if (p !== undefined) p.catch(() => {});
+          }
+
+          startSlideTimer();
+        }, 300);
+      }
+
+      // Generate poster frame automatically as fallback
+      function setupVideoPoster() {
+        if (!video) return;
+        video.addEventListener('loadeddata', function () {
+          try {
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth || 640;
+            canvas.height = video.videoHeight || 360;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            video.poster = canvas.toDataURL('image/jpeg');
+          } catch (e) {}
+        }, { once: true });
+      }
+
+      // Desktop Mouse Parallax (Max 5px X / 3px Y) using linear interpolation
+      let mouseX = 0, mouseY = 0;
+      let targetX = 0, targetY = 0;
+
+      function updateParallax() {
+        mouseX += (targetX - mouseX) * 0.08;
+        mouseY += (targetY - mouseY) * 0.08;
+
+        const activeContent = contentSlides[currentSlide];
+        if (activeContent && !prefersReducedMotion) {
+          activeContent.style.transform = `translate3d(${mouseX.toFixed(3)}px, calc(-50% + ${mouseY.toFixed(3)}px), 0)`;
+        }
+
+        requestAnimationFrame(updateParallax);
+      }
+
+      function onMouseMove(e) {
+        if (window.innerWidth <= 768 || prefersReducedMotion) return;
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+        targetX = ((e.clientX - centerX) / centerX) * 5;
+        targetY = ((e.clientY - centerY) / centerY) * 3;
+      }
+
+      window.addEventListener('DOMContentLoaded', () => {
+        setupVideoPoster();
+        initHeroEntrance();
+
+        if (window.innerWidth > 768 && !prefersReducedMotion) {
+          window.addEventListener('mousemove', onMouseMove, { passive: true });
+          requestAnimationFrame(updateParallax);
+        }
+      });
+    })();
   </script>
 </body>
 
