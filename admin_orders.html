@@ -2357,6 +2357,8 @@
                             product: order.product || order.productType || '', // الحقل الكامل
                             product_type: order.productType,
                             quantity: order.quantity || null, // إرسال الكمية إذا كانت موجودة كحقل منفصل
+                            shipping: getOrderShipping(order),
+                            shipping_cost: getOrderShipping(order),
                             size: unifiedSize,
                             bottleSize: unifiedSize,
                             firebase_id: order.firebaseId,
