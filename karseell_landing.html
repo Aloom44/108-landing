@@ -106,8 +106,8 @@
     }
 
     .promo-bar {
-      background: #f59e0b;
-      color: #fff;
+      background: linear-gradient(135deg, #8B1818 0%, #6B1010 100%);
+      color: #ffffff;
       text-align: center;
       font-weight: 700;
       font-size: 14px;
@@ -116,6 +116,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      box-shadow: 0 2px 10px rgba(139, 24, 24, 0.25);
     }
 
     .nav {
@@ -1696,12 +1697,11 @@
     }
 
     footer {
-      font-size: 11px;
-      color: #6b7280;
+      font-size: 12px;
       text-align: center;
-      padding: 14px 16px 22px;
-      background: #020617;
-      color: #9ca3af;
+      padding: 16px 16px 24px;
+      background: #4A0B0B;
+      color: #f3f4f6;
     }
 
     .sticky-cta {
@@ -1709,23 +1709,32 @@
       bottom: 0;
       left: 0;
       right: 0;
-      background: rgba(15, 23, 42, 0.98);
-      padding: 8px 12px;
+      background: linear-gradient(135deg, #8B1818 0%, #6B1010 100%);
+      padding: 10px 16px;
       display: none;
       align-items: center;
       justify-content: space-between;
       gap: 8px;
-      z-index: 40;
+      z-index: 999;
+      box-shadow: 0 -4px 15px rgba(139, 24, 24, 0.35);
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
     }
 
     .sticky-cta p {
       font-size: 12px;
-      color: #e5e7eb;
+      font-weight: 700;
+      color: #ffffff;
     }
 
     .sticky-cta .btn {
-      padding-inline: 16px;
-      font-size: 12px;
+      padding: 8px 18px;
+      font-size: 13px;
+      font-weight: 800;
+      background: #ffffff;
+      color: #8B1818;
+      border: none;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
     /* Floating WhatsApp Button */
@@ -2698,7 +2707,7 @@
 </head>
 
 <body>
-  <div class="promo-bar">🎉 عروض عيد الأضحى لفترة محدودة – شحن مجاني على كل العروض 🔥</div>
+  <div class="promo-bar">🎉 عرض القطعتين بسعر قطعة واحدة مع شحن مجاني على القطعتين لفترة محدودة 🔥</div>
   <!-- HEADER -->
   <header>
     <div class="container">
@@ -2723,8 +2732,8 @@
             ✨ الحل الأكيد لكل مشاكل شعرِك
           </div>
           <h1 class="hero-title">
-            <span class="hero-label">عرض عيد الأضحى المحدود</span><br>
-            شعرك محتاج إنقاذ قبل العيد؟
+            <span class="hero-label">عرض القطعتين بسعر قطعة واحدة</span><br>
+            شعرك محتاج إنقاذ وتنعيم فوري؟
             <span class="hero-highlight">كارسيل كولاجين</span> هيرجعه ناعم ولامع من أول أسبوع.
           </h1>
           <p class="hero-sub">
@@ -2732,7 +2741,7 @@
             ويحمي شعرك من الحرارة والتصفيف اليومي.
           </p>
           <p class="hero-offer-subtext">
-            اختاري عرض العيد الأنسب ليكي… <span>وشحن مجاني على كل العروض</span>
+            احصلي على عرض القطعتين بسعر قطعة واحدة… <span>وشحن مجاني لفترة محدودة</span>
           </p>
 
           <div class="hero-benefits">
@@ -2745,7 +2754,7 @@
           <div class="hero-cta-row">
             <button class="btn btn-primary" onclick="scrollToOrder()"
               style="background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%); box-shadow: 0 10px 25px rgba(234, 88, 12, 0.35); border: none;">
-              اطلبي عرض العيد الآن 🔥
+              احصلي على عرض القطعتين بسعر قطعة واحدة الآن 🔥
             </button>
             <button class="btn btn-outline" onclick="scrollToFaq()" type="button"
               style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border: 2px solid #f59e0b; color: #92400e; font-weight: 700; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);">
@@ -2759,7 +2768,7 @@
         </div>
 
         <div class="hero-img-card">
-          <div class="hero-img-badge">🔥 عرض العيد</div>
+          <div class="hero-img-badge">🔥 عرض القطعتين بسعر قطعة واحدة</div>
           <div class="carousel" id="heroCarousel">
             <button class="carousel-btn prev" onclick="changeSlide(-1)" aria-label="Previous">❮</button>
             <button class="carousel-btn next" onclick="changeSlide(1)" aria-label="Next">❯</button>
@@ -2843,17 +2852,7 @@
               <p>المنتج الأصلي يحتوي على شعار Karseell محفور بوضوح على الغطاء العلوي.</p>
             </div>
           </div>
-          <div class="swiper-slide">
-            <div class="verify-card">
-              <div class="verify-img-wrapper">
-                <a href="https://i.ibb.co/BHr81vBG/image.png" data-fancybox="verify">
-                  <img src="https://i.ibb.co/BHr81vBG/image.png" alt="تاريخ إنتاج وانتهاء واضح">
-                </a>
-              </div>
-              <h3>تاريخ إنتاج وانتهاء واضح</h3>
-              <p>العبوة الأصلية تحتوي على بيانات مطبوعة بوضوح ودقة أسفل المنتج.</p>
-            </div>
-          </div>
+
           <div class="swiper-slide">
             <div class="verify-card">
               <div class="verify-img-wrapper">
@@ -2882,13 +2881,13 @@
     <div class="container">
       <div class="order-grid">
         <div class="offers-section">
-          <h2 class="order-title">اختاري عرض عيد الأضحى المناسب ليكي</h2>
+          <h2 class="order-title">احصلي على عرض القطعتين بسعر قطعة واحدة</h2>
           <p class="order-sub" style="color: #6b7280; margin-bottom: 20px;">
             كل العروض شاملة الشحن مع إمكانية الدفع عند الاستلام
           </p>
 
           <div style="text-align: center; margin-bottom: 18px;">
-            <div style="font-size: 15px; font-weight: 800; color: #991b1b;">🔥 عرض عيد الأضحى لفترة محدودة</div>
+            <div style="font-size: 15px; font-weight: 800; color: #991b1b;">🔥 احصل على عرض القطعتين بسعر قطعة واحدة</div>
             <div style="font-size: 13px; font-weight: 700; color: #b45309; margin-top: 4px;">⏳ الكمية محدودة</div>
           </div>
 
@@ -2897,10 +2896,10 @@
               <span class="offer-badge">👑 الأكثر طلبًا</span>
               <div class="offer-title">عرض القطعتين</div>
               <div class="offer-value">خدي 2 كريم + 2 سيرم بسعر خاص</div>
-              <div class="offer-save">توفير يصل إلى 400 جنيه</div>
+              <div class="offer-save">توفير يصل إلى 1200 جنيه</div>
               <div class="offer-price">
-                <span class="offer-price-old">1600 جنيه</span>
-                <span class="offer-price-new">1200 جنيه</span>
+                <span class="offer-price-old">2400 جنيه</span>
+                <span class="offer-price-new">1200 جنيه فقط بالشحن</span>
               </div>
               <ul class="offer-list">
                 <li>✔ شحن مجاني</li>
@@ -2911,12 +2910,12 @@
             </div>
 
             <div class="offer-card side secondary" onclick="selectOffer('العرض الأقوى - 3 كريم + 3 سيرم', 1700, 0)">
-              <span class="offer-badge">🔥 عرض العيد</span>
+              <span class="offer-badge">🔥 عرض ممتاز</span>
               <div class="offer-title">العرض الأقوى</div>
               <div class="offer-value">خدي 3 كريم + 3 سيرم بسعر خاص</div>
-              <div class="offer-save">توفير يصل إلى 700 جنيه</div>
+              <div class="offer-save">توفير يصل إلى 1900 جنيه</div>
               <div class="offer-price">
-                <span class="offer-price-old">2400 جنيه</span>
+                <span class="offer-price-old">3600 جنيه</span>
                 <span class="offer-price-new">1700 جنيه</span>
               </div>
               <ul class="offer-list">
@@ -2927,17 +2926,16 @@
               <button class="offer-cta">اطلبي الآن</button>
             </div>
 
-            <div class="offer-card side entry" onclick="selectOffer('عرض العيد الأساسي - كريم كارسيل + سيرم', 650, 0)">
-              <span class="offer-badge">🔥 عرض العيد</span>
-              <div class="offer-title">عرض العيد الأساسي</div>
+            <div class="offer-card side entry" onclick="selectOffer('عرض القطعة الواحدة - كريم كارسيل + سيرم', 650, 0)">
+              <span class="offer-badge">🔥 العرض الأساسي</span>
+              <div class="offer-title">عرض القطعة الواحدة</div>
               <div class="offer-value">خدي كريم + سيرم بسعر خاص</div>
-              <div class="offer-save">توفير يصل إلى 150 جنيه</div>
+              <div class="offer-save">توفير لفترة محدودة</div>
               <div class="offer-price">
-                <span class="offer-price-old">800 جنيه</span>
+                <span class="offer-price-old">1200 جنيه</span>
                 <span class="offer-price-new">650 جنيه</span>
               </div>
               <ul class="offer-list">
-                <li>✔ شحن مجاني</li>
                 <li>✔ الدفع عند الاستلام</li>
                 <li>✔ معاينة قبل الدفع</li>
               </ul>
@@ -2994,8 +2992,7 @@
                   +
                 </button>
               </div>
-              <div style="font-size: 11px; color: #6b7280; margin-top: 6px; text-align: center;">📦 الشحن مجاني على عروض
-                عيد الأضحى</div>
+              <div style="font-size: 11px; color: #6b7280; margin-top: 6px; text-align: center;">📦 الشحن مجاني على عرض القطعتين</div>
             </div>
 
             <div>
