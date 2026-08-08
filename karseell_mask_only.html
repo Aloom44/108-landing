@@ -3760,6 +3760,10 @@
       const select = document.getElementById('offerSelect');
       const option = select.options[select.selectedIndex];
 
+      const priceVal = parseInt(select.value) || 0;
+      const shippingVal = (priceVal === 500 || priceVal === 600) ? 50 : 0;
+      const totalPriceVal = priceVal + shippingVal;
+
       const formData = new FormData(this);
       const data = {
         name: formData.get('name'),
@@ -3770,7 +3774,10 @@
         notes: formData.get('notes'),
         product: option.getAttribute('data-name'),
         quantity: "1",
-        price: select.value,
+        price: totalPriceVal.toString(),
+        productPrice: priceVal,
+        shipping: shippingVal,
+        totalPrice: totalPriceVal,
         timestamp: Date.now(),
         source: 'karseell_premium_checkout'
       };
@@ -3801,9 +3808,6 @@
         await database.ref('karseell-orders').push(data);
 
         // Calculate total and shipping for the receipt
-        const priceVal = parseInt(data.price) || 0;
-        const shippingVal = (priceVal === 500 || priceVal === 600) ? 50 : 0;
-        const totalPriceVal = priceVal + shippingVal;
         const shippingTextVal = shippingVal > 0 ? `${shippingVal} ج.م` : 'مجاني (في حالة الاستلام فقط) ✨';
 
         Swal.fire({
@@ -3855,10 +3859,10 @@
           }
         });
 
-        // Track Purchase
+        // Track Purchase with full total
         trackEvent('Purchase', {
           content_name: data.product,
-          value: data.price,
+          value: totalPriceVal,
           currency: 'EGP',
           num_items: data.quantity || 1
         });
@@ -3942,11 +3946,13 @@
         if (snapshot.exists()) {
           snapshot.forEach(child => {
             const val = child.val();
+            const rawP = parseInt(val.totalPrice || val.price) || 0;
+            const finalTotal = (rawP === 600 || rawP === 500) ? (rawP + 50) : rawP;
             results.innerHTML = `
               <div style="text-align: right;">
                 <p><strong>الاسم:</strong> ${val.name}</p>
                 <p><strong>المنتج:</strong> ${val.product}</p>
-                <p><strong>الإجمالي:</strong> ${val.price} ج.م</p>
+                <p><strong>الإجمالي:</strong> ${finalTotal} ج.م</p>
                 <p style="color: #ea580c; font-weight: 800; margin-top: 10px; margin-bottom: 15px;">الحالة: جاري تجهيز الطلب للشحن 🚚</p>
                 <div style="border-top: 1px solid #e7e5e4; padding-top: 12px; margin-top: 10px; text-align: center;">
                   <p style="font-size: 12px; color: #6b7280; margin-bottom: 8px;">تريد تعديل أو إلغاء طلبك؟</p>
@@ -3975,11 +3981,13 @@
       if (snapshot.exists()) {
         snapshot.forEach(child => {
           const val = child.val();
+          const rawP = parseInt(val.totalPrice || val.price) || 0;
+          const finalTotal = (rawP === 600 || rawP === 500) ? (rawP + 50) : rawP;
           results.innerHTML = `
             <div style="text-align: right;">
               <p><strong>الاسم:</strong> ${val.name}</p>
               <p><strong>المنتج:</strong> ${val.product}</p>
-              <p><strong>الإجمالي:</strong> ${val.price} ج.م</p>
+              <p><strong>الإجمالي:</strong> ${finalTotal} ج.م</p>
               <p style="color: #ea580c; font-weight: 800; margin-top: 10px; margin-bottom: 15px;">الحالة: جاري تجهيز الطلب للشحن 🚚</p>
               <div style="border-top: 1px solid #e7e5e4; padding-top: 12px; margin-top: 10px; text-align: center;">
                 <p style="font-size: 12px; color: #6b7280; margin-bottom: 8px;">تريد تعديل أو إلغاء طلبك؟</p>
