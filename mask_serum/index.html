@@ -42,6 +42,9 @@
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+  <!-- EmailJS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
   <!-- SweetAlert2 -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -2147,6 +2150,160 @@
       animation: fadeIn 0.3s ease;
     }
 
+    /* Return Modal Custom Styles */
+    .return-modal-card {
+      max-width: 480px !important;
+      max-height: 90vh;
+      overflow-y: auto;
+      text-align: right;
+      direction: rtl;
+    }
+    .return-order-info-card {
+      background: #FAF8F5;
+      border: 1px solid rgba(139, 24, 24, 0.12);
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-top: 14px;
+    }
+    .return-info-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px dashed rgba(139, 24, 24, 0.12);
+      padding-bottom: 8px;
+      margin-bottom: 10px;
+      font-size: 13px;
+    }
+    .return-status-badge {
+      background: rgba(139, 24, 24, 0.08);
+      color: #8B1818;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .return-info-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+    .return-info-row .lbl {
+      color: #666;
+    }
+    .return-type-selector {
+      display: flex;
+      gap: 12px;
+      margin-top: 8px;
+    }
+    .return-type-option {
+      flex: 1;
+      cursor: pointer;
+    }
+    .return-type-option input {
+      display: none;
+    }
+    .return-type-option .option-box {
+      border: 1px solid rgba(139, 24, 24, 0.15);
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+      background: #fff;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #333;
+    }
+    .return-type-option input:checked + .option-box {
+      border-color: #8B1818;
+      background: rgba(139, 24, 24, 0.06);
+      color: #8B1818;
+      box-shadow: 0 2px 8px rgba(139, 24, 24, 0.1);
+    }
+    .form-group-lux {
+      text-align: right;
+    }
+    .form-label-lux {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: #222;
+      margin-bottom: 6px;
+    }
+    .form-control-lux {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid rgba(139, 24, 24, 0.18);
+      border-radius: 10px;
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      background: #fff;
+      transition: border-color 0.2s;
+      box-sizing: border-box;
+    }
+    .form-control-lux:focus {
+      border-color: #8B1818;
+    }
+    .image-upload-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #FAF8F5;
+      padding: 8px 12px;
+      border-radius: 10px;
+      border: 1px dashed rgba(139, 24, 24, 0.2);
+    }
+    .btn-upload-lux {
+      background: #8B1818;
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.2s;
+    }
+    .btn-upload-lux:hover {
+      background: #6D1010;
+    }
+    .upload-file-name {
+      font-size: 12px;
+      color: #666;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .btn-submit-return {
+      width: 100%;
+      background: linear-gradient(135deg, #8B1818 0%, #6D1010 100%);
+      color: #fff;
+      border: none;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      box-shadow: 0 4px 14px rgba(139, 24, 24, 0.25);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-submit-return:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(139, 24, 24, 0.35);
+    }
+    .btn-submit-return:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
     /* Mobile Sidebar Drawer Styling */
     .sidebar-overlay {
       display: none;
@@ -3350,6 +3507,143 @@
     </div>
   </div>
 
+  <!-- Return & Exchange Modal -->
+  <div id="returnModal" class="track-modal" style="display: none;">
+    <div class="track-modal-content return-modal-card">
+      <button class="track-modal-close" onclick="closeReturnModal()">&times;</button>
+      
+      <!-- Step 1: Search Header & Form -->
+      <div id="returnSearchStep">
+        <div class="track-modal-header">
+          <span class="track-modal-icon">↩️</span>
+          <h3>استرجاع أو استبدال طلبك بسهولة 🤍</h3>
+          <p>أدخلي رقم الهاتف المستخدم عند تسجيل الطلب للتحقق من طلبك.</p>
+        </div>
+        <div class="modal-input-group">
+          <input type="tel" id="returnSearchPhone" class="form-control" placeholder="رقم الهاتف (مثال: 01012345678)" oninput="validatePhone(this)" onkeydown="if(event.key === 'Enter') searchOrderForReturn()">
+          <button id="returnSearchBtn" onclick="searchOrderForReturn()" class="modal-search-btn">البحث عن الطلب</button>
+        </div>
+        <div id="returnSearchStatus" style="display: none; margin-top: 15px;"></div>
+      </div>
+
+      <!-- Step 2: Request Form (hidden initially) -->
+      <div id="returnFormStep" style="display: none; text-align: right; direction: rtl;">
+        <div class="return-order-info-card">
+          <div class="return-info-header">
+            <span style="font-weight: 700; color: #8B1818;">🧾 تفاصيل الطلب التحقق منها</span>
+            <span id="returnOrderBadge" class="return-status-badge">مكتمل</span>
+          </div>
+          <div class="return-info-body">
+            <div class="return-info-row">
+              <span class="lbl">اسم العميل:</span>
+              <strong id="returnCustomerNameVal">-</strong>
+            </div>
+            <div class="return-info-row">
+              <span class="lbl">رقم الطلب:</span>
+              <strong id="returnOrderIdVal" style="font-family: monospace; color: #8B1818;">-</strong>
+            </div>
+            <div class="return-info-row">
+              <span class="lbl">المنتج:</span>
+              <strong id="returnProductVal">-</strong>
+            </div>
+            <div class="return-info-row">
+              <span class="lbl">عنوان العميل:</span>
+              <strong id="returnCustomerAddressVal" style="text-align: left; max-width: 65%; color: #333;">-</strong>
+            </div>
+            <div class="return-info-row">
+              <span class="lbl">إجمالي السعر:</span>
+              <strong id="returnTotalPriceVal" style="color: #8B1818; font-weight: 800;">-</strong>
+            </div>
+            <div class="return-info-row">
+              <span class="lbl">تاريخ الطلب:</span>
+              <strong id="returnOrderDateVal">-</strong>
+            </div>
+          </div>
+        </div>
+
+        <form id="returnSubmitForm" onsubmit="submitReturnRequest(event)" style="margin-top: 20px;">
+          <!-- Request Type -->
+          <div class="form-group-lux">
+            <label class="form-label-lux">نوع الطلب <span style="color: #8B1818;">*</span></label>
+            <div class="return-type-selector">
+              <label class="return-type-option">
+                <input type="radio" name="requestType" value="استرجاع المنتج" checked>
+                <div class="option-box">
+                  <span class="opt-icon">↩️</span>
+                  <span class="opt-text">استرجاع المنتج</span>
+                </div>
+              </label>
+              <label class="return-type-option">
+                <input type="radio" name="requestType" value="استبدال المنتج">
+                <div class="option-box">
+                  <span class="opt-icon">🔁</span>
+                  <span class="opt-text">استبدال المنتج</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Reason -->
+          <div class="form-group-lux" style="margin-top: 16px;">
+            <label for="returnReasonSelect" class="form-label-lux">سبب الاسترجاع أو الاستبدال <span style="color: #8B1818;">*</span></label>
+            <select id="returnReasonSelect" class="form-control-lux" required>
+              <option value="" disabled selected>اختاري السبب...</option>
+              <option value="المنتج وصل تالفًا">المنتج وصل تالفًا 📦💥</option>
+              <option value="المنتج مختلف عن المطلوب">المنتج مختلف عن المطلوب ❌</option>
+              <option value="مشكلة في العبوة">مشكلة في العبوة 🧴</option>
+              <option value="مشكلة في المنتج">مشكلة في المنتج ✨</option>
+              <option value="سبب آخر">سبب آخر 💬</option>
+            </select>
+          </div>
+
+          <!-- Notes -->
+          <div class="form-group-lux" style="margin-top: 16px;">
+            <label for="returnNotes" class="form-label-lux">اكتبي تفاصيل المشكلة <span style="font-weight: normal; color: #888;">(اختياري)</span></label>
+            <textarea id="returnNotes" class="form-control-lux" rows="3" placeholder="توضيح أي ملاحظات إضافية حول المشكلة..."></textarea>
+          </div>
+
+          <!-- Image Upload -->
+          <div class="form-group-lux" style="margin-top: 16px;">
+            <label class="form-label-lux">صورة المنتج <span style="color: #8B1818;">*</span></label>
+            <p style="font-size: 12px; color: #666; margin-bottom: 8px;">ارفعي صورة واضحة للمنتج توضح المشكلة.</p>
+            <div class="image-upload-wrapper">
+              <input type="file" id="returnImageInput" accept="image/jpeg,image/png,image/webp" style="display: none;" onchange="handleReturnImageSelect(event)">
+              <button type="button" class="btn-upload-lux" onclick="document.getElementById('returnImageInput').click()">
+                📷 رفع صورة
+              </button>
+              <span id="returnFileName" class="upload-file-name">لم يتم اختيار صورة بعد (JPG, PNG, WEBP — حد أقصى 5MB)</span>
+            </div>
+            <div id="returnImagePreviewContainer" style="display: none; margin-top: 10px; text-align: center;">
+              <img id="returnImagePreview" src="" alt="معاينة الصورة" style="max-height: 140px; border-radius: 8px; border: 1px solid rgba(139,24,24,0.15);">
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div style="margin-top: 24px;">
+            <button type="submit" id="returnSubmitBtn" class="btn-submit-return">
+              إرسال طلب الاسترجاع ✨
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Step 3: Success Screen -->
+      <div id="returnSuccessStep" style="display: none; text-align: center; padding: 15px 0;">
+        <div style="font-size: 48px; margin-bottom: 12px;">✅</div>
+        <h3 style="font-family: 'Cairo', sans-serif; color: #8B1818; font-size: 20px; font-weight: 700; margin-bottom: 10px;">
+          تم استلام طلبك بنجاح
+        </h3>
+        <p style="font-size: 14px; color: #555; line-height: 1.7; margin-bottom: 24px;">
+          تم تسجيل طلب الاسترجاع/الاستبدال الخاص بك، وسيتم مراجعة الطلب والرد عليك خلال 48 ساعة.
+        </p>
+        <button type="button" class="modal-search-btn" style="width: 100%; padding: 14px; font-size: 15px;" onclick="closeReturnModal()">
+          العودة للرئيسية
+        </button>
+      </div>
+
+    </div>
+  </div>
+
   <!-- Mobile Sidebar Drawer -->
   <div id="mobileSidebarOverlay" class="sidebar-overlay" onclick="closeSidebar()"></div>
   <div id="mobileSidebar" class="sidebar-drawer">
@@ -3362,6 +3656,7 @@
       <a href="#" class="menu-item" onclick="handleMenuClick(event, 'offers-mask')">عروض ماسك كارسيل</a>
       <a href="#" class="menu-item" onclick="handleMenuClick(event, 'offers-serum')">عروض ماسك وسيروم كارسيل</a>
       <a href="#" class="menu-item track-btn" onclick="handleMenuClick(event, 'track')">تتبع أو تعديل الطلب</a>
+      <a href="#" class="menu-item return-btn" onclick="handleMenuClick(event, 'return')" style="color: #8B1818; font-weight: 700;">↩️ استرجاع أو استبدال المنتج</a>
     </div>
   </div>
 
@@ -3426,6 +3721,8 @@
           document.getElementById('faq').scrollIntoView({ behavior: 'smooth' });
         } else if (target === 'track') {
           scrollToTrack();
+        } else if (target === 'return') {
+          openReturnModal();
         }
       }, 300);
     }
@@ -4177,6 +4474,360 @@
         }
       });
     })();
+
+    /* ==========================================================================
+       Returns & Exchange System (نظام استرجاع واستبدال المنتجات)
+       ========================================================================== */
+    let activeReturnOrder = null;
+    let selectedReturnImageFile = null;
+
+    function openReturnModal() {
+      const modal = document.getElementById('returnModal');
+      if (!modal) return;
+      modal.style.display = 'flex';
+      setTimeout(() => {
+        modal.classList.add('show');
+        const input = document.getElementById('returnSearchPhone');
+        if (input) input.focus();
+      }, 10);
+    }
+
+    function closeReturnModal() {
+      const modal = document.getElementById('returnModal');
+      if (!modal) return;
+      modal.classList.remove('show');
+      setTimeout(() => {
+        modal.style.display = 'none';
+        resetReturnModal();
+      }, 300);
+    }
+
+    // Close modal when clicking outside
+    window.addEventListener('click', function (event) {
+      const modal = document.getElementById('returnModal');
+      if (event.target === modal) {
+        closeReturnModal();
+      }
+    });
+
+    function resetReturnModal() {
+      activeReturnOrder = null;
+      selectedReturnImageFile = null;
+      const searchStep = document.getElementById('returnSearchStep');
+      const formStep = document.getElementById('returnFormStep');
+      const successStep = document.getElementById('returnSuccessStep');
+      const phoneInput = document.getElementById('returnSearchPhone');
+      const statusDiv = document.getElementById('returnSearchStatus');
+      const submitForm = document.getElementById('returnSubmitForm');
+
+      if (searchStep) searchStep.style.display = 'block';
+      if (formStep) formStep.style.display = 'none';
+      if (successStep) successStep.style.display = 'none';
+      if (phoneInput) phoneInput.value = '';
+      if (statusDiv) {
+        statusDiv.style.display = 'none';
+        statusDiv.innerHTML = '';
+      }
+      if (submitForm) submitForm.reset();
+      
+      const fileNameSpan = document.getElementById('returnFileName');
+      if (fileNameSpan) fileNameSpan.textContent = 'لم يتم اختيار صورة بعد (JPG, PNG, WEBP — حد أقصى 5MB)';
+      
+      const previewContainer = document.getElementById('returnImagePreviewContainer');
+      if (previewContainer) previewContainer.style.display = 'none';
+      
+      const previewImg = document.getElementById('returnImagePreview');
+      if (previewImg) previewImg.src = '';
+    }
+
+    async function searchOrderForReturn() {
+      const phoneInput = document.getElementById('returnSearchPhone');
+      const phone = phoneInput ? phoneInput.value.trim() : '';
+      const statusDiv = document.getElementById('returnSearchStatus');
+      const searchBtn = document.getElementById('returnSearchBtn');
+
+      if (!phone) {
+        if (statusDiv) {
+          statusDiv.style.display = 'block';
+          statusDiv.innerHTML = '<p style="text-align: center; color: #ea580c; font-size: 13px; font-weight: 600;">يرجى إدخال رقم الهاتف أولاً</p>';
+        }
+        return;
+      }
+
+      if (statusDiv) {
+        statusDiv.style.display = 'block';
+        statusDiv.innerHTML = '<p style="text-align: center; color: #666; font-size: 13px;">جاري التحقق من وجود الطلب... 🔍</p>';
+      }
+      if (searchBtn) searchBtn.disabled = true;
+
+      try {
+        const snapshot = await database.ref('karseell-orders').orderByChild('phone').equalTo(phone).limitToLast(1).once('value');
+
+        if (snapshot.exists()) {
+          let foundKey = null;
+          let foundVal = null;
+          snapshot.forEach(child => {
+            foundKey = child.key;
+            foundVal = child.val();
+          });
+
+          const rawP = parseInt(foundVal.totalPrice || foundVal.price) || 0;
+          const finalTotal = (rawP === 600 || rawP === 500) ? (rawP + 50) : rawP;
+          const fullAddr = [foundVal.governorate, foundVal.address].filter(Boolean).join(' - ') || 'غير محدد';
+
+          activeReturnOrder = {
+            key: foundKey,
+            orderId: foundVal.orderId || foundKey,
+            name: foundVal.name || 'عميل كارسيل',
+            phone: foundVal.phone || phone,
+            product: foundVal.product || 'ماسك كارسيل',
+            address: fullAddr,
+            totalPrice: finalTotal > 0 ? (finalTotal + ' ج.م') : (foundVal.price ? foundVal.price + ' ج.م' : 'غير محدد'),
+            timestamp: foundVal.timestamp || Date.now(),
+            status: foundVal.status || 'مكتمل / قيد التجهيز'
+          };
+
+          document.getElementById('returnCustomerNameVal').textContent = activeReturnOrder.name;
+          document.getElementById('returnOrderIdVal').textContent = '#' + (activeReturnOrder.orderId.substring(0, 10));
+          document.getElementById('returnProductVal').textContent = activeReturnOrder.product;
+          document.getElementById('returnCustomerAddressVal').textContent = activeReturnOrder.address;
+          document.getElementById('returnTotalPriceVal').textContent = activeReturnOrder.totalPrice;
+          
+          const orderDate = new Date(activeReturnOrder.timestamp);
+          const dateStr = !isNaN(orderDate.getTime()) ? orderDate.toLocaleDateString('ar-EG', { year: 'numeric', month: 'short', day: 'numeric' }) : 'سابقًا';
+          document.getElementById('returnOrderDateVal').textContent = dateStr;
+          document.getElementById('returnOrderBadge').textContent = activeReturnOrder.status;
+
+          document.getElementById('returnSearchStep').style.display = 'none';
+          document.getElementById('returnFormStep').style.display = 'block';
+        } else {
+          if (statusDiv) {
+            statusDiv.innerHTML = `
+              <div style="background: #fff7ed; border: 1px solid #fed7aa; border-radius: 10px; padding: 14px; text-align: center; color: #9a3412;">
+                <div style="font-size: 24px; margin-bottom: 4px;">🔍❌</div>
+                <strong style="display: block; font-size: 15px; margin-bottom: 6px;">لم نعثر على طلب بهذا الرقم</strong>
+                <p style="font-size: 12px; color: #7c2d12; line-height: 1.6; margin: 0;">
+                  تأكدي من إدخال رقم الهاتف المستخدم عند تسجيل الطلب، وإذا كنتِ بحاجة إلى مساعدة تواصلي معنا.
+                </p>
+              </div>
+            `;
+          }
+        }
+      } catch (err) {
+        console.error('Error searching order for return:', err);
+        if (statusDiv) {
+          statusDiv.innerHTML = '<p style="text-align: center; color: #ef4444; font-size: 13px;">حدث خطأ في الاتصال بالشبكة. يرجى المحاولة لاحقاً.</p>';
+        }
+      } finally {
+        if (searchBtn) searchBtn.disabled = false;
+      }
+    }
+
+    function handleReturnImageSelect(event) {
+      const file = event.target.files[0];
+      const nameSpan = document.getElementById('returnFileName');
+      const previewContainer = document.getElementById('returnImagePreviewContainer');
+      const previewImg = document.getElementById('returnImagePreview');
+
+      if (!file) {
+        selectedReturnImageFile = null;
+        if (nameSpan) nameSpan.textContent = 'لم يتم اختيار صورة بعد (JPG, PNG, WEBP — حد أقصى 5MB)';
+        if (previewContainer) previewContainer.style.display = 'none';
+        return;
+      }
+
+      if (file.size > 5 * 1024 * 1024) {
+        Swal.fire({
+          title: 'حجم الملف كبير',
+          text: 'يرجى اختيار صورة بحجم أقل من 5 ميجابايت',
+          icon: 'error',
+          confirmButtonText: 'حسناً',
+          customClass: { popup: 'custom-swal-popup', title: 'custom-swal-title', confirmButton: 'custom-swal-confirm' }
+        });
+        event.target.value = '';
+        return;
+      }
+
+      const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+      if (!allowedTypes.includes(file.type.toLowerCase())) {
+        Swal.fire({
+          title: 'نوع الملف غير مدعوم',
+          text: 'يرجى اختيار صورة بتنسيق JPG أو PNG أو WEBP',
+          icon: 'error',
+          confirmButtonText: 'حسناً',
+          customClass: { popup: 'custom-swal-popup', title: 'custom-swal-title', confirmButton: 'custom-swal-confirm' }
+        });
+        event.target.value = '';
+        return;
+      }
+
+      selectedReturnImageFile = file;
+      if (nameSpan) nameSpan.textContent = file.name + ' (' + (file.size / 1024 / 1024).toFixed(2) + ' MB)';
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        if (previewImg) previewImg.src = e.target.result;
+        if (previewContainer) previewContainer.style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    }
+
+    async function submitReturnRequest(event) {
+      event.preventDefault();
+
+      if (!activeReturnOrder) {
+        Swal.fire({ title: 'خطأ في الجلسة', text: 'يرجى إعادة البحث عن الطلب أولاً', icon: 'error' });
+        return;
+      }
+
+      const reasonSelect = document.getElementById('returnReasonSelect');
+      const reason = reasonSelect ? reasonSelect.value : '';
+      if (!reason) {
+        Swal.fire({ title: 'سبب الطلب مطلوب', text: 'يرجى اختيار سبب الاسترجاع أو الاستبدال', icon: 'warning' });
+        return;
+      }
+
+      if (!selectedReturnImageFile) {
+        Swal.fire({ title: 'الصورة مطلوبة', text: 'ارفعي صورة واضحة للمنتج توضح المشكلة', icon: 'warning' });
+        return;
+      }
+
+      const typeRadio = document.querySelector('input[name="requestType"]:checked');
+      const requestType = typeRadio ? typeRadio.value : 'استرجاع المنتج';
+      const notes = document.getElementById('returnNotes') ? document.getElementById('returnNotes').value.trim() : '';
+
+      const submitBtn = document.getElementById('returnSubmitBtn');
+      const originalText = submitBtn ? submitBtn.innerHTML : '';
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = 'جاري رفع الصورة وإرسال الطلب... ⏳';
+      }
+
+      try {
+        let imageUrl = '';
+
+        try {
+          if (firebase.storage) {
+            const storageRef = firebase.storage().ref();
+            const imageRef = storageRef.child('karseell-returns/' + Date.now() + '_' + selectedReturnImageFile.name.replace(/[^a-zA-Z0-9._-]/g, ''));
+            const uploadSnapshot = await imageRef.put(selectedReturnImageFile);
+            imageUrl = await uploadSnapshot.ref.getDownloadURL();
+          }
+        } catch (storageErr) {
+          console.warn('Firebase Storage upload warning, using Data URL fallback:', storageErr);
+        }
+
+        if (!imageUrl) {
+          imageUrl = await new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onload = (e) => resolve(e.target.result);
+            reader.onerror = () => resolve('');
+            reader.readAsDataURL(selectedReturnImageFile);
+          });
+        }
+
+        const createdAtStr = new Date().toLocaleString('ar-EG');
+        const returnData = {
+          orderId: activeReturnOrder.orderId,
+          customerName: activeReturnOrder.name,
+          customerPhone: activeReturnOrder.phone,
+          customerAddress: activeReturnOrder.address,
+          totalPrice: activeReturnOrder.totalPrice,
+          product: activeReturnOrder.product,
+          requestType: requestType,
+          reason: reason,
+          notes: notes || 'لا توجد ملاحظات إضافية',
+          imageUrl: imageUrl,
+          createdAt: createdAtStr,
+          timestamp: Date.now(),
+          status: 'pending' // قيد المراجعة
+        };
+
+        // Save in Firebase Realtime Database
+        await database.ref('karseell-returns').push(returnData);
+
+        // Send Email Notification
+        await sendReturnEmailNotification(returnData);
+
+        // Success UI
+        document.getElementById('returnFormStep').style.display = 'none';
+        document.getElementById('returnSuccessStep').style.display = 'block';
+
+      } catch (err) {
+        console.error('Error submitting return request:', err);
+        Swal.fire({
+          title: 'حدث خطأ أثناء الإرسال',
+          text: 'تعذر إرسال طلبك حالياً. يرجى المحاولة مرة أخرى أو التواصل معنا عبر الواتساب.',
+          icon: 'error',
+          confirmButtonText: 'حسناً'
+        });
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalText;
+        }
+      }
+    }
+
+    async function sendReturnEmailNotification(data) {
+      const emailSubject = `🔄 طلب ${data.requestType} جديد — #${data.orderId.substring(0, 10)}`;
+      const emailBody = `
+طلب ${data.requestType} جديد
+
+👤 اسم العميل: ${data.customerName}
+📱 رقم الهاتف: ${data.customerPhone}
+📍 عنوان العميل: ${data.customerAddress}
+🧾 رقم الطلب: #${data.orderId}
+📦 المنتج: ${data.product}
+💰 إجمالي المبلغ: ${data.totalPrice}
+🔄 نوع الطلب: ${data.requestType}
+📝 السبب: ${data.reason}
+💬 ملاحظات العميل: ${data.notes}
+📅 تاريخ الطلب: ${data.createdAt}
+📌 الحالة: قيد المراجعة
+
+📷 صورة المنتج:
+${data.imageUrl.length > 500 ? '[صورة مخزنة في قاعدة البيانات]' : data.imageUrl}
+      `.trim();
+
+      try {
+        if (window.emailjs) {
+          await emailjs.send('default_service', 'template_return_request', {
+            to_email: 'safan22xxx@gmail.com',
+            subject: emailSubject,
+            message: emailBody,
+            customer_name: data.customerName,
+            customer_phone: data.customerPhone,
+            order_id: data.orderId,
+            product: data.product,
+            request_type: data.requestType,
+            reason: data.reason,
+            notes: data.notes,
+            image_url: data.imageUrl
+          });
+        } else {
+          await fetch('https://formsubmit.co/ajax/safan22xxx@gmail.com', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify({
+              _subject: emailSubject,
+              _replyto: 'safan22xxx@gmail.com',
+              name: data.customerName,
+              phone: data.customerPhone,
+              order_id: data.orderId,
+              product: data.product,
+              request_type: data.requestType,
+              reason: data.reason,
+              notes: data.notes,
+              image_url: data.imageUrl,
+              message: emailBody
+            })
+          });
+        }
+      } catch (emailErr) {
+        console.warn('Email notification dispatch note:', emailErr);
+      }
+    }
   </script>
 </body>
 
