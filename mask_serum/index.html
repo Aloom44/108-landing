@@ -4828,6 +4828,21 @@ ${data.imageUrl.length > 500 ? '[صورة مخزنة في قاعدة البيا�
         console.warn('Email notification dispatch note:', emailErr);
       }
     }
+
+    // Auto-open Return Modal if URL contains #return, #exchange, or #returns
+    function checkURLHashForReturn() {
+      const hash = window.location.hash.toLowerCase();
+      if (hash === '#return' || hash === '#exchange' || hash === '#returns' || hash === '#refund') {
+        setTimeout(() => {
+          openReturnModal();
+        }, 400);
+      }
+    }
+
+    window.addEventListener('hashchange', checkURLHashForReturn);
+    window.addEventListener('DOMContentLoaded', checkURLHashForReturn);
+    // Initial check in case script runs after DOMContentLoaded
+    checkURLHashForReturn();
   </script>
 </body>
 
