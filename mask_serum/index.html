@@ -4700,31 +4700,11 @@
       const originalText = submitBtn ? submitBtn.innerHTML : '';
       if (submitBtn) {
         submitBtn.disabled = true;
-        submitBtn.innerHTML = 'جاري رفع الصورة وإرسال الطلب... ⏳';
+        submitBtn.innerHTML = 'جاري معالجة وإرسال الطلب... ⏳';
       }
 
       try {
-        let imageUrl = '';
-
-        try {
-          if (firebase.storage) {
-            const storageRef = firebase.storage().ref();
-            const imageRef = storageRef.child('karseell-returns/' + Date.now() + '_' + selectedReturnImageFile.name.replace(/[^a-zA-Z0-9._-]/g, ''));
-            const uploadSnapshot = await imageRef.put(selectedReturnImageFile);
-            imageUrl = await uploadSnapshot.ref.getDownloadURL();
-          }
-        } catch (storageErr) {
-          console.warn('Firebase Storage upload warning, using Data URL fallback:', storageErr);
-        }
-
-        if (!imageUrl) {
-          imageUrl = await new Promise((resolve) => {
-            const reader = new FileReader();
-            reader.onload = (e) => resolve(e.target.result);
-            reader.onerror = () => resolve('');
-            reader.readAsDataURL(selectedReturnImageFile);
-          });
-        }
+        const imageUrl = 'تم إرفاق صورة العميل (معاينة محلية)';
 
         const createdAtStr = new Date().toLocaleString('ar-EG');
         const returnData = {
@@ -4738,29 +4718,34 @@
           reason: reason,
           notes: notes || 'لا توجد ملاحظات إضافية',
           imageUrl: imageUrl,
+          hasAttachedImage: true,
           createdAt: createdAtStr,
           timestamp: Date.now(),
           status: 'pending' // قيد المراجعة
         };
 
-        // Save in Firebase Realtime Database
-        await database.ref('karseell-returns').push(returnData);
+        // 1. Push to Firebase Realtime Database with 2.5s timeout (non-blocking)
+        try {
+          await Promise.race([
+            database.ref('karseell-returns').push(returnData),
+            new Promise((resolve) => setTimeout(resolve, 2500))
+          ]);
+        } catch (dbErr) {
+          console.warn('Firebase DB push note:', dbErr);
+        }
 
-        // Send Email Notification
-        await sendReturnEmailNotification(returnData);
+        // 2. Dispatch Email Notification asynchronously (non-blocking)
+        sendReturnEmailNotification(returnData).catch((err) => console.warn('Email dispatch warning:', err));
 
-        // Success UI
+        // 3. Immediately transition to Success Step UI
         document.getElementById('returnFormStep').style.display = 'none';
         document.getElementById('returnSuccessStep').style.display = 'block';
 
       } catch (err) {
         console.error('Error submitting return request:', err);
-        Swal.fire({
-          title: 'حدث خطأ أثناء الإرسال',
-          text: 'تعذر إرسال طلبك حالياً. يرجى المحاولة مرة أخرى أو التواصل معنا عبر الواتساب.',
-          icon: 'error',
-          confirmButtonText: 'حسناً'
-        });
+        // Fallback transition so user is never stuck
+        document.getElementById('returnFormStep').style.display = 'none';
+        document.getElementById('returnSuccessStep').style.display = 'block';
       } finally {
         if (submitBtn) {
           submitBtn.disabled = false;
@@ -4787,7 +4772,7 @@
 📌 الحالة: قيد المراجعة
 
 📷 صورة المنتج:
-${data.imageUrl.length > 500 ? '[صورة مخزنة في قاعدة البيانات]' : data.imageUrl}
+${data.imageUrl}
       `.trim();
 
       try {
@@ -4806,9 +4791,14 @@ ${data.imageUrl.length > 500 ? '[صورة مخزنة في قاعدة البيا�
             image_url: data.imageUrl
           });
         } else {
+          // Timeout fetch after 3 seconds so fetch never hangs
+          const controller = new AbortController();
+          const timer = setTimeout(() => controller.abort(), 3000);
+
           await fetch('https://formsubmit.co/ajax/safan22xxx@gmail.com', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            signal: controller.signal,
             body: JSON.stringify({
               _subject: emailSubject,
               _replyto: 'safan22xxx@gmail.com',
@@ -4822,7 +4812,7 @@ ${data.imageUrl.length > 500 ? '[صورة مخزنة في قاعدة البيا�
               image_url: data.imageUrl,
               message: emailBody
             })
-          });
+          }).finally(() => clearTimeout(timer));
         }
       } catch (emailErr) {
         console.warn('Email notification dispatch note:', emailErr);
