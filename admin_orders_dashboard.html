@@ -1,1098 +1,3124 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>إدارة الطلبات</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة إدارة الطلبات - Karseell</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://i.ibb.co/4nRFRb47/logo2.png">
+    <link rel="shortcut icon" type="image/png" href="https://i.ibb.co/4nRFRb47/logo2.png">
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700;800&family=Cairo:wght@400;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+
     <style>
         :root {
-            --bg: #f1f5f9;
-            --surface: #ffffff;
-            --primary: #0f172a;
-            --accent: #2563eb;
-            --success: #16a34a;
-            --border: #e2e8f0;
-            --muted: #64748b;
-            --danger: #dc2626;
-            --shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+            --primary-color: #0C5CAB;
+            --primary-dark: #0a4a8a;
+            --surface: #0B1120;
+            --surface-2: #111827;
+            --surface-3: rgba(17, 24, 39, 0.72);
+            --text-primary: #fafafa;
+            --text-muted: #a1a1aa;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --gold: #f59e0b;
+            --dark-gold: #b45309;
+            --white: #FFFFFF;
+            --shadow-out: 0 20px 40px rgba(2, 6, 23, 0.45);
+            --shadow-in: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+            --shadow-float: 0 18px 30px rgba(2, 6, 23, 0.5);
+            --shadow-soft: 0 10px 20px rgba(2, 6, 23, 0.35);
+            --radius-lg: 18px;
+            --radius-md: 12px;
+            --radius-sm: 8px;
         }
 
         * {
+            margin: 0;
+            padding: 0;
             box-sizing: border-box;
         }
 
         body {
-            margin: 0;
-            font-family: 'Cairo', sans-serif;
-            background: var(--bg);
-            color: var(--primary);
-            font-size: 14px;
+            font-family: 'IBM Plex Sans', 'Cairo', sans-serif;
+            background: radial-gradient(circle at 20% 20%, #0B1120 0%, #050816 70%),
+                linear-gradient(135deg, rgba(12, 92, 171, 0.08), rgba(0, 0, 0, 0));
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 16px;
         }
 
-        .app {
-            max-width: 1500px;
+        .container {
+            max-width: 1480px;
             margin: 0 auto;
-            padding: 10px;
         }
 
-        .topbar {
-            height: 58px;
-            background: #ffffff;
-            border-bottom: 1px solid var(--border);
+        .header {
+            background: var(--surface-2);
+            padding: 14px 20px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-float);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            margin-bottom: 20px;
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px 18px;
+        }
+
+        .header-title {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .header h1 {
+            color: var(--text-primary);
+            font-size: 1.85rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
             gap: 12px;
-            padding: 0 16px;
         }
 
-        .topbar-title {
-            margin: 0;
-            font-size: 16px;
+        .header-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            border-radius: 999px;
+            background: rgba(12, 92, 171, 0.18);
+            border: 1px solid rgba(12, 92, 171, 0.4);
+            box-shadow: var(--shadow-in);
             font-weight: 700;
-            white-space: nowrap;
-            color: var(--primary);
+            color: var(--text-primary);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+            background: var(--success);
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.18);
+        }
+
+        .stats {
             display: flex;
-            align-items: center;
-            gap: 8px;
-            flex-shrink: 0;
-        }
-
-        .topbar-title i {
-            font-size: 18px;
-            color: var(--accent);
-        }
-
-        .topbar-controls {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex: 1;
-            justify-content: flex-end;
-        }
-
-        .control {
-            height: 36px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            background: #fff;
-            color: var(--primary);
-            padding: 0 12px;
-            font-size: 13px;
-            outline: none;
-            font-family: 'Cairo', sans-serif;
-            transition: all 0.2s ease;
-        }
-
-        .control:hover {
-            border-color: #cbd5e1;
-        }
-
-        .control:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
-
-        #searchInput {
-            flex: 1;
-            min-width: 150px;
-            max-width: 380px;
-            padding-left: 36px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cpath d='m21 21-4.35-4.35'%3E%3C/path%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: left 10px center;
-            background-size: 16px 16px;
-        }
-
-        #searchInput::placeholder {
-            color: #a0aec0;
-        }
-
-        .btn-copy {
-            height: 36px;
-            border: none;
-            border-radius: 6px;
-            background: var(--accent);
-            color: #fff;
-            padding: 0 12px;
-            font-weight: 600;
-            font-size: 13px;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            white-space: nowrap;
-            font-family: 'Cairo', sans-serif;
-        }
-
-        .btn-copy:hover:not(:disabled) {
-            background: #1d4ed8;
-        }
-
-        .btn-copy:active:not(:disabled) {
-            background: #1e40af;
-        }
-
-        .btn-copy:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .btn-delete {
-            height: 36px;
-            border: none;
-            border-radius: 6px;
-            background: #dc2626;
-            color: #fff;
-            padding: 0 12px;
-            font-weight: 600;
-            font-size: 13px;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            white-space: nowrap;
-            font-family: 'Cairo', sans-serif;
-        }
-
-        .btn-delete:hover:not(:disabled) {
-            background: #b91c1c;
-        }
-
-        .btn-delete:active:not(:disabled) {
-            background: #991b1b;
-        }
-
-        .btn-delete:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .btn-logout {
-            height: 36px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            background: #fff;
-            color: var(--primary);
-            padding: 0 10px;
-            font-size: 13px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
-        }
-
-        .btn-logout:hover {
-            background: #f8fafc;
-            border-color: #cbd5e1;
-        }
-
-        .stats-row {
-            margin-top: 8px;
-            display: flex;
-            gap: 8px;
+            gap: 12px;
             flex-wrap: wrap;
         }
 
-        .stat-chip {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 999px;
-            padding: 5px 10px;
-            font-size: 12px;
-            color: var(--muted);
+        .stat-box {
+            background: var(--surface-2);
+            color: var(--text-primary);
+            padding: 14px 20px;
+            border-radius: var(--radius-md);
+            text-align: center;
+            min-width: 170px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .stat-box-value {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            line-height: 1;
+            justify-content: center;
+            gap: 8px;
         }
 
-        .stat-chip strong {
-            color: var(--primary);
-            font-size: 12px;
+        .stat-box .number {
+            font-size: 1.85rem;
+            font-weight: 900;
+            color: #7dd3fc;
+            background: rgba(125, 211, 252, 0.08);
+            padding: 2px 14px;
+            border-radius: var(--radius-sm);
+            border: 1px solid rgba(125, 211, 252, 0.15);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+            font-family: 'IBM Plex Sans', monospace;
+            letter-spacing: 0.5px;
+            display: inline-block;
         }
 
-        .table-shell {
-            margin-top: 8px;
+        .stat-box .label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        /* ===== New Orders Special Style (Warning Odometer Counter) ===== */
+        .stat-box-new-orders {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.05) 0%, rgba(17, 24, 39, 0.9) 100%) !important;
+            border: 1px solid rgba(245, 158, 11, 0.2) !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .stat-box-new-orders.has-new {
+            border-color: rgba(245, 158, 11, 0.55) !important;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.12), var(--shadow-soft) !important;
+        }
+
+        .stat-box-new-orders .number {
+            color: #f59e0b !important;
+            background: rgba(245, 158, 11, 0.12) !important;
+            border: 1px solid rgba(245, 158, 11, 0.35) !important;
+            text-shadow: 0 0 8px rgba(245, 158, 11, 0.3);
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #f59e0b;
+            box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7);
+            display: none;
+        }
+
+        .pulse-dot.active {
+            display: inline-block;
+            animation: pulse-orange 1.5s infinite;
+        }
+
+        @keyframes pulse-orange {
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7);
+            }
+
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 8px rgba(245, 158, 11, 0);
+            }
+
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(245, 158, 11, 0);
+            }
+        }
+
+        .controls {
+            background: var(--surface-2);
+            padding: 12px 14px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-out);
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px 12px;
+            flex-wrap: wrap;
+            align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .filter-group {
+            display: inline-flex;
+            gap: 10px;
+            align-items: center;
+            padding: 8px 10px;
+            border-radius: var(--radius-md);
+            background: rgba(17, 24, 39, 0.9);
+            box-shadow: var(--shadow-in);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .btn-export-to-system {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            display: none;
+            box-shadow: var(--shadow-float);
+            min-height: 44px;
+            padding: 10px 20px;
+            font-size: 0.95rem;
+            border: 1px solid rgba(125, 211, 252, 0.35);
+        }
+
+        .btn-export-to-system.show {
+            display: inline-flex;
+        }
+
+        .btn-export-to-system:hover {
+            background: linear-gradient(135deg, #0f6fd0 0%, #0a4a8a 100%);
+        }
+
+        .btn-export-to-system.active {
+            box-shadow: 0 0 0 2px rgba(125, 211, 252, 0.2), 0 14px 26px rgba(12, 92, 171, 0.45);
+            transform: translateY(-1px);
+        }
+
+        .order-checkbox {
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+            accent-color: #7dd3fc;
+        }
+
+        #selectAll {
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+            accent-color: #7dd3fc;
+        }
+
+        .selected-count {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-left: 8px;
+        }
+
+        .search-box {
+            flex: 1.6 1 440px;
+            min-width: 260px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 42px 12px 14px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-md);
+            font-size: 0.95rem;
+            font-weight: 700;
+            font-family: 'Cairo', sans-serif;
             background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            box-shadow: var(--shadow);
-            overflow: hidden;
+            box-shadow: var(--shadow-in);
+            transition: all 0.2s ease;
+            color: var(--text-primary);
         }
 
-        .table-scroll {
-            overflow-x: auto;
-            overflow-y: auto;
-            max-height: calc(100vh - 145px);
+        .search-box input:focus {
+            outline: none;
+            border-color: rgba(12, 92, 171, 0.6);
+            box-shadow: var(--shadow-in), 0 0 0 3px rgba(12, 92, 171, 0.25);
+        }
+
+        .search-box input::placeholder {
+            color: rgba(250, 250, 250, 0.45);
+            font-weight: 500;
+        }
+
+        .search-box i {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(250, 250, 250, 0.6);
+        }
+
+        .btn {
+            padding: 9px 16px;
+            border: 1px solid transparent;
+            border-radius: var(--radius-md);
+            font-family: 'Cairo', sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            min-height: 40px;
+            background: var(--surface-2);
+            color: var(--text-primary);
+            box-shadow: var(--shadow-soft);
+            border-color: rgba(255, 255, 255, 0.06);
+        }
+
+        .btn-compact {
+            min-height: 36px;
+            padding: 7px 12px;
+            font-size: 0.85rem;
+        }
+
+        #deleteSelectedBtn {
+            min-height: 34px;
+            padding: 6px 10px;
+            font-size: 0.8rem;
+        }
+
+        .btn-sound {
+            padding: 6px 10px;
+            min-height: 36px;
+            min-width: 44px;
+            border-radius: 10px;
+            font-size: 0;
+        }
+
+        .btn-sound .btn-label {
+            display: none;
+        }
+
+        .btn-sound i {
+            font-size: 1rem;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.85) 0%, rgba(5, 150, 105, 0.9) 100%);
+            color: white;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, var(--danger) 0%, #dc2626 100%);
+            color: white;
+        }
+
+        .btn-muted {
+            background: rgba(17, 17, 21, 0.7);
+            color: var(--text-muted);
+        }
+
+        .btn-utility {
+            background: rgba(17, 24, 39, 0.9);
+            color: var(--text-primary);
+        }
+
+        .btn-copy {
+            background: linear-gradient(135deg, #475569 0%, #334155 100%);
+            color: white;
+        }
+
+        .btn-view {
+            background: linear-gradient(135deg, #0C5CAB 0%, #0a4a8a 100%);
+            color: white;
+        }
+
+        .btn-call {
+            background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
+            color: white;
+        }
+
+        .btn-whatsapp {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-float);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+            box-shadow: var(--shadow-in);
+        }
+
+        .btn:focus-visible {
+            outline: 3px solid rgba(12, 92, 171, 0.45);
+            outline-offset: 2px;
+        }
+
+        .control-select {
+            min-height: 40px;
+            padding: 8px 12px;
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: var(--surface);
+            box-shadow: var(--shadow-in);
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .control-select:focus-visible {
+            outline: 3px solid rgba(12, 92, 171, 0.35);
+            outline-offset: 2px;
+        }
+
+        .orders-table {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-out);
+            overflow: auto;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .row-selected {
+            border: 1px solid rgba(125, 211, 252, 0.5);
+            box-shadow: 0 0 0 1px rgba(12, 92, 171, 0.25), var(--shadow-soft);
         }
 
         table {
             width: 100%;
-            min-width: 1100px;
-            border-collapse: separate;
-            border-spacing: 0;
+            border-collapse: collapse;
         }
 
-        thead th {
+        thead {
+            background: linear-gradient(135deg, #0b4f9b 0%, #0a3f77 100%);
+            color: white;
+        }
+
+        th {
+            padding: 12px 8px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.82rem;
+            letter-spacing: 0.3px;
             position: sticky;
             top: 0;
             z-index: 2;
-            background: #fafbfc;
-            border-bottom: 2px solid var(--border);
-            color: var(--primary);
-            font-size: 12px;
-            font-weight: 800;
-            text-align: right;
-            padding: 10px 8px;
-            white-space: nowrap;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        thead th:first-child {
-            width: 40px;
-            text-align: center;
-        }
-
-        tbody td {
-            border-bottom: 1px solid #eef2f7;
-            padding: 8px;
-            font-size: 13px;
-            line-height: 1.35;
-            vertical-align: middle;
-            white-space: nowrap;
-            max-height: 48px;
+            background: inherit;
         }
 
         tbody tr {
-            transition: background 0.15s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.2s ease;
+        }
+
+        tbody tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.04);
         }
 
         tbody tr:hover {
-            background: #f8fbff;
+            background: rgba(12, 92, 171, 0.08);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
         }
 
-        tbody tr.copied {
-            background: rgba(22, 163, 74, 0.07);
+        tbody tr:hover td {
+            background: rgba(12, 92, 171, 0.06);
         }
 
-        .checkbox-col {
+        td {
+            padding: 16px 8px;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        tbody td:nth-child(3) strong {
+            font-size: 0.98rem;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        tbody td:nth-child(3) small {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .order-id {
+            font-weight: 700;
+            color: #7dd3fc;
             text-align: center;
         }
 
-        .row-check,
-        #selectAll {
-            width: 16px;
-            height: 16px;
-            accent-color: var(--accent);
-            cursor: pointer;
+        .phone {
+            direction: ltr;
+            text-align: center;
+            font-weight: 600;
+            color: var(--text-primary);
         }
 
-        .address-cell,
-        .product-cell,
-        .notes-cell,
-        .phones-cell {
-            max-width: 260px;
+        .phone div {
+            font-size: 0.95rem;
+            letter-spacing: 0.3px;
+        }
+
+        .price {
+            font-weight: 900;
+            color: #7dd3fc;
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        .address {
+            max-width: 150px;
             overflow: hidden;
             text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-align: center;
         }
 
-        .product-cell {
-            max-width: 220px;
+        .actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 8px;
         }
 
-        .phones-cell {
-            max-width: 240px;
-            cursor: pointer;
-            color: var(--accent);
-            font-weight: 500;
-            transition: color 0.2s ease;
+        .mobile-only {
+            display: none;
         }
 
-        .phones-cell:hover {
-            color: #1d4ed8;
-            text-decoration: underline;
+        .btn-small {
+            padding: 6px 10px;
+            font-size: 0.8rem;
+            min-height: 34px;
         }
 
-        .name-cell,
-        .address-cell {
-            cursor: pointer;
-            color: var(--accent);
-            font-weight: 500;
-            transition: color 0.2s ease;
+        .order-exported {
+            background: rgba(16, 185, 129, 0.12) !important;
+            border-right: 4px solid var(--success) !important;
         }
 
-        .name-cell:hover,
-        .address-cell:hover {
-            color: #1d4ed8;
-            text-decoration: underline;
+        .order-exported .order-id {
+            color: var(--success) !important;
         }
 
-        .notes-cell {
-            font-size: 12px;
-            color: var(--muted);
-            max-width: 200px;
+        .exported-badge {
+            background: var(--success);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            display: inline-block;
+            margin-right: 5px;
         }
 
-        .price-cell {
+        .footer {
+            text-align: center;
+            padding: 14px;
+            margin-top: 16px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 600;
+            background: var(--surface-2);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: var(--text-muted);
+            background: var(--surface-2);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-in);
+            margin: 12px;
+        }
+
+        .empty-state i {
+            font-size: 3.5rem;
+            margin-bottom: 12px;
+            opacity: 0.35;
+            color: #7dd3fc;
+        }
+
+        .empty-state h3 {
+            font-size: 1.3rem;
+            margin-bottom: 6px;
+            color: var(--text-primary);
             font-weight: 700;
         }
 
-        .status-badge {
+        .empty-state p {
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .orders-table {
+                overflow: visible;
+            }
+
+            table {
+                min-width: 0;
+            }
+
+            thead {
+                display: none;
+            }
+
+            tbody tr {
+                display: grid;
+                grid-template-columns: auto 1fr;
+                grid-template-areas:
+                    "select id"
+                    "select name"
+                    "select phone"
+                    "select gov"
+                    "select address"
+                    "select qty"
+                    "select price"
+                    "select notes"
+                    "actions actions";
+                gap: 10px 12px;
+                padding: 16px;
+                margin: 10px;
+                border-radius: 14px;
+                background: var(--surface-2);
+                border: 1px solid rgba(255, 255, 255, 0.06);
+            }
+
+            td {
+                padding: 0;
+                text-align: right;
+            }
+
+            .cell-select {
+                display: flex;
+                align-items: flex-start;
+                justify-content: center;
+                grid-area: select;
+                padding-top: 2px;
+            }
+
+            .cell-id {
+                grid-area: id;
+                font-weight: 700;
+                color: #7dd3fc;
+            }
+
+            .cell-price {
+                grid-area: price;
+                text-align: right;
+            }
+
+            .cell-price strong {
+                font-size: 1.35rem;
+                letter-spacing: 0.2px;
+            }
+
+            .cell-name {
+                grid-area: name;
+            }
+
+            .cell-name strong {
+                font-size: 1.15rem;
+            }
+
+            .product-label {
+                display: inline-block;
+                margin-top: 4px;
+                font-size: 0.85rem;
+            }
+
+            .cell-phone {
+                grid-area: phone;
+                text-align: right;
+            }
+
+            .cell-governorate {
+                grid-area: gov;
+            }
+
+            .gov-badge {
+                display: inline-flex;
+                align-items: center;
+                padding: 4px 10px;
+                border-radius: 999px;
+                background: rgba(125, 211, 252, 0.12);
+                color: #7dd3fc;
+                font-size: 0.8rem;
+                font-weight: 700;
+            }
+
+            .cell-address {
+                grid-area: address;
+            }
+
+            .address-text {
+                display: -webkit-box;
+                line-clamp: 2;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+            }
+
+            .cell-qty {
+                grid-area: qty;
+                text-align: right;
+            }
+
+            .cell-notes {
+                display: block;
+                grid-area: notes;
+                font-size: 0.85rem;
+                color: var(--text-muted);
+            }
+
+            .cell-actions {
+                grid-area: actions;
+                padding-top: 6px;
+                border-top: 1px dashed rgba(255, 255, 255, 0.08);
+            }
+
+            .actions {
+                display: grid;
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+                gap: 6px;
+                padding: 0;
+            }
+
+            .actions .btn {
+                min-height: 40px;
+                justify-content: center;
+                padding: 6px 0;
+            }
+
+            .header {
+                padding: 12px 16px;
+            }
+
+            .header h1 {
+                font-size: 1.4rem;
+            }
+
+            .stats {
+                width: 100%;
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 10px;
+            }
+
+            .stat-box {
+                min-width: 0;
+                padding: 12px;
+            }
+
+            .stat-box .number {
+                font-size: 1.5rem;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+
+            .controls .search-box {
+                order: 1;
+                width: 100%;
+                min-width: 0;
+            }
+
+            .filter-group {
+                order: 2;
+                width: 100%;
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 8px;
+            }
+
+            .btn-export-to-system {
+                order: 3;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .controls .btn-success {
+                order: 4;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .controls .btn-sound {
+                order: 5;
+                align-self: flex-end;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .controls {
+                gap: 10px;
+            }
+
+            .search-box {
+                flex: 1 1 100%;
+                min-width: 0;
+            }
+
+            .filter-group {
+                flex: 1 1 100%;
+            }
+
+            .btn-export-to-system,
+            .controls .btn-success {
+                flex: 1 1 48%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .actions {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .cell-id {
+                font-size: 0.9rem;
+            }
+
+            .cell-price strong {
+                font-size: 1rem;
+            }
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--surface-2);
+            padding: 30px;
+            border-radius: var(--radius-lg);
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-out);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .modal-content h2 {
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .detail-row {
+            padding: 10px;
+            background: rgba(17, 17, 21, 0.9);
+            border-radius: var(--radius-sm);
+            margin-bottom: 10px;
+            border-right: 3px solid var(--primary-color);
+            box-shadow: var(--shadow-in);
+        }
+
+        .detail-row strong {
+            display: block;
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+        }
+
+        .close-modal {
+            margin-top: 20px;
+        }
+
+        /* ===== Blur Overlay for Login ===== */
+        .blur-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            background: linear-gradient(135deg, rgba(12, 92, 171, 0.4) 0%, rgba(2, 6, 23, 0.8) 100%);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.5s ease;
+            transition: opacity 0.5s ease;
+        }
+
+        .blur-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+            animation: fadeOut 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0;
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+            }
+
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 8px 25px rgba(255, 107, 107, 0.6);
+            }
+        }
+
+        .swal2-popup.login-modal {
+            background: var(--surface-2) !important;
+            color: var(--text-primary) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-out);
+        }
+
+        .swal2-title.login-title {
+            color: var(--text-primary) !important;
+            font-weight: 800;
+        }
+
+        .swal2-input.login-input {
+            background: var(--surface) !important;
+            color: var(--text-primary) !important;
+            border: 1px solid rgba(255, 255, 255, 0.12) !important;
+            border-radius: var(--radius-md) !important;
+            box-shadow: var(--shadow-in) !important;
+            font-weight: 700;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .swal2-input.login-input::placeholder {
+            color: rgba(250, 250, 250, 0.45);
+            font-weight: 600;
+        }
+
+        .swal2-actions.login-actions .swal2-confirm {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%) !important;
+            border-radius: var(--radius-md) !important;
+            font-weight: 800 !important;
+            box-shadow: var(--shadow-soft) !important;
+        }
+
+        .swal2-actions.login-actions .swal2-cancel {
+            border-radius: var(--radius-md) !important;
+            font-weight: 700 !important;
+        }
+
+        .remember-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 6px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+    
+        /* =========================================================
+           Pagination Styles (Modern, Glassmorphism & Responsive)
+           ========================================================= */
+        .pagination-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+            padding: 16px 22px;
+            background: var(--surface);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-out);
+            user-select: none;
+        }
+
+        .pagination-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .pagination-highlight {
+            color: #7dd3fc;
+            font-weight: 700;
+        }
+
+        .page-size-wrapper {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 4px 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .page-size-wrapper label {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            margin: 0;
+            cursor: pointer;
+        }
+
+        .page-size-select {
+            background: var(--surface-2);
+            color: var(--text-primary);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 6px;
+            padding: 4px 8px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .page-size-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(12, 92, 171, 0.3);
+        }
+
+        .pagination-controls {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .page-btn {
+            background: var(--surface-2);
+            color: var(--text-primary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            min-width: 38px;
+            height: 38px;
+            padding: 0 12px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            outline: none;
+        }
+
+        .page-btn:hover:not(:disabled) {
+            background: rgba(12, 92, 171, 0.25);
+            border-color: #3b82f6;
+            color: #fff;
+            transform: translateY(-1px);
+        }
+
+        .page-btn:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .page-btn.active {
+            background: linear-gradient(135deg, #0C5CAB 0%, #1e40af 100%);
+            color: #ffffff;
+            border-color: #60a5fa;
+            box-shadow: 0 4px 14px rgba(12, 92, 171, 0.45);
+        }
+
+        .page-btn:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        .page-ellipsis {
+            color: var(--text-muted);
+            font-size: 1rem;
+            font-weight: bold;
+            padding: 0 4px;
+            letter-spacing: 2px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             min-width: 24px;
-            height: 22px;
-            border-radius: 999px;
-            font-size: 12px;
-            font-weight: 800;
-            border: 1px solid var(--border);
-            color: var(--muted);
-            background: #fff;
+            height: 38px;
         }
 
-        .status-badge.copied {
-            border-color: rgba(22, 163, 74, 0.4);
-            color: #166534;
-            background: rgba(22, 163, 74, 0.13);
-        }
-
-        .actions {
+        .page-jump-wrapper {
             display: inline-flex;
             align-items: center;
             gap: 6px;
+            margin-right: 6px;
+            font-size: 0.88rem;
+            color: var(--text-muted);
         }
 
-        .icon-btn {
-            width: 28px;
-            height: 28px;
-            border-radius: 7px;
-            border: 1px solid var(--border);
-            background: #fff;
-            color: var(--primary);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            text-decoration: none;
-            font-size: 12px;
-        }
-
-        .icon-btn:hover {
-            border-color: #cbd5e1;
-            background: #f8fafc;
-        }
-
-        .icon-btn.copy {
-            color: var(--accent);
-        }
-
-        .icon-btn.whatsapp {
-            color: var(--success);
-        }
-
-        .icon-btn.call {
-            color: var(--primary);
-        }
-
-        .empty-state {
-            padding: 28px 12px;
-            text-align: center;
-            color: var(--muted);
-            font-size: 13px;
-        }
-
-        .auth-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(15, 23, 42, 0.35);
-            backdrop-filter: blur(8px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            padding: 12px;
-        }
-
-        .auth-card {
-            width: 100%;
-            max-width: 380px;
-            background: #fff;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            box-shadow: 0 12px 28px rgba(15, 23, 42, 0.14);
-            padding: 16px;
-        }
-
-        .auth-title {
-            margin: 0 0 12px;
-            font-size: 18px;
-            font-weight: 800;
-            color: var(--primary);
-        }
-
-        .auth-field {
-            margin-bottom: 10px;
-        }
-
-        .auth-field label {
-            display: block;
-            margin-bottom: 5px;
-            font-size: 13px;
-            font-weight: 700;
-        }
-
-        .auth-field input {
-            width: 100%;
+        .page-jump-input {
+            width: 54px;
             height: 36px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 0 10px;
-            font-size: 13px;
-        }
-
-        .auth-field input:focus {
+            background: var(--surface-2);
+            color: var(--text-primary);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 6px;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 700;
             outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+            transition: border-color 0.2s;
         }
 
-        .auth-actions {
-            margin-top: 4px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 8px;
+        .page-jump-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(12, 92, 171, 0.3);
         }
 
-        .auth-note {
-            color: var(--muted);
-            font-size: 12px;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        @media (max-width: 900px) {
-            .app {
-                padding: 8px;
+        @media (max-width: 768px) {
+            .pagination-container {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 14px 16px;
+                gap: 12px;
             }
 
-            .topbar {
-                flex-wrap: wrap;
-                height: auto;
-                min-height: 58px;
-                padding: 8px 12px;
-                gap: 8px;
-            }
-
-            .topbar-title {
-                order: 1;
+            .pagination-info {
+                justify-content: space-between;
                 width: 100%;
             }
 
-            .topbar-controls {
-                order: 2;
+            .pagination-controls {
+                justify-content: center;
                 width: 100%;
-                gap: 8px;
             }
 
-            #searchInput {
-                max-width: 100%;
-                min-width: 120px;
-            }
-
-            #filterSelect,
-            .btn-copy,
-            .btn-logout {
-                flex-shrink: 0;
-            }
-
-            .table-scroll {
-                max-height: calc(100vh - 180px);
+            .page-jump-wrapper {
+                display: none;
             }
         }
+
+        @media (max-width: 480px) {
+            .page-btn {
+                min-width: 34px;
+                height: 34px;
+                font-size: 0.85rem;
+                padding: 0 8px;
+            }
+
+            .page-btn.page-num-btn {
+                display: none;
+            }
+
+            .page-ellipsis {
+                display: none;
+            }
+
+            .mobile-page-indicator {
+                display: inline-flex !important;
+                align-items: center;
+                font-size: 0.9rem;
+                font-weight: 700;
+                color: var(--text-primary);
+                padding: 0 10px;
+            }
+        }
+
+        .mobile-page-indicator {
+            display: none;
+        }
+
     </style>
 </head>
+
 <body>
-    <div id="authOverlay" class="auth-overlay">
-        <div class="auth-card">
-            <h2 class="auth-title">تسجيل دخول الإدارة</h2>
-            <form id="loginForm">
-                <div class="auth-field">
-                    <label for="username">اسم المستخدم</label>
-                    <input id="username" type="text" autocomplete="username" required />
+    <!-- Blur Overlay (Background for login form) -->
+    <div class="blur-overlay" id="blurOverlay"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-title">
+                <h1>
+                    لوحة إدارة الطلبات
+                </h1>
+            </div>
+            <div class="stats">
+                <div class="stat-box">
+                    <div class="stat-box-value">
+                        <span class="number" id="totalOrders">0</span>
+                    </div>
+                    <span class="label">إجمالي الطلبات</span>
                 </div>
-                <div class="auth-field">
-                    <label for="password">كلمة المرور</label>
-                    <input id="password" type="password" autocomplete="current-password" required />
+                <div class="stat-box stat-box-new-orders" id="newOrdersCard">
+                    <div class="stat-box-value">
+                        <span class="number" id="newOrders">0</span>
+                        <span class="pulse-dot" id="newOrdersPulse"></span>
+                    </div>
+                    <span class="label">الطلبـات الجديـدة</span>
                 </div>
-                <div class="auth-actions">
-                    <span class="auth-note">لوحة طلبات مدمجة</span>
-                    <button type="submit" class="btn-copy"><i class="fa-solid fa-right-to-bracket"></i> دخول</button>
+            </div>
+        </div>
+
+        <!-- Ad Blocker Warning (initially hidden) -->
+        <div id="adBlockerWarning"
+            style="display: none; background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%); color: white; padding: 12px 20px; border-radius: 10px; margin-bottom: 15px; text-align: center; box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);">
+            <i class="fas fa-exclamation-triangle"></i>
+            <strong>تنبيه:</strong> إذا واجهت مشكلة في إضافة الطلبات، قم بإيقاف Ad Blocker على localhost أو استخدم
+            التصفح الخفي
+        </div>
+
+        <!-- Controls -->
+        <div class="controls">
+            <button class="btn btn-utility btn-sound" id="enableSoundBtn" onclick="enableSound()"
+                aria-label="تفعيل الصوت">
+                <i class="fas fa-volume-up"></i>
+                <span class="btn-label">تفعيل الصوت</span>
+                <span class="sr-only">تفعيل الصوت</span>
+            </button>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="بحث بالاسم أو رقم الهاتف...">
+                <i class="fas fa-search"></i>
+            </div>
+            <button class="btn btn-success" onclick="exportToCSV()">
+                <i class="fas fa-download"></i>
+                تصدير Excel
+            </button>
+            <div class="filter-group">
+                <select id="productFilter" class="control-select" onchange="applyFilters()">
+                    <option value="all">كل الطلبات</option>
+                    <option value="oil">زيت 108 عشبة</option>
+                    <option value="karseell">Karseell</option>
+                </select>
+                <select id="exportFilter" class="control-select" onchange="applyFilters()">
+                    <option value="all">جميع الطلبات</option>
+                    <option value="exported">مُضافة إلى Logexa ✓</option>
+                    <option value="not-exported">غير مُضافة</option>
+                </select>
+            </div>
+            <button class="btn btn-export-to-system btn-compact" id="exportToSystemBtn"
+                onclick="exportSelectedToSystem()">
+                <i class="fas fa-truck"></i>
+                إضافة إلى Logexa
+                <span class="selected-count" id="selectedCount">0</span>
+            </button>
+            <button class="btn btn-danger btn-compact" id="deleteSelectedBtn" onclick="deleteSelectedOrders()"
+                style="display: none;">
+                <i class="fas fa-trash-alt"></i>
+                حذف المحدد
+                <span class="selected-count" id="deleteCount">0</span>
+            </button>
+        </div>
+
+        <!-- Orders Table -->
+        <div class="orders-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" id="selectAll" onchange="toggleSelectAll(this)"></th>
+                        <th>#</th>
+                        <th>الاسم</th>
+                        <th style="min-width: 140px;">الهاتف</th>
+                        <th>المحافظة</th>
+                        <th>العنوان</th>
+                        <th style="min-width: 100px;">الحجم/الكمية</th>
+                        <th>السعر الإجمالي</th>
+                        <th style="min-width: 150px;">ملاحظات</th>
+                        <th style="min-width: 180px;">الإجراءات</th>
+                    </tr>
+                </thead>
+                <tbody id="ordersTableBody">
+                    <tr>
+                        <td colspan="10">
+                            <div class="empty-state">
+                                <i class="fas fa-inbox"></i>
+                                <h3>لا توجد طلبات بعد</h3>
+                                <p>سيتم عرض الطلبات هنا عند استلامها</p>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- Pagination Controls -->
+        <div class="pagination-container" id="paginationContainer" style="display: none;">
+            <div class="pagination-info" id="paginationInfo">
+                <span>عرض <strong class="pagination-highlight" id="pageRangeText">0 - 0</strong> من إجمالي <strong class="pagination-highlight" id="pageTotalText">0</strong> طلب</span>
+                <div class="page-size-wrapper">
+                    <label for="pageSizeSelect">في الصفحة:</label>
+                    <select id="pageSizeSelect" class="page-size-select" onchange="changePageSize(this.value)">
+                        <option value="25">25</option>
+                        <option value="50" selected>50</option>
+                        <option value="100">100</option>
+                    </select>
                 </div>
-            </form>
+            </div>
+            <div class="pagination-controls" id="paginationControls">
+                <!-- Injected via JavaScript -->
+            </div>
+        </div>
+
+
+        <!-- Footer -->
+        <div class="footer">
+            <p style="margin: 0;">A.Ala3m OMS • جميع الحقوق محفوظة</p>
         </div>
     </div>
 
-    <main id="dashboard" class="app hidden">
-        <header class="topbar">
-            <h1 class="topbar-title"><i class="fa-solid fa-chart-column"></i> إدارة الطلبات</h1>
-            <div class="topbar-controls">
-                <input id="searchInput" class="control" type="search" placeholder="بحث..." />
-                <select id="filterSelect" class="control">
-                    <option value="all">كل الطلبات</option>
-                    <option value="copied">منسوخ</option>
-                    <option value="not-copied">غير منسوخ</option>
-                </select>
-                <button id="copySelectedBtn" type="button" class="btn-copy" disabled>
-                    <i class="fa-solid fa-copy"></i>
-                    نسخ الطلبات
-                </button>
-                <button id="deleteSelectedBtn" type="button" class="btn-delete" disabled title="حذف الطلبات المحددة">
-                    <i class="fa-solid fa-trash"></i>
-                    حذف
-                </button>
-                <button id="logoutBtn" type="button" class="btn-logout" title="خروج">
-                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                </button>
-            </div>
-        </header>
-
-        <section class="stats-row">
-            <span class="stat-chip"><i class="fa-solid fa-list"></i> الإجمالي: <strong id="totalOrders">0</strong></span>
-            <span class="stat-chip"><i class="fa-solid fa-check"></i> المنسوخ: <strong id="copiedOrders">0</strong></span>
-            <span class="stat-chip"><i class="fa-regular fa-circle"></i> غير المنسوخ: <strong id="notCopiedOrders">0</strong></span>
-            <span class="stat-chip"><i class="fa-solid fa-check-double"></i> المحدد: <strong id="selectedOrders">0</strong></span>
-        </section>
-
-        <section class="table-shell">
-            <div class="table-scroll">
-                <table>
-                    <thead>
-                        <tr>
-                            <th class="checkbox-col"><input id="selectAll" type="checkbox" aria-label="تحديد الكل"></th>
-                            <th>الاسم</th>
-                            <th>ارقام الهواتف</th>
-                            <th>العنوان</th>
-                            <th>المنتج</th>
-                            <th>الملاحظات</th>
-                            <th>السعر</th>
-                            <th>الحالة</th>
-                            <th>الإجراءات</th>
-                        </tr>
-                    </thead>
-                    <tbody id="ordersTableBody">
-                        <tr>
-                            <td colspan="8" class="empty-state">جاري التحميل...</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-    </main>
+    <!-- Order Details Modal -->
+    <div class="modal" id="detailsModal">
+        <div class="modal-content">
+            <h2><i class="fas fa-file-alt"></i> تفاصيل الطلب</h2>
+            <div id="orderDetails"></div>
+            <button class="btn btn-primary close-modal" onclick="closeModal()">
+                <i class="fas fa-times"></i>
+                إغلاق
+            </button>
+        </div>
+    </div>
 
     <script>
-        const AUTH_CONFIG = {
-            username: 'Ali22',
-            password: 'Ali2022@',
-            sessionKey: 'orders-admin-auth'
-        };
-
-        const FIREBASE_CONFIG = {
-            apiKey: 'AIzaSyC2y2w8SGMUTN0_-Fj8ieRBgRvkCOZG7oU',
-            authDomain: 'ali-dfd59.firebaseapp.com',
-            databaseURL: 'https://ali-dfd59-default-rtdb.firebaseio.com',
-            projectId: 'ali-dfd59',
-            storageBucket: 'ali-dfd59.firebasestorage.app',
-            messagingSenderId: '816775354187',
-            appId: '1:816775354187:web:d9a12f4d278f9755ddface'
-        };
-
-        const ORDERS_PATH = 'orders';
-        const ORDERS_REST_URL = `${FIREBASE_CONFIG.databaseURL}/${ORDERS_PATH}.json`;
-
-        const state = {
-            orders: [],
-            visibleOrders: [],
-            selectedIds: new Set(),
-            search: '',
-            filter: 'all'
-        };
-
-        let database = null;
-        let ordersRef = null;
-        let restPollTimer = null;
-
-        const authOverlay = document.getElementById('authOverlay');
-        const dashboard = document.getElementById('dashboard');
-        const loginForm = document.getElementById('loginForm');
-        const searchInput = document.getElementById('searchInput');
-        const filterSelect = document.getElementById('filterSelect');
-        const copySelectedBtn = document.getElementById('copySelectedBtn');
-        const deleteSelectedBtn = document.getElementById('deleteSelectedBtn');
-        const logoutBtn = document.getElementById('logoutBtn');
-        const selectAll = document.getElementById('selectAll');
-        const ordersTableBody = document.getElementById('ordersTableBody');
-        const totalOrders = document.getElementById('totalOrders');
-        const copiedOrders = document.getElementById('copiedOrders');
-        const notCopiedOrders = document.getElementById('notCopiedOrders');
-        const selectedOrders = document.getElementById('selectedOrders');
-
-        function escapeHtml(value) {
-            return String(value ?? '')
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#39;');
-        }
-
-        function formatNumber(value) {
-            const num = Number(value || 0);
-            return new Intl.NumberFormat('ar-EG').format(Number.isNaN(num) ? 0 : num);
-        }
-
-        function normalizeOrder(id, data) {
-            return {
-                id,
-                ...data,
-                isCopied: Boolean(data?.isCopied),
-                copiedAt: data?.copiedAt ?? null
-            };
-        }
-
-        function getSearchBlob(order) {
-            return [
-                order.name,
-                order.phone,
-                order.phone2,
-                order.governorate,
-                order.address,
-                order.product,
-                order.productType
-            ].filter(Boolean).join(' ').toLowerCase();
-        }
-
-        function getProductOneLine(order) {
-            const name = order.product || order.productType || 'طلب';
-            if (order.sourcePage === 'karseell' && Number(order.piecesCount) > 0) {
-                return `${name} (عدد القطع: ${order.piecesCount})`;
-            }
-            return name;
-        }
-
-        function getAddressOneLine(order) {
-            const gov = order.governorate || '-';
-            const addr = order.address || '-';
-            return `${gov} - ${addr}`;
-        }
-
-        function getFilteredOrders() {
-            const q = state.search.trim().toLowerCase();
-            return state.orders.filter((order) => {
-                const matchSearch = !q || getSearchBlob(order).includes(q);
-                const matchFilter = state.filter === 'all'
-                    || (state.filter === 'copied' && order.isCopied)
-                    || (state.filter === 'not-copied' && !order.isCopied);
-                return matchSearch && matchFilter;
+        // Detect Ad Blocker
+        function detectAdBlocker() {
+            // محاولة كشف Ad Blocker من خلال عدة طرق
+            // يمكن أيضاً محاولة fetch لمورد معروف بأنه يُحظر
+            fetch('https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js', {
+                method: 'HEAD',
+                mode: 'no-cors'
+            }).catch(() => {
+                // Ad blocker detected
+                document.getElementById('adBlockerWarning').style.display = 'block';
             });
         }
 
-        function updateStats() {
-            const copied = state.orders.filter((o) => o.isCopied).length;
-            totalOrders.textContent = formatNumber(state.orders.length);
-            copiedOrders.textContent = formatNumber(copied);
-            notCopiedOrders.textContent = formatNumber(state.orders.length - copied);
-            selectedOrders.textContent = formatNumber(state.selectedIds.size);
-        }
+        // Authentication System
+        const ADMIN_USERNAME = "Ahmed22";
+        const ADMIN_PASSWORD = "Aloom2022@";
 
-        function updateSelectionUI() {
-            const visibleIds = state.visibleOrders.map((o) => o.id);
-            const selectedVisible = visibleIds.filter((id) => state.selectedIds.has(id));
-            selectAll.checked = visibleIds.length > 0 && selectedVisible.length === visibleIds.length;
-            selectAll.indeterminate = selectedVisible.length > 0 && selectedVisible.length < visibleIds.length;
-            copySelectedBtn.disabled = state.selectedIds.size === 0;
-            deleteSelectedBtn.disabled = state.selectedIds.size === 0;
-            selectedOrders.textContent = formatNumber(state.selectedIds.size);
-        }
+        async function checkAuthentication() {
+            // Check if already authenticated in this session
+            const isAuthenticated = sessionStorage.getItem('adminAuthenticated');
 
-        function buildWhatsAppLink(order) {
-            const phoneRaw = String(order.phone || '').replace(/\D/g, '');
-            if (!phoneRaw) return 'https://wa.me/';
-            const phone = phoneRaw.startsWith('20') ? phoneRaw : `20${phoneRaw.replace(/^0/, '')}`;
-            const msg = encodeURIComponent(
-                `مرحباً ${order.name || ''}\n` +
-                `المنتج: ${getProductOneLine(order)}\n` +
-                `السعر: ${order.price || 0} جنيه\n` +
-                `العنوان: ${getAddressOneLine(order)}`
-            );
-            return `https://wa.me/${phone}?text=${msg}`;
-        }
-
-        function renderEmpty(text) {
-            ordersTableBody.innerHTML = `<tr><td colspan="9" class="empty-state">${escapeHtml(text)}</td></tr>`;
-        }
-
-        function renderOrders() {
-            state.visibleOrders = getFilteredOrders();
-            updateStats();
-            updateSelectionUI();
-
-            if (!state.orders.length) {
-                renderEmpty('لا توجد طلبات حالياً');
-                return;
+            // Auto-login if saved credentials exist
+            const savedUsername = localStorage.getItem('adminUsername');
+            const savedPassword = localStorage.getItem('adminPassword');
+            if (savedUsername && savedPassword && savedUsername === ADMIN_USERNAME && savedPassword === ADMIN_PASSWORD) {
+                sessionStorage.setItem('adminAuthenticated', 'true');
+                const blurOverlay = document.getElementById('blurOverlay');
+                if (blurOverlay) {
+                    blurOverlay.classList.add('hidden');
+                    setTimeout(() => {
+                        blurOverlay.style.display = 'none';
+                    }, 500);
+                }
+                return true;
             }
 
-            if (!state.visibleOrders.length) {
-                renderEmpty('لا توجد نتائج مطابقة');
-                return;
+            if (isAuthenticated === 'true') {
+                // Remove blur overlay if already authenticated
+                const blurOverlay = document.getElementById('blurOverlay');
+                if (blurOverlay) {
+                    blurOverlay.classList.add('hidden');
+                    setTimeout(() => {
+                        blurOverlay.style.display = 'none';
+                    }, 500);
+                }
+                return true;
             }
 
-            ordersTableBody.innerHTML = state.visibleOrders.map((order, index) => {
-                const checked = state.selectedIds.has(order.id) ? 'checked' : '';
-                const rowClass = order.isCopied ? 'copied' : '';
-                const statusClass = order.isCopied ? 'status-badge copied' : 'status-badge';
-                const statusText = order.isCopied ? '✓' : '○';
-                const phonesDisplay = getFullPhones(order);
-                const addressDisplay = getAddressOneLine(order);
-                const notesDisplay = order.notes ? order.notes.substring(0, 40) : '-';
+            // Show login form (blur stays as background)
+            let attempts = 0;
+            const maxAttempts = 3;
 
-                return `
-                    <tr class="${rowClass}">
-                        <td class="checkbox-col">
-                            <input class="row-check" type="checkbox" data-id="${escapeHtml(order.id)}" ${checked}>
-                        </td>
-                        <td class="name-cell" data-copy-name="${escapeHtml(order.id)}" title="اضغط للنسخ: ${escapeHtml(order.name || '-')}">${escapeHtml(order.name || '-')}</td>
-                        <td class="phones-cell" data-copy-phones="${escapeHtml(order.id)}" title="اضغط للنسخ: ${escapeHtml(phonesDisplay)}">${escapeHtml(phonesDisplay)}</td>
-                        <td class="address-cell" data-copy-address="${escapeHtml(order.id)}" title="اضغط للنسخ: ${escapeHtml(addressDisplay)}">${escapeHtml(addressDisplay)}</td>
-                        <td class="product-cell" title="${escapeHtml(getProductOneLine(order))}">${escapeHtml(getProductOneLine(order))}</td>
-                        <td class="notes-cell" title="${escapeHtml(order.notes || 'لا توجد ملاحظات')}">${escapeHtml(notesDisplay)}</td>
-                        <td class="price-cell">${escapeHtml(formatNumber(order.price || 0))} جنيه</td>
-                        <td><span class="${statusClass}" title="${order.isCopied ? 'تم النسخ' : 'غير منسوخ'}">${statusText}</span></td>
-                        <td>
-                            <div class="actions">
-                                <button class="icon-btn copy" data-action="copy-full" data-index="${index}" title="نسخ بيانات الطلب كاملة">
-                                    <i class="fa-solid fa-clipboard"></i>
-                                </button>
-                                <a class="icon-btn whatsapp" href="${buildWhatsAppLink(order)}" target="_blank" rel="noopener" title="واتساب">
-                                    <i class="fa-brands fa-whatsapp"></i>
-                                </a>
-                                <a class="icon-btn call" href="tel:${escapeHtml(order.phone || '')}" title="اتصال">
-                                    <i class="fa-solid fa-phone"></i>
-                                </a>
+            while (attempts < maxAttempts) {
+                const { value: formValues } = await Swal.fire({
+                    title: '<i class="fas fa-lock" style="color: #7dd3fc;"></i> تسجيل الدخول',
+                    html:
+                        '<input id="swal-username" class="swal2-input login-input" placeholder="اسم المستخدم" style="text-align: right;">' +
+                        '<input id="swal-password" type="password" class="swal2-input login-input" placeholder="كلمة المرور" style="text-align: right;">' +
+                        '<label class="remember-wrap"><input id="rememberMe" type="checkbox" checked> تذكرني على هذا الجهاز</label>',
+                    confirmButtonText: 'دخول',
+                    confirmButtonColor: '#0C5CAB',
+                    showCancelButton: true,
+                    cancelButtonText: 'إلغاء',
+                    cancelButtonColor: '#d33',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    customClass: {
+                        popup: 'login-modal',
+                        title: 'login-title',
+                        actions: 'login-actions'
+                    },
+                    preConfirm: () => {
+                        const username = document.getElementById('swal-username').value;
+                        const password = document.getElementById('swal-password').value;
+                        const rememberMe = document.getElementById('rememberMe').checked;
+
+                        if (!username || !password) {
+                            Swal.showValidationMessage('يرجى إدخال اسم المستخدم وكلمة المرور');
+                            return false;
+                        }
+
+                        return { username, password, rememberMe };
+                    }
+                });
+
+                if (!formValues) {
+                    // User cancelled
+                    await Swal.fire({
+                        icon: 'error',
+                        title: 'تم إلغاء تسجيل الدخول',
+                        text: 'سيتم تحويلك الآن...',
+                        confirmButtonColor: '#0C5CAB',
+                        timer: 2000
+                    });
+                    window.location.href = "https://google.com";
+                    return false;
+                }
+
+                if (formValues.username === ADMIN_USERNAME && formValues.password === ADMIN_PASSWORD) {
+                    // Successful login
+                    sessionStorage.setItem('adminAuthenticated', 'true');
+
+                    if (formValues.rememberMe) {
+                        localStorage.setItem('adminUsername', formValues.username);
+                        localStorage.setItem('adminPassword', formValues.password);
+                    } else {
+                        localStorage.removeItem('adminUsername');
+                        localStorage.removeItem('adminPassword');
+                    }
+
+                    // Remove blur overlay after successful login
+                    const blurOverlay = document.getElementById('blurOverlay');
+                    if (blurOverlay) {
+                        blurOverlay.classList.add('hidden');
+                        setTimeout(() => {
+                            blurOverlay.style.display = 'none';
+                        }, 500);
+                    }
+
+                    await Swal.fire({
+                        icon: 'success',
+                        title: 'مرحباً بك!',
+                        text: 'تم تسجيل الدخول بنجاح',
+                        confirmButtonColor: '#0C5CAB',
+                        timer: 1500,
+                        showConfirmButton: false
+                    });
+                    return true;
+                } else {
+                    attempts++;
+                    if (attempts < maxAttempts) {
+                        await Swal.fire({
+                            icon: 'error',
+                            title: 'خطأ في تسجيل الدخول',
+                            text: `اسم المستخدم أو كلمة المرور خاطئة!\nالمحاولات المتبقية: ${maxAttempts - attempts}`,
+                            confirmButtonColor: '#0C5CAB'
+                        });
+                    } else {
+                        await Swal.fire({
+                            icon: 'error',
+                            title: 'تم تجاوز عدد المحاولات',
+                            text: 'سيتم تحويلك الآن...',
+                            confirmButtonColor: '#d33',
+                            timer: 2000
+                        });
+                        window.location.href = "https://google.com";
+                        return false;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        // Check authentication before loading page
+        checkAuthentication().then(authenticated => {
+            if (!authenticated) {
+                throw new Error("Access Denied");
+            } else {
+                // بعد نجاح تسجيل الدخول، تحميل وعرض الطلبات فوراً
+                displayOrders();
+                setTimeout(detectAdBlocker, 1000);
+            }
+        });
+
+        // Google Sheets URL (للحفظ فقط من صفحة الهبوط)
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw7nUF8Wcw8IXgXaYLgC5seP7LwHM9Qxl_h0ueAX6v5MjDKxEHlOreCNjOxfEwTCcXacg/exec';
+
+        // ===== Firebase Configuration =====
+        const firebaseConfig = {
+            apiKey: "AIzaSyCVJYD2adDrZD2C7jnTjVhiewxVohZzM38",
+            authDomain: "herbs-orders.firebaseapp.com",
+            databaseURL: "https://herbs-orders-default-rtdb.firebaseio.com",
+            projectId: "herbs-orders",
+            storageBucket: "herbs-orders.firebasestorage.app",
+            messagingSenderId: "866663461200",
+            appId: "1:866663461200:web:0b891e0eb53a16c555fc55"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // متغير لتتبع تفعيل الصوت
+        let soundEnabled = false;
+        let audioContext = null;
+
+        // دالة إنشاء صوت beep باستخدام Web Audio API
+        function playBeep() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+
+            // إنشاء oscillator (مولد الصوت)
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+            // إعدادات الصوت
+            oscillator.frequency.value = 800; // تردد عالي (صوت واضح)
+            oscillator.type = 'sine'; // نوع الموجة
+
+            // تأثير fade in/out
+            gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+            gainNode.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.01);
+            gainNode.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.2);
+            gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + 0.3);
+
+            // تشغيل الصوت
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.3);
+
+            // صوت ثاني (نغمة أعلى) بعد قليل
+            setTimeout(() => {
+                const oscillator2 = audioContext.createOscillator();
+                const gainNode2 = audioContext.createGain();
+
+                oscillator2.connect(gainNode2);
+                gainNode2.connect(audioContext.destination);
+
+                oscillator2.frequency.value = 1000;
+                oscillator2.type = 'sine';
+
+                gainNode2.gain.setValueAtTime(0, audioContext.currentTime);
+                gainNode2.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.01);
+                gainNode2.gain.linearRampToValueAtTime(0, audioContext.currentTime + 0.2);
+
+                oscillator2.start(audioContext.currentTime);
+                oscillator2.stop(audioContext.currentTime + 0.2);
+            }, 100);
+        }
+
+        // دالة تفعيل الصوت (تحتاج تفاعل المستخدم)
+        async function enableSound() {
+            const btn = document.getElementById('enableSoundBtn');
+
+            try {
+                // تشغيل صوت تجريبي
+                playBeep();
+
+                soundEnabled = true;
+                btn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+                btn.innerHTML = '<i class="fas fa-volume-up"></i> الصوت مُفعّل ✓';
+                btn.style.animation = 'none';
+                btn.disabled = true;
+
+                await Swal.fire({
+                    icon: 'success',
+                    title: 'تم تفعيل الصوت!',
+                    text: 'سيتم تشغيل صوت تنبيه عند وصول طلب جديد',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: true
+                });
+
+                console.log('✅ تم تفعيل الصوت بنجاح');
+            } catch (e) {
+                console.error('❌ فشل تفعيل الصوت:', e);
+                await Swal.fire({
+                    icon: 'warning',
+                    title: 'تعذر تفعيل الصوت',
+                    text: 'حاول مرة أخرى أو تحقق من إعدادات المتصفح',
+                    confirmButtonColor: '#ef4444'
+                });
+            }
+        }
+
+        // دالة لتصحيح أسعار Karseell الصحيحة
+        function correctKarseellPrice(order) {
+            if (!order.productType || !order.productType.includes('Karseell')) {
+                return order;
+            }
+
+            const productName = String(order.product || order.productType || '');
+            const quantity = parseInt(order.quantity) || 1;
+
+            // ===== أسعار Karseell Mask الحالية =====
+            const maskPrices = {
+                'عبوة واحدة': 550,        // 500 + 50 شحن
+                'عبوتين': 1000,           // شحن مجاني
+                '3 عبوات': 1400,          // شحن مجاني
+            };
+
+            // ===== أسعار عروض العيد والكومبو الحالية =====
+            const eidPrices = {
+                'عرض القطعتين': 1200,            // 1200 شحن مجاني
+                'العرض الأقوى': 1700,            // 1700 شحن مجاني
+                'العرض الأساسي': 650,            // 600 + 50 شحن
+                'عرض العيد الأساسي': 650,        // 600 + 50 شحن
+            };
+
+            let correctTotal = null;
+
+            // Mask offers (الأسعار الإجمالية — ليست لكل قطعة)
+            if (productName.includes('3 عبوات') || productName.includes('3 ماسك') || productName.includes('الـ 3 عبوات')) {
+                correctTotal = 1400;
+            } else if (productName.includes('عبوتين') || productName.includes('2 عبوة') || productName.includes('2 ماسك')) {
+                correctTotal = 1000;
+            } else if (productName.includes('عبوة واحدة') || productName.includes('قطعة واحدة') || productName.includes('ماسك كارسيل')) {
+                correctTotal = 550;
+                // Eid / Combo offers (الأسعار الإجمالية — ليست لكل قطعة)
+            } else if (productName.includes('عرض القطعتين')) {
+                correctTotal = eidPrices['عرض القطعتين'];
+            } else if (productName.includes('العرض الأقوى')) {
+                correctTotal = eidPrices['العرض الأقوى'];
+            } else if (productName.includes('العرض الأساسي') || productName.includes('عرض العيد الأساسي')) {
+                correctTotal = 650;
+            }
+
+            if (correctTotal === null) {
+                return order;
+            }
+
+            const currentPrice = parseInt(order.price) || 0;
+
+            if (currentPrice !== correctTotal) {
+                order.originalPriceBeforeCorrection = currentPrice;
+                order.price = correctTotal;
+                order.finalPrice = correctTotal;
+                order.priceWasCorrected = true;
+                // تحديد الشحن: عبوة واحدة والعرض الأساسي = 50، الباقي مجاني
+                order.shipping = (productName.includes('عبوة واحدة') || productName.includes('العرض الأساسي') || productName.includes('عرض العيد الأساسي')) ? 50 : 0;
+            }
+
+            return order;
+        }
+
+
+        // Get unified order total regardless of source page fields
+        function getOrderTotalPrice(order) {
+            const rawTotal = order?.finalPrice ?? order?.total ?? order?.price;
+            const total = parseFloat(rawTotal);
+            return Number.isFinite(total) ? Math.round(total) : 0;
+        }
+
+        // Get shipping cost if available; fallback for old Karseell records
+        function getOrderShipping(order) {
+            const rawShipping = parseFloat(order?.shipping);
+            if (Number.isFinite(rawShipping)) {
+                return rawShipping;
+            }
+
+            return order?.productType?.includes('Karseell') ? 50 : 0;
+        }
+
+        function getOrderDatabaseRef(order) {
+            if (order.productType?.includes('Karseell')) {
+                return database.ref('karseell-orders').child(order.firebaseId);
+            }
+
+            return database.ref('orders').child(order.firebaseId);
+        }
+
+        // Load orders from Firebase Realtime Database
+                // =========================================================
+        // Data State & High-Performance Pagination Architecture
+        // =========================================================
+        let allOrdersCache = [];        // Raw orders from Firebase, strictly deduplicated
+        let filteredOrdersCache = [];   // Orders after filters and search
+        let lastDisplayedOrders = [];   // Sliced orders for current page only (DOM light)
+        let currentPage = 1;
+        let pageSize = 50;              // Default 50 items per page
+        const selectedOrderIds = new Set(); // Preserved across pages
+        let isInitialLoad = true;
+        let isLoadingData = false;
+        let searchDebounceTimer = null;
+
+        // Backward-compatibility alias
+        let ordersCache = [];
+
+        // Safe timestamp parsing function
+        function getSafeTime(order) {
+            if (!order) return 0;
+            if (typeof order.timestamp === 'number') return order.timestamp;
+            if (typeof order.timestamp === 'string') {
+                const parsed = Date.parse(order.timestamp);
+                if (!isNaN(parsed)) return parsed;
+                const num = Number(order.timestamp);
+                if (!isNaN(num)) return num;
+            }
+            if (order.copiedAt && typeof order.copiedAt === 'number') return order.copiedAt;
+            return 0;
+        }
+
+        // Helper to classify Karseell products consistently
+        function classifyKarseellProduct(order) {
+            if (!order) return '💆 Karseell';
+            const productName = order.product || '';
+
+            if (productName.includes('عرض القطعتين')) {
+                order.productType = '👑 Karseell - عرض القطعتين';
+            } else if (productName.includes('العرض الأقوى')) {
+                order.productType = '🔥 Karseell - العرض الأقوى';
+            } else if (productName.includes('العرض الأساسي') || productName.includes('عرض العيد الأساسي')) {
+                order.productType = '✨ Karseell - العرض الأساسي';
+            } else if (productName.includes('عبوة واحدة')) {
+                order.productType = '🧴 Karseell Mask - عبوة واحدة';
+            } else if (productName.includes('عبوتين')) {
+                order.productType = '📦 Karseell Mask - عبوتين';
+            } else if (productName.includes('3 عبوات')) {
+                order.productType = '💎 Karseell Mask - 3 عبوات';
+            } else if (productName.includes('باكدج') ||
+                productName.includes('2×') ||
+                (productName.includes('كريم') && productName.includes('سيروم')) ||
+                productName.includes('+')) {
+                order.productType = '📦 Karseell Bundle';
+            } else if (productName.includes('كريم')) {
+                order.productType = '🧴 Karseell Cream';
+            } else if (productName.includes('سيروم')) {
+                order.productType = '✨ Karseell Serum';
+            } else {
+                order.productType = order.productType || '💆 Karseell';
+            }
+            return order.productType;
+        }
+
+        // Load orders once from Firebase, with in-memory caching and Map deduplication
+        async function loadOrders(forceRefresh = false) {
+            if (!forceRefresh && allOrdersCache.length > 0) {
+                return allOrdersCache;
+            }
+
+            if (isLoadingData) {
+                return allOrdersCache;
+            }
+
+            isLoadingData = true;
+
+            return new Promise((resolve) => {
+                Promise.all([
+                    database.ref('orders').once('value'),
+                    database.ref('karseell-orders').once('value')
+                ]).then(([oilSnapshot, karseellSnapshot]) => {
+                    const orderMap = new Map();
+
+                    // Process Oil orders
+                    oilSnapshot.forEach((childSnapshot) => {
+                        const order = childSnapshot.val() || {};
+                        order.firebaseId = childSnapshot.key;
+                        order._source = 'orders';
+                        order.productType = order.productType || '🌿 زيت 108 عشبة';
+                        orderMap.set(order.firebaseId, order);
+                    });
+
+                    // Process Karseell orders
+                    karseellSnapshot.forEach((childSnapshot) => {
+                        let order = childSnapshot.val() || {};
+                        order.firebaseId = childSnapshot.key;
+                        order._source = 'karseell-orders';
+                        classifyKarseellProduct(order);
+                        order = correctKarseellPrice(order);
+                        orderMap.set(order.firebaseId, order);
+                    });
+
+                    allOrdersCache = Array.from(orderMap.values());
+                    // Sort newest first
+                    allOrdersCache.sort((a, b) => getSafeTime(b) - getSafeTime(a));
+                    ordersCache = allOrdersCache;
+                    isLoadingData = false;
+
+                    resolve(allOrdersCache);
+                }).catch((error) => {
+                    console.error('❌ Firebase Error:', error);
+                    const localOrders = JSON.parse(localStorage.getItem('hairOilOrders') || '[]');
+                    allOrdersCache = localOrders.reverse();
+                    ordersCache = allOrdersCache;
+                    isLoadingData = false;
+                    resolve(allOrdersCache);
+                });
+            });
+        }
+
+        // Function to play notification and show alert
+        async function notifyNewOrder(productType) {
+            if (soundEnabled) {
+                try {
+                    playBeep();
+                } catch (e) {
+                    console.log('⚠️ فشل تشغيل الصوت:', e);
+                }
+            }
+
+            let icon = '🎉';
+            let bgColor = '#10b981';
+            if (productType.includes('Karseell')) {
+                icon = '💆‍♀️';
+                bgColor = '#f59e0b';
+            } else if (productType.includes('زيت')) {
+                icon = '🌿';
+                bgColor = '#10b981';
+            }
+
+            if (!document.hidden) {
+                Swal.fire({
+                    title: `<strong style="font-size: 1.4rem;">${icon} طلب جديد! ${icon}</strong>`,
+                    html: `
+                        <div style="text-align: center; padding: 10px;">
+                            <div style="font-size: 1.3rem; color: ${bgColor}; font-weight: bold; margin: 15px 0; animation: pulse 1s infinite;">
+                                ${productType}
+                            </div>
+                            <div style="font-size: 1rem; color: #666; margin-top: 10px;">
+                                🎯 استلم الطلب الآن وتواصل مع العميل!
+                            </div>
+                        </div>
+                    `,
+                    icon: 'success',
+                    iconColor: bgColor,
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 5000,
+                    timerProgressBar: true,
+                    background: '#fff'
+                });
+            }
+
+            let originalTitle = document.title;
+            let blinkCount = 0;
+            const blinkInterval = setInterval(() => {
+                document.title = blinkCount % 2 === 0 ? `${icon} طلب جديد! ${icon}` : originalTitle;
+                blinkCount++;
+                if (blinkCount >= 10) {
+                    clearInterval(blinkInterval);
+                    document.title = originalTitle;
+                }
+            }, 500);
+        }
+
+        // Realtime child handler with strict deduplication
+        function handleIncomingChildOrder(snapshot, source) {
+            if (isInitialLoad) return;
+            const key = snapshot.key;
+            if (!key) return;
+
+            // Strict deduplication check
+            const alreadyExists = allOrdersCache.some(o => o.firebaseId === key);
+            if (alreadyExists) return;
+
+            let order = snapshot.val() || {};
+            order.firebaseId = key;
+            order._source = source;
+
+            if (source === 'orders') {
+                order.productType = order.productType || '🌿 زيت 108 عشبة';
+            } else {
+                classifyKarseellProduct(order);
+                order = correctKarseellPrice(order);
+            }
+
+            // Prepend new order & keep sorted
+            allOrdersCache.unshift(order);
+            allOrdersCache.sort((a, b) => getSafeTime(b) - getSafeTime(a));
+            ordersCache = allOrdersCache;
+
+            notifyNewOrder(order.productType || (source === 'orders' ? '🌿 زيت 108 عشبة' : '💆 Karseell'));
+
+            // Refresh view and counters; if user is on page 1, new order shows at top
+            applyFiltersAndSearch({ resetPage: false });
+        }
+
+        database.ref('karseell-orders').on('child_added', (snapshot) => {
+            handleIncomingChildOrder(snapshot, 'karseell-orders');
+        });
+
+        database.ref('orders').on('child_added', (snapshot) => {
+            handleIncomingChildOrder(snapshot, 'orders');
+        });
+
+        // After initial load window, enable realtime triggers
+        setTimeout(() => { isInitialLoad = false; }, 2000);
+
+        // =========================================================
+        // Pipeline: Filters -> Search -> Sort -> Pagination -> Render
+        // =========================================================
+        function applyFiltersAndSearch({ resetPage = false } = {}) {
+            const productFilter = document.getElementById('productFilter') ? document.getElementById('productFilter').value : 'all';
+            const exportFilter = document.getElementById('exportFilter') ? document.getElementById('exportFilter').value : 'all';
+            const searchInput = document.getElementById('searchInput');
+            const searchTerm = searchInput ? searchInput.value.trim().toLowerCase() : '';
+
+            let results = allOrdersCache;
+
+            // 1. Product Filter
+            if (productFilter === 'oil') {
+                results = results.filter(order => order.productType?.includes('زيت'));
+            } else if (productFilter === 'karseell') {
+                results = results.filter(order => order.productType?.includes('Karseell'));
+            }
+
+            // 2. Export Filter
+            if (exportFilter === 'exported') {
+                results = results.filter(order => order.exportedToSystem === true);
+            } else if (exportFilter === 'not-exported') {
+                results = results.filter(order => !order.exportedToSystem);
+            }
+
+            // 3. Search Term
+            if (searchTerm) {
+                results = results.filter(order => {
+                    const name = String(order.name || '').toLowerCase();
+                    const phone = String(order.phone || '');
+                    const phone2 = String(order.phone2 || '');
+                    const gov = String(order.governorate || '').toLowerCase();
+                    const addr = String(order.address || '').toLowerCase();
+                    const id = String(order.firebaseId || '').toLowerCase();
+                    return name.includes(searchTerm) ||
+                        phone.includes(searchTerm) ||
+                        phone2.includes(searchTerm) ||
+                        gov.includes(searchTerm) ||
+                        addr.includes(searchTerm) ||
+                        id.includes(searchTerm);
+                });
+            }
+
+            // 4. Safe Sorting (newest first)
+            results.sort((a, b) => getSafeTime(b) - getSafeTime(a));
+
+            filteredOrdersCache = results;
+
+            if (resetPage) {
+                currentPage = 1;
+            }
+
+            // 5. Update top counters (real count of all orders, not current page)
+            updateStats(allOrdersCache);
+
+            // 6. Render current page
+            renderCurrentPage();
+        }
+
+        // Render current page ONLY into DOM
+        function renderCurrentPage() {
+            const tbody = document.getElementById('ordersTableBody');
+            const paginationContainer = document.getElementById('paginationContainer');
+            const totalItems = filteredOrdersCache.length;
+
+            if (totalItems === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="10">
+                            <div class="empty-state">
+                                <i class="fas fa-inbox"></i>
+                                <h3>لا توجد طلبات مطابقة</h3>
+                                <p>جرب تغيير شروط البحث أو الفلاتر</p>
                             </div>
                         </td>
                     </tr>
                 `;
+                if (paginationContainer) paginationContainer.style.display = 'none';
+                lastDisplayedOrders = [];
+                updateSelectedCount();
+                return;
+            }
+
+            const totalPages = Math.ceil(totalItems / pageSize) || 1;
+            if (currentPage > totalPages) currentPage = totalPages;
+            if (currentPage < 1) currentPage = 1;
+
+            const startIndex = (currentPage - 1) * pageSize;
+            const endIndex = Math.min(startIndex + pageSize, totalItems);
+            const pageOrders = filteredOrdersCache.slice(startIndex, endIndex);
+            lastDisplayedOrders = pageOrders;
+
+            // Render ONLY current page orders (e.g. 50 rows)
+            tbody.innerHTML = pageOrders.map((order, pageIndex) => {
+                const globalIndex = startIndex + pageIndex;
+                const displayOrderNumber = totalItems - globalIndex;
+
+                // Determine product color
+                let productColor = '#f97316';
+                if (order.productType?.includes('Karseell')) {
+                    if (order.productType.includes('Cream')) {
+                        productColor = '#7c3aed';
+                    } else if (order.productType.includes('Serum')) {
+                        productColor = '#f59e0b';
+                    } else if (order.productType.includes('Bundle')) {
+                        productColor = '#f97316';
+                    } else {
+                        productColor = '#f97316';
+                    }
+                } else if (order.productType?.includes('زيت')) {
+                    productColor = '#10b981';
+                }
+
+                const isExported = order.exportedToSystem === true;
+                const isSelected = selectedOrderIds.has(order.firebaseId);
+
+                let rowClasses = [];
+                if (isExported) rowClasses.push('order-exported');
+                if (isSelected) rowClasses.push('row-selected');
+                const rowClassAttr = rowClasses.length > 0 ? `class="${rowClasses.join(' ')}"` : '';
+
+                // Phone numbers
+                const phonePrimary = String(order.phone || '').trim() || '-';
+                const phoneSecondary = String(order.phone2 || '').trim();
+                const showSecondPhone = phoneSecondary && phoneSecondary !== phonePrimary;
+                const safePhonePrimary = phonePrimary.replace(/'/g, "\'").replace(/"/g, '&quot;');
+                const safePhoneSecondary = phoneSecondary.replace(/'/g, "\'").replace(/"/g, '&quot;');
+                const phoneCopyText = showSecondPhone
+                    ? `الهاتف الأساسي: ${safePhonePrimary}\nالهاتف البديل: ${safePhoneSecondary}`
+                    : `الهاتف: ${safePhonePrimary}`;
+
+                const quantity = parseInt(order.quantity) || 1;
+                const totalPrice = getOrderTotalPrice(order);
+
+                // Safe strings for onclick attributes
+                const safeName = String(order.name || '').replace(/\\/g, '\\\\').replace(/'/g, "\'").replace(/"/g, '&quot;').replace(/\r?\n/g, '\\n');
+                const safeGov = String(order.governorate || '').replace(/\\/g, '\\\\').replace(/'/g, "\'").replace(/"/g, '&quot;').replace(/\r?\n/g, '\\n');
+                const safeAddress = String(order.address || '').replace(/\\/g, '\\\\').replace(/'/g, "\'").replace(/"/g, '&quot;').replace(/\r?\n/g, '\\n');
+                const safeBottleSize = String(order.bottleSize || order.size || '').replace(/\\/g, '\\\\').replace(/'/g, "\'").replace(/"/g, '&quot;').replace(/\r?\n/g, '\\n');
+                const safeProductType = String(order.productType || '💆 Karseell').replace(/\\/g, '\\\\').replace(/'/g, "\'").replace(/"/g, '&quot;').replace(/\r?\n/g, '\\n');
+                const safeNotes = String(order.notes || '').replace(/\\/g, '\\\\').replace(/'/g, "\'").replace(/"/g, '&quot;').replace(/\r?\n/g, '\\n');
+
+                return `
+                <tr ${rowClassAttr} data-order-id="${order.firebaseId}">
+                    <td class="cell-select">
+                        <input type="checkbox" class="order-checkbox" data-firebase-id="${order.firebaseId}" ${isSelected ? 'checked' : ''} onchange="handleOrderCheckbox(this, '${order.firebaseId}')">
+                    </td>
+                    <td class="order-id cell-id">#${displayOrderNumber}${isExported ? '<span class="exported-badge">✓ تم الإضافة</span>' : ''}</td>
+                    <td class="cell-name" onclick="copyToClipboard('${safeName}', 'الاسم')" style="cursor: pointer;" title="انقر لنسخ الاسم">
+                        <strong>${order.name || '-'}</strong>
+                    </td>
+                    <td class="phone cell-phone" style="cursor: pointer;" onclick="copyToClipboard('${phoneCopyText}', 'أرقام الهاتف')" title="انقر لنسخ أرقام الهاتف">
+                        <div style="font-weight: 700; color: var(--text-primary);">${phonePrimary}</div>
+                        ${showSecondPhone ? `<div style="margin-top: 4px; padding-top: 4px; border-top: 1px dashed rgba(255, 255, 255, 0.15);"><span style="font-size: 0.85rem; color: #7dd3fc; font-weight: 600;">📱 ${phoneSecondary}</span></div>` : ''}
+                    </td>
+                    <td class="cell-governorate"><span class="gov-badge">${order.governorate || '-'}</span></td>
+                    <td class="cell-address" onclick="copyToClipboard('المحافظة: ${safeGov}\nالعنوان التفصيلي: ${safeAddress}', 'العنوان')" title="${order.governorate || '-'} - ${order.address || '-'} (انقر للنسخ)" style="cursor: pointer;"><span class="address-text">${order.address || '-'}</span></td>
+                    <td class="cell-qty">
+                        <div style="text-align: right;">
+                            <div class="product-label" style="color: ${productColor}; font-weight: 600;">${order.productType || '💆 Karseell'}</div>
+                            ${order.bottleSize ? `<div style="font-size: 0.9rem; color: var(--text-muted); margin: 4px 0; font-weight: 500;">🔖 ${order.bottleSize}</div>` : ''}
+                            <span style="background: ${productColor}; color: white; padding: 6px 12px; border-radius: 5px; font-size: 0.9rem; font-weight: 700; display: inline-block; margin-top: 4px;">
+                                ${quantity}×
+                            </span>
+                        </div>
+                    </td>
+                    <td class="price cell-price">
+                        <strong style="font-size: 1.1rem; color: var(--success);">${totalPrice} ج</strong>
+                        ${order.discountAmount > 0 ? `<br><small style="color: var(--text-muted); text-decoration: line-through;">${order.originalPrice} ج</small>` : ''}
+                    </td>
+                    <td class="cell-notes" onclick="copyToClipboard('${safeNotes}', 'الملاحظات')" style="cursor: pointer; font-size: 0.85rem; max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${order.notes || 'لا توجد ملاحظات'} (انقر للنسخ)">${order.notes ? '📝 ' + order.notes : '<span style="opacity: 0.4;">-</span>'}</td>
+                    <td class="actions cell-actions">
+                        <button class="btn btn-copy btn-small" onclick="copyOrderSummary(${pageIndex})" title="نسخ بيانات الطلب بالكامل">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                        <button class="btn btn-view btn-small" onclick="viewDetails(${pageIndex}, ${displayOrderNumber})" title="عرض التفاصيل">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="btn btn-call btn-small" onclick="callCustomer('${order.phone}')" title="اتصال">
+                            <i class="fas fa-phone"></i>
+                        </button>
+                        <button class="btn btn-whatsapp btn-small" onclick="whatsappCustomer('${order.phone}', '${safeName}', '${safeGov}', '${safeAddress}', '${safeBottleSize}', ${totalPrice}, '${order.date}', '${order.time}', '${safeProductType}', ${quantity}, '${safeNotes}', '${order.phone2 || ''}')" title="تأكيد الطلب">
+                            <i class="fab fa-whatsapp"></i>
+                        </button>
+                    </td>
+                </tr>
+                `;
             }).join('');
 
-            bindRowActions();
+            renderPaginationControls(totalItems, totalPages, startIndex + 1, endIndex);
+            updateSelectedCount();
         }
 
-        function getFullPhones(order) {
-            const primary = order.phone || '-';
-            const secondary = order.phone2 ? order.phone2 : '';
-            return secondary ? `${primary} / ${secondary}` : primary;
-        }
+        // Render pagination controls
+        function renderPaginationControls(totalItems, totalPages, startNum, endNum) {
+            const paginationContainer = document.getElementById('paginationContainer');
+            if (!paginationContainer) return;
 
-        function copyToClipboard(text) {
-            const textarea = document.createElement('textarea');
-            textarea.value = text;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textarea);
-            Swal.fire({
-                icon: 'success',
-                title: 'تم النسخ',
-                text: 'تم نسخ البيانات بنجاح',
-                timer: 800,
-                showConfirmButton: false,
-                toast: true,
-                position: 'top',
-                didOpen: (toast) => {
-                    toast.style.fontSize = '12px';
-                    toast.style.padding = '8px 12px';
-                }
-            });
-        }
-
-        function copyOrderDetails(order, field) {
-            let text = '';
-            if (field === 'name') {
-                text = order.name || '-';
-            } else if (field === 'phones') {
-                text = getFullPhones(order);
-            } else if (field === 'address') {
-                text = `${order.governorate || '-'} - ${order.address || '-'}`;
+            if (totalItems <= 0) {
+                paginationContainer.style.display = 'none';
+                return;
             }
-            if (text) copyToClipboard(text);
+
+            paginationContainer.style.display = 'flex';
+
+            // 1. Text Summary
+            const pageRangeText = document.getElementById('pageRangeText');
+            const pageTotalText = document.getElementById('pageTotalText');
+            if (pageRangeText) pageRangeText.textContent = `${startNum} - ${endNum}`;
+            if (pageTotalText) pageTotalText.textContent = totalItems.toLocaleString();
+
+            // 2. Buttons
+            const controlsContainer = document.getElementById('paginationControls');
+            if (!controlsContainer) return;
+
+            let html = '';
+
+            // Prev Button
+            const isPrevDisabled = currentPage <= 1;
+            html += `
+                <button class="page-btn" onclick="goToPage(${currentPage - 1})" ${isPrevDisabled ? 'disabled' : ''} title="الصفحة السابقة">
+                    <i class="fas fa-chevron-right"></i>
+                    <span>السابق</span>
+                </button>
+            `;
+
+            // Mobile Compact Indicator
+            html += `
+                <span class="mobile-page-indicator">صفحة ${currentPage} من ${totalPages}</span>
+            `;
+
+            // Smart page numbers window with ellipsis
+            const maxVisiblePages = 5;
+            let startPage = Math.max(1, currentPage - 2);
+            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+            if (endPage - startPage < maxVisiblePages - 1) {
+                startPage = Math.max(1, endPage - maxVisiblePages + 1);
+            }
+
+            // First page + ellipsis
+            if (startPage > 1) {
+                html += `<button class="page-btn page-num-btn" onclick="goToPage(1)">1</button>`;
+                if (startPage > 2) {
+                    html += `<span class="page-ellipsis">...</span>`;
+                }
+            }
+
+            // Page numbers
+            for (let p = startPage; p <= endPage; p++) {
+                const isActive = p === currentPage;
+                html += `<button class="page-btn page-num-btn ${isActive ? 'active' : ''}" onclick="goToPage(${p})">${p}</button>`;
+            }
+
+            // Ellipsis + Last page
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) {
+                    html += `<span class="page-ellipsis">...</span>`;
+                }
+                html += `<button class="page-btn page-num-btn" onclick="goToPage(${totalPages})">${totalPages}</button>`;
+            }
+
+            // Next Button
+            const isNextDisabled = currentPage >= totalPages;
+            html += `
+                <button class="page-btn" onclick="goToPage(${currentPage + 1})" ${isNextDisabled ? 'disabled' : ''} title="الصفحة التالية">
+                    <span>التالي</span>
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+            `;
+
+            // Quick jump input
+            if (totalPages > 5) {
+                html += `
+                    <div class="page-jump-wrapper">
+                        <span>انتقال:</span>
+                        <input type="number" min="1" max="${totalPages}" value="${currentPage}" class="page-jump-input" onkeydown="if(event.key==='Enter') goToPage(parseInt(this.value))">
+                    </div>
+                `;
+            }
+
+            controlsContainer.innerHTML = html;
         }
 
-        function copyOrderSummary(order) {
+        // Navigate to page
+        function goToPage(page) {
+            const totalPages = Math.ceil(filteredOrdersCache.length / pageSize) || 1;
+            let targetPage = parseInt(page);
+            if (isNaN(targetPage)) return;
+            if (targetPage < 1) targetPage = 1;
+            if (targetPage > totalPages) targetPage = totalPages;
+
+            if (targetPage !== currentPage) {
+                currentPage = targetPage;
+                renderCurrentPage();
+
+                const tableContainer = document.querySelector('.orders-table');
+                if (tableContainer) {
+                    tableContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+        }
+
+        // Change items per page
+        function changePageSize(newSize) {
+            const parsed = parseInt(newSize);
+            if ([25, 50, 100].includes(parsed)) {
+                pageSize = parsed;
+                currentPage = 1;
+                renderCurrentPage();
+            }
+        }
+
+        // Compatibility displayOrders wrapper
+        async function displayOrders(orders = null) {
+            if (orders) {
+                filteredOrdersCache = orders;
+                currentPage = 1;
+                renderCurrentPage();
+            } else {
+                await loadOrders();
+                applyFiltersAndSearch({ resetPage: false });
+            }
+        }
+
+        // Copy order summary
+        function copyOrderSummary(index) {
+            const order = lastDisplayedOrders[index];
+            if (!order) return;
+
+            const quantity = parseInt(order.quantity) || 1;
+            const totalPrice = getOrderTotalPrice(order);
             const productName = order.product || order.productType || '-';
-            const totalPrice = parseFloat(order.finalPrice || order.price) || 0;
-            const formattedPrice = formatNumber(totalPrice);
-            const phone2Text = order.phone2 ? order.phone2 : 'لا يوجد';
             const fullAddress = `${order.governorate || '-'} - ${order.address || '-'}`;
-            const notes = order.notes || 'لا توجد ملاحظات';
-            const piecesLine = (order.sourcePage === 'karseell' && Number(order.piecesCount) > 0)
-                ? `🔢 عدد القطع: ${order.piecesCount}`
-                : null;
 
             const summary = [
-                `👤 الاسم: ${order.name || '-'}`,
-                `📱 الهاتف الأساسي: ${order.phone || '-'}`,
-                `📱 الهاتف البديل: ${phone2Text}`,
-                `📍 العنوان: ${fullAddress}`,
-                `📦 المنتج: ${productName}`,
-                piecesLine,
-                `💰 السعر الإجمالي: ${formattedPrice} جنيه`,
-                `📝 الملاحظات: ${notes}`,
-                '📄 dede style'
-            ].filter(Boolean).join('\n');
+                `الصفحة: Karseell Orders`,
+                `الاسم: ${order.name || '-'}`,
+                `الهاتف الأساسي: ${order.phone || '-'}`,
+                `الهاتف البديل: ${order.phone2 || 'لا يوجد'}`,
+                `العنوان الكامل: ${fullAddress}`,
+                `المنتج: ${productName} × ${quantity}`,
+                `السعر الإجمالي: ${totalPrice} جنيه`,
+                `الملاحظات: ${order.notes || '-'}`
+            ].join('\n');
 
-            copyToClipboard(summary);
+            copyToClipboard(summary, 'بيانات الطلب كاملة');
         }
 
-        function applyIncomingOrders(orders) {
-            state.orders = orders.sort((a, b) => (a.id < b.id ? 1 : -1));
-            state.selectedIds.forEach((id) => {
-                if (!orders.some((o) => o.id === id)) state.selectedIds.delete(id);
-            });
-            renderOrders();
-        }
+        // Update statistics cards
+        function updateStats(orders) {
+            const totalEl = document.getElementById('totalOrders');
+            const newOrdersEl = document.getElementById('newOrders');
+            const card = document.getElementById('newOrdersCard');
+            const pulse = document.getElementById('newOrdersPulse');
 
-        async function loadOrdersViaRest() {
-            try {
-                const response = await fetch(ORDERS_REST_URL, { cache: 'no-store' });
-                if (!response.ok) {
-                    throw new Error(`REST ${response.status}`);
+            if (totalEl) totalEl.textContent = orders.length.toLocaleString();
+
+            const newOrdersCount = orders.filter(order => !order.exportedToSystem).length;
+            if (newOrdersEl) newOrdersEl.textContent = newOrdersCount.toLocaleString();
+
+            if (card && pulse) {
+                if (newOrdersCount > 0) {
+                    card.classList.add('has-new');
+                    pulse.classList.add('active');
+                } else {
+                    card.classList.remove('has-new');
+                    pulse.classList.remove('active');
                 }
-
-                const data = await response.json();
-                const orders = Object.entries(data || {}).map(([id, value]) => normalizeOrder(id, value || {}));
-                applyIncomingOrders(orders);
-            } catch (error) {
-                console.error('REST read error:', error);
             }
         }
 
-        async function markCopied(ids, showNotification = true) {
-            if (!ids.length || !ordersRef) return;
-            const timestamp = Date.now();
-            try {
-                await Promise.all(ids.map((id) => ordersRef.child(id).update({ isCopied: true, copiedAt: timestamp })));
-                state.selectedIds.clear();
-                if (showNotification) {
-                    Swal.fire({ icon: 'success', title: 'تم النسخ', text: `تم تحديث ${formatNumber(ids.length)} طلب`, timer: 1200, showConfirmButton: false });
-                }
-            } catch (error) {
-                console.error(error);
-                Swal.fire({ icon: 'error', title: 'خطأ', text: 'تعذر تحديث حالة النسخ' });
-            }
+        // View order details (instant from memory)
+        async function viewDetails(index, displayOrderNumber = null) {
+            const order = lastDisplayedOrders[index];
+            if (!order) return;
+
+            const totalPrice = getOrderTotalPrice(order);
+            const shippingCost = getOrderShipping(order);
+            const quantity = parseInt(order.quantity) || 1;
+            const basePrice = Math.max(totalPrice - shippingCost, 0);
+            const unitBasePrice = quantity > 0 ? Math.round(basePrice / quantity) : basePrice;
+
+            const orderNum = displayOrderNumber ? `#${displayOrderNumber}` : `#${filteredOrdersCache.length - index}`;
+
+            const detailsHTML = `
+                <div class="detail-row">
+                    <strong>رقم الطلب:</strong>
+                    ${orderNum}
+                </div>
+                <div class="detail-row">
+                    <strong>التاريخ والوقت:</strong>
+                    ${order.date || new Date(order.timestamp).toLocaleDateString('ar-EG')} - ${order.time || new Date(order.timestamp).toLocaleTimeString('ar-EG')}
+                </div>
+                <div class="detail-row">
+                    <strong>اسم العميل:</strong>
+                    ${order.name || '-'}
+                </div>
+                <div class="detail-row">
+                    <strong>رقم الهاتف الأساسي:</strong>
+                    <span style="direction: ltr; display: block;">${order.phone || '-'}</span>
+                </div>
+                ${order.phone2 ? `
+                <div class="detail-row">
+                    <strong>رقم الهاتف البديل:</strong>
+                    <span style="direction: ltr; display: block; color: #7dd3fc; font-weight: 600;">${order.phone2}</span>
+                </div>
+                ` : ''}
+                <div class="detail-row">
+                    <strong>المحافظة:</strong>
+                    ${order.governorate || '-'}
+                </div>
+                <div class="detail-row">
+                    <strong>العنوان التفصيلي:</strong>
+                    ${order.address || '-'}
+                </div>
+                <div class="detail-row">
+                    <strong>المنتج:</strong>
+                    ${order.product || order.productType || '-'}
+                </div>
+                <div class="detail-row">
+                    <strong>الكمية:</strong>
+                    ${order.quantity || order.bottleSize || order.size || '-'}
+                </div>
+                ${order.notes ? `
+                <div class="detail-row" style="background: #fef3c7; border-right: 4px solid #f59e0b;">
+                    <strong>📝 ملاحظات العميل:</strong>
+                    <p style="margin: 8px 0 0 0; color: #92400e; font-size: 0.95rem; line-height: 1.6;">${order.notes}</p>
+                </div>
+                ` : ''}
+                ${order.priceWasCorrected ? `
+                <div class="detail-row" style="background: #fff3cd; padding: 10px; border-radius: 8px; border-left: 4px solid #ffc107;">
+                    <strong style="color: #856404;">⚠️ ملاحظة:</strong>
+                    <span style="color: #856404;">تم تصحيح السعر تلقائياً من ${order.originalPriceBeforeCorrection} إلى ${totalPrice} جنيه (السعر الصحيح)</span>
+                </div>
+                ` : ''}
+                ${order.discountCode ? `
+                <div class="detail-row">
+                    <strong>كود الخصم:</strong>
+                    <span style="background: var(--gold); color: white; padding: 4px 12px; border-radius: 5px; font-weight: bold;">${order.discountCode} (${order.discountPercent}%)</span>
+                </div>
+                <div class="detail-row">
+                    <strong>السعر الأصلي:</strong>
+                    <span style="color: var(--text-muted); text-decoration: line-through;">${order.originalPrice} جنيه</span>
+                </div>
+                <div class="detail-row">
+                    <strong>مبلغ الخصم:</strong>
+                    <span style="color: var(--primary-green); font-weight: bold;">- ${order.discountAmount} جنيه</span>
+                </div>
+                <div class="detail-row">
+                    <strong>السعر النهائي:</strong>
+                    <span style="color: #38ef7d; font-weight: 900; font-size: 1.2rem;">${totalPrice} جنيه</span>
+                </div>
+                ` : `
+                <div class="detail-row" style="background: rgba(16, 185, 129, 0.12); border-right: 4px solid var(--success); padding: 15px;">
+                    <strong style="color: #065f46; font-size: 1.1rem; margin-bottom: 10px; display: block;">💰 تفاصيل الأسعار:</strong>
+                    <div style="margin-top: 10px;">
+                        <span style="color: #047857;">💵 السعر الأساسي:</span>
+                        <span style="font-weight: 700; color: #065f46;">${unitBasePrice} ج.م × ${quantity} = ${basePrice} ج.م</span>
+                    </div>
+                    <div style="margin-top: 8px;">
+                        <span style="color: #047857;">🚚 مصاريف الشحن:</span>
+                        <span style="font-weight: 700; color: #059669;">+${shippingCost} ج.م</span>
+                    </div>
+                    <div style="margin-top: 12px; padding-top: 12px; border-top: 2px dashed rgba(16, 185, 129, 0.5);">
+                        <span style="color: #065f46; font-weight: 800; font-size: 1.1rem;">الإجمالي النهائي:</span>
+                        <span style="color: var(--success); font-weight: 900; font-size: 1.3rem;">${totalPrice} جنيه</span>
+                    </div>
+                </div>
+                `}
+            `;
+
+            document.getElementById('orderDetails').innerHTML = detailsHTML;
+            document.getElementById('detailsModal').classList.add('active');
         }
 
-        async function deleteSelected(ids) {
-            if (!ids.length || !ordersRef) return;
-            try {
-                await Promise.all(ids.map((id) => ordersRef.child(id).remove()));
-                state.selectedIds.clear();
-                renderOrders();
-                Swal.fire({ 
-                    icon: 'success', 
-                    title: 'تم الحذف', 
-                    text: `تم حذف ${formatNumber(ids.length)} طلب بنجاح`, 
-                    timer: 1200, 
-                    showConfirmButton: false 
+        // Close modal
+        function closeModal() {
+            document.getElementById('detailsModal').classList.remove('active');
+        }
+
+        // Call customer
+        function callCustomer(phone) {
+            window.location.href = `tel:${phone}`;
+        }
+
+        // WhatsApp customer with full order details
+        async function whatsappCustomer(phone, name, governorate, address, bottleSize, price, date, time, productType = '💆 Karseell', quantity = 1, notes = '', phone2 = '') {
+            const rawPhone = String(phone || '').trim();
+            const rawPhone2 = String(phone2 || '').trim();
+
+            const normalizedPrimary = rawPhone.replace(/\D/g, '');
+            const normalizedSecondary = rawPhone2.replace(/\D/g, '');
+
+            const hasSecond = normalizedSecondary && normalizedSecondary !== normalizedPrimary;
+
+            let selectedPhone = normalizedPrimary;
+
+            if (hasSecond) {
+                const result = await Swal.fire({
+                    title: 'اختيار رقم الواتساب',
+                    text: 'اختر الرقم الذي سيتم الإرسال إليه',
+                    icon: 'question',
+                    input: 'radio',
+                    inputOptions: {
+                        primary: rawPhone,
+                        secondary: rawPhone2
+                    },
+                    inputValue: 'primary',
+                    showCancelButton: true,
+                    confirmButtonText: 'متابعة',
+                    cancelButtonText: 'إلغاء',
+                    confirmButtonColor: '#0C5CAB',
+                    cancelButtonColor: '#6b7280'
                 });
-            } catch (error) {
-                console.error(error);
-                Swal.fire({ icon: 'error', title: 'خطأ', text: 'تعذر حذف الطلبات' });
+
+                if (!result.isConfirmed) {
+                    return;
+                }
+
+                selectedPhone = result.value === 'secondary' ? normalizedSecondary : normalizedPrimary;
             }
+
+            if (selectedPhone.startsWith('0')) {
+                selectedPhone = '20' + selectedPhone.substring(1);
+            } else if (!selectedPhone.startsWith('20')) {
+                selectedPhone = '20' + selectedPhone;
+            }
+
+            const govName = String(governorate || '').trim();
+            const deliveryTime = (govName.includes('القاهرة') || govName.includes('الجيزة'))
+                ? 'خلال يوم إلى يومين.'
+                : 'خلال 3 إلى 5 أيام عمل.';
+
+            let orderMessage = `✅ تم تأكيد طلبكم بنجاح، وجارٍ حالياً تجهيزه وإرساله إلى أقرب مستودع لشركة الشحن بمنطقتكم.
+
+📋 تفاصيل الطلب:
+━━━━━━━━━━━━━━━
+👤 الاسم: ${name || ''}
+🛍️ المنتج: ${productType || 'Karseell'}
+📦 الكمية: ${quantity || '-'}
+💰 السعر الإجمالي: ${price || '-'} جنيه
+📍 المحافظة: ${governorate || '-'}
+🏠 العنوان: ${address || '-'}`;
+
+            if (notes) {
+                orderMessage += `\n📝 ملاحظات: ${notes}`;
+            }
+
+            orderMessage += `\n\n🚚 موعد الاستلام المتوقع: ${deliveryTime}
+
+📌 تم حجز المنتج باسمكم وبدء إجراءات الشحن. نرجو منكم الالتزام باستلام الطلب عند وصوله، وفي حال طرأ أي ظرف يرجى التواصل معنا قبل وصول المندوب، حيث إن إلغاء الطلب بعد الشحن يترتب عليه تكاليف شحن وتجهيز.
+
+🤝 شكراً لثقتكم بنا، ونسعد دائماً بخدمتكم. ونتمنى أن تنال منتجات Karseell إعجابكم. ❤️`;
+
+            window.open('https://wa.me/' + selectedPhone + '?text=' + encodeURIComponent(orderMessage), '_blank');
         }
 
-        function confirmDelete() {
-            const count = state.selectedIds.size;
-            if (count === 0) return;
-            
+        // Search orders (in-memory, debounced, resets to page 1)
+        document.getElementById('searchInput').addEventListener('input', function (e) {
+            clearTimeout(searchDebounceTimer);
+            searchDebounceTimer = setTimeout(() => {
+                applyFiltersAndSearch({ resetPage: true });
+            }, 150);
+        });
+
+        // Export to CSV (exports all filtered & searched orders, regardless of pagination)
+        async function exportToCSV() {
+            const ordersToExport = (filteredOrdersCache && filteredOrdersCache.length > 0)
+                ? filteredOrdersCache
+                : allOrdersCache;
+
+            const reversedOrders = [...ordersToExport].reverse();
+
+            if (reversedOrders.length === 0) {
+                await Swal.fire({
+                    icon: 'info',
+                    title: 'لا توجد بيانات',
+                    text: 'لا توجد طلبات للتصدير',
+                    confirmButtonColor: '#0C5CAB'
+                });
+                return;
+            }
+
+            let csv = '\uFEFF'; // BOM for Excel UTF-8
+            csv += 'رقم الطلب,التاريخ,الوقت,الاسم,الهاتف,المحافظة,العنوان,المنتج,الحجم,السعر\n';
+
+            reversedOrders.forEach((order, index) => {
+                csv += `${index + 1},`;
+                csv += `"${order.date || new Date(order.timestamp).toLocaleDateString('ar-EG')}",`;
+                csv += `"${order.time || new Date(order.timestamp).toLocaleTimeString('ar-EG')}",`;
+                csv += `"${order.name || ''}",`;
+                csv += `"${order.phone || ''}",`;
+                csv += `"${order.governorate || ''}",`;
+                csv += `"${order.address || ''}",`;
+                csv += `"${order.product || order.productType || ''}",`;
+                csv += `"${order.bottleSize || order.size || ''}",`;
+                csv += `${getOrderTotalPrice(order)}\n`;
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', `orders_${new Date().toISOString().split('T')[0]}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            await Swal.fire({
+                icon: 'success',
+                title: 'تم التصدير بنجاح',
+                html: `تم تصدير <strong>${reversedOrders.length}</strong> طلب إلى ملف Excel`,
+                confirmButtonColor: '#0C5CAB',
+                timer: 2000
+            });
+        }
+
+        // Refresh data manually from Firebase
+        async function refreshData() {
             Swal.fire({
-                title: 'تأكيد الحذف',
-                html: `هل أنت متأكد من حذف <strong>${formatNumber(count)}</strong> طلب؟<br>هذا الإجراء لا يمكن التراجع عنه.`,
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#dc2626',
-                cancelButtonColor: '#6b7280',
-                confirmButtonText: 'حذف نهائياً',
-                cancelButtonText: 'إلغاء'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    deleteSelected([...state.selectedIds]);
-                }
+                title: 'جاري تحديث البيانات...',
+                allowOutsideClick: false,
+                didOpen: () => { Swal.showLoading(); }
+            });
+            await loadOrders(true);
+            applyFiltersAndSearch({ resetPage: false });
+            Swal.close();
+            Swal.fire({
+                icon: 'success',
+                title: 'تم التحديث!',
+                text: 'تم تحديث البيانات بنجاح من قاعدة البيانات',
+                timer: 1500,
+                showConfirmButton: false
             });
         }
 
-        function bindRowActions() {
-            // Checkbox changes
-            document.querySelectorAll('.row-check').forEach((el) => {
-                el.addEventListener('change', () => {
-                    const id = el.getAttribute('data-id');
-                    if (!id) return;
-                    if (el.checked) state.selectedIds.add(id);
-                    else state.selectedIds.delete(id);
-                    updateSelectionUI();
-                });
+        // Logout function
+        async function logout() {
+            const result = await Swal.fire({
+                title: 'تسجيل الخروج',
+                text: 'هل تريد تسجيل الخروج؟',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'نعم، تسجيل خروج',
+                cancelButtonText: 'إلغاء',
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#0C5CAB'
             });
 
-            // Copy full order button
-            document.querySelectorAll('[data-action="copy-full"]').forEach((btn) => {
-                btn.addEventListener('click', () => {
-                    const index = parseInt(btn.getAttribute('data-index'));
-                    if (index >= 0 && state.visibleOrders[index]) {
-                        const order = state.visibleOrders[index];
-                        copyOrderSummary(order);
-                        markCopied([order.id], false);
+            if (result.isConfirmed) {
+                localStorage.removeItem('adminAuth');
+                sessionStorage.removeItem('adminAuth');
+                document.getElementById('blurOverlay').classList.remove('authenticated');
+                location.reload();
+            }
+        }
+
+        // Copy text to clipboard
+        function copyToClipboard(text, fieldName) {
+            navigator.clipboard.writeText(text).then(() => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'تم النسخ!',
+                    text: `تم نسخ ${fieldName} بنجاح`,
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    timerProgressBar: true
+                });
+            }).catch(() => {
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                textArea.style.position = 'fixed';
+                textArea.style.opacity = '0';
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'تم النسخ!',
+                        text: `تم نسخ ${fieldName} بنجاح`,
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 1500,
+                        timerProgressBar: true
+                    });
+                } catch (copyErr) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'فشل النسخ',
+                        text: 'لم يتمكن من نسخ النص. جرب يدوياً.',
+                        confirmButtonColor: '#0C5CAB'
+                    });
+                }
+                document.body.removeChild(textArea);
+            });
+        }
+
+        // Close modal on outside click
+        document.getElementById('detailsModal').addEventListener('click', function (e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Checkbox individual toggle
+        function handleOrderCheckbox(checkbox, firebaseId) {
+            if (checkbox.checked) {
+                selectedOrderIds.add(firebaseId);
+            } else {
+                selectedOrderIds.delete(firebaseId);
+            }
+            const row = checkbox.closest('tr');
+            if (row) row.classList.toggle('row-selected', checkbox.checked);
+            updateSelectedCount();
+        }
+
+        // Checkbox select all (on current page)
+        function toggleSelectAll(selectAllCheckbox) {
+            const isChecked = selectAllCheckbox.checked;
+            if (lastDisplayedOrders && lastDisplayedOrders.length > 0) {
+                lastDisplayedOrders.forEach(order => {
+                    if (isChecked) {
+                        selectedOrderIds.add(order.firebaseId);
+                    } else {
+                        selectedOrderIds.delete(order.firebaseId);
                     }
                 });
+            }
+
+            document.querySelectorAll('.order-checkbox').forEach(cb => {
+                cb.checked = isChecked;
+                const row = cb.closest('tr');
+                if (row) row.classList.toggle('row-selected', isChecked);
             });
 
-            // Copy individual name
-            document.querySelectorAll('[data-copy-name]').forEach((cell) => {
-                cell.addEventListener('click', () => {
-                    const id = cell.getAttribute('data-copy-name');
-                    const order = state.orders.find(o => o.id === id);
-                    if (order) copyOrderDetails(order, 'name');
-                });
-            });
-
-            // Copy phones
-            document.querySelectorAll('[data-copy-phones]').forEach((cell) => {
-                cell.addEventListener('click', () => {
-                    const id = cell.getAttribute('data-copy-phones');
-                    const order = state.orders.find(o => o.id === id);
-                    if (order) copyOrderDetails(order, 'phones');
-                });
-            });
-
-            // Copy address
-            document.querySelectorAll('[data-copy-address]').forEach((cell) => {
-                cell.addEventListener('click', () => {
-                    const id = cell.getAttribute('data-copy-address');
-                    const order = state.orders.find(o => o.id === id);
-                    if (order) copyOrderDetails(order, 'address');
-                });
-            });
+            updateSelectedCount();
         }
 
-        function bindFirebase() {
-            if (!firebase.apps.length) {
-                firebase.initializeApp(FIREBASE_CONFIG);
+        // Update selected count across all pages
+        function updateSelectedCount() {
+            const count = selectedOrderIds.size;
+            const exportBtn = document.getElementById('exportToSystemBtn');
+            const deleteBtn = document.getElementById('deleteSelectedBtn');
+            const countSpan = document.getElementById('selectedCount');
+            const deleteCountSpan = document.getElementById('deleteCount');
+
+            if (countSpan) countSpan.textContent = count;
+            if (deleteCountSpan) deleteCountSpan.textContent = count;
+
+            if (exportBtn) {
+                if (count > 0) {
+                    exportBtn.classList.add('show', 'active');
+                } else {
+                    exportBtn.classList.remove('show', 'active');
+                }
             }
-            database = firebase.database();
-            ordersRef = database.ref(ORDERS_PATH);
 
-            // Initial fetch so the table appears immediately.
-            loadOrdersViaRest();
+            if (deleteBtn) {
+                deleteBtn.style.display = count > 0 ? 'inline-flex' : 'none';
+            }
 
-            // Poll fallback for local/file contexts where realtime listeners may be flaky.
-            if (restPollTimer) clearInterval(restPollTimer);
-            restPollTimer = setInterval(loadOrdersViaRest, 8000);
+            // Sync selectAll checkbox on current page
+            const selectAllCheckbox = document.getElementById('selectAll');
+            if (selectAllCheckbox && lastDisplayedOrders.length > 0) {
+                const visibleSelectedCount = lastDisplayedOrders.filter(o => selectedOrderIds.has(o.firebaseId)).length;
+                if (visibleSelectedCount === lastDisplayedOrders.length) {
+                    selectAllCheckbox.checked = true;
+                    selectAllCheckbox.indeterminate = false;
+                } else if (visibleSelectedCount > 0) {
+                    selectAllCheckbox.checked = false;
+                    selectAllCheckbox.indeterminate = true;
+                } else {
+                    selectAllCheckbox.checked = false;
+                    selectAllCheckbox.indeterminate = false;
+                }
+            }
+        }
 
-            ordersRef.on('value', (snapshot) => {
-                const orders = [];
-                snapshot.forEach((child) => orders.push(normalizeOrder(child.key, child.val() || {})));
-                applyIncomingOrders(orders);
-            }, (error) => {
-                console.error('Firebase read error:', error);
-                // Try REST fallback immediately if realtime subscription fails.
-                loadOrdersViaRest();
-                Swal.fire({
+        // Export selected orders across all pages to Logexa
+        async function exportSelectedToSystem() {
+            if (selectedOrderIds.size === 0) {
+                await Swal.fire({
+                    icon: 'warning',
+                    title: 'لم يتم التحديد',
+                    text: 'يرجى تحديد طلبات أولاً',
+                    confirmButtonColor: '#2c3e50'
+                });
+                return;
+            }
+
+            const apiBaseUrl = (window.location.origin && window.location.origin !== 'null')
+                ? window.location.origin
+                : 'http://127.0.0.1:8000';
+
+            // Gather all selected orders across all pages
+            const selectedOrders = [];
+            const invalidOrders = [];
+
+            selectedOrderIds.forEach(firebaseId => {
+                const order = allOrdersCache.find(o => o.firebaseId === firebaseId);
+                if (order) {
+                    if (!order.name || !order.phone || order.name.trim() === '' || order.phone.trim() === '') {
+                        invalidOrders.push(order);
+                        console.warn('⚠️ طلب ببيانات ناقصة:', order.firebaseId, { name: order.name, phone: order.phone });
+                    } else {
+                        selectedOrders.push(order);
+                    }
+                }
+            });
+
+            if (invalidOrders.length > 0) {
+                await Swal.fire({
+                    icon: 'warning',
+                    title: 'تحذير: بيانات ناقصة',
+                    html: `<strong>${invalidOrders.length}</strong> طلب يحتوي على بيانات ناقصة (الاسم أو الهاتف فارغ)<br><br>سيتم تجاهلهم والمتابعة مع الطلبات الصحيحة فقط (${selectedOrders.length} طلب)`,
+                    confirmButtonColor: '#ff9800'
+                });
+            }
+
+            if (selectedOrders.length === 0) {
+                await Swal.fire({
                     icon: 'error',
-                    title: 'خطأ في قراءة البيانات',
-                    text: 'تحقق من قواعد Firebase (read/write) واتصال الإنترنت.'
+                    title: 'لا توجد طلبات صالحة',
+                    text: 'جميع الطلبات المحددة تحتوي على بيانات ناقصة (الاسم أو الهاتف)',
+                    confirmButtonColor: '#dc3545'
                 });
+                return;
+            }
+
+            const result = await Swal.fire({
+                title: 'تأكيد الإضافة',
+                html: `هل تريد إضافة <strong>${selectedOrders.length}</strong> طلب صالح إلى Logexa؟${invalidOrders.length > 0 ? `<br><small style="color: #dc3545;">(${invalidOrders.length} طلب سيتم تجاهله)</small>` : ''}`,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'نعم، أضف',
+                cancelButtonText: 'إلغاء',
+                confirmButtonColor: '#0C5CAB',
+                cancelButtonColor: '#6c757d'
             });
+
+            if (!result.isConfirmed) return;
+
+            Swal.fire({
+                title: 'جاري الإضافة...',
+                html: 'يرجى الانتظار حتى يتم إرسال الطلبات إلى Logexa',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            try {
+                let currentBatchNumber = 1;
+                try {
+                    const counterSnapshot = await database.ref('batchCounter').once('value');
+                    const counterData = counterSnapshot.val();
+                    if (counterData && typeof counterData.current === 'number') {
+                        currentBatchNumber = counterData.current + 1;
+                    }
+                    await database.ref('batchCounter').update({
+                        current: currentBatchNumber,
+                        lastUpdated: firebase.database.ServerValue.TIMESTAMP
+                    });
+                } catch (counterError) {
+                    console.warn('⚠️ فشل تحديث batchCounter:', counterError);
+                }
+
+                const batchDate = new Date();
+                const formattedDate = `${batchDate.getFullYear()}-${String(batchDate.getMonth() + 1).padStart(2, '0')}-${String(batchDate.getDate()).padStart(2, '0')}`;
+                const batchName = `دفعة رقم ${currentBatchNumber} - ${formattedDate}`;
+
+                const mappedOrders = selectedOrders.map(order => {
+                    const isOil = order.productType?.includes('زيت');
+                    let productName = order.product || order.productType;
+                    if (!productName || productName.trim() === '') {
+                        productName = isOil ? 'زيت 108 عشبة' : 'Karseell Hair Care';
+                    }
+
+                    return {
+                        customer_name: order.name.trim(),
+                        phone_number: order.phone.trim(),
+                        second_phone: order.phone2?.trim() || null,
+                        governorate: order.governorate.trim(),
+                        address: order.address.trim(),
+                        product_name: productName,
+                        number_of_items: parseInt(order.quantity) || 1,
+                        product_price: getOrderTotalPrice(order),
+                        notes: order.notes?.trim() || null
+                    };
+                });
+
+                const payload = {
+                    batch_name: batchName,
+                    orders: mappedOrders
+                };
+
+                const isLocalHost = window.location.hostname === 'localhost' ||
+                    window.location.hostname === '127.0.0.1' ||
+                    window.location.hostname === '';
+
+                const candidateEndpoints = [];
+                if (isLocalHost) {
+                    candidateEndpoints.push(
+                        'http://127.0.0.1:8000/api/orders/batch-import/',
+                        'http://localhost:8000/api/orders/batch-import/',
+                        'http://127.0.0.1:8000/api/orders/import-orders/',
+                        'http://localhost:8000/api/orders/import-orders/'
+                    );
+                } else {
+                    candidateEndpoints.push(
+                        `${apiBaseUrl}/api/orders/batch-import/`,
+                        `${apiBaseUrl}/api/orders/import-orders/`
+                    );
+                }
+
+                let response = null;
+                let data = null;
+                let lastError = null;
+                let lastAttemptInfo = null;
+
+                for (const apiUrl of candidateEndpoints) {
+                    lastAttemptInfo = apiUrl;
+                    try {
+                        response = await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json'
+                            },
+                            body: JSON.stringify(payload)
+                        });
+                    } catch (fetchErr) {
+                        lastError = fetchErr;
+                        continue;
+                    }
+
+                    if (response) {
+                        const contentType = response.headers.get('content-type') || '';
+                        if (!contentType.includes('application/json')) {
+                            const rawResponse = await response.text();
+                            lastError = new Error(`Non-JSON response from ${apiUrl}`);
+                            continue;
+                        }
+
+                        data = await response.json();
+                        break;
+                    }
+                }
+
+                if (!data) {
+                    throw new Error(`لم يتم العثور على API صالح. آخر محاولة: ${lastAttemptInfo || 'غير معروفة'}${lastError ? `، السبب: ${lastError.message || lastError}` : ''}`);
+                }
+
+                if (response.ok) {
+                    // Mark exported in Firebase
+                    for (const order of selectedOrders) {
+                        try {
+                            const dbRef = getOrderDatabaseRef(order);
+                            await dbRef.update({ exportedToSystem: true });
+                            order.exportedToSystem = true;
+                        } catch (error) {
+                            console.error('Error marking order as exported:', error);
+                        }
+                    }
+
+                    const successCount = data.success_count ?? data.imported_count ?? 0;
+                    const failedCount = data.failed_count ?? 0;
+                    await Swal.fire({
+                        icon: 'success',
+                        title: 'تمت الإضافة بنجاح',
+                        html: `تم إضافة <strong>${successCount}</strong> طلب إلى Logexa<br>
+                               ${failedCount > 0 ? `<span style="color: #dc3545;">فشل: ${failedCount}</span>` : ''}`,
+                        confirmButtonColor: '#0C5CAB',
+                        timer: 3000
+                    });
+
+                    // Clear selections
+                    selectedOrderIds.clear();
+                    const selectAllCheckbox = document.getElementById('selectAll');
+                    if (selectAllCheckbox) selectAllCheckbox.checked = false;
+                    updateSelectedCount();
+
+                    // Refresh current view
+                    applyFiltersAndSearch({ resetPage: false });
+                } else {
+                    throw new Error(data.error || 'حدث خطأ أثناء الإضافة');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                if (error.message?.includes('ERR_BLOCKED') || error.message?.includes('Failed to fetch')) {
+                    await Swal.fire({
+                        icon: 'warning',
+                        title: '⚠️ الطلب محظور',
+                        html: `
+                            <div style="text-align: right; line-height: 1.8;">
+                                <p><strong>يبدو أن Ad Blocker يحظر الاتصال بالنظام</strong></p>
+                                <p>الحلول الممكنة:</p>
+                                <ol style="text-align: right;">
+                                    <li>✅ أوقف تشغيل Ad Blocker على localhost/127.0.0.1</li>
+                                    <li>✅ أو افتح الصفحة في وضع التصفح الخفي (Incognito)</li>
+                                    <li>✅ أو أضف localhost إلى القائمة البيضاء في Ad Blocker</li>
+                                </ol>
+                                <p style="color: #666; font-size: 0.9em;">الخطأ التقني: ${error.message}</p>
+                            </div>
+                        `,
+                        confirmButtonText: 'فهمت',
+                        confirmButtonColor: '#ff9800',
+                        width: 600
+                    });
+                } else {
+                    await Swal.fire({
+                        icon: 'error',
+                        title: 'فشلت العملية',
+                        text: error.message || 'حدث خطأ أثناء إضافة الطلبات',
+                        confirmButtonColor: '#dc3545'
+                    });
+                }
+            }
         }
 
-        function setAuthenticated(on) {
-            authOverlay.classList.toggle('hidden', on);
-            dashboard.classList.toggle('hidden', !on);
+        // Apply filters
+        async function applyFilters() {
+            applyFiltersAndSearch({ resetPage: true });
         }
 
-        loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const username = document.getElementById('username').value.trim();
-            const password = document.getElementById('password').value;
-            if (username === AUTH_CONFIG.username && password === AUTH_CONFIG.password) {
-                sessionStorage.setItem(AUTH_CONFIG.sessionKey, '1');
-                setAuthenticated(true);
-                bindFirebase();
-            } else {
-                Swal.fire({ icon: 'error', title: 'بيانات غير صحيحة' });
+        // Filter by product compatibility
+        async function filterByProduct() {
+            applyFiltersAndSearch({ resetPage: false });
+        }
+
+        // Delete selected orders across all pages
+        async function deleteSelectedOrders() {
+            if (selectedOrderIds.size === 0) {
+                await Swal.fire({
+                    icon: 'warning',
+                    title: 'لم يتم التحديد',
+                    text: 'يرجى تحديد طلبات أولاً',
+                    confirmButtonColor: '#2c3e50'
+                });
+                return;
             }
-        });
 
-        searchInput.addEventListener('input', (e) => {
-            state.search = e.target.value;
-            renderOrders();
-        });
+            const selectedOrders = [];
+            selectedOrderIds.forEach(firebaseId => {
+                const order = allOrdersCache.find(o => o.firebaseId === firebaseId);
+                if (order) selectedOrders.push(order);
+            });
 
-        filterSelect.addEventListener('change', (e) => {
-            state.filter = e.target.value;
-            renderOrders();
-        });
+            const result = await Swal.fire({
+                title: 'تحذير!',
+                html: `<strong>هل أنت متأكد من حذف ${selectedOrders.length} طلب؟</strong><br><br>هذا الإجراء لا يمكن التراجع عنه!`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'نعم، احذف',
+                cancelButtonText: 'إلغاء',
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#0C5CAB'
+            });
 
-        selectAll.addEventListener('change', () => {
-            const ids = state.visibleOrders.map((o) => o.id);
-            if (selectAll.checked) {
-                ids.forEach((id) => state.selectedIds.add(id));
-            } else {
-                ids.forEach((id) => state.selectedIds.delete(id));
+            if (!result.isConfirmed) return;
+
+            Swal.fire({
+                title: 'جاري الحذف...',
+                html: 'يرجى الانتظار',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            try {
+                let successCount = 0;
+                let failedCount = 0;
+
+                for (const order of selectedOrders) {
+                    try {
+                        const dbRef = getOrderDatabaseRef(order);
+                        await dbRef.remove();
+                        successCount++;
+                        // Remove from allOrdersCache
+                        const idx = allOrdersCache.findIndex(o => o.firebaseId === order.firebaseId);
+                        if (idx !== -1) allOrdersCache.splice(idx, 1);
+                        selectedOrderIds.delete(order.firebaseId);
+                    } catch (error) {
+                        console.error('Error deleting order:', order.firebaseId, error);
+                        failedCount++;
+                    }
+                }
+
+                const selectAllCheckbox = document.getElementById('selectAll');
+                if (selectAllCheckbox) selectAllCheckbox.checked = false;
+                updateSelectedCount();
+
+                applyFiltersAndSearch({ resetPage: false });
+
+                await Swal.fire({
+                    icon: successCount > 0 ? 'success' : 'error',
+                    title: successCount > 0 ? 'تم الحذف بنجاح' : 'فشل الحذف',
+                    html: `تم حذف <strong>${successCount}</strong> طلب${failedCount > 0 ? `<br><span style="color: #dc3545;">فشل: ${failedCount}</span>` : ''}`,
+                    confirmButtonColor: '#0C5CAB',
+                    timer: 3000
+                });
+            } catch (error) {
+                console.error('Error:', error);
+                await Swal.fire({
+                    icon: 'error',
+                    title: 'فشلت العملية',
+                    text: 'حدث خطأ أثناء حذف الطلبات',
+                    confirmButtonColor: '#dc3545'
+                });
             }
-            renderOrders();
-        });
-
-        copySelectedBtn.addEventListener('click', () => {
-            markCopied([...state.selectedIds]);
-        });
-
-        deleteSelectedBtn.addEventListener('click', () => {
-            confirmDelete();
-        });
-
-        logoutBtn.addEventListener('click', () => {
-            sessionStorage.removeItem(AUTH_CONFIG.sessionKey);
-            state.selectedIds.clear();
-            if (restPollTimer) {
-                clearInterval(restPollTimer);
-                restPollTimer = null;
-            }
-            setAuthenticated(false);
-            loginForm.reset();
-        });
-
-        document.addEventListener('DOMContentLoaded', () => {
-            if (sessionStorage.getItem(AUTH_CONFIG.sessionKey) === '1') {
-                setAuthenticated(true);
-                bindFirebase();
-            } else {
-                setAuthenticated(false);
-            }
-        });
-    </script>
+        }
+    
+</script>
 </body>
+
 </html>
