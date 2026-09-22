@@ -208,10 +208,12 @@
                 transform: scale(0.95);
                 box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7);
             }
+
             70% {
                 transform: scale(1);
                 box-shadow: 0 0 0 8px rgba(245, 158, 11, 0);
             }
+
             100% {
                 transform: scale(0.95);
                 box-shadow: 0 0 0 0 rgba(245, 158, 11, 0);
@@ -1056,6 +1058,220 @@
             font-size: 0.9rem;
             font-weight: 600;
         }
+    
+        /* =========================================================
+           Pagination Styles (Modern, Glassmorphism & Responsive)
+           ========================================================= */
+        .pagination-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+            padding: 16px 22px;
+            background: var(--surface);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-out);
+            user-select: none;
+        }
+
+        .pagination-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .pagination-highlight {
+            color: #7dd3fc;
+            font-weight: 700;
+        }
+
+        .page-size-wrapper {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 4px 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .page-size-wrapper label {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            margin: 0;
+            cursor: pointer;
+        }
+
+        .page-size-select {
+            background: var(--surface-2);
+            color: var(--text-primary);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 6px;
+            padding: 4px 8px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .page-size-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(12, 92, 171, 0.3);
+        }
+
+        .pagination-controls {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .page-btn {
+            background: var(--surface-2);
+            color: var(--text-primary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            min-width: 38px;
+            height: 38px;
+            padding: 0 12px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            outline: none;
+        }
+
+        .page-btn:hover:not(:disabled) {
+            background: rgba(12, 92, 171, 0.25);
+            border-color: #3b82f6;
+            color: #fff;
+            transform: translateY(-1px);
+        }
+
+        .page-btn:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .page-btn.active {
+            background: linear-gradient(135deg, #0C5CAB 0%, #1e40af 100%);
+            color: #ffffff;
+            border-color: #60a5fa;
+            box-shadow: 0 4px 14px rgba(12, 92, 171, 0.45);
+        }
+
+        .page-btn:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        .page-ellipsis {
+            color: var(--text-muted);
+            font-size: 1rem;
+            font-weight: bold;
+            padding: 0 4px;
+            letter-spacing: 2px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 24px;
+            height: 38px;
+        }
+
+        .page-jump-wrapper {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-right: 6px;
+            font-size: 0.88rem;
+            color: var(--text-muted);
+        }
+
+        .page-jump-input {
+            width: 54px;
+            height: 36px;
+            background: var(--surface-2);
+            color: var(--text-primary);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 6px;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 700;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .page-jump-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(12, 92, 171, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .pagination-container {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 14px 16px;
+                gap: 12px;
+            }
+
+            .pagination-info {
+                justify-content: space-between;
+                width: 100%;
+            }
+
+            .pagination-controls {
+                justify-content: center;
+                width: 100%;
+            }
+
+            .page-jump-wrapper {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-btn {
+                min-width: 34px;
+                height: 34px;
+                font-size: 0.85rem;
+                padding: 0 8px;
+            }
+
+            .page-btn.page-num-btn {
+                display: none;
+            }
+
+            .page-ellipsis {
+                display: none;
+            }
+
+            .mobile-page-indicator {
+                display: inline-flex !important;
+                align-items: center;
+                font-size: 0.9rem;
+                font-weight: 700;
+                color: var(--text-primary);
+                padding: 0 10px;
+            }
+        }
+
+        .mobile-page-indicator {
+            display: none;
+        }
+
     </style>
 </head>
 
@@ -1149,8 +1365,8 @@
                         <th style="min-width: 140px;">الهاتف</th>
                         <th>المحافظة</th>
                         <th>العنوان</th>
-                        <th>السعر الإجمالي</th>
                         <th style="min-width: 100px;">الحجم/الكمية</th>
+                        <th>السعر الإجمالي</th>
                         <th style="min-width: 150px;">ملاحظات</th>
                         <th style="min-width: 180px;">الإجراءات</th>
                     </tr>
@@ -1168,6 +1384,24 @@
                 </tbody>
             </table>
         </div>
+        <!-- Pagination Controls -->
+        <div class="pagination-container" id="paginationContainer" style="display: none;">
+            <div class="pagination-info" id="paginationInfo">
+                <span>عرض <strong class="pagination-highlight" id="pageRangeText">0 - 0</strong> من إجمالي <strong class="pagination-highlight" id="pageTotalText">0</strong> طلب</span>
+                <div class="page-size-wrapper">
+                    <label for="pageSizeSelect">في الصفحة:</label>
+                    <select id="pageSizeSelect" class="page-size-select" onchange="changePageSize(this.value)">
+                        <option value="25">25</option>
+                        <option value="50" selected>50</option>
+                        <option value="100">100</option>
+                    </select>
+                </div>
+            </div>
+            <div class="pagination-controls" id="paginationControls">
+                <!-- Injected via JavaScript -->
+            </div>
+        </div>
+
 
         <!-- Footer -->
         <div class="footer">
@@ -1347,7 +1581,8 @@
             if (!authenticated) {
                 throw new Error("Access Denied");
             } else {
-                // بعد تسجيل الدخول، جرب كشف Ad Blocker
+                // بعد نجاح تسجيل الدخول، تحميل وعرض الطلبات فوراً
+                displayOrders();
                 setTimeout(detectAdBlocker, 1000);
             }
         });
@@ -1470,8 +1705,8 @@
             // ===== أسعار Karseell Mask الحالية =====
             const maskPrices = {
                 'عبوة واحدة': 550,        // 500 + 50 شحن
-                'عبوتين كارسيل': 1000,    // شحن مجاني
-                '3 عبوات كارسيل': 1450,   // شحن مجاني
+                'عبوتين': 1000,           // شحن مجاني
+                '3 عبوات': 1400,          // شحن مجاني
             };
 
             // ===== أسعار عروض العيد والكومبو الحالية =====
@@ -1485,12 +1720,12 @@
             let correctTotal = null;
 
             // Mask offers (الأسعار الإجمالية — ليست لكل قطعة)
-            if (productName.includes('عبوة واحدة')) {
-                correctTotal = maskPrices['عبوة واحدة'];
-            } else if (productName.includes('عبوتين كارسيل')) {
-                correctTotal = maskPrices['عبوتين كارسيل'];
-            } else if (productName.includes('3 عبوات كارسيل')) {
-                correctTotal = maskPrices['3 عبوات كارسيل'];
+            if (productName.includes('3 عبوات') || productName.includes('3 ماسك') || productName.includes('الـ 3 عبوات')) {
+                correctTotal = 1400;
+            } else if (productName.includes('عبوتين') || productName.includes('2 عبوة') || productName.includes('2 ماسك')) {
+                correctTotal = 1000;
+            } else if (productName.includes('عبوة واحدة') || productName.includes('قطعة واحدة') || productName.includes('ماسك كارسيل')) {
+                correctTotal = 550;
                 // Eid / Combo offers (الأسعار الإجمالية — ليست لكل قطعة)
             } else if (productName.includes('عرض القطعتين')) {
                 correctTotal = eidPrices['عرض القطعتين'];
@@ -1545,95 +1780,134 @@
         }
 
         // Load orders from Firebase Realtime Database
+                // =========================================================
+        // Data State & High-Performance Pagination Architecture
+        // =========================================================
+        let allOrdersCache = [];        // Raw orders from Firebase, strictly deduplicated
+        let filteredOrdersCache = [];   // Orders after filters and search
+        let lastDisplayedOrders = [];   // Sliced orders for current page only (DOM light)
+        let currentPage = 1;
+        let pageSize = 50;              // Default 50 items per page
+        const selectedOrderIds = new Set(); // Preserved across pages
+        let isInitialLoad = true;
+        let isLoadingData = false;
+        let searchDebounceTimer = null;
+
+        // Backward-compatibility alias
         let ordersCache = [];
 
-        async function loadOrders() {
-            return new Promise((resolve, reject) => {
-                // Load oil and Karseell orders separately
+        // Safe timestamp parsing function
+        function getSafeTime(order) {
+            if (!order) return 0;
+            if (typeof order.timestamp === 'number') return order.timestamp;
+            if (typeof order.timestamp === 'string') {
+                const parsed = Date.parse(order.timestamp);
+                if (!isNaN(parsed)) return parsed;
+                const num = Number(order.timestamp);
+                if (!isNaN(num)) return num;
+            }
+            if (order.copiedAt && typeof order.copiedAt === 'number') return order.copiedAt;
+            return 0;
+        }
+
+        // Helper to classify Karseell products consistently
+        function classifyKarseellProduct(order) {
+            if (!order) return '💆 Karseell';
+            const productName = order.product || '';
+
+            if (productName.includes('عرض القطعتين')) {
+                order.productType = '👑 Karseell - عرض القطعتين';
+            } else if (productName.includes('العرض الأقوى')) {
+                order.productType = '🔥 Karseell - العرض الأقوى';
+            } else if (productName.includes('العرض الأساسي') || productName.includes('عرض العيد الأساسي')) {
+                order.productType = '✨ Karseell - العرض الأساسي';
+            } else if (productName.includes('عبوة واحدة')) {
+                order.productType = '🧴 Karseell Mask - عبوة واحدة';
+            } else if (productName.includes('عبوتين')) {
+                order.productType = '📦 Karseell Mask - عبوتين';
+            } else if (productName.includes('3 عبوات')) {
+                order.productType = '💎 Karseell Mask - 3 عبوات';
+            } else if (productName.includes('باكدج') ||
+                productName.includes('2×') ||
+                (productName.includes('كريم') && productName.includes('سيروم')) ||
+                productName.includes('+')) {
+                order.productType = '📦 Karseell Bundle';
+            } else if (productName.includes('كريم')) {
+                order.productType = '🧴 Karseell Cream';
+            } else if (productName.includes('سيروم')) {
+                order.productType = '✨ Karseell Serum';
+            } else {
+                order.productType = order.productType || '💆 Karseell';
+            }
+            return order.productType;
+        }
+
+        // Load orders once from Firebase, with in-memory caching and Map deduplication
+        async function loadOrders(forceRefresh = false) {
+            if (!forceRefresh && allOrdersCache.length > 0) {
+                return allOrdersCache;
+            }
+
+            if (isLoadingData) {
+                return allOrdersCache;
+            }
+
+            isLoadingData = true;
+
+            return new Promise((resolve) => {
                 Promise.all([
                     database.ref('orders').once('value'),
                     database.ref('karseell-orders').once('value')
                 ]).then(([oilSnapshot, karseellSnapshot]) => {
-                    const orders = [];
+                    const orderMap = new Map();
 
-                    // Oil orders
+                    // Process Oil orders
                     oilSnapshot.forEach((childSnapshot) => {
-                        const order = childSnapshot.val();
+                        const order = childSnapshot.val() || {};
                         order.firebaseId = childSnapshot.key;
+                        order._source = 'orders';
                         order.productType = order.productType || '🌿 زيت 108 عشبة';
-                        orders.push(order);
+                        orderMap.set(order.firebaseId, order);
                     });
 
-                    // Load Karseell orders
+                    // Process Karseell orders
                     karseellSnapshot.forEach((childSnapshot) => {
-                        let order = childSnapshot.val();
+                        let order = childSnapshot.val() || {};
                         order.firebaseId = childSnapshot.key;
-
-                        // تحديد نوع المنتج بناءً على اسم الطلب - التحقق من Bundle أولاً!
-                        const productName = order.product || '';
-
-                        // عروض الكومبو والبوكسات الحالية
-                        if (productName.includes('عرض القطعتين')) {
-                            order.productType = '👑 Karseell - عرض القطعتين';
-                        } else if (productName.includes('العرض الأقوى')) {
-                            order.productType = '🔥 Karseell - العرض الأقوى';
-                        } else if (productName.includes('العرض الأساسي') || productName.includes('عرض العيد الأساسي')) {
-                            order.productType = '✨ Karseell - العرض الأساسي';
-                        } else if (productName.includes('عبوة واحدة')) {
-                            order.productType = '🧴 Karseell Mask - عبوة واحدة';
-                        } else if (productName.includes('عبوتين كارسيل')) {
-                            order.productType = '📦 Karseell Mask - عبوتين';
-                        } else if (productName.includes('3 عبوات كارسيل')) {
-                            order.productType = '💎 Karseell Mask - 3 عبوات';
-                        } else if (productName.includes('باكدج') ||
-                            productName.includes('2×') ||
-                            (productName.includes('كريم') && productName.includes('سيروم')) ||
-                            productName.includes('+')) {
-                            order.productType = '📦 Karseell Bundle';
-                        } else if (productName.includes('كريم')) {
-                            order.productType = '🧴 Karseell Cream';
-                        } else if (productName.includes('سيروم')) {
-                            order.productType = '✨ Karseell Serum';
-                        } else {
-                            order.productType = '💆 Karseell';
-                        }
-
-                        // تصحيح السعر تلقائياً
+                        order._source = 'karseell-orders';
+                        classifyKarseellProduct(order);
                         order = correctKarseellPrice(order);
-                        orders.push(order);
+                        orderMap.set(order.firebaseId, order);
                     });
 
-                    // Sort by timestamp (newest first)
-                    orders.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                    allOrdersCache = Array.from(orderMap.values());
+                    // Sort newest first
+                    allOrdersCache.sort((a, b) => getSafeTime(b) - getSafeTime(a));
+                    ordersCache = allOrdersCache;
+                    isLoadingData = false;
 
-                    ordersCache = orders;
-                    resolve(orders);
+                    resolve(allOrdersCache);
                 }).catch((error) => {
                     console.error('❌ Firebase Error:', error);
                     const localOrders = JSON.parse(localStorage.getItem('hairOilOrders') || '[]');
-                    resolve(localOrders.reverse());
+                    allOrdersCache = localOrders.reverse();
+                    ordersCache = allOrdersCache;
+                    isLoadingData = false;
+                    resolve(allOrdersCache);
                 });
             });
         }
 
-        // Listen for real-time updates
-        let isInitialLoad = true;
-
         // Function to play notification and show alert
         async function notifyNewOrder(productType) {
-            // تشغيل الصوت فقط إذا تم تفعيله
             if (soundEnabled) {
                 try {
                     playBeep();
-                    console.log('✅ تم تشغيل صوت التنبيه');
                 } catch (e) {
                     console.log('⚠️ فشل تشغيل الصوت:', e);
                 }
-            } else {
-                console.log('🔇 الصوت غير مُفعّل - اضغط زر "تفعيل الصوت"');
             }
 
-            // تحديد الأيقونة والرسالة حسب نوع المنتج
             let icon = '🎉';
             let bgColor = '#10b981';
             if (productType.includes('Karseell')) {
@@ -1644,7 +1918,6 @@
                 bgColor = '#10b981';
             }
 
-            // Show notification with animation
             if (!document.hidden) {
                 Swal.fire({
                     title: `<strong style="font-size: 1.4rem;">${icon} طلب جديد! ${icon}</strong>`,
@@ -1657,12 +1930,6 @@
                                 🎯 استلم الطلب الآن وتواصل مع العميل!
                             </div>
                         </div>
-                        <style>
-                            @keyframes pulse {
-                                0%, 100% { transform: scale(1); }
-                                50% { transform: scale(1.05); }
-                            }
-                        </style>
                     `,
                     icon: 'success',
                     iconColor: bgColor,
@@ -1671,19 +1938,10 @@
                     showConfirmButton: false,
                     timer: 5000,
                     timerProgressBar: true,
-                    background: '#fff',
-                    customClass: {
-                        popup: 'animated-notification',
-                        title: 'notification-title'
-                    },
-                    didOpen: (toast) => {
-                        toast.style.borderLeft = `5px solid ${bgColor}`;
-                        toast.style.boxShadow = '0 8px 30px rgba(0,0,0,0.3)';
-                    }
+                    background: '#fff'
                 });
             }
 
-            // تحديث عنوان الصفحة للفت الانتباه
             let originalTitle = document.title;
             let blinkCount = 0;
             const blinkInterval = setInterval(() => {
@@ -1696,103 +1954,206 @@
             }, 500);
         }
 
-        database.ref('karseell-orders').on('child_added', (snapshot) => {
-            if (!isInitialLoad && ordersCache.length > 0) {
-                notifyNewOrder('💆 Karseell');
-                displayOrders();
+        // Realtime child handler with strict deduplication
+        function handleIncomingChildOrder(snapshot, source) {
+            if (isInitialLoad) return;
+            const key = snapshot.key;
+            if (!key) return;
+
+            // Strict deduplication check
+            const alreadyExists = allOrdersCache.some(o => o.firebaseId === key);
+            if (alreadyExists) return;
+
+            let order = snapshot.val() || {};
+            order.firebaseId = key;
+            order._source = source;
+
+            if (source === 'orders') {
+                order.productType = order.productType || '🌿 زيت 108 عشبة';
+            } else {
+                classifyKarseellProduct(order);
+                order = correctKarseellPrice(order);
             }
+
+            // Prepend new order & keep sorted
+            allOrdersCache.unshift(order);
+            allOrdersCache.sort((a, b) => getSafeTime(b) - getSafeTime(a));
+            ordersCache = allOrdersCache;
+
+            notifyNewOrder(order.productType || (source === 'orders' ? '🌿 زيت 108 عشبة' : '💆 Karseell'));
+
+            // Refresh view and counters; if user is on page 1, new order shows at top
+            applyFiltersAndSearch({ resetPage: false });
+        }
+
+        database.ref('karseell-orders').on('child_added', (snapshot) => {
+            handleIncomingChildOrder(snapshot, 'karseell-orders');
         });
 
         database.ref('orders').on('child_added', (snapshot) => {
-            if (!isInitialLoad && ordersCache.length > 0) {
-                notifyNewOrder('🌿 زيت 108 عشبة');
-                displayOrders();
-            }
+            handleIncomingChildOrder(snapshot, 'orders');
         });
 
-        // After first load, enable real-time updates
+        // After initial load window, enable realtime triggers
         setTimeout(() => { isInitialLoad = false; }, 2000);
 
-        // Display orders in table
-        let lastDisplayedOrders = [];
+        // =========================================================
+        // Pipeline: Filters -> Search -> Sort -> Pagination -> Render
+        // =========================================================
+        function applyFiltersAndSearch({ resetPage = false } = {}) {
+            const productFilter = document.getElementById('productFilter') ? document.getElementById('productFilter').value : 'all';
+            const exportFilter = document.getElementById('exportFilter') ? document.getElementById('exportFilter').value : 'all';
+            const searchInput = document.getElementById('searchInput');
+            const searchTerm = searchInput ? searchInput.value.trim().toLowerCase() : '';
 
-        async function displayOrders(orders = null) {
-            const ordersData = orders || await loadOrders();
-            lastDisplayedOrders = ordersData;
+            let results = allOrdersCache;
+
+            // 1. Product Filter
+            if (productFilter === 'oil') {
+                results = results.filter(order => order.productType?.includes('زيت'));
+            } else if (productFilter === 'karseell') {
+                results = results.filter(order => order.productType?.includes('Karseell'));
+            }
+
+            // 2. Export Filter
+            if (exportFilter === 'exported') {
+                results = results.filter(order => order.exportedToSystem === true);
+            } else if (exportFilter === 'not-exported') {
+                results = results.filter(order => !order.exportedToSystem);
+            }
+
+            // 3. Search Term
+            if (searchTerm) {
+                results = results.filter(order => {
+                    const name = String(order.name || '').toLowerCase();
+                    const phone = String(order.phone || '');
+                    const phone2 = String(order.phone2 || '');
+                    const gov = String(order.governorate || '').toLowerCase();
+                    const addr = String(order.address || '').toLowerCase();
+                    const id = String(order.firebaseId || '').toLowerCase();
+                    return name.includes(searchTerm) ||
+                        phone.includes(searchTerm) ||
+                        phone2.includes(searchTerm) ||
+                        gov.includes(searchTerm) ||
+                        addr.includes(searchTerm) ||
+                        id.includes(searchTerm);
+                });
+            }
+
+            // 4. Safe Sorting (newest first)
+            results.sort((a, b) => getSafeTime(b) - getSafeTime(a));
+
+            filteredOrdersCache = results;
+
+            if (resetPage) {
+                currentPage = 1;
+            }
+
+            // 5. Update top counters (real count of all orders, not current page)
+            updateStats(allOrdersCache);
+
+            // 6. Render current page
+            renderCurrentPage();
+        }
+
+        // Render current page ONLY into DOM
+        function renderCurrentPage() {
             const tbody = document.getElementById('ordersTableBody');
+            const paginationContainer = document.getElementById('paginationContainer');
+            const totalItems = filteredOrdersCache.length;
 
-            if (ordersData.length === 0) {
+            if (totalItems === 0) {
                 tbody.innerHTML = `
                     <tr>
-                        <td colspan="9">
+                        <td colspan="10">
                             <div class="empty-state">
                                 <i class="fas fa-inbox"></i>
-                                <h3>لا توجد طلبات بعد</h3>
-                                <p>سيتم عرض الطلبات هنا عند استلامها</p>
+                                <h3>لا توجد طلبات مطابقة</h3>
+                                <p>جرب تغيير شروط البحث أو الفلاتر</p>
                             </div>
                         </td>
                     </tr>
                 `;
+                if (paginationContainer) paginationContainer.style.display = 'none';
+                lastDisplayedOrders = [];
+                updateSelectedCount();
                 return;
             }
 
-            tbody.innerHTML = ordersData.map((order, index) => {
-                // تحديد لون المنتج
-                let productColor = '#f97316'; // لون Karseell الافتراضي
+            const totalPages = Math.ceil(totalItems / pageSize) || 1;
+            if (currentPage > totalPages) currentPage = totalPages;
+            if (currentPage < 1) currentPage = 1;
 
+            const startIndex = (currentPage - 1) * pageSize;
+            const endIndex = Math.min(startIndex + pageSize, totalItems);
+            const pageOrders = filteredOrdersCache.slice(startIndex, endIndex);
+            lastDisplayedOrders = pageOrders;
+
+            // Render ONLY current page orders (e.g. 50 rows)
+            tbody.innerHTML = pageOrders.map((order, pageIndex) => {
+                const globalIndex = startIndex + pageIndex;
+                const displayOrderNumber = totalItems - globalIndex;
+
+                // Determine product color
+                let productColor = '#f97316';
                 if (order.productType?.includes('Karseell')) {
                     if (order.productType.includes('Cream')) {
-                        productColor = '#7c3aed'; // بنفسجي للكريم
+                        productColor = '#7c3aed';
                     } else if (order.productType.includes('Serum')) {
-                        productColor = '#f59e0b'; // ذهبي للسيروم
+                        productColor = '#f59e0b';
                     } else if (order.productType.includes('Bundle')) {
-                        productColor = '#f97316'; // برتقالي للباقة
+                        productColor = '#f97316';
                     } else {
-                        productColor = '#f97316'; // برتقالي افتراضي لـ Karseell
+                        productColor = '#f97316';
                     }
                 } else if (order.productType?.includes('زيت')) {
-                    productColor = '#10b981'; // أخضر للزيت
+                    productColor = '#10b981';
                 }
 
-                // التحقق إذا كان الطلب تم تصديره
                 const isExported = order.exportedToSystem === true;
-                const exportedClass = isExported ? 'order-exported' : '';
+                const isSelected = selectedOrderIds.has(order.firebaseId);
 
-                // تحسين عرض أرقام الهاتف
+                let rowClasses = [];
+                if (isExported) rowClasses.push('order-exported');
+                if (isSelected) rowClasses.push('row-selected');
+                const rowClassAttr = rowClasses.length > 0 ? `class="${rowClasses.join(' ')}"` : '';
+
+                // Phone numbers
                 const phonePrimary = String(order.phone || '').trim() || '-';
                 const phoneSecondary = String(order.phone2 || '').trim();
                 const showSecondPhone = phoneSecondary && phoneSecondary !== phonePrimary;
-                const safePhonePrimary = phonePrimary.replace(/'/g, "\\'").replace(/"/g, '&quot;');
-                const safePhoneSecondary = phoneSecondary.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                const safePhonePrimary = phonePrimary.replace(/'/g, "\'").replace(/"/g, '&quot;');
+                const safePhoneSecondary = phoneSecondary.replace(/'/g, "\'").replace(/"/g, '&quot;');
                 const phoneCopyText = showSecondPhone
-                    ? `الهاتف الأساسي: ${safePhonePrimary}\\nالهاتف البديل: ${safePhoneSecondary}`
+                    ? `الهاتف الأساسي: ${safePhonePrimary}\nالهاتف البديل: ${safePhoneSecondary}`
                     : `الهاتف: ${safePhonePrimary}`;
 
-                // حساب تفاصيل الأسعار
                 const quantity = parseInt(order.quantity) || 1;
                 const totalPrice = getOrderTotalPrice(order);
 
-                // تجهيز المتغيرات بشكل آمن لتفادي أخطاء Newlines و Quotes في onclick
-                const safeName = String(order.name || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '&quot;').replace(/\r?\n/g, '\\n');
-                const safeGov = String(order.governorate || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '&quot;').replace(/\r?\n/g, '\\n');
-                const safeAddress = String(order.address || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '&quot;').replace(/\r?\n/g, '\\n');
-                const safeBottleSize = String(order.bottleSize || order.size || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '&quot;').replace(/\r?\n/g, '\\n');
-                const safeProductType = String(order.productType || '💆 Karseell').replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '&quot;').replace(/\r?\n/g, '\\n');
-                const safeNotes = String(order.notes || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '&quot;').replace(/\r?\n/g, '\\n');
+                // Safe strings for onclick attributes
+                const safeName = String(order.name || '').replace(/\\/g, '\\\\').replace(/'/g, "\'").replace(/"/g, '&quot;').replace(/\r?\n/g, '\\n');
+                const safeGov = String(order.governorate || '').replace(/\\/g, '\\\\').replace(/'/g, "\'").replace(/"/g, '&quot;').replace(/\r?\n/g, '\\n');
+                const safeAddress = String(order.address || '').replace(/\\/g, '\\\\').replace(/'/g, "\'").replace(/"/g, '&quot;').replace(/\r?\n/g, '\\n');
+                const safeBottleSize = String(order.bottleSize || order.size || '').replace(/\\/g, '\\\\').replace(/'/g, "\'").replace(/"/g, '&quot;').replace(/\r?\n/g, '\\n');
+                const safeProductType = String(order.productType || '💆 Karseell').replace(/\\/g, '\\\\').replace(/'/g, "\'").replace(/"/g, '&quot;').replace(/\r?\n/g, '\\n');
+                const safeNotes = String(order.notes || '').replace(/\\/g, '\\\\').replace(/'/g, "\'").replace(/"/g, '&quot;').replace(/\r?\n/g, '\\n');
 
                 return `
-                <tr class="${exportedClass}">
-                    <td class="cell-select"><input type="checkbox" class="order-checkbox" data-firebase-id="${order.firebaseId}" onchange="updateSelectedCount()"></td>
-                    <td class="order-id cell-id">#${ordersData.length - index}${isExported ? '<span class="exported-badge">✓ تم الإضافة</span>' : ''}</td>
+                <tr ${rowClassAttr} data-order-id="${order.firebaseId}">
+                    <td class="cell-select">
+                        <input type="checkbox" class="order-checkbox" data-firebase-id="${order.firebaseId}" ${isSelected ? 'checked' : ''} onchange="handleOrderCheckbox(this, '${order.firebaseId}')">
+                    </td>
+                    <td class="order-id cell-id">#${displayOrderNumber}${isExported ? '<span class="exported-badge">✓ تم الإضافة</span>' : ''}</td>
                     <td class="cell-name" onclick="copyToClipboard('${safeName}', 'الاسم')" style="cursor: pointer;" title="انقر لنسخ الاسم">
-                        <strong>${order.name}</strong>
+                        <strong>${order.name || '-'}</strong>
                     </td>
                     <td class="phone cell-phone" style="cursor: pointer;" onclick="copyToClipboard('${phoneCopyText}', 'أرقام الهاتف')" title="انقر لنسخ أرقام الهاتف">
                         <div style="font-weight: 700; color: var(--text-primary);">${phonePrimary}</div>
                         ${showSecondPhone ? `<div style="margin-top: 4px; padding-top: 4px; border-top: 1px dashed rgba(255, 255, 255, 0.15);"><span style="font-size: 0.85rem; color: #7dd3fc; font-weight: 600;">📱 ${phoneSecondary}</span></div>` : ''}
                     </td>
-                    <td class="cell-governorate"><span class="gov-badge">${order.governorate}</span></td>
-                    <td class="cell-address" onclick="copyToClipboard('المحافظة: ${safeGov}\\nالعنوان التفصيلي: ${safeAddress}', 'العنوان')" title="${order.governorate || '-'} - ${order.address || '-'} (انقر للنسخ)" style="cursor: pointer;"><span class="address-text">${order.address}</span></td>
+                    <td class="cell-governorate"><span class="gov-badge">${order.governorate || '-'}</span></td>
+                    <td class="cell-address" onclick="copyToClipboard('المحافظة: ${safeGov}\nالعنوان التفصيلي: ${safeAddress}', 'العنوان')" title="${order.governorate || '-'} - ${order.address || '-'} (انقر للنسخ)" style="cursor: pointer;"><span class="address-text">${order.address || '-'}</span></td>
                     <td class="cell-qty">
                         <div style="text-align: right;">
                             <div class="product-label" style="color: ${productColor}; font-weight: 600;">${order.productType || '💆 Karseell'}</div>
@@ -1808,10 +2169,10 @@
                     </td>
                     <td class="cell-notes" onclick="copyToClipboard('${safeNotes}', 'الملاحظات')" style="cursor: pointer; font-size: 0.85rem; max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${order.notes || 'لا توجد ملاحظات'} (انقر للنسخ)">${order.notes ? '📝 ' + order.notes : '<span style="opacity: 0.4;">-</span>'}</td>
                     <td class="actions cell-actions">
-                        <button class="btn btn-copy btn-small" onclick="copyOrderSummary(${index})" title="نسخ بيانات الطلب بالكامل">
+                        <button class="btn btn-copy btn-small" onclick="copyOrderSummary(${pageIndex})" title="نسخ بيانات الطلب بالكامل">
                             <i class="fas fa-copy"></i>
                         </button>
-                        <button class="btn btn-view btn-small" onclick="viewDetails(${index})" title="عرض التفاصيل">
+                        <button class="btn btn-view btn-small" onclick="viewDetails(${pageIndex}, ${displayOrderNumber})" title="عرض التفاصيل">
                             <i class="fas fa-eye"></i>
                         </button>
                         <button class="btn btn-call btn-small" onclick="callCustomer('${order.phone}')" title="اتصال">
@@ -1822,16 +2183,148 @@
                         </button>
                     </td>
                 </tr>
-            `}).join('');
+                `;
+            }).join('');
 
-            updateStats(ordersData);
+            renderPaginationControls(totalItems, totalPages, startIndex + 1, endIndex);
+            updateSelectedCount();
         }
 
-        function copyOrderSummary(index) {
-            const order = lastDisplayedOrders[index];
-            if (!order) {
+        // Render pagination controls
+        function renderPaginationControls(totalItems, totalPages, startNum, endNum) {
+            const paginationContainer = document.getElementById('paginationContainer');
+            if (!paginationContainer) return;
+
+            if (totalItems <= 0) {
+                paginationContainer.style.display = 'none';
                 return;
             }
+
+            paginationContainer.style.display = 'flex';
+
+            // 1. Text Summary
+            const pageRangeText = document.getElementById('pageRangeText');
+            const pageTotalText = document.getElementById('pageTotalText');
+            if (pageRangeText) pageRangeText.textContent = `${startNum} - ${endNum}`;
+            if (pageTotalText) pageTotalText.textContent = totalItems.toLocaleString();
+
+            // 2. Buttons
+            const controlsContainer = document.getElementById('paginationControls');
+            if (!controlsContainer) return;
+
+            let html = '';
+
+            // Prev Button
+            const isPrevDisabled = currentPage <= 1;
+            html += `
+                <button class="page-btn" onclick="goToPage(${currentPage - 1})" ${isPrevDisabled ? 'disabled' : ''} title="الصفحة السابقة">
+                    <i class="fas fa-chevron-right"></i>
+                    <span>السابق</span>
+                </button>
+            `;
+
+            // Mobile Compact Indicator
+            html += `
+                <span class="mobile-page-indicator">صفحة ${currentPage} من ${totalPages}</span>
+            `;
+
+            // Smart page numbers window with ellipsis
+            const maxVisiblePages = 5;
+            let startPage = Math.max(1, currentPage - 2);
+            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+            if (endPage - startPage < maxVisiblePages - 1) {
+                startPage = Math.max(1, endPage - maxVisiblePages + 1);
+            }
+
+            // First page + ellipsis
+            if (startPage > 1) {
+                html += `<button class="page-btn page-num-btn" onclick="goToPage(1)">1</button>`;
+                if (startPage > 2) {
+                    html += `<span class="page-ellipsis">...</span>`;
+                }
+            }
+
+            // Page numbers
+            for (let p = startPage; p <= endPage; p++) {
+                const isActive = p === currentPage;
+                html += `<button class="page-btn page-num-btn ${isActive ? 'active' : ''}" onclick="goToPage(${p})">${p}</button>`;
+            }
+
+            // Ellipsis + Last page
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) {
+                    html += `<span class="page-ellipsis">...</span>`;
+                }
+                html += `<button class="page-btn page-num-btn" onclick="goToPage(${totalPages})">${totalPages}</button>`;
+            }
+
+            // Next Button
+            const isNextDisabled = currentPage >= totalPages;
+            html += `
+                <button class="page-btn" onclick="goToPage(${currentPage + 1})" ${isNextDisabled ? 'disabled' : ''} title="الصفحة التالية">
+                    <span>التالي</span>
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+            `;
+
+            // Quick jump input
+            if (totalPages > 5) {
+                html += `
+                    <div class="page-jump-wrapper">
+                        <span>انتقال:</span>
+                        <input type="number" min="1" max="${totalPages}" value="${currentPage}" class="page-jump-input" onkeydown="if(event.key==='Enter') goToPage(parseInt(this.value))">
+                    </div>
+                `;
+            }
+
+            controlsContainer.innerHTML = html;
+        }
+
+        // Navigate to page
+        function goToPage(page) {
+            const totalPages = Math.ceil(filteredOrdersCache.length / pageSize) || 1;
+            let targetPage = parseInt(page);
+            if (isNaN(targetPage)) return;
+            if (targetPage < 1) targetPage = 1;
+            if (targetPage > totalPages) targetPage = totalPages;
+
+            if (targetPage !== currentPage) {
+                currentPage = targetPage;
+                renderCurrentPage();
+
+                const tableContainer = document.querySelector('.orders-table');
+                if (tableContainer) {
+                    tableContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+        }
+
+        // Change items per page
+        function changePageSize(newSize) {
+            const parsed = parseInt(newSize);
+            if ([25, 50, 100].includes(parsed)) {
+                pageSize = parsed;
+                currentPage = 1;
+                renderCurrentPage();
+            }
+        }
+
+        // Compatibility displayOrders wrapper
+        async function displayOrders(orders = null) {
+            if (orders) {
+                filteredOrdersCache = orders;
+                currentPage = 1;
+                renderCurrentPage();
+            } else {
+                await loadOrders();
+                applyFiltersAndSearch({ resetPage: false });
+            }
+        }
+
+        // Copy order summary
+        function copyOrderSummary(index) {
+            const order = lastDisplayedOrders[index];
+            if (!order) return;
 
             const quantity = parseInt(order.quantity) || 1;
             const totalPrice = getOrderTotalPrice(order);
@@ -1852,14 +2345,18 @@
             copyToClipboard(summary, 'بيانات الطلب كاملة');
         }
 
-        // Update statistics
+        // Update statistics cards
         function updateStats(orders) {
-            document.getElementById('totalOrders').textContent = orders.length;
-            const newOrdersCount = orders.filter(order => !order.exportedToSystem).length;
-            document.getElementById('newOrders').textContent = newOrdersCount.toLocaleString();
-
+            const totalEl = document.getElementById('totalOrders');
+            const newOrdersEl = document.getElementById('newOrders');
             const card = document.getElementById('newOrdersCard');
             const pulse = document.getElementById('newOrdersPulse');
+
+            if (totalEl) totalEl.textContent = orders.length.toLocaleString();
+
+            const newOrdersCount = orders.filter(order => !order.exportedToSystem).length;
+            if (newOrdersEl) newOrdersEl.textContent = newOrdersCount.toLocaleString();
+
             if (card && pulse) {
                 if (newOrdersCount > 0) {
                     card.classList.add('has-new');
@@ -1871,20 +2368,23 @@
             }
         }
 
-        // View order details
-        async function viewDetails(index) {
-            const orders = await loadOrders();
-            const order = orders[index];
+        // View order details (instant from memory)
+        async function viewDetails(index, displayOrderNumber = null) {
+            const order = lastDisplayedOrders[index];
+            if (!order) return;
+
             const totalPrice = getOrderTotalPrice(order);
             const shippingCost = getOrderShipping(order);
             const quantity = parseInt(order.quantity) || 1;
             const basePrice = Math.max(totalPrice - shippingCost, 0);
             const unitBasePrice = quantity > 0 ? Math.round(basePrice / quantity) : basePrice;
 
+            const orderNum = displayOrderNumber ? `#${displayOrderNumber}` : `#${filteredOrdersCache.length - index}`;
+
             const detailsHTML = `
                 <div class="detail-row">
                     <strong>رقم الطلب:</strong>
-                    #${orders.length - index}
+                    ${orderNum}
                 </div>
                 <div class="detail-row">
                     <strong>التاريخ والوقت:</strong>
@@ -1892,11 +2392,11 @@
                 </div>
                 <div class="detail-row">
                     <strong>اسم العميل:</strong>
-                    ${order.name}
+                    ${order.name || '-'}
                 </div>
                 <div class="detail-row">
                     <strong>رقم الهاتف الأساسي:</strong>
-                    <span style="direction: ltr; display: block;">${order.phone}</span>
+                    <span style="direction: ltr; display: block;">${order.phone || '-'}</span>
                 </div>
                 ${order.phone2 ? `
                 <div class="detail-row">
@@ -1906,11 +2406,11 @@
                 ` : ''}
                 <div class="detail-row">
                     <strong>المحافظة:</strong>
-                    ${order.governorate}
+                    ${order.governorate || '-'}
                 </div>
                 <div class="detail-row">
                     <strong>العنوان التفصيلي:</strong>
-                    ${order.address}
+                    ${order.address || '-'}
                 </div>
                 <div class="detail-row">
                     <strong>المنتج:</strong>
@@ -2032,6 +2532,8 @@
 
             let orderMessage = `✅ تم تأكيد طلبكم بنجاح، وجارٍ حالياً تجهيزه وإرساله إلى أقرب مستودع لشركة الشحن بمنطقتكم.
 
+📋 تفاصيل الطلب:
+━━━━━━━━━━━━━━━
 👤 الاسم: ${name || ''}
 🛍️ المنتج: ${productType || 'Karseell'}
 📦 الكمية: ${quantity || '-'}
@@ -2052,30 +2554,21 @@
             window.open('https://wa.me/' + selectedPhone + '?text=' + encodeURIComponent(orderMessage), '_blank');
         }
 
-
-        // Search orders
-        document.getElementById('searchInput').addEventListener('input', async function (e) {
-            const searchTerm = e.target.value.toLowerCase();
-            const orders = await loadOrders();
-
-            if (!searchTerm) {
-                displayOrders(orders);
-                return;
-            }
-
-            const filtered = orders.filter(order =>
-                order.name.toLowerCase().includes(searchTerm) ||
-                order.phone.includes(searchTerm) ||
-                order.governorate.toLowerCase().includes(searchTerm)
-            );
-
-            displayOrders(filtered);
+        // Search orders (in-memory, debounced, resets to page 1)
+        document.getElementById('searchInput').addEventListener('input', function (e) {
+            clearTimeout(searchDebounceTimer);
+            searchDebounceTimer = setTimeout(() => {
+                applyFiltersAndSearch({ resetPage: true });
+            }, 150);
         });
 
-        // Export to CSV
+        // Export to CSV (exports all filtered & searched orders, regardless of pagination)
         async function exportToCSV() {
-            const orders = await loadOrders();
-            const reversedOrders = [...orders].reverse();
+            const ordersToExport = (filteredOrdersCache && filteredOrdersCache.length > 0)
+                ? filteredOrdersCache
+                : allOrdersCache;
+
+            const reversedOrders = [...ordersToExport].reverse();
 
             if (reversedOrders.length === 0) {
                 await Swal.fire({
@@ -2094,12 +2587,12 @@
                 csv += `${index + 1},`;
                 csv += `"${order.date || new Date(order.timestamp).toLocaleDateString('ar-EG')}",`;
                 csv += `"${order.time || new Date(order.timestamp).toLocaleTimeString('ar-EG')}",`;
-                csv += `"${order.name}",`;
-                csv += `"${order.phone}",`;
-                csv += `"${order.governorate}",`;
-                csv += `"${order.address}",`;
-                csv += `"${order.product || order.productType}",`;
-                csv += `"${order.bottleSize || order.size}",`;
+                csv += `"${order.name || ''}",`;
+                csv += `"${order.phone || ''}",`;
+                csv += `"${order.governorate || ''}",`;
+                csv += `"${order.address || ''}",`;
+                csv += `"${order.product || order.productType || ''}",`;
+                csv += `"${order.bottleSize || order.size || ''}",`;
                 csv += `${getOrderTotalPrice(order)}\n`;
             });
 
@@ -2122,10 +2615,23 @@
             });
         }
 
-        // Refresh data
-        function refreshData() {
-            displayOrders();
-            alert('✅ تم تحديث البيانات');
+        // Refresh data manually from Firebase
+        async function refreshData() {
+            Swal.fire({
+                title: 'جاري تحديث البيانات...',
+                allowOutsideClick: false,
+                didOpen: () => { Swal.showLoading(); }
+            });
+            await loadOrders(true);
+            applyFiltersAndSearch({ resetPage: false });
+            Swal.close();
+            Swal.fire({
+                icon: 'success',
+                title: 'تم التحديث!',
+                text: 'تم تحديث البيانات بنجاح من قاعدة البيانات',
+                timer: 1500,
+                showConfirmButton: false
+            });
         }
 
         // Logout function
@@ -2142,28 +2648,16 @@
             });
 
             if (result.isConfirmed) {
-                sessionStorage.removeItem('adminAuthenticated');
-                await Swal.fire({
-                    icon: 'success',
-                    title: 'تم تسجيل الخروج',
-                    text: 'وداعاً!',
-                    confirmButtonColor: '#0C5CAB',
-                    timer: 1500,
-                    showConfirmButton: false
-                });
-                window.location.href = 'https://google.com';
+                localStorage.removeItem('adminAuth');
+                sessionStorage.removeItem('adminAuth');
+                document.getElementById('blurOverlay').classList.remove('authenticated');
+                location.reload();
             }
         }
 
-        // Copy to clipboard function
+        // Copy text to clipboard
         function copyToClipboard(text, fieldName) {
-            // Decode HTML entities if any
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = text;
-            const decodedText = tempDiv.textContent || tempDiv.innerText || text;
-
-            navigator.clipboard.writeText(decodedText).then(function () {
-                // Show success notification
+            navigator.clipboard.writeText(text).then(() => {
                 Swal.fire({
                     icon: 'success',
                     title: 'تم النسخ!',
@@ -2174,10 +2668,9 @@
                     timer: 1500,
                     timerProgressBar: true
                 });
-            }).catch(function (err) {
-                // Fallback for older browsers
+            }).catch(() => {
                 const textArea = document.createElement('textarea');
-                textArea.value = decodedText;
+                textArea.value = text;
                 textArea.style.position = 'fixed';
                 textArea.style.opacity = '0';
                 document.body.appendChild(textArea);
@@ -2214,59 +2707,83 @@
             }
         });
 
-        // Initial load
-        displayOrders();
-
-        // تحديد/إلغاء تحديد الكل
-        function toggleSelectAll(checkbox) {
-            const checkboxes = document.querySelectorAll('.order-checkbox');
-            checkboxes.forEach(cb => cb.checked = checkbox.checked);
+        // Checkbox individual toggle
+        function handleOrderCheckbox(checkbox, firebaseId) {
+            if (checkbox.checked) {
+                selectedOrderIds.add(firebaseId);
+            } else {
+                selectedOrderIds.delete(firebaseId);
+            }
+            const row = checkbox.closest('tr');
+            if (row) row.classList.toggle('row-selected', checkbox.checked);
             updateSelectedCount();
         }
 
-        // تحديث عدد الطلبات المحددة
+        // Checkbox select all (on current page)
+        function toggleSelectAll(selectAllCheckbox) {
+            const isChecked = selectAllCheckbox.checked;
+            if (lastDisplayedOrders && lastDisplayedOrders.length > 0) {
+                lastDisplayedOrders.forEach(order => {
+                    if (isChecked) {
+                        selectedOrderIds.add(order.firebaseId);
+                    } else {
+                        selectedOrderIds.delete(order.firebaseId);
+                    }
+                });
+            }
+
+            document.querySelectorAll('.order-checkbox').forEach(cb => {
+                cb.checked = isChecked;
+                const row = cb.closest('tr');
+                if (row) row.classList.toggle('row-selected', isChecked);
+            });
+
+            updateSelectedCount();
+        }
+
+        // Update selected count across all pages
         function updateSelectedCount() {
-            const selected = document.querySelectorAll('.order-checkbox:checked');
-            const count = selected.length;
+            const count = selectedOrderIds.size;
             const exportBtn = document.getElementById('exportToSystemBtn');
             const deleteBtn = document.getElementById('deleteSelectedBtn');
             const countSpan = document.getElementById('selectedCount');
             const deleteCountSpan = document.getElementById('deleteCount');
 
-            countSpan.textContent = count;
-            deleteCountSpan.textContent = count;
+            if (countSpan) countSpan.textContent = count;
+            if (deleteCountSpan) deleteCountSpan.textContent = count;
 
-            if (count > 0) {
-                exportBtn.classList.add('show');
-                exportBtn.classList.add('active');
-                deleteBtn.style.display = 'inline-flex';
-            } else {
-                exportBtn.classList.remove('show');
-                exportBtn.classList.remove('active');
-                deleteBtn.style.display = 'none';
+            if (exportBtn) {
+                if (count > 0) {
+                    exportBtn.classList.add('show', 'active');
+                } else {
+                    exportBtn.classList.remove('show', 'active');
+                }
             }
 
-            document.querySelectorAll('.order-checkbox').forEach((checkbox) => {
-                const row = checkbox.closest('tr');
-                if (row) {
-                    row.classList.toggle('row-selected', checkbox.checked);
-                }
-            });
+            if (deleteBtn) {
+                deleteBtn.style.display = count > 0 ? 'inline-flex' : 'none';
+            }
 
-            // تحديث حالة checkbox "تحديد الكل"
-            const allCheckboxes = document.querySelectorAll('.order-checkbox');
+            // Sync selectAll checkbox on current page
             const selectAllCheckbox = document.getElementById('selectAll');
-            selectAllCheckbox.checked = allCheckboxes.length > 0 && count === allCheckboxes.length;
+            if (selectAllCheckbox && lastDisplayedOrders.length > 0) {
+                const visibleSelectedCount = lastDisplayedOrders.filter(o => selectedOrderIds.has(o.firebaseId)).length;
+                if (visibleSelectedCount === lastDisplayedOrders.length) {
+                    selectAllCheckbox.checked = true;
+                    selectAllCheckbox.indeterminate = false;
+                } else if (visibleSelectedCount > 0) {
+                    selectAllCheckbox.checked = false;
+                    selectAllCheckbox.indeterminate = true;
+                } else {
+                    selectAllCheckbox.checked = false;
+                    selectAllCheckbox.indeterminate = false;
+                }
+            }
         }
 
-        // تصدير الطلبات المحددة إلى نظام الشحن
+        // Export selected orders across all pages to Logexa
         async function exportSelectedToSystem() {
-            const selected = document.querySelectorAll('.order-checkbox:checked');
-            const apiBaseUrl = (window.location.origin && window.location.origin !== 'null')
-                ? window.location.origin
-                : 'http://127.0.0.1:8000';
-
-            if (selected.length === 0) {
+            if (selectedOrderIds.size === 0) {
                 await Swal.fire({
                     icon: 'warning',
                     title: 'لم يتم التحديد',
@@ -2276,16 +2793,17 @@
                 return;
             }
 
-            // الحصول على الطلبات المحددة
-            const orders = await loadOrders();
+            const apiBaseUrl = (window.location.origin && window.location.origin !== 'null')
+                ? window.location.origin
+                : 'http://127.0.0.1:8000';
+
+            // Gather all selected orders across all pages
             const selectedOrders = [];
             const invalidOrders = [];
 
-            selected.forEach(checkbox => {
-                const firebaseId = checkbox.getAttribute('data-firebase-id');
-                const order = orders.find(o => o.firebaseId === firebaseId);
+            selectedOrderIds.forEach(firebaseId => {
+                const order = allOrdersCache.find(o => o.firebaseId === firebaseId);
                 if (order) {
-                    // التحقق من البيانات الأساسية
                     if (!order.name || !order.phone || order.name.trim() === '' || order.phone.trim() === '') {
                         invalidOrders.push(order);
                         console.warn('⚠️ طلب ببيانات ناقصة:', order.firebaseId, { name: order.name, phone: order.phone });
@@ -2295,7 +2813,6 @@
                 }
             });
 
-            // تحذير إذا كان هناك طلبات غير صالحة
             if (invalidOrders.length > 0) {
                 await Swal.fire({
                     icon: 'warning',
@@ -2315,7 +2832,6 @@
                 return;
             }
 
-            // تأكيد العملية
             const result = await Swal.fire({
                 title: 'تأكيد الإضافة',
                 html: `هل تريد إضافة <strong>${selectedOrders.length}</strong> طلب صالح إلى Logexa؟${invalidOrders.length > 0 ? `<br><small style="color: #dc3545;">(${invalidOrders.length} طلب سيتم تجاهله)</small>` : ''}`,
@@ -2329,10 +2845,9 @@
 
             if (!result.isConfirmed) return;
 
-            // عرض مؤشر التحميل
             Swal.fire({
                 title: 'جاري الإضافة...',
-                html: 'يرجى الانتظار',
+                html: 'يرجى الانتظار حتى يتم إرسال الطلبات إلى Logexa',
                 allowOutsideClick: false,
                 allowEscapeKey: false,
                 didOpen: () => {
@@ -2341,96 +2856,94 @@
             });
 
             try {
-                // إعداد بيانات الطلبات
-                const orderData = {
-                    orders: selectedOrders.map(order => {
-                        // توحيد حقل الحجم/المقاس
-                        const unifiedSize = order.bottleSize || order.size || '1 قطعة';
+                let currentBatchNumber = 1;
+                try {
+                    const counterSnapshot = await database.ref('batchCounter').once('value');
+                    const counterData = counterSnapshot.val();
+                    if (counterData && typeof counterData.current === 'number') {
+                        currentBatchNumber = counterData.current + 1;
+                    }
+                    await database.ref('batchCounter').update({
+                        current: currentBatchNumber,
+                        lastUpdated: firebase.database.ServerValue.TIMESTAMP
+                    });
+                } catch (counterError) {
+                    console.warn('⚠️ فشل تحديث batchCounter:', counterError);
+                }
 
-                        return {
-                            customer_name: order.name,
-                            phone_number: order.phone,
-                            phone_number_2: order.phone2 || '',  // ✅ رقم الهاتف الثاني
-                            notes: order.notes || '',  // ✅ الملاحظات
-                            province: order.governorate,
-                            address: order.address,
-                            total_price: getOrderTotalPrice(order),
-                            product: order.product || order.productType || '', // الحقل الكامل
-                            product_type: order.productType,
-                            quantity: order.quantity || null, // إرسال الكمية إذا كانت موجودة كحقل منفصل
-                            shipping: getOrderShipping(order),
-                            shipping_cost: getOrderShipping(order),
-                            size: unifiedSize,
-                            bottleSize: unifiedSize,
-                            firebase_id: order.firebaseId,
-                            date: order.date,
-                            time: order.time,
-                            discount_amount: order.discountAmount || 0,
-                            original_price: order.originalPrice || getOrderTotalPrice(order)
-                        };
-                    })
+                const batchDate = new Date();
+                const formattedDate = `${batchDate.getFullYear()}-${String(batchDate.getMonth() + 1).padStart(2, '0')}-${String(batchDate.getDate()).padStart(2, '0')}`;
+                const batchName = `دفعة رقم ${currentBatchNumber} - ${formattedDate}`;
+
+                const mappedOrders = selectedOrders.map(order => {
+                    const isOil = order.productType?.includes('زيت');
+                    let productName = order.product || order.productType;
+                    if (!productName || productName.trim() === '') {
+                        productName = isOil ? 'زيت 108 عشبة' : 'Karseell Hair Care';
+                    }
+
+                    return {
+                        customer_name: order.name.trim(),
+                        phone_number: order.phone.trim(),
+                        second_phone: order.phone2?.trim() || null,
+                        governorate: order.governorate.trim(),
+                        address: order.address.trim(),
+                        product_name: productName,
+                        number_of_items: parseInt(order.quantity) || 1,
+                        product_price: getOrderTotalPrice(order),
+                        notes: order.notes?.trim() || null
+                    };
+                });
+
+                const payload = {
+                    batch_name: batchName,
+                    orders: mappedOrders
                 };
 
-                // محاولة الإرسال عبر عدة عناوين API حتى نجد الخادم الصحيح
-                const pageOrigin = (window.location.origin && window.location.origin !== 'null')
-                    ? window.location.origin
-                    : null;
+                const isLocalHost = window.location.hostname === 'localhost' ||
+                    window.location.hostname === '127.0.0.1' ||
+                    window.location.hostname === '';
 
-                const baseCandidates = [
-                    '',                                             // محاولة مسار نسبي أولاً (Relative Path)
-                    window.ADMIN_ORDERS_API_BASE_URL,
-                    localStorage.getItem('adminOrdersApiBaseUrl'),
-                    pageOrigin,
-                    'http://127.0.0.1:8000',
-                    'http://localhost:8000'
-                ].filter(c => c !== null);
+                const candidateEndpoints = [];
+                if (isLocalHost) {
+                    candidateEndpoints.push(
+                        'http://127.0.0.1:8000/api/orders/batch-import/',
+                        'http://localhost:8000/api/orders/batch-import/',
+                        'http://127.0.0.1:8000/api/orders/import-orders/',
+                        'http://localhost:8000/api/orders/import-orders/'
+                    );
+                } else {
+                    candidateEndpoints.push(
+                        `${apiBaseUrl}/api/orders/batch-import/`,
+                        `${apiBaseUrl}/api/orders/import-orders/`
+                    );
+                }
 
-                const endpointPaths = ['/api/import-firebase-orders/'];
                 let response = null;
                 let data = null;
                 let lastError = null;
                 let lastAttemptInfo = null;
 
-                for (const baseUrl of [...new Set(baseCandidates)]) {
-                    for (const path of endpointPaths) {
-                        const apiUrl = `${String(baseUrl).replace(/\/$/, '')}${path}`;
-                        lastAttemptInfo = apiUrl;
+                for (const apiUrl of candidateEndpoints) {
+                    lastAttemptInfo = apiUrl;
+                    try {
+                        response = await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json'
+                            },
+                            body: JSON.stringify(payload)
+                        });
+                    } catch (fetchErr) {
+                        lastError = fetchErr;
+                        continue;
+                    }
 
-                        try {
-                            response = await fetch(apiUrl, {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
-                                body: JSON.stringify(orderData)
-                            });
-                        } catch (error) {
-                            lastError = error;
-                            continue;
-                        }
-
+                    if (response) {
                         const contentType = response.headers.get('content-type') || '';
-
-                        if (!response.ok) {
-                            const rawResponse = await response.text();
-                            console.warn('⚠️ API responded with error, trying next endpoint...', {
-                                url: apiUrl,
-                                status: response.status,
-                                contentType,
-                                rawResponse: rawResponse.slice(0, 200)
-                            });
-                            lastError = new Error(`HTTP ${response.status} from ${apiUrl}`);
-                            continue;
-                        }
-
                         if (!contentType.includes('application/json')) {
                             const rawResponse = await response.text();
-                            console.warn('⚠️ API returned non-JSON success response, trying next endpoint...', {
-                                url: apiUrl,
-                                status: response.status,
-                                contentType,
-                                rawResponse: rawResponse.slice(0, 200)
-                            });
                             lastError = new Error(`Non-JSON response from ${apiUrl}`);
                             continue;
                         }
@@ -2438,29 +2951,24 @@
                         data = await response.json();
                         break;
                     }
-
-                    if (data) {
-                        break;
-                    }
                 }
 
                 if (!data) {
-                    console.error('❌ فشلت كل المحاولات', { lastError, lastAttemptInfo });
                     throw new Error(`لم يتم العثور على API صالح. آخر محاولة: ${lastAttemptInfo || 'غير معروفة'}${lastError ? `، السبب: ${lastError.message || lastError}` : ''}`);
                 }
 
                 if (response.ok) {
-                    // تمييز الطلبات المصدرة في Firebase
+                    // Mark exported in Firebase
                     for (const order of selectedOrders) {
                         try {
                             const dbRef = getOrderDatabaseRef(order);
                             await dbRef.update({ exportedToSystem: true });
+                            order.exportedToSystem = true;
                         } catch (error) {
                             console.error('Error marking order as exported:', error);
                         }
                     }
 
-                    // دعم كلا الصيغتين: imported_count (API الجديد) و success_count (API القديم)
                     const successCount = data.success_count ?? data.imported_count ?? 0;
                     const failedCount = data.failed_count ?? 0;
                     await Swal.fire({
@@ -2472,20 +2980,19 @@
                         timer: 3000
                     });
 
-                    // إلغاء تحديد الطلبات المضافة
-                    selected.forEach(cb => cb.checked = false);
-                    document.getElementById('selectAll').checked = false;
+                    // Clear selections
+                    selectedOrderIds.clear();
+                    const selectAllCheckbox = document.getElementById('selectAll');
+                    if (selectAllCheckbox) selectAllCheckbox.checked = false;
                     updateSelectedCount();
 
-                    // تحديث العرض مع الحفاظ على الفلترة الحالية
-                    await filterByProduct();
+                    // Refresh current view
+                    applyFiltersAndSearch({ resetPage: false });
                 } else {
                     throw new Error(data.error || 'حدث خطأ أثناء الإضافة');
                 }
             } catch (error) {
                 console.error('Error:', error);
-
-                // رسالة خاصة إذا كان الخطأ بسبب Ad Blocker
                 if (error.message?.includes('ERR_BLOCKED') || error.message?.includes('Failed to fetch')) {
                     await Swal.fire({
                         icon: 'warning',
@@ -2517,58 +3024,19 @@
             }
         }
 
-        // فلترة الطلبات حسب نوع المنتج وحالة التصدير
+        // Apply filters
         async function applyFilters() {
-            const productFilter = document.getElementById('productFilter').value;
-            const exportFilter = document.getElementById('exportFilter').value;
-            const orders = await loadOrders();
-
-            let filteredOrders = orders;
-
-            // تطبيق فلتر نوع المنتج
-            if (productFilter === 'oil') {
-                filteredOrders = filteredOrders.filter(order => order.productType?.includes('زيت'));
-            } else if (productFilter === 'karseell') {
-                filteredOrders = filteredOrders.filter(order => order.productType?.includes('Karseell'));
-            }
-
-            // تطبيق فلتر حالة التصدير
-            if (exportFilter === 'exported') {
-                filteredOrders = filteredOrders.filter(order => order.exportedToSystem === true);
-            } else if (exportFilter === 'not-exported') {
-                filteredOrders = filteredOrders.filter(order => !order.exportedToSystem);
-            }
-
-            await displayOrders(filteredOrders);
-
-            // تحديث عدد الطلبات في الإحصائيات
-            document.getElementById('totalOrders').textContent = filteredOrders.length;
-            const newOrdersCount = filteredOrders.filter(order => !order.exportedToSystem).length;
-            document.getElementById('newOrders').textContent = newOrdersCount.toLocaleString();
-
-            const card = document.getElementById('newOrdersCard');
-            const pulse = document.getElementById('newOrdersPulse');
-            if (card && pulse) {
-                if (newOrdersCount > 0) {
-                    card.classList.add('has-new');
-                    pulse.classList.add('active');
-                } else {
-                    card.classList.remove('has-new');
-                    pulse.classList.remove('active');
-                }
-            }
+            applyFiltersAndSearch({ resetPage: true });
         }
 
-        // فلترة الطلبات حسب نوع المنتج (الدالة القديمة - للتوافق)
+        // Filter by product compatibility
         async function filterByProduct() {
-            await applyFilters();
+            applyFiltersAndSearch({ resetPage: false });
         }
 
-        // حذف الطلبات المحددة
+        // Delete selected orders across all pages
         async function deleteSelectedOrders() {
-            const selected = document.querySelectorAll('.order-checkbox:checked');
-
-            if (selected.length === 0) {
+            if (selectedOrderIds.size === 0) {
                 await Swal.fire({
                     icon: 'warning',
                     title: 'لم يتم التحديد',
@@ -2578,17 +3046,12 @@
                 return;
             }
 
-            // الحصول على الطلبات المحددة
-            const orders = await loadOrders();
             const selectedOrders = [];
-
-            selected.forEach(checkbox => {
-                const firebaseId = checkbox.getAttribute('data-firebase-id');
-                const order = orders.find(o => o.firebaseId === firebaseId);
+            selectedOrderIds.forEach(firebaseId => {
+                const order = allOrdersCache.find(o => o.firebaseId === firebaseId);
                 if (order) selectedOrders.push(order);
             });
 
-            // تأكيد الحذف
             const result = await Swal.fire({
                 title: 'تحذير!',
                 html: `<strong>هل أنت متأكد من حذف ${selectedOrders.length} طلب؟</strong><br><br>هذا الإجراء لا يمكن التراجع عنه!`,
@@ -2602,7 +3065,6 @@
 
             if (!result.isConfirmed) return;
 
-            // عرض مؤشر التحميل
             Swal.fire({
                 title: 'جاري الحذف...',
                 html: 'يرجى الانتظار',
@@ -2617,28 +3079,27 @@
                 let successCount = 0;
                 let failedCount = 0;
 
-                // حذف كل طلب من Firebase
                 for (const order of selectedOrders) {
                     try {
-                        // تحديد المرجع الصحيح بناءً على نوع المنتج
                         const dbRef = getOrderDatabaseRef(order);
                         await dbRef.remove();
                         successCount++;
+                        // Remove from allOrdersCache
+                        const idx = allOrdersCache.findIndex(o => o.firebaseId === order.firebaseId);
+                        if (idx !== -1) allOrdersCache.splice(idx, 1);
+                        selectedOrderIds.delete(order.firebaseId);
                     } catch (error) {
                         console.error('Error deleting order:', order.firebaseId, error);
                         failedCount++;
                     }
                 }
 
-                // إلغاء تحديد الكل
-                selected.forEach(cb => cb.checked = false);
-                document.getElementById('selectAll').checked = false;
+                const selectAllCheckbox = document.getElementById('selectAll');
+                if (selectAllCheckbox) selectAllCheckbox.checked = false;
                 updateSelectedCount();
 
-                // تحديث العرض مع الحفاظ على الفلترة الحالية
-                await filterByProduct();
+                applyFiltersAndSearch({ resetPage: false });
 
-                // إظهار النتيجة
                 await Swal.fire({
                     icon: successCount > 0 ? 'success' : 'error',
                     title: successCount > 0 ? 'تم الحذف بنجاح' : 'فشل الحذف',
@@ -2656,7 +3117,8 @@
                 });
             }
         }
-    </script>
+    
+</script>
 </body>
 
 </html>
