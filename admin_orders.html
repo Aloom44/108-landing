@@ -1058,7 +1058,7 @@
             font-size: 0.9rem;
             font-weight: 600;
         }
-    
+
         /* =========================================================
            Pagination Styles (Modern, Glassmorphism & Responsive)
            ========================================================= */
@@ -1271,7 +1271,6 @@
         .mobile-page-indicator {
             display: none;
         }
-
     </style>
 </head>
 
@@ -1387,7 +1386,8 @@
         <!-- Pagination Controls -->
         <div class="pagination-container" id="paginationContainer" style="display: none;">
             <div class="pagination-info" id="paginationInfo">
-                <span>عرض <strong class="pagination-highlight" id="pageRangeText">0 - 0</strong> من إجمالي <strong class="pagination-highlight" id="pageTotalText">0</strong> طلب</span>
+                <span>عرض <strong class="pagination-highlight" id="pageRangeText">0 - 0</strong> من إجمالي <strong
+                        class="pagination-highlight" id="pageTotalText">0</strong> طلب</span>
                 <div class="page-size-wrapper">
                     <label for="pageSizeSelect">في الصفحة:</label>
                     <select id="pageSizeSelect" class="page-size-select" onchange="changePageSize(this.value)">
@@ -1780,7 +1780,7 @@
         }
 
         // Load orders from Firebase Realtime Database
-                // =========================================================
+        // =========================================================
         // Data State & High-Performance Pagination Architecture
         // =========================================================
         let allOrdersCache = [];        // Raw orders from Firebase, strictly deduplicated
@@ -2876,10 +2876,11 @@
                 const batchName = `دفعة رقم ${currentBatchNumber} - ${formattedDate}`;
 
                 const mappedOrders = selectedOrders.map(order => {
-                    const isOil = order.productType?.includes('زيت');
-                    let productName = order.product || order.productType;
+                    const isOil = order.productType?.includes('زيت') || order.product?.includes('زيت');
+                    const isWatch = order.product?.includes('Rolex') || order.productType?.includes('ساعة') || order.product?.includes('ساعة') || order.watch;
+                    let productName = order.product || order.productType || order.product_name;
                     if (!productName || productName.trim() === '') {
-                        productName = isOil ? 'زيت 108 عشبة' : 'Karseell Hair Care';
+                        productName = isWatch ? 'ساعة Rolex Oyster' : (isOil ? 'زيت 108 عشبة' : 'Karseell Hair Care');
                     }
 
                     return {
@@ -2900,19 +2901,26 @@
                     orders: mappedOrders
                 };
 
-                const isLocalHost = window.location.hostname === 'localhost' ||
-                    window.location.hostname === '127.0.0.1' ||
-                    window.location.hostname === '';
-
+                const customShippingUrl = localStorage.getItem('SHIPPING_API_BASE_URL');
                 const candidateEndpoints = [];
-                if (isLocalHost) {
+
+                if (customShippingUrl) {
                     candidateEndpoints.push(
-                        'http://127.0.0.1:8000/api/orders/batch-import/',
-                        'http://localhost:8000/api/orders/batch-import/',
-                        'http://127.0.0.1:8000/api/orders/import-orders/',
-                        'http://localhost:8000/api/orders/import-orders/'
+                        `${customShippingUrl.replace(/\/$/, '')}/api/orders/batch-import/`,
+                        `${customShippingUrl.replace(/\/$/, '')}/api/orders/import-orders/`
                     );
-                } else {
+                }
+
+                // Always check local backend endpoints (Django/FastAPI/Node shipping server on port 8000)
+                candidateEndpoints.push(
+                    'http://127.0.0.1:8000/api/orders/batch-import/',
+                    'http://localhost:8000/api/orders/batch-import/',
+                    'http://127.0.0.1:8000/api/orders/import-orders/',
+                    'http://localhost:8000/api/orders/import-orders/'
+                );
+
+                // Host-relative endpoints if hosted on live backend server (excluding static hosts like github.io / karsell.store)
+                if (apiBaseUrl && !apiBaseUrl.includes('github.io') && !apiBaseUrl.includes('karsell.store')) {
                     candidateEndpoints.push(
                         `${apiBaseUrl}/api/orders/batch-import/`,
                         `${apiBaseUrl}/api/orders/import-orders/`
@@ -2922,10 +2930,9 @@
                 let response = null;
                 let data = null;
                 let lastError = null;
-                let lastAttemptInfo = null;
+                let lastAttemptDetails = null;
 
                 for (const apiUrl of candidateEndpoints) {
-                    lastAttemptInfo = apiUrl;
                     try {
                         response = await fetch(apiUrl, {
                             method: 'POST',
@@ -2936,6 +2943,12 @@
                             body: JSON.stringify(payload)
                         });
                     } catch (fetchErr) {
+                        lastAttemptDetails = {
+                            url: apiUrl,
+                            status: 'Network Error (Failed to fetch)',
+                            contentType: 'N/A',
+                            preview: fetchErr.message || 'السيرفر المحلي 8000 غير يعمل أو هناك مشكلة شبكة/CORS'
+                        };
                         lastError = fetchErr;
                         continue;
                     }
@@ -2943,18 +2956,44 @@
                     if (response) {
                         const contentType = response.headers.get('content-type') || '';
                         if (!contentType.includes('application/json')) {
-                            const rawResponse = await response.text();
-                            lastError = new Error(`Non-JSON response from ${apiUrl}`);
+                            const rawText = await response.text();
+                            const safePreview = rawText.substring(0, 300).replace(/("?(token|password|auth|secret)"?\s*:\s*")([^"]+)(")/gi, '$1***$4');
+                            
+                            lastAttemptDetails = {
+                                url: apiUrl,
+                                status: `${response.status} ${response.statusText}`,
+                                contentType: contentType || 'unknown',
+                                preview: safePreview || '(صفحة HTML أو استجابة غير نصية)'
+                            };
+                            lastError = new Error(`HTTP ${response.status} Non-JSON (${contentType || 'text/html'}) from ${apiUrl}`);
                             continue;
                         }
 
-                        data = await response.json();
-                        break;
+                        try {
+                            data = await response.json();
+                            if (response.ok) {
+                                break;
+                            } else {
+                                lastAttemptDetails = {
+                                    url: apiUrl,
+                                    status: `${response.status} ${response.statusText}`,
+                                    contentType: contentType,
+                                    preview: JSON.stringify(data).substring(0, 300)
+                                };
+                                lastError = new Error(`HTTP ${response.status}: ${data.message || data.error || 'خطأ من السيرفر'}`);
+                            }
+                        } catch (jsonErr) {
+                            lastError = jsonErr;
+                        }
                     }
                 }
 
                 if (!data) {
-                    throw new Error(`لم يتم العثور على API صالح. آخر محاولة: ${lastAttemptInfo || 'غير معروفة'}${lastError ? `، السبب: ${lastError.message || lastError}` : ''}`);
+                    const errorDetailsMsg = lastAttemptDetails ? 
+                        `HTTP Status: ${lastAttemptDetails.status}\nContent-Type: ${lastAttemptDetails.contentType}\nURL: ${lastAttemptDetails.url}\n\nResponse Preview:\n${lastAttemptDetails.preview}` : 
+                        (lastError ? lastError.message : 'غير معروف');
+                    
+                    throw new Error(`لم يتم العثور على API شحن صالح.\n\n${errorDetailsMsg}`);
                 }
 
                 if (response.ok) {
@@ -3117,8 +3156,8 @@
                 });
             }
         }
-    
-</script>
+
+    </script>
 </body>
 
 </html>
