@@ -435,6 +435,12 @@
             color: white;
         }
 
+
+
+        .btn-whatsapp-confirmed {
+            box-shadow: 0 0 0 2px rgba(74, 222, 128, 0.4) !important;
+        }
+
         .btn:hover {
             transform: translateY(-1px);
             box-shadow: var(--shadow-float);
@@ -611,6 +617,34 @@
             margin-right: 5px;
         }
 
+        .order-status-badges {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            margin-top: 4px;
+        }
+
+        .wa-badge {
+            background: rgba(34, 197, 94, 0.14);
+            color: #4ade80;
+            border: 1px solid rgba(34, 197, 94, 0.32);
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+            white-space: nowrap;
+            letter-spacing: 0.2px;
+        }
+
+        .wa-badge i {
+            font-size: 0.8rem;
+        }
+
         .footer {
             text-align: center;
             padding: 14px;
@@ -785,7 +819,7 @@
 
             .actions {
                 display: grid;
-                grid-template-columns: repeat(4, minmax(0, 1fr));
+                grid-template-columns: repeat(3, minmax(0, 1fr));
                 gap: 6px;
                 padding: 0;
             }
@@ -884,7 +918,7 @@
             }
 
             .actions {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
+                grid-template-columns: repeat(3, minmax(0, 1fr));
             }
 
             .cell-id {
@@ -949,6 +983,19 @@
 
         .close-modal {
             margin-top: 20px;
+        }
+
+        /* ===== Blur Overlay for Login ===== */
+
+        .btn-danger-soft {
+            background: rgba(239, 68, 68, 0.15);
+            color: #fca5a5;
+            border: 1px solid rgba(239, 68, 68, 0.25);
+        }
+
+        .btn-danger-soft:hover {
+            background: rgba(239, 68, 68, 0.25);
+            color: white;
         }
 
         /* ===== Blur Overlay for Login ===== */
@@ -1330,8 +1377,8 @@
             <div class="filter-group">
                 <select id="productFilter" class="control-select" onchange="applyFilters()">
                     <option value="all">كل الطلبات</option>
-                    <option value="oil">زيت 108 عشبة</option>
-                    <option value="karseell">Karseell</option>
+                    <option value="watches">⌚ ساعات</option>
+                    <option value="karseell">💆 Karseell (كريم / ماسك / سيرم)</option>
                 </select>
                 <select id="exportFilter" class="control-select" onchange="applyFilters()">
                     <option value="all">جميع الطلبات</option>
@@ -1339,6 +1386,7 @@
                     <option value="not-exported">غير مُضافة</option>
                 </select>
             </div>
+
             <button class="btn btn-export-to-system btn-compact" id="exportToSystemBtn"
                 onclick="exportSelectedToSystem()">
                 <i class="fas fa-truck"></i>
@@ -1367,7 +1415,7 @@
                         <th style="min-width: 100px;">الحجم/الكمية</th>
                         <th>السعر الإجمالي</th>
                         <th style="min-width: 150px;">ملاحظات</th>
-                        <th style="min-width: 180px;">الإجراءات</th>
+                        <th style="min-width: 140px;">الإجراءات</th>
                     </tr>
                 </thead>
                 <tbody id="ordersTableBody">
@@ -1420,6 +1468,7 @@
             </button>
         </div>
     </div>
+
 
     <script>
         // Detect Ad Blocker
@@ -1867,6 +1916,9 @@
                         order.firebaseId = childSnapshot.key;
                         order._source = 'orders';
                         order.productType = order.productType || '🌿 زيت 108 عشبة';
+                        if (!order.whatsappConfirmed && localStorage.getItem('wa_confirmed_' + order.firebaseId)) {
+                            order.whatsappConfirmed = true;
+                        }
                         orderMap.set(order.firebaseId, order);
                     });
 
@@ -1877,6 +1929,9 @@
                         order._source = 'karseell-orders';
                         classifyKarseellProduct(order);
                         order = correctKarseellPrice(order);
+                        if (!order.whatsappConfirmed && localStorage.getItem('wa_confirmed_' + order.firebaseId)) {
+                            order.whatsappConfirmed = true;
+                        }
                         orderMap.set(order.firebaseId, order);
                     });
 
@@ -1975,6 +2030,10 @@
                 order = correctKarseellPrice(order);
             }
 
+            if (!order.whatsappConfirmed && localStorage.getItem('wa_confirmed_' + key)) {
+                order.whatsappConfirmed = true;
+            }
+
             // Prepend new order & keep sorted
             allOrdersCache.unshift(order);
             allOrdersCache.sort((a, b) => getSafeTime(b) - getSafeTime(a));
@@ -1997,10 +2056,25 @@
         // After initial load window, enable realtime triggers
         setTimeout(() => { isInitialLoad = false; }, 2000);
 
+        // Helper: detect watch orders across all product fields
+        function isWatchOrder(order) {
+            const prod = String(order.product || order.productType || order.product_name || '').toLowerCase();
+            return (
+                order.watch === true ||
+                prod.includes('ساعة') ||
+                prod.includes('ساعه') ||
+                prod.includes('rolex') ||
+                prod.includes('watch') ||
+                prod.includes('smart watch') ||
+                prod.includes('smartwatch')
+            );
+        }
+
         // =========================================================
         // Pipeline: Filters -> Search -> Sort -> Pagination -> Render
         // =========================================================
         function applyFiltersAndSearch({ resetPage = false } = {}) {
+
             const productFilter = document.getElementById('productFilter') ? document.getElementById('productFilter').value : 'all';
             const exportFilter = document.getElementById('exportFilter') ? document.getElementById('exportFilter').value : 'all';
             const searchInput = document.getElementById('searchInput');
@@ -2009,8 +2083,8 @@
             let results = allOrdersCache;
 
             // 1. Product Filter
-            if (productFilter === 'oil') {
-                results = results.filter(order => order.productType?.includes('زيت'));
+            if (productFilter === 'watches') {
+                results = results.filter(order => isWatchOrder(order));
             } else if (productFilter === 'karseell') {
                 results = results.filter(order => order.productType?.includes('Karseell'));
             }
@@ -2144,7 +2218,13 @@
                     <td class="cell-select">
                         <input type="checkbox" class="order-checkbox" data-firebase-id="${order.firebaseId}" ${isSelected ? 'checked' : ''} onchange="handleOrderCheckbox(this, '${order.firebaseId}')">
                     </td>
-                    <td class="order-id cell-id">#${displayOrderNumber}${isExported ? '<span class="exported-badge">✓ تم الإضافة</span>' : ''}</td>
+                    <td class="order-id cell-id">
+                        <div style="font-weight: 700; color: #7dd3fc;">#${displayOrderNumber}</div>
+                        <div class="order-status-badges">
+                            ${isExported ? '<span class="exported-badge">✓ تم الإضافة</span>' : ''}
+                            ${order.whatsappConfirmed ? '<span class="wa-badge" title="تم تأكيد إرسال رسالة الواتساب"><i class="fab fa-whatsapp"></i> تم إرسال واتساب</span>' : ''}
+                        </div>
+                    </td>
                     <td class="cell-name" onclick="copyToClipboard('${safeName}', 'الاسم')" style="cursor: pointer;" title="انقر لنسخ الاسم">
                         <strong>${order.name || '-'}</strong>
                     </td>
@@ -2175,10 +2255,7 @@
                         <button class="btn btn-view btn-small" onclick="viewDetails(${pageIndex}, ${displayOrderNumber})" title="عرض التفاصيل">
                             <i class="fas fa-eye"></i>
                         </button>
-                        <button class="btn btn-call btn-small" onclick="callCustomer('${order.phone}')" title="اتصال">
-                            <i class="fas fa-phone"></i>
-                        </button>
-                        <button class="btn btn-whatsapp btn-small" onclick="whatsappCustomer('${order.phone}', '${safeName}', '${safeGov}', '${safeAddress}', '${safeBottleSize}', ${totalPrice}, '${order.date}', '${order.time}', '${safeProductType}', ${quantity}, '${safeNotes}', '${order.phone2 || ''}')" title="تأكيد الطلب">
+                        <button class="btn btn-whatsapp btn-small ${order.whatsappConfirmed ? 'btn-whatsapp-confirmed' : ''}" onclick="whatsappCustomer('${order.phone}', '${safeName}', '${safeGov}', '${safeAddress}', '${safeBottleSize}', ${totalPrice}, '${order.date}', '${order.time}', '${safeProductType}', ${quantity}, '${safeNotes}', '${order.phone2 || ''}', '${order.firebaseId}')" title="${order.whatsappConfirmed ? 'تم تأكيد إرسال واتساب سابقاً - انقر لإعادة الإرسال' : 'تأكيد الطلب واتساب'}">
                             <i class="fab fa-whatsapp"></i>
                         </button>
                     </td>
@@ -2387,6 +2464,10 @@
                     ${orderNum}
                 </div>
                 <div class="detail-row">
+                    <strong>حالة تأكيد الواتساب:</strong>
+                    ${order.whatsappConfirmed ? '<span style="color: #4ade80; font-weight: 700;"><i class="fab fa-whatsapp"></i> تم إرسال واتساب</span>' : '<span style="color: var(--text-muted);">لم يتم التأكيد بعد</span>'}
+                </div>
+                <div class="detail-row">
                     <strong>التاريخ والوقت:</strong>
                     ${order.date || new Date(order.timestamp).toLocaleDateString('ar-EG')} - ${order.time || new Date(order.timestamp).toLocaleTimeString('ar-EG')}
                 </div>
@@ -2477,13 +2558,92 @@
             document.getElementById('detailsModal').classList.remove('active');
         }
 
-        // Call customer
-        function callCustomer(phone) {
-            window.location.href = `tel:${phone}`;
+        // Mark order WhatsApp confirmation status (persists to Firebase & local storage)
+        async function markOrderWhatsappStatus(order, status = true) {
+            if (!order || !order.firebaseId) return;
+            const now = Date.now();
+            order.whatsappConfirmed = !!status;
+            order.whatsappConfirmedAt = status ? now : null;
+
+            // 1. LocalStorage fallback
+            try {
+                if (status) {
+                    localStorage.setItem('wa_confirmed_' + order.firebaseId, JSON.stringify({ confirmed: true, at: now }));
+                } else {
+                    localStorage.removeItem('wa_confirmed_' + order.firebaseId);
+                }
+            } catch (e) {
+                console.warn('LocalStorage error:', e);
+            }
+
+            // 2. Firebase update
+            try {
+                const dbRef = getOrderDatabaseRef(order);
+                if (dbRef) {
+                    await dbRef.update({
+                        whatsappConfirmed: !!status,
+                        whatsappConfirmedAt: status ? now : null
+                    });
+                }
+            } catch (e) {
+                console.error('Firebase error updating whatsappConfirmed:', order.firebaseId, e);
+            }
         }
 
-        // WhatsApp customer with full order details
-        async function whatsappCustomer(phone, name, governorate, address, bottleSize, price, date, time, productType = '💆 Karseell', quantity = 1, notes = '', phone2 = '') {
+        // Normalize Egyptian phone number for WhatsApp
+        function normalizeWhatsappPhone(rawPhone) {
+            let clean = String(rawPhone || '').replace(/\D/g, '');
+            if (!clean) return '';
+            if (clean.startsWith('0020')) {
+                clean = clean.substring(2);
+            }
+            if (clean.startsWith('0')) {
+                clean = '20' + clean.substring(1);
+            } else if (!clean.startsWith('20')) {
+                clean = '20' + clean;
+            }
+            return clean;
+        }
+
+        // Shared WhatsApp message generation function
+        // Note: The Karseell-specific closing sentence has been completely removed.
+        function generateOrderWhatsappMessage(orderData) {
+            const name = String(orderData.name || '').trim();
+            const product = String(orderData.productType || orderData.product || '-').trim();
+            const quantity = orderData.quantity || 1;
+            const price = orderData.price ?? orderData.totalPrice ?? '-';
+            const governorate = String(orderData.governorate || '').trim();
+            const address = String(orderData.address || '').trim();
+            const notes = String(orderData.notes || '').trim();
+
+            const deliveryTime = (governorate.includes('القاهرة') || governorate.includes('الجيزة'))
+                ? 'خلال يوم إلى يومين.'
+                : 'خلال 3 إلى 5 أيام عمل.';
+
+            let orderMessage = `✅ تم تأكيد طلبكم بنجاح، وجارٍ حالياً تجهيزه وإرساله إلى أقرب مستودع لشركة الشحن بمنطقتكم.
+
+📋 تفاصيل الطلب:
+━━━━━━━━━━━━━━━
+👤 الاسم: ${name || '-'}
+🛍️ المنتج: ${product}
+📦 الكمية: ${quantity}
+💰 السعر الإجمالي: ${price} جنيه
+📍 المحافظة: ${governorate || '-'}
+🏠 العنوان: ${address || '-'}`;
+
+            if (notes) {
+                orderMessage += `\n📝 ملاحظات: ${notes}`;
+            }
+
+            orderMessage += `\n\n🚚 موعد الاستلام المتوقع: ${deliveryTime}
+
+📌 تم حجز المنتج باسمكم وبدء إجراءات الشحن. نرجو منكم الالتزام باستلام الطلب عند وصوله، وفي حال طرأ أي ظرف يرجى التواصل معنا قبل وصول المندوب، حيث إن إلغاء الطلب بعد الشحن يترتب عليه تكاليف شحن وتجهيز.`;
+
+            return orderMessage;
+        }
+
+        // Single order WhatsApp confirmation
+        async function whatsappCustomer(phone, name, governorate, address, bottleSize, price, date, time, productType, quantity = 1, notes = '', phone2 = '', firebaseId = '') {
             const rawPhone = String(phone || '').trim();
             const rawPhone2 = String(phone2 || '').trim();
 
@@ -2519,40 +2679,66 @@
                 selectedPhone = result.value === 'secondary' ? normalizedSecondary : normalizedPrimary;
             }
 
-            if (selectedPhone.startsWith('0')) {
-                selectedPhone = '20' + selectedPhone.substring(1);
-            } else if (!selectedPhone.startsWith('20')) {
-                selectedPhone = '20' + selectedPhone;
+            const formattedPhone = normalizeWhatsappPhone(selectedPhone);
+            if (!formattedPhone || formattedPhone.length < 9) {
+                await Swal.fire({
+                    icon: 'warning',
+                    title: 'رقم هاتف غير صالح',
+                    text: 'رقم الهاتف الخاص بهذا العميل غير متوفر أو غير مكتمل.',
+                    confirmButtonColor: '#0C5CAB'
+                });
+                return;
             }
 
-            const govName = String(governorate || '').trim();
-            const deliveryTime = (govName.includes('القاهرة') || govName.includes('الجيزة'))
-                ? 'خلال يوم إلى يومين.'
-                : 'خلال 3 إلى 5 أيام عمل.';
+            const orderMessage = generateOrderWhatsappMessage({
+                name,
+                productType,
+                quantity,
+                price,
+                governorate,
+                address,
+                notes
+            });
 
-            let orderMessage = `✅ تم تأكيد طلبكم بنجاح، وجارٍ حالياً تجهيزه وإرساله إلى أقرب مستودع لشركة الشحن بمنطقتكم.
+            const waUrl = 'https://wa.me/' + formattedPhone + '?text=' + encodeURIComponent(orderMessage);
+            const win = window.open(waUrl, '_blank');
 
-📋 تفاصيل الطلب:
-━━━━━━━━━━━━━━━
-👤 الاسم: ${name || ''}
-🛍️ المنتج: ${productType || 'Karseell'}
-📦 الكمية: ${quantity || '-'}
-💰 السعر الإجمالي: ${price || '-'} جنيه
-📍 المحافظة: ${governorate || '-'}
-🏠 العنوان: ${address || '-'}`;
-
-            if (notes) {
-                orderMessage += `\n📝 ملاحظات: ${notes}`;
+            if (!win || win.closed || typeof win.closed === 'undefined') {
+                await Swal.fire({
+                    icon: 'warning',
+                    title: 'تنبيه النوافذ المنبثقة',
+                    html: `تم حظر فتح نافذة واتساب تلقائياً من قبل المتصفح.<br><br>
+                           <a href="${waUrl}" target="_blank" class="btn btn-whatsapp" style="display:inline-flex; align-items:center; gap:8px; text-decoration:none; color:white; padding:10px 20px; border-radius:8px;">
+                               <i class="fab fa-whatsapp"></i> فتح واتساب يدوياً
+                           </a>`,
+                    confirmButtonText: 'حسناً',
+                    confirmButtonColor: '#0C5CAB'
+                });
             }
 
-            orderMessage += `\n\n🚚 موعد الاستلام المتوقع: ${deliveryTime}
+            // Explicit confirmation prompt after opening
+            if (firebaseId) {
+                const promptRes = await Swal.fire({
+                    title: 'تأكيد حالة الإرسال',
+                    html: `تم فتح محادثة العميل <strong>${name || ''}</strong>.<br><br>هل قمت بمراجعة الرسالة والضغط على إرسال في واتساب؟`,
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'نعم، تم الإرسال',
+                    cancelButtonText: 'لم يتم الإرسال بعد',
+                    confirmButtonColor: '#16a34a',
+                    cancelButtonColor: '#6b7280'
+                });
 
-📌 تم حجز المنتج باسمكم وبدء إجراءات الشحن. نرجو منكم الالتزام باستلام الطلب عند وصوله، وفي حال طرأ أي ظرف يرجى التواصل معنا قبل وصول المندوب، حيث إن إلغاء الطلب بعد الشحن يترتب عليه تكاليف شحن وتجهيز.
-
-🤝 شكراً لثقتكم بنا، ونسعد دائماً بخدمتكم. ونتمنى أن تنال منتجات Karseell إعجابكم. ❤️`;
-
-            window.open('https://wa.me/' + selectedPhone + '?text=' + encodeURIComponent(orderMessage), '_blank');
+                if (promptRes.isConfirmed) {
+                    const orderObj = allOrdersCache.find(o => o.firebaseId === firebaseId);
+                    if (orderObj) {
+                        await markOrderWhatsappStatus(orderObj, true);
+                        applyFiltersAndSearch({ resetPage: false });
+                    }
+                }
+            }
         }
+
 
         // Search orders (in-memory, debounced, resets to page 1)
         document.getElementById('searchInput').addEventListener('input', function (e) {
@@ -2706,6 +2892,8 @@
                 closeModal();
             }
         });
+
+
 
         // Checkbox individual toggle
         function handleOrderCheckbox(checkbox, firebaseId) {
@@ -2958,7 +3146,7 @@
                         if (!contentType.includes('application/json')) {
                             const rawText = await response.text();
                             const safePreview = rawText.substring(0, 300).replace(/("?(token|password|auth|secret)"?\s*:\s*")([^"]+)(")/gi, '$1***$4');
-                            
+
                             lastAttemptDetails = {
                                 url: apiUrl,
                                 status: `${response.status} ${response.statusText}`,
@@ -2989,10 +3177,10 @@
                 }
 
                 if (!data) {
-                    const errorDetailsMsg = lastAttemptDetails ? 
-                        `HTTP Status: ${lastAttemptDetails.status}\nContent-Type: ${lastAttemptDetails.contentType}\nURL: ${lastAttemptDetails.url}\n\nResponse Preview:\n${lastAttemptDetails.preview}` : 
+                    const errorDetailsMsg = lastAttemptDetails ?
+                        `HTTP Status: ${lastAttemptDetails.status}\nContent-Type: ${lastAttemptDetails.contentType}\nURL: ${lastAttemptDetails.url}\n\nResponse Preview:\n${lastAttemptDetails.preview}` :
                         (lastError ? lastError.message : 'غير معروف');
-                    
+
                     throw new Error(`لم يتم العثور على API شحن صالح.\n\n${errorDetailsMsg}`);
                 }
 
