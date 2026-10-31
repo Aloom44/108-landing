@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 
@@ -2888,7 +2887,8 @@
           </p>
 
           <div style="text-align: center; margin-bottom: 18px;">
-            <div style="font-size: 15px; font-weight: 800; color: #991b1b;">🔥 احصل على عرض القطعتين بسعر قطعة واحدة</div>
+            <div style="font-size: 15px; font-weight: 800; color: #991b1b;">🔥 احصل على عرض القطعتين بسعر قطعة واحدة
+            </div>
             <div style="font-size: 13px; font-weight: 700; color: #b45309; margin-top: 4px;">⏳ الكمية محدودة</div>
           </div>
 
@@ -2993,7 +2993,8 @@
                   +
                 </button>
               </div>
-              <div style="font-size: 11px; color: #6b7280; margin-top: 6px; text-align: center;">📦 الشحن مجاني على عرض القطعتين</div>
+              <div style="font-size: 11px; color: #6b7280; margin-top: 6px; text-align: center;">📦 الشحن مجاني على عرض
+                القطعتين</div>
             </div>
 
             <div>
@@ -3556,10 +3557,11 @@
         });
       }, 300);
 
-      // Track pixel event
-      trackEvent('InitiateCheckout', {
-        content_name: offerName,
-        value: totalPrice,
+      // Track SelectOffer custom event (Selecting an offer must NOT trigger InitiateCheckout)
+      trackEvent('SelectOffer', {
+        offer_name: offerName,
+        quantity: parseInt(document.getElementById('quantity')?.value, 10) || 1,
+        value: Number(totalPrice),
         currency: 'EGP'
       });
 
@@ -3607,16 +3609,33 @@
     }
 
 
-    // Meta Pixel Events
-    function trackEvent(eventName, data = {}) {
+    // Meta Standard Events Set
+    const META_STANDARD_EVENTS = new Set([
+      'PageView', 'ViewContent', 'Search', 'AddToCart', 'AddToWishlist',
+      'InitiateCheckout', 'AddPaymentInfo', 'Purchase', 'Lead',
+      'CompleteRegistration', 'Contact', 'CustomizeProduct', 'Donate',
+      'FindLocation', 'Schedule', 'StartTrial', 'SubmitApplication', 'Subscribe'
+    ]);
+
+    // Enhanced trackEvent supporting Standard and Custom events plus eventID options for CAPI deduplication
+    function trackEvent(eventName, data = {}, options = {}) {
       if (typeof fbq !== 'undefined') {
-        fbq('track', eventName, data);
-        console.log('✅ Pixel Event:', eventName, data);
+        const isStandard = META_STANDARD_EVENTS.has(eventName);
+        const method = isStandard ? 'track' : 'trackCustom';
+        if (options && options.eventID) {
+          fbq(method, eventName, data, options);
+        } else {
+          fbq(method, eventName, data);
+        }
+        console.log(`✅ Pixel Event [${method}]:`, eventName, data, options);
       }
     }
 
-    // Track ViewContent
-    setTimeout(function () {
+    // Track ViewContent (Protected against duplicate firing during the same page load)
+    let viewContentTracked = false;
+    function triggerViewContent() {
+      if (viewContentTracked) return;
+      viewContentTracked = true;
       trackEvent('ViewContent', {
         content_name: 'Karseell Hair Set',
         content_category: 'Hair Care',
@@ -3625,7 +3644,41 @@
         value: 650,
         currency: 'EGP'
       });
-    }, 1000);
+    }
+
+    setTimeout(triggerViewContent, 1000);
+
+    // InitiateCheckout Tracking State & Handler
+    let initiateCheckoutTracked = false;
+
+    function triggerInitiateCheckout() {
+      if (initiateCheckoutTracked) return;
+      initiateCheckoutTracked = true;
+
+      const offerName = document.getElementById('offer_type')?.value || selectedProductName || 'Karseell Hair Set';
+      const offerPrice = Number(document.getElementById('offer_price')?.value) || Number(selectedProductPrice) || 650;
+      const quantity = parseInt(document.getElementById('quantity')?.value, 10) || 1;
+
+      trackEvent('InitiateCheckout', {
+        content_name: offerName,
+        content_type: 'product',
+        value: offerPrice,
+        currency: 'EGP',
+        num_items: quantity
+      });
+    }
+
+    // Attach listeners for InitiateCheckout to fire strictly on user interaction with order form fields
+    document.addEventListener('DOMContentLoaded', function () {
+      const orderForm = document.getElementById('orderForm');
+      if (orderForm) {
+        const interactiveInputs = orderForm.querySelectorAll('input:not([type="hidden"]), select, textarea');
+        interactiveInputs.forEach(function (input) {
+          input.addEventListener('focus', triggerInitiateCheckout, { passive: true });
+          input.addEventListener('input', triggerInitiateCheckout, { passive: true });
+        });
+      }
+    });
 
     // Firebase Configuration
     const firebaseConfig = {
@@ -3690,9 +3743,18 @@
       }
     });
 
-    // Form Submission
+    // Form Submission & Order Processing
+    let isSubmitting = false;
+    const processedOrderIds = new Set();
+
     document.getElementById('orderForm').addEventListener('submit', async function (e) {
       e.preventDefault();
+
+      // Prevent repeated button clicks / double submissions
+      if (isSubmitting) {
+        console.warn('⚠️ Order submission already in progress.');
+        return;
+      }
 
       // Get offer data from hidden inputs
       const offerType = document.getElementById('offer_type').value;
@@ -3744,9 +3806,22 @@
         return;
       }
 
+      // Lock submit button to prevent double-clicks
+      isSubmitting = true;
+      const submitBtn = this.querySelector('button[type="submit"]');
+      const originalBtnHtml = submitBtn ? submitBtn.innerHTML : '';
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '⏳ جاري تأكيد الطلب...';
+      }
+
       const now = new Date();
       const dateStr = now.toLocaleDateString('ar-EG');
       const timeStr = now.toLocaleTimeString('ar-EG');
+
+      const finalPrice = Number(offerPrice) || Number(selectedProductPrice) || 0;
+      const finalQuantity = parseInt(quantity, 10) || 1;
+      const finalShipping = Number(selectedShippingCost) || 0;
 
       const orderData = {
         name: formData.get('name'),
@@ -3756,29 +3831,85 @@
         address: formData.get('address'),
         notes: formData.get('notes') || '',
         product: offerType,
-        quantity: quantity,
-        price: offerPrice,
-        shipping: selectedShippingCost || 0,
+        quantity: finalQuantity,
+        price: finalPrice,
+        shipping: finalShipping,
         productType: selectedProduct,
         date: dateStr,
         time: timeStr,
         timestamp: now.getTime()
       };
 
-      // Track Purchase
-      trackEvent('Purchase', {
-        content_name: orderData.product,
-        content_ids: ['karseell-' + selectedProduct],
-        content_type: 'product',
-        value: selectedProductPrice,
-        currency: 'EGP',
-        num_items: 1
-      });
+      // Check for immediate duplicate submission (same phone & product within 60 seconds)
+      const orderFingerprint = `${orderData.phone}_${orderData.product}`;
+      const lastOrderTime = sessionStorage.getItem('last_order_ts_' + orderFingerprint);
+      if (lastOrderTime && (now.getTime() - parseInt(lastOrderTime, 10)) < 60000) {
+        Swal.fire({
+          title: '⚠️ تم استلام طلبك بالفعل!',
+          text: 'لقد تم إرسال هذا الطلب للتو بنجاح، وسيقوم فريق خدمة العملاء بالتواصل معكِ قريباً.',
+          icon: 'info',
+          confirmButtonText: 'تمام',
+          confirmButtonColor: '#f59e0b'
+        });
+        isSubmitting = false;
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnHtml;
+        }
+        return;
+      }
 
       try {
-        await database.ref('karseell-orders').push(orderData);
-        console.log('✅ Order saved to Firebase!');
+        // Step 1: Obtain reference synchronously to secure valid order key
+        const newOrderRef = database.ref('karseell-orders').push(orderData);
+        const orderId = newOrderRef ? newOrderRef.key : null;
 
+        if (!orderId || typeof orderId !== 'string' || !orderId.trim()) {
+          throw new Error('Firebase did not return a valid order ID');
+        }
+
+        // Wait for server-side persistence confirmation
+        await newOrderRef;
+        console.log('✅ Order saved to Firebase with verified ID:', orderId);
+        try {
+          sessionStorage.setItem('last_order_ts_' + orderFingerprint, String(now.getTime()));
+        } catch (e) {}
+
+        // Step 2: Deduplication guard (in-memory Set + sessionStorage)
+        const sessionKey = 'karseell_order_processed_' + orderId;
+        let isAlreadyTracked = processedOrderIds.has(orderId);
+        try {
+          if (sessionStorage.getItem(sessionKey)) {
+            isAlreadyTracked = true;
+          }
+        } catch (e) {}
+
+        if (!isAlreadyTracked) {
+          processedOrderIds.add(orderId);
+          try {
+            sessionStorage.setItem(sessionKey, 'true');
+          } catch (e) {}
+
+          // Step 3: Track Lead ONLY after confirmed successful order persistence
+          trackEvent('Lead', {
+            content_name: orderData.product,
+            value: finalPrice,
+            currency: 'EGP',
+            order_id: orderId
+          }, { eventID: 'lead_' + orderId });
+
+          // Step 4: Track Purchase ONLY after confirmed successful order persistence
+          trackEvent('Purchase', {
+            content_name: orderData.product,
+            content_type: 'product',
+            value: finalPrice,
+            currency: 'EGP',
+            num_items: finalQuantity,
+            order_id: orderId
+          }, { eventID: orderId });
+        }
+
+        // Step 5: Display existing confirmation modal
         Swal.fire({
           title: '🎉 تم تأكيد طلبك بنجاح!',
           html: `
@@ -3811,48 +3942,36 @@
           }
         });
 
-        // Reset form and selection
+        // Step 6: Reset form and selection state
         this.reset();
         selectedProduct = null;
         selectedProductName = '';
         selectedProductPrice = 0;
+        selectedShippingCost = 0;
+        initiateCheckoutTracked = false; // Reset initiate checkout flag for fresh future attempt
         document.getElementById('selectedOfferDisplay').style.display = 'none';
         document.getElementById('offer_type').value = '';
         document.getElementById('offer_price').value = '';
         document.querySelectorAll('.product-card, .offer-card').forEach(card => {
           card.classList.remove('selected');
         });
-      } catch (error) {
-        console.error('❌ Firebase Error:', error);
-        Swal.fire({
-          title: '✅ تم حفظ طلبك!',
-          text: 'سيتم التواصل معك قريباً 💖',
-          icon: 'success',
-          confirmButtonText: 'تمام',
-          confirmButtonColor: '#f59e0b'
-        });
-        // Reset form and selection
-        this.reset();
-        selectedProduct = null;
-        selectedProductName = '';
-        selectedProductPrice = 0;
-        document.getElementById('selectedProductDisplay').style.display = 'none';
-        document.querySelectorAll('.product-card, .offer-card').forEach(card => {
-          card.classList.remove('selected');
-        });
-      }
-    });
 
-    // Track Lead when phone number entered
-    let leadTracked = false;
-    document.querySelector('input[name="phone"]').addEventListener('input', function (e) {
-      if (!leadTracked && e.target.value.length >= 10) {
-        trackEvent('Lead', {
-          content_name: 'Karseell Hair Set',
-          content_category: 'Hair Care',
-          currency: 'EGP'
+      } catch (error) {
+        // Strict Error Handling: Never fire Lead or Purchase if Firebase persistence fails
+        console.error('❌ Firebase Error during order creation:', error.message || error);
+        Swal.fire({
+          title: '❌ تعذر إرسال الطلب',
+          text: 'حدث خطأ في الاتصال بالخادم. يرجى التحقق من اتصال الإنترنت والمحاولة مرة أخرى.',
+          icon: 'error',
+          confirmButtonText: 'حسناً',
+          confirmButtonColor: '#ea580c'
         });
-        leadTracked = true;
+      } finally {
+        isSubmitting = false;
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnHtml;
+        }
       }
     });
 
