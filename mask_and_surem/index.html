@@ -3821,7 +3821,21 @@
 
       const finalPrice = Number(offerPrice) || Number(selectedProductPrice) || 0;
       const finalQuantity = parseInt(quantity, 10) || 1;
-      const finalShipping = Number(selectedShippingCost) || 0;
+
+      // Normalize package count & shipping for Karseell Combo Model
+      let packageQuantity = finalQuantity;
+      let finalShipping = Number(selectedShippingCost) || 0;
+
+      if (offerType.includes('3 كريم') || offerType.includes('العرض الأقوى')) {
+        packageQuantity = 3 * finalQuantity;
+        finalShipping = 0;
+      } else if (offerType.includes('2 كريم') || offerType.includes('عرض القطعتين')) {
+        packageQuantity = 2 * finalQuantity;
+        finalShipping = 0;
+      } else {
+        packageQuantity = 1 * finalQuantity;
+        finalShipping = 50;
+      }
 
       const orderData = {
         name: formData.get('name'),
@@ -3860,24 +3874,127 @@
       }
 
       try {
-        // Step 1: Obtain reference synchronously to secure valid order key
-        const newOrderRef = database.ref('karseell-orders').push(orderData);
-        const orderId = newOrderRef ? newOrderRef.key : null;
+        let logexaOrderCode = null;
+        let savedKey = null;
 
-        if (!orderId || typeof orderId !== 'string' || !orderId.trim()) {
-          throw new Error('Firebase did not return a valid order ID');
+        // 1. Primary: Direct HTTPS POST to Logexa Shipping System Intake API
+        const logexaPayload = {
+          name: orderData.name,
+          phone: orderData.phone,
+          phone2: orderData.phone2 || '',
+          governorate: orderData.governorate,
+          address: orderData.address,
+          notes: orderData.notes || '',
+          product: orderData.product,
+          product_name: 'كريم كارسيل وسيرم',
+          product_id: 19,
+          variant_id: 64,
+          quantity: packageQuantity,
+          price: finalPrice,
+          total: finalPrice,
+          shipping: finalShipping,
+          shipping_cost: finalShipping,
+          source: 'karsell.store',
+          source_page: 'تاج الجمال',
+          page_name: 'تاج الجمال',
+          date: dateStr,
+          time: timeStr,
+          timestamp: now.getTime()
+        };
+
+        try {
+          const logexaController = new AbortController();
+          const logexaTimeout = setTimeout(() => logexaController.abort(), 6000);
+
+          const logexaRes = await fetch('https://logexa.tech/api/import-firebase-orders/', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(logexaPayload),
+            signal: logexaController.signal
+          });
+          clearTimeout(logexaTimeout);
+
+          if (logexaRes.ok) {
+            const logexaData = await logexaRes.json();
+            if (logexaData && logexaData.success && Array.isArray(logexaData.imported_orders) && logexaData.imported_orders.length > 0) {
+              logexaOrderCode = logexaData.imported_orders[0].order_code;
+              console.log('✅ [Logexa] Order synced with code:', logexaOrderCode);
+            }
+          } else {
+            console.warn('⚠️ [Logexa] HTTP Status:', logexaRes.status);
+          }
+        } catch (logexaErr) {
+          console.warn('⚠️ [Logexa] API connection notice:', logexaErr);
         }
 
-        // Wait for server-side persistence confirmation
-        await newOrderRef;
-        console.log('✅ Order saved to Firebase with verified ID:', orderId);
+        // 2. Parallel / Fallback: Save to Firebase karseell-orders with sync telemetry
+        const firebasePayload = {
+          ...orderData,
+          logexa_order_code: logexaOrderCode || null,
+          logexa_synced: !!logexaOrderCode
+        };
+
+        // 2.1 Attempt REST API push first
+        try {
+          const fbRes = await fetch('https://herbs-orders-default-rtdb.firebaseio.com/karseell-orders.json', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(firebasePayload)
+          });
+          if (fbRes.ok) {
+            const fbData = await fbRes.json();
+            if (fbData && fbData.name) {
+              savedKey = fbData.name;
+              console.log('✅ [Firebase] Order saved via REST API:', savedKey);
+            }
+          }
+        } catch (restErr) {
+          console.warn('⚠️ [Firebase] REST error, attempting SDK push:', restErr);
+        }
+
+        // 2.2 Fallback to Firebase Web SDK if REST did not return a key
+        if (!savedKey) {
+          try {
+            const newOrderRef = database.ref('karseell-orders').push(firebasePayload);
+            if (newOrderRef && newOrderRef.key) {
+              savedKey = newOrderRef.key;
+              await newOrderRef;
+              console.log('✅ [Firebase] Order saved via SDK fallback:', savedKey);
+            }
+          } catch (sdkErr) {
+            console.error('❌ [Firebase] SDK fallback error:', sdkErr);
+          }
+        }
+
+        // 3. Guarantee: Must have succeeded in at least one system (Logexa or Firebase)
+        if (!logexaOrderCode && !savedKey) {
+          throw new Error('تعذر تسجيل الطلب في الخادم. يرجى التحقق من اتصال الإنترنت والمحاولة مرة أخرى.');
+        }
+
+        const effectiveOrderId = savedKey || ('logexa_' + logexaOrderCode);
+
+        // Update local deduplication timestamp
         try {
           sessionStorage.setItem('last_order_ts_' + orderFingerprint, String(now.getTime()));
         } catch (e) {}
 
+        // Backup to localStorage under 'hairOilOrders'
+        try {
+          const localOrders = JSON.parse(localStorage.getItem('hairOilOrders') || '[]');
+          localOrders.push({
+            ...firebasePayload,
+            firebaseId: effectiveOrderId
+          });
+          localStorage.setItem('hairOilOrders', JSON.stringify(localOrders));
+        } catch (storageErr) {}
+
         // Step 2: Deduplication guard (in-memory Set + sessionStorage)
-        const sessionKey = 'karseell_order_processed_' + orderId;
-        let isAlreadyTracked = processedOrderIds.has(orderId);
+        const sessionKey = 'karseell_order_processed_' + effectiveOrderId;
+        let isAlreadyTracked = processedOrderIds.has(effectiveOrderId);
         try {
           if (sessionStorage.getItem(sessionKey)) {
             isAlreadyTracked = true;
@@ -3885,7 +4002,7 @@
         } catch (e) {}
 
         if (!isAlreadyTracked) {
-          processedOrderIds.add(orderId);
+          processedOrderIds.add(effectiveOrderId);
           try {
             sessionStorage.setItem(sessionKey, 'true');
           } catch (e) {}
@@ -3895,8 +4012,8 @@
             content_name: orderData.product,
             value: finalPrice,
             currency: 'EGP',
-            order_id: orderId
-          }, { eventID: 'lead_' + orderId });
+            order_id: effectiveOrderId
+          }, { eventID: 'lead_' + effectiveOrderId });
 
           // Step 4: Track Purchase ONLY after confirmed successful order persistence
           trackEvent('Purchase', {
@@ -3905,8 +4022,8 @@
             value: finalPrice,
             currency: 'EGP',
             num_items: finalQuantity,
-            order_id: orderId
-          }, { eventID: orderId });
+            order_id: effectiveOrderId
+          }, { eventID: effectiveOrderId });
         }
 
         // Step 5: Display existing confirmation modal
