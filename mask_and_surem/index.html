@@ -38,10 +38,6 @@
       src="https://www.facebook.com/tr?id=25914318858170088&ev=PageView&noscript=1" /></noscript>
   <!-- End Meta Pixel Code -->
 
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
-
   <!-- SweetAlert2 -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <!-- Swiper.js & Fancybox -->
@@ -3680,24 +3676,6 @@
       }
     });
 
-    // Firebase Configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyCVJYD2adDrZD2C7jnTjVhiewxVohZzM38",
-      authDomain: "herbs-orders.firebaseapp.com",
-      databaseURL: "https://herbs-orders-default-rtdb.firebaseio.com",
-      projectId: "herbs-orders",
-      storageBucket: "herbs-orders.firebasestorage.app",
-      messagingSenderId: "866663461200",
-      appId: "1:866663461200:web:0b891e0eb53a16c555fc55"
-    };
-
-    // Initialize Firebase
-    if (!firebase.apps.length) {
-      firebase.initializeApp(firebaseConfig);
-    }
-    const database = firebase.database();
-    console.log('🔥 Firebase initialized for Karseell orders!');
-
     // إضافة event listener لتغيير الكمية
     document.addEventListener('DOMContentLoaded', function () {
       const quantityInput = document.getElementById('quantity');
@@ -3743,9 +3721,14 @@
       }
     });
 
-    // Form Submission & Order Processing
+    // Form Submission & Direct Logexa Order Processing (Zero Firebase)
     let isSubmitting = false;
+    let activeSubmissionIdempotencyKey = null;
     const processedOrderIds = new Set();
+
+    function generateIdempotencyKey() {
+      return 'ik_' + Date.now() + '_' + Math.random().toString(36).substring(2, 9);
+    }
 
     document.getElementById('orderForm').addEventListener('submit', async function (e) {
       e.preventDefault();
@@ -3806,13 +3789,18 @@
         return;
       }
 
+      // Maintain session idempotency key across retries
+      if (!activeSubmissionIdempotencyKey) {
+        activeSubmissionIdempotencyKey = generateIdempotencyKey();
+      }
+
       // Lock submit button to prevent double-clicks
       isSubmitting = true;
       const submitBtn = this.querySelector('button[type="submit"]');
       const originalBtnHtml = submitBtn ? submitBtn.innerHTML : '';
       if (submitBtn) {
         submitBtn.disabled = true;
-        submitBtn.innerHTML = '⏳ جاري تأكيد الطلب...';
+        submitBtn.innerHTML = '⏳ جاري تأكيد وتسجيل طلبك...';
       }
 
       const now = new Date();
@@ -3854,30 +3842,12 @@
         timestamp: now.getTime()
       };
 
-      // Check for immediate duplicate submission (same phone & product within 60 seconds)
-      const orderFingerprint = `${orderData.phone}_${orderData.product}`;
-      const lastOrderTime = sessionStorage.getItem('last_order_ts_' + orderFingerprint);
-      if (lastOrderTime && (now.getTime() - parseInt(lastOrderTime, 10)) < 60000) {
-        Swal.fire({
-          title: '⚠️ تم استلام طلبك بالفعل!',
-          text: 'لقد تم إرسال هذا الطلب للتو بنجاح، وسيقوم فريق خدمة العملاء بالتواصل معكِ قريباً.',
-          icon: 'info',
-          confirmButtonText: 'تمام',
-          confirmButtonColor: '#f59e0b'
-        });
-        isSubmitting = false;
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.innerHTML = originalBtnHtml;
-        }
-        return;
-      }
-
       try {
         let logexaOrderCode = null;
-        let savedKey = null;
+        let orderConfirmed = false;
+        let networkFailedOrTimedOut = false;
 
-        // 1. Primary: Direct HTTPS POST to Logexa Shipping System Intake API
+        // Primary: Direct HTTPS POST to Logexa Shipping System Intake API
         const logexaPayload = {
           name: orderData.name,
           phone: orderData.phone,
@@ -3899,17 +3869,19 @@
           page_name: 'تاج الجمال',
           date: dateStr,
           time: timeStr,
-          timestamp: now.getTime()
+          timestamp: now.getTime(),
+          idempotency_key: activeSubmissionIdempotencyKey
         };
 
         try {
           const logexaController = new AbortController();
-          const logexaTimeout = setTimeout(() => logexaController.abort(), 6000);
+          const logexaTimeout = setTimeout(() => logexaController.abort(), 15000); // 15 seconds timeout
 
           const logexaRes = await fetch('https://logexa.tech/api/import-firebase-orders/', {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
+              'X-Idempotency-Key': activeSubmissionIdempotencyKey
             },
             body: JSON.stringify(logexaPayload),
             signal: logexaController.signal
@@ -3920,79 +3892,71 @@
             const logexaData = await logexaRes.json();
             if (logexaData && logexaData.success && Array.isArray(logexaData.imported_orders) && logexaData.imported_orders.length > 0) {
               logexaOrderCode = logexaData.imported_orders[0].order_code;
+              orderConfirmed = true;
               console.log('✅ [Logexa] Order synced with code:', logexaOrderCode);
+            } else {
+              throw new Error(logexaData?.message || logexaData?.error || 'تعذر معالجة الطلب في خادم الشحن');
             }
           } else {
-            console.warn('⚠️ [Logexa] HTTP Status:', logexaRes.status);
+            const errData = await logexaRes.json().catch(() => ({}));
+            throw new Error(errData?.error || errData?.message || ('HTTP ' + logexaRes.status));
           }
         } catch (logexaErr) {
-          console.warn('⚠️ [Logexa] API connection notice:', logexaErr);
-        }
-
-        // 2. Parallel / Fallback: Save to Firebase karseell-orders with sync telemetry
-        const firebasePayload = {
-          ...orderData,
-          logexa_order_code: logexaOrderCode || null,
-          logexa_synced: !!logexaOrderCode
-        };
-
-        // 2.1 Attempt REST API push first
-        try {
-          const fbRes = await fetch('https://herbs-orders-default-rtdb.firebaseio.com/karseell-orders.json', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(firebasePayload)
-          });
-          if (fbRes.ok) {
-            const fbData = await fbRes.json();
-            if (fbData && fbData.name) {
-              savedKey = fbData.name;
-              console.log('✅ [Firebase] Order saved via REST API:', savedKey);
-            }
+          if (logexaErr.name === 'AbortError' || logexaErr.message?.includes('Failed to fetch') || logexaErr.message?.includes('NetworkError')) {
+            networkFailedOrTimedOut = true;
+            console.warn('⚠️ [Logexa] Client timeout or network failure. Verifying idempotency with server...');
+          } else {
+            throw logexaErr;
           }
-        } catch (restErr) {
-          console.warn('⚠️ [Firebase] REST error, attempting SDK push:', restErr);
         }
 
-        // 2.2 Fallback to Firebase Web SDK if REST did not return a key
-        if (!savedKey) {
+        // Idempotency check upon client timeout or network disconnect
+        if (networkFailedOrTimedOut && !orderConfirmed) {
           try {
-            const newOrderRef = database.ref('karseell-orders').push(firebasePayload);
-            if (newOrderRef && newOrderRef.key) {
-              savedKey = newOrderRef.key;
-              await newOrderRef;
-              console.log('✅ [Firebase] Order saved via SDK fallback:', savedKey);
+            const verifyCtrl = new AbortController();
+            const verifyTimeout = setTimeout(() => verifyCtrl.abort(), 6000);
+            const verifyRes = await fetch('https://logexa.tech/api/import-firebase-orders/?idempotency_key=' + encodeURIComponent(activeSubmissionIdempotencyKey), {
+              method: 'GET',
+              headers: { 'Accept': 'application/json' },
+              signal: verifyCtrl.signal
+            });
+            clearTimeout(verifyTimeout);
+            if (verifyRes.ok) {
+              const verifyData = await verifyRes.json();
+              if (verifyData && verifyData.success && verifyData.exists && verifyData.order_code) {
+                logexaOrderCode = verifyData.order_code;
+                orderConfirmed = true;
+                console.log('✅ [Logexa] Order confirmed via idempotency verification:', logexaOrderCode);
+              }
             }
-          } catch (sdkErr) {
-            console.error('❌ [Firebase] SDK fallback error:', sdkErr);
+          } catch (verifyErr) {
+            console.warn('⚠️ [Logexa] Idempotency probe also timed out:', verifyErr);
           }
         }
 
-        // 3. Guarantee: Must have succeeded in at least one system (Logexa or Firebase)
-        if (!logexaOrderCode && !savedKey) {
-          throw new Error('تعذر تسجيل الطلب في الخادم. يرجى التحقق من اتصال الإنترنت والمحاولة مرة أخرى.');
+        // If not confirmed, retain form data and present explicit retry
+        if (!orderConfirmed || !logexaOrderCode) {
+          Swal.fire({
+            title: '⚠️ تعذر استلام تأكيد الطلب',
+            text: 'حدث بطء أو انقطاع مؤقت في الاتصال بالإنترنت. بياناتك ما زالت محفوظة بالكامل، اضغطي على الزر أدناه لإعادة المحاولة فوراً.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: '🔄 إعادة المحاولة الآن',
+            cancelButtonText: 'إغلاق',
+            confirmButtonColor: '#ea580c',
+            cancelButtonColor: '#6b7280'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              document.getElementById('orderForm').dispatchEvent(new Event('submit', { cancelable: true }));
+            }
+          });
+          return;
         }
 
-        const effectiveOrderId = savedKey || ('logexa_' + logexaOrderCode);
+        const effectiveOrderId = logexaOrderCode;
+        activeSubmissionIdempotencyKey = null; // Clear key on confirmed success
 
-        // Update local deduplication timestamp
-        try {
-          sessionStorage.setItem('last_order_ts_' + orderFingerprint, String(now.getTime()));
-        } catch (e) {}
-
-        // Backup to localStorage under 'hairOilOrders'
-        try {
-          const localOrders = JSON.parse(localStorage.getItem('hairOilOrders') || '[]');
-          localOrders.push({
-            ...firebasePayload,
-            firebaseId: effectiveOrderId
-          });
-          localStorage.setItem('hairOilOrders', JSON.stringify(localOrders));
-        } catch (storageErr) {}
-
-        // Step 2: Deduplication guard (in-memory Set + sessionStorage)
+        // Step 2: Deduplication guard for Pixel events
         const sessionKey = 'karseell_order_processed_' + effectiveOrderId;
         let isAlreadyTracked = processedOrderIds.has(effectiveOrderId);
         try {
@@ -4007,7 +3971,7 @@
             sessionStorage.setItem(sessionKey, 'true');
           } catch (e) {}
 
-          // Step 3: Track Lead ONLY after confirmed successful order persistence
+          // Step 3: Track Lead ONLY after confirmed Logexa persistence
           trackEvent('Lead', {
             content_name: orderData.product,
             value: finalPrice,
@@ -4015,7 +3979,7 @@
             order_id: effectiveOrderId
           }, { eventID: 'lead_' + effectiveOrderId });
 
-          // Step 4: Track Purchase ONLY after confirmed successful order persistence
+          // Step 4: Track Purchase ONLY after confirmed Logexa persistence
           trackEvent('Purchase', {
             content_name: orderData.product,
             content_type: 'product',
@@ -4026,11 +3990,15 @@
           }, { eventID: effectiveOrderId });
         }
 
-        // Step 5: Display existing confirmation modal
+        // Step 5: Display receipt confirmation modal
         Swal.fire({
           title: '🎉 تم تأكيد طلبك بنجاح!',
           html: `
             <div style="text-align: right; padding: 15px;">
+              <div style="background: #ecfdf5; border: 1px solid #a7f3d0; padding: 10px; border-radius: 8px; margin-bottom: 12px; text-align: center;">
+                <span style="font-size: 0.9rem; color: #065f46;">رقم الطلب في نظام الشحن:</span>
+                <strong style="font-size: 1.25rem; color: #059669; display: block; letter-spacing: 1px;">#${effectiveOrderId}</strong>
+              </div>
               <p style="font-size: 0.95rem; margin-bottom: 12px;"><strong>📋 بيانات الطلب:</strong></p>
               <p style="margin: 6px 0; font-size: 0.9rem;"><strong>👤 الاسم:</strong> ${orderData.name}</p>
               <p style="margin: 6px 0; font-size: 0.9rem;"><strong>📱 الهاتف الأساسي:</strong> ${orderData.phone}</p>
@@ -4059,13 +4027,13 @@
           }
         });
 
-        // Step 6: Reset form and selection state
+        // Step 6: Reset form and selection state ONLY on verified success
         this.reset();
         selectedProduct = null;
         selectedProductName = '';
         selectedProductPrice = 0;
         selectedShippingCost = 0;
-        initiateCheckoutTracked = false; // Reset initiate checkout flag for fresh future attempt
+        initiateCheckoutTracked = false;
         document.getElementById('selectedOfferDisplay').style.display = 'none';
         document.getElementById('offer_type').value = '';
         document.getElementById('offer_price').value = '';
@@ -4074,11 +4042,10 @@
         });
 
       } catch (error) {
-        // Strict Error Handling: Never fire Lead or Purchase if Firebase persistence fails
-        console.error('❌ Firebase Error during order creation:', error.message || error);
+        console.error('❌ Error during order creation:', error.message || error);
         Swal.fire({
           title: '❌ تعذر إرسال الطلب',
-          text: 'حدث خطأ في الاتصال بالخادم. يرجى التحقق من اتصال الإنترنت والمحاولة مرة أخرى.',
+          text: error.message || 'حدث خطأ في الاتصال بالخادم. يرجى التحقق من اتصال الإنترنت والمحاولة مرة أخرى.',
           icon: 'error',
           confirmButtonText: 'حسناً',
           confirmButtonColor: '#ea580c'
@@ -4092,7 +4059,7 @@
       }
     });
 
-    // Track Order System
+    // Track Order System (Direct from Logexa)
     let currentOrderData = null;
     let currentOrderKey = null;
 
@@ -4132,27 +4099,25 @@
       });
 
       try {
-        const ordersRef = database.ref('karseell-orders');
-        const snapshot = await ordersRef.orderByChild('phone').equalTo(phone).limitToLast(1).once('value');
-
+        const res = await fetch('https://logexa.tech/api/import-firebase-orders/?phone=' + encodeURIComponent(phone));
         Swal.close();
 
-        if (snapshot.exists()) {
-          // Get the first (and only) order
-          snapshot.forEach((childSnapshot) => {
-            currentOrderKey = childSnapshot.key;
-            currentOrderData = childSnapshot.val();
-          });
-
-          displayOrderDetails(currentOrderData);
-          document.getElementById('trackResults').style.display = 'block';
-          document.getElementById('trackNoResults').style.display = 'none';
-        } else {
-          document.getElementById('trackResults').style.display = 'none';
-          document.getElementById('trackNoResults').style.display = 'block';
+        if (res.ok) {
+          const resData = await res.json();
+          if (resData.success && resData.found && resData.order) {
+            currentOrderData = resData.order;
+            displayOrderDetails(currentOrderData);
+            document.getElementById('trackResults').style.display = 'block';
+            document.getElementById('trackNoResults').style.display = 'none';
+            return;
+          }
         }
+
+        document.getElementById('trackResults').style.display = 'none';
+        document.getElementById('trackNoResults').style.display = 'block';
       } catch (error) {
         console.error('Error tracking order:', error);
+        Swal.close();
         Swal.fire({
           title: '❌ حدث خطأ',
           text: 'برجاء المحاولة مرة أخرى',

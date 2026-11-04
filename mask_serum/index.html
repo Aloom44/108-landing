@@ -39,10 +39,7 @@
   </noscript>
   <!-- End Meta Pixel Code -->
 
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+
   <!-- EmailJS SDK -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
@@ -4039,21 +4036,16 @@
       });
     }
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyCVJYD2adDrZD2C7jnTjVhiewxVohZzM38",
-      authDomain: "herbs-orders.firebaseapp.com",
-      databaseURL: "https://herbs-orders-default-rtdb.firebaseio.com",
-      projectId: "herbs-orders",
-      storageBucket: "herbs-orders.firebasestorage.app",
-      messagingSenderId: "866663461200",
-      appId: "1:866663461200:web:0b891e0eb53a16c555fc55"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const database = firebase.database();
 
-    // Deduplication guard for order processing
+
+    // Order Processing & Direct Logexa Integration (Zero Firebase)
     let isSubmitting = false;
+    let activeSubmissionIdempotencyKey = null;
     const processedOrderIds = new Set();
+
+    function generateIdempotencyKey() {
+      return 'ik_' + Date.now() + '_' + Math.random().toString(36).substring(2, 9);
+    }
 
     document.getElementById('orderForm').addEventListener('submit', async function (e) {
       e.preventDefault();
@@ -4063,50 +4055,52 @@
         return;
       }
 
-      const select = document.getElementById('offerSelect');
-      const option = select.options[select.selectedIndex];
+      const activeOffer = document.querySelector('.offer-card.active, .offer-card.selected');
+      const offerTitle = activeOffer ? activeOffer.querySelector('.offer-title')?.textContent.trim() : 'العرض الأساسي';
+      const offerPrice = activeOffer ? parseInt(activeOffer.getAttribute('data-price')) : 600;
 
-      const priceVal = parseInt(select.value) || 0;
-      const shippingVal = (priceVal === 500 || priceVal === 600) ? 50 : 0;
-      const totalPriceVal = priceVal + shippingVal;
+      const name = document.getElementById('name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const phone2 = document.getElementById('phone2') ? document.getElementById('phone2').value.trim() : '';
+      const governorate = document.getElementById('governorate').value;
+      const address = document.getElementById('address').value.trim();
+      const notes = document.getElementById('notes') ? document.getElementById('notes').value.trim() : '';
 
-      const selectedProductName = option.getAttribute('data-name') || '';
-
-      // Determine product mapping & package quantity
-      const isMaskOffer = (priceVal === 500 || priceVal === 1000 || priceVal === 1450 || selectedProductName.includes('عبوة') || selectedProductName.includes('عبوتين') || selectedProductName.includes('عبوات'));
-
+      // Determine bundle mapping for combo packaging
+      let logexaQuantity = 1;
+      let shippingVal = 50;
       let logexaProductId = 19;
       let logexaVariantId = 64;
       let logexaProductName = 'كريم كارسيل وسيرم';
-      let logexaQuantity = 1;
 
-      if (isMaskOffer) {
-        logexaProductId = 20;
-        logexaVariantId = 65;
-        logexaProductName = 'كريم كولاجين';
-        logexaQuantity = (priceVal === 1000 ? 2 : (priceVal === 1450 ? 3 : 1));
+      if (offerTitle.includes('3') || offerTitle.includes('ثلاث') || offerPrice >= 1600) {
+        logexaQuantity = 3;
+        shippingVal = 0;
+      } else if (offerTitle.includes('2') || offerTitle.includes('قطعتين') || (offerPrice >= 1100 && offerPrice <= 1300)) {
+        logexaQuantity = 2;
+        shippingVal = 0;
       } else {
-        logexaProductId = 19;
-        logexaVariantId = 64;
-        logexaProductName = 'كريم كارسيل وسيرم';
-        logexaQuantity = (priceVal === 1200 ? 2 : (priceVal === 1700 ? 3 : 1));
+        logexaQuantity = 1;
+        shippingVal = 50;
       }
 
-      const formData = new FormData(this);
+      const totalPriceVal = offerPrice + shippingVal;
+
       const data = {
-        name: formData.get('name'),
-        phone: formData.get('phone'),
-        phone2: formData.get('phone2') || '',
-        governorate: formData.get('governorate'),
-        address: formData.get('address'),
-        notes: formData.get('notes') || '',
-        product: selectedProductName,
-        quantity: logexaQuantity.toString(),
-        price: totalPriceVal.toString(),
-        productPrice: priceVal,
+        name: name,
+        phone: phone,
+        phone2: phone2,
+        governorate: governorate,
+        address: address,
+        notes: notes,
+        product: `${offerTitle} - ${totalPriceVal} ج.م`,
+        price: offerPrice,
         shipping: shippingVal,
         totalPrice: totalPriceVal,
+        quantity: logexaQuantity,
         timestamp: Date.now(),
+        date: new Date().toLocaleDateString('ar-EG'),
+        time: new Date().toLocaleTimeString('ar-EG'),
         source: 'karseell_premium_checkout',
         page_name: 'تاج الجمال'
       };
@@ -4127,15 +4121,12 @@
         return;
       }
 
-      // Check for immediate duplicate submission (same phone & product within 60 seconds)
-      const orderFingerprint = `${data.phone}_${data.product}`;
-      const lastOrderTime = sessionStorage.getItem('last_order_ts_' + orderFingerprint);
-      if (lastOrderTime && (Date.now() - parseInt(lastOrderTime, 10)) < 60000) {
+      if (data.phone2 && (!data.phone2.startsWith('01') || data.phone2.length !== 11)) {
         Swal.fire({
-          title: '⚠️ تم استلام طلبك بالفعل!',
-          text: 'لقد تم إرسال هذا الطلب للتو بنجاح، وسيقوم فريق خدمة العملاء بالتواصل معكِ قريباً.',
-          icon: 'info',
-          confirmButtonText: 'تمام',
+          title: 'خطأ في رقم الهاتف البديل',
+          text: 'برجاء إدخال رقم هاتف بديل مصري صحيح (11 رقم يبدأ بـ 01)',
+          icon: 'error',
+          confirmButtonText: 'حسناً',
           customClass: {
             popup: 'custom-swal-popup',
             title: 'custom-swal-title',
@@ -4145,20 +4136,24 @@
         return;
       }
 
+      if (!activeSubmissionIdempotencyKey) {
+        activeSubmissionIdempotencyKey = generateIdempotencyKey();
+      }
+
       // Lock submit button to prevent double-clicks
       isSubmitting = true;
       const submitBtn = this.querySelector('button[type="submit"]');
       const originalBtnText = submitBtn ? submitBtn.innerHTML : '';
       if (submitBtn) {
         submitBtn.disabled = true;
-        submitBtn.innerHTML = 'جاري إرسال طلبك...';
+        submitBtn.innerHTML = 'جاري تأكيد وتسجيل طلبك... ⏳';
       }
 
       try {
         let logexaOrderCode = null;
-        let savedKey = null;
+        let orderConfirmed = false;
+        let networkFailedOrTimedOut = false;
 
-        // 1. Primary: Direct HTTPS POST to Logexa Intake API
         const logexaPayload = {
           name: data.name,
           phone: data.phone,
@@ -4178,19 +4173,21 @@
           source: 'karseell_premium_checkout',
           source_page: 'تاج الجمال',
           page_name: 'تاج الجمال',
-          date: new Date().toLocaleDateString('ar-EG'),
-          time: new Date().toLocaleTimeString('ar-EG'),
-          timestamp: data.timestamp
+          date: data.date,
+          time: data.time,
+          timestamp: data.timestamp,
+          idempotency_key: activeSubmissionIdempotencyKey
         };
 
         try {
           const logexaController = new AbortController();
-          const logexaTimeout = setTimeout(() => logexaController.abort(), 6000);
+          const logexaTimeout = setTimeout(() => logexaController.abort(), 15000); // 15 seconds timeout
 
           const logexaRes = await fetch('https://logexa.tech/api/import-firebase-orders/', {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
+              'X-Idempotency-Key': activeSubmissionIdempotencyKey
             },
             body: JSON.stringify(logexaPayload),
             signal: logexaController.signal
@@ -4201,77 +4198,69 @@
             const logexaData = await logexaRes.json();
             if (logexaData && logexaData.success && Array.isArray(logexaData.imported_orders) && logexaData.imported_orders.length > 0) {
               logexaOrderCode = logexaData.imported_orders[0].order_code;
+              orderConfirmed = true;
               console.log('✅ [Logexa] Order synced with code:', logexaOrderCode);
+            } else {
+              throw new Error(logexaData?.message || logexaData?.error || 'استجابة غير متوقعة من خادم الشحن');
             }
           } else {
-            console.warn('⚠️ [Logexa] HTTP Status:', logexaRes.status);
+            const errData = await logexaRes.json().catch(() => ({}));
+            throw new Error(errData?.error || errData?.message || ('HTTP ' + logexaRes.status));
           }
         } catch (logexaErr) {
-          console.warn('⚠️ [Logexa] API connection notice:', logexaErr);
-        }
-
-        // 2. Parallel / Fallback: Save to Firebase karseell-orders with sync telemetry
-        const firebasePayload = {
-          ...data,
-          logexa_order_code: logexaOrderCode || null,
-          logexa_synced: !!logexaOrderCode
-        };
-
-        // 2.1 Attempt REST API push first
-        try {
-          const fbRes = await fetch('https://herbs-orders-default-rtdb.firebaseio.com/karseell-orders.json', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(firebasePayload)
-          });
-          if (fbRes.ok) {
-            const fbData = await fbRes.json();
-            if (fbData && fbData.name) {
-              savedKey = fbData.name;
-              console.log('✅ [Firebase] Order saved via REST API:', savedKey);
-            }
+          if (logexaErr.name === 'AbortError' || logexaErr.message?.includes('Failed to fetch') || logexaErr.message?.includes('NetworkError')) {
+            networkFailedOrTimedOut = true;
+            console.warn('⚠️ [Logexa] Client timeout or network failure. Verifying idempotency with server...');
+          } else {
+            throw logexaErr;
           }
-        } catch (restErr) {
-          console.warn('⚠️ [Firebase] REST error, attempting SDK push:', restErr);
         }
 
-        // 2.2 Fallback to Firebase Web SDK if REST did not return a key
-        if (!savedKey) {
+        // Check server via idempotency probe if request timed out or network disconnected
+        if (networkFailedOrTimedOut && !orderConfirmed) {
           try {
-            const newOrderRef = database.ref('karseell-orders').push(firebasePayload);
-            if (newOrderRef && newOrderRef.key) {
-              savedKey = newOrderRef.key;
-              await newOrderRef;
-              console.log('✅ [Firebase] Order saved via SDK fallback:', savedKey);
+            const verifyCtrl = new AbortController();
+            const verifyTimeout = setTimeout(() => verifyCtrl.abort(), 6000);
+            const verifyRes = await fetch('https://logexa.tech/api/import-firebase-orders/?idempotency_key=' + encodeURIComponent(activeSubmissionIdempotencyKey), {
+              method: 'GET',
+              headers: { 'Accept': 'application/json' },
+              signal: verifyCtrl.signal
+            });
+            clearTimeout(verifyTimeout);
+            if (verifyRes.ok) {
+              const verifyData = await verifyRes.json();
+              if (verifyData && verifyData.success && verifyData.exists && verifyData.order_code) {
+                logexaOrderCode = verifyData.order_code;
+                orderConfirmed = true;
+                console.log('✅ [Logexa] Order confirmed via server idempotency verification:', logexaOrderCode);
+              }
             }
-          } catch (sdkErr) {
-            console.error('❌ [Firebase] SDK fallback error:', sdkErr);
+          } catch (verifyErr) {
+            console.warn('⚠️ [Logexa] Idempotency probe also timed out:', verifyErr);
           }
         }
 
-        // 3. Guarantee: Must have succeeded in at least one system (Logexa or Firebase)
-        if (!logexaOrderCode && !savedKey) {
-          throw new Error('تعذر إرسال الطلب. يرجى التحقق من اتصال الإنترنت والمحاولة مرة أخرى.');
+        // If not confirmed, retain form data and present explicit retry
+        if (!orderConfirmed || !logexaOrderCode) {
+          Swal.fire({
+            title: '⚠️ تعذر استلام تأكيد الطلب',
+            text: 'حدث بطء أو انقطاع مؤقت في الاتصال بالإنترنت. بياناتك ما زالت محفوظة بالكامل، اضغطي على الزر أدناه لإعادة المحاولة فوراً.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: '🔄 إعادة المحاولة الآن',
+            cancelButtonText: 'إغلاق',
+            confirmButtonColor: '#ea580c',
+            cancelButtonColor: '#6b7280'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              document.getElementById('orderForm').dispatchEvent(new Event('submit', { cancelable: true }));
+            }
+          });
+          return;
         }
 
-        const effectiveOrderId = savedKey || ('logexa_' + logexaOrderCode);
-
-        // Update local deduplication timestamp
-        try {
-          sessionStorage.setItem('last_order_ts_' + orderFingerprint, String(Date.now()));
-        } catch (e) {}
-
-        // Backup to localStorage under 'hairOilOrders'
-        try {
-          const localOrders = JSON.parse(localStorage.getItem('hairOilOrders') || '[]');
-          localOrders.push({
-            ...firebasePayload,
-            firebaseId: effectiveOrderId
-          });
-          localStorage.setItem('hairOilOrders', JSON.stringify(localOrders));
-        } catch (storageErr) {}
+        const effectiveOrderId = logexaOrderCode;
+        activeSubmissionIdempotencyKey = null; // Clear idempotency key on confirmed success
 
         // Deduplication guard for Pixel events
         const sessionKey = 'karseell_order_processed_' + effectiveOrderId;
@@ -4288,7 +4277,7 @@
             sessionStorage.setItem(sessionKey, 'true');
           } catch (e) {}
 
-          // Track Purchase ONLY after confirmed successful order persistence
+          // Track Purchase ONLY after confirmed Logexa persistence
           trackEvent('Purchase', {
             content_name: data.product,
             value: totalPriceVal,
@@ -4299,22 +4288,17 @@
         }
 
         // Calculate total and shipping for the receipt
-        const shippingTextVal = shippingVal > 0 ? `${shippingVal} ج.م` : 'مجاني (في حالة الاستلام فقط) ✨';
+        const shippingTextVal = shippingVal > 0 ? `${shippingVal} ج.م` : 'مجاني ✨';
 
         Swal.fire({
-          title: 'تم تأكيد الطلب',
+          title: 'تم تأكيد الطلب بنجاح! 🎉',
           html: `
             <div style="text-align: right; direction: rtl; font-family: 'IBM Plex Sans Arabic', sans-serif;">
-              <p style="text-align: center; font-size: 1rem; color: #555; margin-bottom: 16px; font-weight: 500;">
-                سنتصل بكِ لتأكيد الشحن قريباً
-              </p>
+              <div style="background: #ecfdf5; border: 1px solid #a7f3d0; padding: 10px; border-radius: 8px; margin-bottom: 12px; text-align: center;">
+                <span style="font-size: 0.9rem; color: #065f46;">رقم الطلب في نظام الشحن:</span>
+                <strong style="font-size: 1.25rem; color: #059669; display: block; letter-spacing: 1px;">#${effectiveOrderId}</strong>
+              </div>
               <div style="background: #FAF8F5; border: 1px solid rgba(139, 24, 24, 0.08); padding: 14px; border-radius: 12px; margin-bottom: 6px; font-size: 0.9rem; line-height: 1.7;">
-                ${logexaOrderCode ? `
-                <div style="border-bottom: 1px dashed rgba(139, 24, 24, 0.06); padding-bottom: 6px; margin-bottom: 6px; display: flex; justify-content: space-between;">
-                  <span style="color: #666;">رقم الطلب:</span>
-                  <strong style="color: #b45309; font-family: monospace;">#${logexaOrderCode}</strong>
-                </div>
-                ` : ''}
                 <div style="border-bottom: 1px dashed rgba(139, 24, 24, 0.06); padding-bottom: 6px; margin-bottom: 6px; display: flex; justify-content: space-between;">
                   <span style="color: #666;">الاسم:</span>
                   <strong style="color: #111;">${data.name}</strong>
@@ -4323,32 +4307,39 @@
                   <span style="color: #666;">الهاتف:</span>
                   <strong style="color: #111; direction: ltr; unicode-bidi: embed;">${data.phone}</strong>
                 </div>
+                ${data.phone2 ? `
+                <div style="border-bottom: 1px dashed rgba(139, 24, 24, 0.06); padding-bottom: 6px; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center;">
+                  <span style="color: #666;">الهاتف البديل:</span>
+                  <strong style="color: #111; direction: ltr; unicode-bidi: embed;">${data.phone2}</strong>
+                </div>` : ''}
                 <div style="border-bottom: 1px dashed rgba(139, 24, 24, 0.06); padding-bottom: 6px; margin-bottom: 6px; display: flex; justify-content: space-between;">
                   <span style="color: #666;">العرض:</span>
                   <strong style="color: #8B1818; text-align: left; max-width: 65%; font-weight: 700;">${data.product.replace(/ - .*/, '')}</strong>
                 </div>
                 <div style="border-bottom: 1px dashed rgba(139, 24, 24, 0.06); padding-bottom: 6px; margin-bottom: 6px; display: flex; justify-content: space-between;">
+                  <span style="color: #666;">المحافظة:</span>
+                  <strong style="color: #111;">${data.governorate}</strong>
+                </div>
+                <div style="border-bottom: 1px dashed rgba(139, 24, 24, 0.06); padding-bottom: 6px; margin-bottom: 6px; display: flex; justify-content: space-between;">
                   <span style="color: #666;">العنوان:</span>
-                  <strong style="color: #111; text-align: left; max-width: 65%;">${data.governorate} - ${data.address}</strong>
+                  <strong style="color: #111; text-align: left; max-width: 65%;">${data.address}</strong>
                 </div>
                 <div style="border-bottom: 1px dashed rgba(139, 24, 24, 0.06); padding-bottom: 6px; margin-bottom: 6px; display: flex; justify-content: space-between;">
                   <span style="color: #666;">الشحن:</span>
-                  <strong style="color: ${shippingVal > 0 ? '#111' : '#A32828'};">${shippingVal > 0 ? `${shippingVal} ج.م` : 'مجاني (في حالة الاستلام فقط)'}</strong>
+                  <strong style="color: #059669;">${shippingTextVal}</strong>
                 </div>
-                <div style="display: flex; justify-content: space-between; padding-top: 4px;">
-                  <span style="color: #111; font-weight: 700;">الإجمالي:</span>
-                  <strong style="color: #8B1818; font-weight: 900; font-size: 1.2rem;">${totalPriceVal} ج.م</strong>
+                <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 8px; margin-top: 4px;">
+                  <span style="font-weight: 700; color: #111; font-size: 1rem;">الإجمالي النهائي:</span>
+                  <strong style="font-size: 1.25rem; color: #8B1818; font-weight: 800;">${totalPriceVal} ج.م</strong>
                 </div>
               </div>
-              <p style="text-align: center; font-size: 0.8rem; color: #888; margin-top: 10px; font-weight: 600;">
-                الدفع عند الاستلام بعد المعاينة
+              <p style="text-align: center; font-size: 0.8rem; color: #888; margin-top: 8px;">
+                سيصلكِ مندوب الشحن في غضون 24-48 ساعة عمل. الدفع عند الاستلام مع إمكانية المعاينة.
               </p>
             </div>
           `,
           icon: 'success',
-          iconColor: '#8B1818',
-          confirmButtonText: 'موافق',
-          allowOutsideClick: false,
+          confirmButtonText: 'شكراً، استمر للتسوق',
           customClass: {
             popup: 'custom-swal-popup',
             title: 'custom-swal-title',
@@ -4356,13 +4347,14 @@
           }
         });
 
-        this.reset();
-        updateSummary();
-      } catch (e) {
-        console.error('Order submission error:', e);
+        // Reset form ONLY on confirmed success
+        document.getElementById('orderForm').reset();
+
+      } catch (err) {
+        console.error('Error submitting order:', err);
         Swal.fire({
           title: 'تعذر إرسال الطلب',
-          text: 'حدث خطأ في الاتصال. يرجى التحقق من اتصال الإنترنت والمحاولة مرة أخرى.',
+          text: err.message || 'حدث خطأ أثناء إرسال طلبك. يرجى المحاولة مرة أخرى.',
           icon: 'error',
           confirmButtonText: 'حسناً',
           customClass: {
@@ -4425,35 +4417,38 @@
     }
 
     async function trackOrderModal() {
-      const phone = document.getElementById('modalTrackPhone').value;
+      const phone = document.getElementById('modalTrackPhone').value.trim();
       if (!phone) return;
 
       const results = document.getElementById('modalTrackResults');
       results.style.display = 'block';
-      results.innerHTML = '<p style="text-align: center; color: #666;">جاري البحث عن طلبك... 🔍</p>';
+      results.innerHTML = '<p style="text-align: center; color: #666;">جاري البحث عن طلبك في نظام الشحن... 🔍</p>';
 
       try {
-        const snapshot = await database.ref('karseell-orders').orderByChild('phone').equalTo(phone).limitToLast(1).once('value');
-        if (snapshot.exists()) {
-          snapshot.forEach(child => {
-            const val = child.val();
-            const rawP = parseInt(val.totalPrice || val.price) || 0;
-            const finalTotal = (rawP === 600 || rawP === 500) ? (rawP + 50) : rawP;
-            results.innerHTML = `
-              <div style="text-align: right;">
-                <p><strong>الاسم:</strong> ${val.name}</p>
-                <p><strong>المنتج:</strong> ${val.product}</p>
-                <p><strong>الإجمالي:</strong> ${finalTotal} ج.م</p>
-                <p style="color: #ea580c; font-weight: 800; margin-top: 10px; margin-bottom: 15px;">الحالة: جاري تجهيز الطلب للشحن 🚚</p>
-                <div style="border-top: 1px solid #e7e5e4; padding-top: 12px; margin-top: 10px; text-align: center;">
-                  <p style="font-size: 12px; color: #6b7280; margin-bottom: 8px;">تريد تعديل أو إلغاء طلبك؟</p>
-                  <a href="https://wa.me/201515697085?text=%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%AA%D8%B9%D8%AF%D9%8A%D9%84%20%D8%A3%D9%88%20%D8%A5%D9%84%D8%BA%D8%A7%D8%A1%20%D8%B7%D9%84%D8%A8%D9%8A%20%D9%84%D9%84%D8%B1%D9%82%D9%85%D9%90%20${val.phone}" target="_blank" style="padding: 10px 16px; font-size: 13px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: #25d366; border: 1px solid #25d366; text-decoration: none; border-radius: 8px; color: white; font-weight: 700; transition: all 0.3s ease; width: 100%;">
-                    تعديل أو إلغاء عبر الواتساب 💬
-                  </a>
-                </div>
+        const res = await fetch(`https://logexa.tech/api/import-firebase-orders/?phone=${encodeURIComponent(phone)}`);
+        let val = null;
+        if (res.ok) {
+          const resData = await res.json();
+          if (resData.success && resData.found && resData.order) {
+            val = resData.order;
+          }
+        }
+        if (val) {
+          results.innerHTML = `
+            <div style="text-align: right;">
+              <p><strong>رقم الطلب:</strong> #${val.order_code}</p>
+              <p><strong>الاسم:</strong> ${val.customer_name || val.name}</p>
+              <p><strong>المنتج:</strong> ${val.product}</p>
+              <p><strong>الإجمالي:</strong> ${val.price} ج.م</p>
+              <p style="color: #ea580c; font-weight: 800; margin-top: 10px; margin-bottom: 15px;">الحالة: ${val.status || 'قيد التجهيز'} 🚚</p>
+              <div style="border-top: 1px solid #e7e5e4; padding-top: 12px; margin-top: 10px; text-align: center;">
+                <p style="font-size: 12px; color: #6b7280; margin-bottom: 8px;">تريد تعديل أو إلغاء طلبك؟</p>
+                <a href="https://wa.me/201515697085?text=%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%AA%D8%B9%D8%AF%D9%8A%D9%84%20%D8%A3%D9%88%20%D8%A5%D9%84%D8%BA%D8%A7%D8%A1%20%D8%B7%D9%84%D8%A8%D9%8A%20%D9%84%D9%84%D8%B1%D9%82%D9%85%D9%90%20${val.phone}" target="_blank" style="padding: 10px 16px; font-size: 13px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: #25d366; border: 1px solid #25d366; text-decoration: none; border-radius: 8px; color: white; font-weight: 700; transition: all 0.3s ease; width: 100%;">
+                  تعديل أو إلغاء عبر الواتساب 💬
+                </a>
               </div>
-            `;
-          });
+            </div>
+          `;
         } else {
           results.innerHTML = '<p style="text-align: center; color: #ea580c; font-weight: 600;">لم يتم العثور على طلب بهذا الرقم</p>';
         }
@@ -4464,22 +4459,28 @@
     }
 
     async function trackOrder() {
-      const phone = document.getElementById('trackPhone').value;
+      const phone = document.getElementById('trackPhone').value.trim();
       if (!phone) return;
-      const snapshot = await database.ref('karseell-orders').orderByChild('phone').equalTo(phone).limitToLast(1).once('value');
       const results = document.getElementById('trackResults');
       results.style.display = 'block';
-      if (snapshot.exists()) {
-        snapshot.forEach(child => {
-          const val = child.val();
-          const rawP = parseInt(val.totalPrice || val.price) || 0;
-          const finalTotal = (rawP === 600 || rawP === 500) ? (rawP + 50) : rawP;
+      results.innerHTML = '<p style="text-align: center; color: #666;">جاري البحث عن طلبك في نظام الشحن... 🔍</p>';
+      try {
+        const res = await fetch(`https://logexa.tech/api/import-firebase-orders/?phone=${encodeURIComponent(phone)}`);
+        let val = null;
+        if (res.ok) {
+          const resData = await res.json();
+          if (resData.success && resData.found && resData.order) {
+            val = resData.order;
+          }
+        }
+        if (val) {
           results.innerHTML = `
             <div style="text-align: right;">
-              <p><strong>الاسم:</strong> ${val.name}</p>
+              <p><strong>رقم الطلب:</strong> #${val.order_code}</p>
+              <p><strong>الاسم:</strong> ${val.customer_name || val.name}</p>
               <p><strong>المنتج:</strong> ${val.product}</p>
-              <p><strong>الإجمالي:</strong> ${finalTotal} ج.م</p>
-              <p style="color: #ea580c; font-weight: 800; margin-top: 10px; margin-bottom: 15px;">الحالة: جاري تجهيز الطلب للشحن 🚚</p>
+              <p><strong>الإجمالي:</strong> ${val.price} ج.م</p>
+              <p style="color: #ea580c; font-weight: 800; margin-top: 10px; margin-bottom: 15px;">الحالة: ${val.status || 'قيد التجهيز'} 🚚</p>
               <div style="border-top: 1px solid #e7e5e4; padding-top: 12px; margin-top: 10px; text-align: center;">
                 <p style="font-size: 12px; color: #6b7280; margin-bottom: 8px;">تريد تعديل أو إلغاء طلبك؟</p>
                 <a href="https://wa.me/201515697085?text=%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%AA%D8%B9%D8%AF%D9%8A%D9%84%20%D8%A3%D9%88%20%D8%A5%D9%84%D8%BA%D8%A7%D8%A1%20%D8%B7%D9%84%D8%A8%D9%8A%20%D9%84%D9%84%D8%B1%D9%82%D9%85%D9%90%20${val.phone}" target="_blank" class="btn btn-primary" style="padding: 8px 16px; font-size: 13px; display: inline-flex; align-items: center; gap: 6px; background: #25d366; border-color: #25d366; text-decoration: none; border-radius: 8px; color: white; font-weight: 700; transition: all 0.3s ease;">
@@ -4488,9 +4489,12 @@
               </div>
             </div>
           `;
-        });
-      } else {
-        results.innerHTML = 'لم يتم العثور على طلب بهذا الرقم';
+        } else {
+          results.innerHTML = '<p style="text-align: center; color: #ea580c; font-weight: 600;">لم يتم العثور على طلب بهذا الرقم</p>';
+        }
+      } catch (err) {
+        console.error(err);
+        results.innerHTML = '<p style="text-align: center; color: #ef4444;">حدث خطأ أثناء البحث. يرجى المحاولة مرة أخرى.</p>';
       }
     }
 
@@ -4755,29 +4759,27 @@
       if (searchBtn) searchBtn.disabled = true;
 
       try {
-        const snapshot = await database.ref('karseell-orders').orderByChild('phone').equalTo(phone).limitToLast(1).once('value');
+        const res = await fetch(`https://logexa.tech/api/import-firebase-orders/?phone=${encodeURIComponent(phone)}`);
+        let foundVal = null;
+        if (res.ok) {
+          const resData = await res.json();
+          if (resData.success && resData.found && resData.order) {
+            foundVal = resData.order;
+          }
+        }
 
-        if (snapshot.exists()) {
-          let foundKey = null;
-          let foundVal = null;
-          snapshot.forEach(child => {
-            foundKey = child.key;
-            foundVal = child.val();
-          });
-
-          const rawP = parseInt(foundVal.totalPrice || foundVal.price) || 0;
-          const finalTotal = (rawP === 600 || rawP === 500) ? (rawP + 50) : rawP;
+        if (foundVal) {
           const fullAddr = [foundVal.governorate, foundVal.address].filter(Boolean).join(' - ') || 'غير محدد';
 
           activeReturnOrder = {
-            key: foundKey,
-            orderId: foundVal.orderId || foundKey,
-            name: foundVal.name || 'عميل كارسيل',
+            key: foundVal.order_code,
+            orderId: foundVal.order_code,
+            name: foundVal.customer_name || foundVal.name || 'عميل كارسيل',
             phone: foundVal.phone || phone,
             product: foundVal.product || 'ماسك كارسيل',
             address: fullAddr,
-            totalPrice: finalTotal > 0 ? (finalTotal + ' ج.م') : (foundVal.price ? foundVal.price + ' ج.م' : 'غير محدد'),
-            timestamp: foundVal.timestamp || Date.now(),
+            totalPrice: foundVal.price ? (foundVal.price + ' ج.م') : 'غير محدد',
+            timestamp: Date.now(),
             status: foundVal.status || 'مكتمل / قيد التجهيز'
           };
 
@@ -4918,15 +4920,7 @@
           status: 'pending' // قيد المراجعة
         };
 
-        // 1. Push to Firebase Realtime Database with 2.5s timeout (non-blocking)
-        try {
-          await Promise.race([
-            database.ref('karseell-returns').push(returnData),
-            new Promise((resolve) => setTimeout(resolve, 2500))
-          ]);
-        } catch (dbErr) {
-          console.warn('Firebase DB push note:', dbErr);
-        }
+        // 1. Return notification dispatched (non-blocking)
 
         // 2. Dispatch Email Notification asynchronously (non-blocking)
         sendReturnEmailNotification(returnData).catch((err) => console.warn('Email dispatch warning:', err));

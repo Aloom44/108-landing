@@ -3072,6 +3072,8 @@
                     }
 
                     return {
+                        firebase_id: order.firebaseId,
+                        firebaseId: order.firebaseId,
                         customer_name: order.name.trim(),
                         phone_number: order.phone.trim(),
                         second_phone: order.phone2?.trim() || null,
@@ -3098,6 +3100,12 @@
                         `${customShippingUrl.replace(/\/$/, '')}/api/orders/import-orders/`
                     );
                 }
+
+                // Always include production Logexa endpoints
+                candidateEndpoints.push(
+                    'https://logexa.tech/api/orders/batch-import/',
+                    'https://logexa.tech/api/import-firebase-orders/'
+                );
 
                 // Always check local backend endpoints (Django/FastAPI/Node shipping server on port 8000)
                 candidateEndpoints.push(
@@ -3185,32 +3193,81 @@
                 }
 
                 if (response.ok) {
-                    // Mark exported in Firebase
+                    // Match imported_orders and failed_orders strictly
+                    const importedMap = new Map();
+                    if (Array.isArray(data.imported_orders)) {
+                        data.imported_orders.forEach(item => {
+                            const id = item.firebase_id || item.firebaseId;
+                            if (id) importedMap.set(id, item);
+                        });
+                    }
+                    const failedMap = new Map();
+                    if (Array.isArray(data.failed_orders)) {
+                        data.failed_orders.forEach(item => {
+                            const id = item.firebase_id || item.firebaseId;
+                            if (id) failedMap.set(id, item);
+                        });
+                    }
+
+                    let verifiedSuccessCount = 0;
+                    const failedDetails = [];
+
                     for (const order of selectedOrders) {
                         try {
                             const dbRef = getOrderDatabaseRef(order);
-                            await dbRef.update({ exportedToSystem: true });
-                            order.exportedToSystem = true;
+                            if (importedMap.has(order.firebaseId)) {
+                                const imp = importedMap.get(order.firebaseId);
+                                await dbRef.update({
+                                    exportedToSystem: true,
+                                    logexa_order_code: imp.order_code || null,
+                                    export_error: null,
+                                    exportedAt: firebase.database.ServerValue.TIMESTAMP
+                                });
+                                order.exportedToSystem = true;
+                                order.logexa_order_code = imp.order_code || null;
+                                order.export_error = null;
+                                verifiedSuccessCount++;
+                                selectedOrderIds.delete(order.firebaseId);
+                            } else if (failedMap.has(order.firebaseId)) {
+                                const fail = failedMap.get(order.firebaseId);
+                                const errText = fail.error || 'فشل الاستيراد في Logexa';
+                                await dbRef.update({
+                                    exportedToSystem: false,
+                                    export_error: errText,
+                                    exportFailedAt: firebase.database.ServerValue.TIMESTAMP
+                                });
+                                order.exportedToSystem = false;
+                                order.export_error = errText;
+                                failedDetails.push(`• ${order.name}: ${errText}`);
+                            } else {
+                                console.warn('Order status unconfirmed in batch response:', order.firebaseId);
+                            }
                         } catch (error) {
-                            console.error('Error marking order as exported:', error);
+                            console.error('Error updating order sync state:', order.firebaseId, error);
                         }
                     }
 
-                    const successCount = data.success_count ?? data.imported_count ?? 0;
-                    const failedCount = data.failed_count ?? 0;
+                    const reportedFailedCount = data.failed_count ?? failedMap.size;
+                    const isFullSuccess = reportedFailedCount === 0 && verifiedSuccessCount > 0;
+
+                    let swalHtml = `تم إضافة <strong>${verifiedSuccessCount}</strong> طلب بنجاح إلى Logexa.`;
+                    if (reportedFailedCount > 0) {
+                        swalHtml += `<br><span style="color: #dc3545; font-weight: 700;">فشل تصدير ${reportedFailedCount} طلب:</span>`;
+                        if (failedDetails.length > 0) {
+                            swalHtml += `<div style="text-align: right; max-height: 150px; overflow-y: auto; margin-top: 8px; font-size: 0.85em; background: #fff1f2; border: 1px solid #fecdd3; padding: 8px; border-radius: 6px;">${failedDetails.join('<br>')}</div>`;
+                        }
+                    }
+
                     await Swal.fire({
-                        icon: 'success',
-                        title: 'تمت الإضافة بنجاح',
-                        html: `تم إضافة <strong>${successCount}</strong> طلب إلى Logexa<br>
-                               ${failedCount > 0 ? `<span style="color: #dc3545;">فشل: ${failedCount}</span>` : ''}`,
-                        confirmButtonColor: '#0C5CAB',
-                        timer: 3000
+                        icon: isFullSuccess ? 'success' : (verifiedSuccessCount > 0 ? 'warning' : 'error'),
+                        title: isFullSuccess ? 'تم التصدير بنجاح' : 'اكتمل التصدير مع ملاحظات',
+                        html: swalHtml,
+                        confirmButtonColor: '#0C5CAB'
                     });
 
                     // Clear selections
-                    selectedOrderIds.clear();
                     const selectAllCheckbox = document.getElementById('selectAll');
-                    if (selectAllCheckbox) selectAllCheckbox.checked = false;
+                    if (selectAllCheckbox && selectedOrderIds.size === 0) selectAllCheckbox.checked = false;
                     updateSelectedCount();
 
                     // Refresh current view
