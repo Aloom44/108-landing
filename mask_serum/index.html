@@ -4051,8 +4051,17 @@
     firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
 
+    // Deduplication guard for order processing
+    let isSubmitting = false;
+    const processedOrderIds = new Set();
+
     document.getElementById('orderForm').addEventListener('submit', async function (e) {
       e.preventDefault();
+
+      if (isSubmitting) {
+        console.warn('⚠️ Order submission already in progress.');
+        return;
+      }
 
       const select = document.getElementById('offerSelect');
       const option = select.options[select.selectedIndex];
@@ -4061,26 +4070,49 @@
       const shippingVal = (priceVal === 500 || priceVal === 600) ? 50 : 0;
       const totalPriceVal = priceVal + shippingVal;
 
+      const selectedProductName = option.getAttribute('data-name') || '';
+
+      // Determine product mapping & package quantity
+      const isMaskOffer = (priceVal === 500 || priceVal === 1000 || priceVal === 1450 || selectedProductName.includes('عبوة') || selectedProductName.includes('عبوتين') || selectedProductName.includes('عبوات'));
+
+      let logexaProductId = 19;
+      let logexaVariantId = 64;
+      let logexaProductName = 'كريم كارسيل وسيرم';
+      let logexaQuantity = 1;
+
+      if (isMaskOffer) {
+        logexaProductId = 20;
+        logexaVariantId = 65;
+        logexaProductName = 'كريم كولاجين';
+        logexaQuantity = (priceVal === 1000 ? 2 : (priceVal === 1450 ? 3 : 1));
+      } else {
+        logexaProductId = 19;
+        logexaVariantId = 64;
+        logexaProductName = 'كريم كارسيل وسيرم';
+        logexaQuantity = (priceVal === 1200 ? 2 : (priceVal === 1700 ? 3 : 1));
+      }
+
       const formData = new FormData(this);
       const data = {
         name: formData.get('name'),
         phone: formData.get('phone'),
-        phone2: formData.get('phone2'),
+        phone2: formData.get('phone2') || '',
         governorate: formData.get('governorate'),
         address: formData.get('address'),
-        notes: formData.get('notes'),
-        product: option.getAttribute('data-name'),
-        quantity: "1",
+        notes: formData.get('notes') || '',
+        product: selectedProductName,
+        quantity: logexaQuantity.toString(),
         price: totalPriceVal.toString(),
         productPrice: priceVal,
         shipping: shippingVal,
         totalPrice: totalPriceVal,
         timestamp: Date.now(),
-        source: 'karseell_premium_checkout'
+        source: 'karseell_premium_checkout',
+        page_name: 'تاج الجمال'
       };
 
       // Basic Phone Validation
-      if (!data.phone.startsWith('01') || data.phone.length !== 11) {
+      if (!data.phone || !data.phone.startsWith('01') || data.phone.length !== 11) {
         Swal.fire({
           title: 'خطأ في رقم الهاتف',
           text: 'برجاء إدخال رقم هاتف مصري صحيح (11 رقم يبدأ بـ 01)',
@@ -4095,14 +4127,176 @@
         return;
       }
 
-      // Prevent multiple submissions / loading indicator
+      // Check for immediate duplicate submission (same phone & product within 60 seconds)
+      const orderFingerprint = `${data.phone}_${data.product}`;
+      const lastOrderTime = sessionStorage.getItem('last_order_ts_' + orderFingerprint);
+      if (lastOrderTime && (Date.now() - parseInt(lastOrderTime, 10)) < 60000) {
+        Swal.fire({
+          title: '⚠️ تم استلام طلبك بالفعل!',
+          text: 'لقد تم إرسال هذا الطلب للتو بنجاح، وسيقوم فريق خدمة العملاء بالتواصل معكِ قريباً.',
+          icon: 'info',
+          confirmButtonText: 'تمام',
+          customClass: {
+            popup: 'custom-swal-popup',
+            title: 'custom-swal-title',
+            confirmButton: 'custom-swal-confirm'
+          }
+        });
+        return;
+      }
+
+      // Lock submit button to prevent double-clicks
+      isSubmitting = true;
       const submitBtn = this.querySelector('button[type="submit"]');
-      const originalBtnText = submitBtn.innerHTML;
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = 'جاري إرسال طلبك...';
+      const originalBtnText = submitBtn ? submitBtn.innerHTML : '';
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = 'جاري إرسال طلبك...';
+      }
 
       try {
-        await database.ref('karseell-orders').push(data);
+        let logexaOrderCode = null;
+        let savedKey = null;
+
+        // 1. Primary: Direct HTTPS POST to Logexa Intake API
+        const logexaPayload = {
+          name: data.name,
+          phone: data.phone,
+          phone2: data.phone2 || '',
+          governorate: data.governorate,
+          address: data.address,
+          notes: data.notes || '',
+          product: data.product,
+          product_name: logexaProductName,
+          product_id: logexaProductId,
+          variant_id: logexaVariantId,
+          quantity: logexaQuantity,
+          price: totalPriceVal,
+          total: totalPriceVal,
+          shipping: shippingVal,
+          shipping_cost: shippingVal,
+          source: 'karseell_premium_checkout',
+          source_page: 'تاج الجمال',
+          page_name: 'تاج الجمال',
+          date: new Date().toLocaleDateString('ar-EG'),
+          time: new Date().toLocaleTimeString('ar-EG'),
+          timestamp: data.timestamp
+        };
+
+        try {
+          const logexaController = new AbortController();
+          const logexaTimeout = setTimeout(() => logexaController.abort(), 6000);
+
+          const logexaRes = await fetch('https://logexa.tech/api/import-firebase-orders/', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(logexaPayload),
+            signal: logexaController.signal
+          });
+          clearTimeout(logexaTimeout);
+
+          if (logexaRes.ok) {
+            const logexaData = await logexaRes.json();
+            if (logexaData && logexaData.success && Array.isArray(logexaData.imported_orders) && logexaData.imported_orders.length > 0) {
+              logexaOrderCode = logexaData.imported_orders[0].order_code;
+              console.log('✅ [Logexa] Order synced with code:', logexaOrderCode);
+            }
+          } else {
+            console.warn('⚠️ [Logexa] HTTP Status:', logexaRes.status);
+          }
+        } catch (logexaErr) {
+          console.warn('⚠️ [Logexa] API connection notice:', logexaErr);
+        }
+
+        // 2. Parallel / Fallback: Save to Firebase karseell-orders with sync telemetry
+        const firebasePayload = {
+          ...data,
+          logexa_order_code: logexaOrderCode || null,
+          logexa_synced: !!logexaOrderCode
+        };
+
+        // 2.1 Attempt REST API push first
+        try {
+          const fbRes = await fetch('https://herbs-orders-default-rtdb.firebaseio.com/karseell-orders.json', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(firebasePayload)
+          });
+          if (fbRes.ok) {
+            const fbData = await fbRes.json();
+            if (fbData && fbData.name) {
+              savedKey = fbData.name;
+              console.log('✅ [Firebase] Order saved via REST API:', savedKey);
+            }
+          }
+        } catch (restErr) {
+          console.warn('⚠️ [Firebase] REST error, attempting SDK push:', restErr);
+        }
+
+        // 2.2 Fallback to Firebase Web SDK if REST did not return a key
+        if (!savedKey) {
+          try {
+            const newOrderRef = database.ref('karseell-orders').push(firebasePayload);
+            if (newOrderRef && newOrderRef.key) {
+              savedKey = newOrderRef.key;
+              await newOrderRef;
+              console.log('✅ [Firebase] Order saved via SDK fallback:', savedKey);
+            }
+          } catch (sdkErr) {
+            console.error('❌ [Firebase] SDK fallback error:', sdkErr);
+          }
+        }
+
+        // 3. Guarantee: Must have succeeded in at least one system (Logexa or Firebase)
+        if (!logexaOrderCode && !savedKey) {
+          throw new Error('تعذر إرسال الطلب. يرجى التحقق من اتصال الإنترنت والمحاولة مرة أخرى.');
+        }
+
+        const effectiveOrderId = savedKey || ('logexa_' + logexaOrderCode);
+
+        // Update local deduplication timestamp
+        try {
+          sessionStorage.setItem('last_order_ts_' + orderFingerprint, String(Date.now()));
+        } catch (e) {}
+
+        // Backup to localStorage under 'hairOilOrders'
+        try {
+          const localOrders = JSON.parse(localStorage.getItem('hairOilOrders') || '[]');
+          localOrders.push({
+            ...firebasePayload,
+            firebaseId: effectiveOrderId
+          });
+          localStorage.setItem('hairOilOrders', JSON.stringify(localOrders));
+        } catch (storageErr) {}
+
+        // Deduplication guard for Pixel events
+        const sessionKey = 'karseell_order_processed_' + effectiveOrderId;
+        let isAlreadyTracked = processedOrderIds.has(effectiveOrderId);
+        try {
+          if (sessionStorage.getItem(sessionKey)) {
+            isAlreadyTracked = true;
+          }
+        } catch (e) {}
+
+        if (!isAlreadyTracked) {
+          processedOrderIds.add(effectiveOrderId);
+          try {
+            sessionStorage.setItem(sessionKey, 'true');
+          } catch (e) {}
+
+          // Track Purchase ONLY after confirmed successful order persistence
+          trackEvent('Purchase', {
+            content_name: data.product,
+            value: totalPriceVal,
+            currency: 'EGP',
+            num_items: logexaQuantity,
+            order_id: effectiveOrderId
+          });
+        }
 
         // Calculate total and shipping for the receipt
         const shippingTextVal = shippingVal > 0 ? `${shippingVal} ج.م` : 'مجاني (في حالة الاستلام فقط) ✨';
@@ -4115,6 +4309,12 @@
                 سنتصل بكِ لتأكيد الشحن قريباً
               </p>
               <div style="background: #FAF8F5; border: 1px solid rgba(139, 24, 24, 0.08); padding: 14px; border-radius: 12px; margin-bottom: 6px; font-size: 0.9rem; line-height: 1.7;">
+                ${logexaOrderCode ? `
+                <div style="border-bottom: 1px dashed rgba(139, 24, 24, 0.06); padding-bottom: 6px; margin-bottom: 6px; display: flex; justify-content: space-between;">
+                  <span style="color: #666;">رقم الطلب:</span>
+                  <strong style="color: #b45309; font-family: monospace;">#${logexaOrderCode}</strong>
+                </div>
+                ` : ''}
                 <div style="border-bottom: 1px dashed rgba(139, 24, 24, 0.06); padding-bottom: 6px; margin-bottom: 6px; display: flex; justify-content: space-between;">
                   <span style="color: #666;">الاسم:</span>
                   <strong style="color: #111;">${data.name}</strong>
@@ -4156,23 +4356,15 @@
           }
         });
 
-        // Track Purchase with full total
-        trackEvent('Purchase', {
-          content_name: data.product,
-          value: totalPriceVal,
-          currency: 'EGP',
-          num_items: data.quantity || 1
-        });
-
         this.reset();
         updateSummary();
       } catch (e) {
-        console.error(e);
+        console.error('Order submission error:', e);
         Swal.fire({
-          title: 'تم استلام طلبك!',
-          text: 'سنتواصل معك قريباً لتأكيد الشحن 💖',
-          icon: 'success',
-          confirmButtonText: 'موافق',
+          title: 'تعذر إرسال الطلب',
+          text: 'حدث خطأ في الاتصال. يرجى التحقق من اتصال الإنترنت والمحاولة مرة أخرى.',
+          icon: 'error',
+          confirmButtonText: 'حسناً',
           customClass: {
             popup: 'custom-swal-popup',
             title: 'custom-swal-title',
@@ -4180,9 +4372,11 @@
           }
         });
       } finally {
-        // Restore button state
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = originalBtnText;
+        isSubmitting = false;
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnText;
+        }
       }
     });
 
