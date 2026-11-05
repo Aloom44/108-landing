@@ -3266,14 +3266,14 @@
 
             <div class="form-group">
               <label>الاسم بالكامل</label>
-              <input type="text" name="name" class="form-control" required placeholder="اكتبي اسمك بالكامل">
+              <input type="text" name="name" id="name" class="form-control" required placeholder="اكتبي اسمك بالكامل">
             </div>
 
             <div class="form-grid-2">
               <div class="form-group">
                 <label>رقم الهاتف الأساسي</label>
                 <div class="phone-input-wrapper">
-                  <input type="tel" name="phone" id="mainPhone" class="form-control" required placeholder="01xxxxxxxxx"
+                  <input type="tel" name="phone" id="phone" class="form-control" required placeholder="01xxxxxxxxx"
                     oninput="validatePhone(this)">
                   <i>
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="#78350f">
@@ -3285,13 +3285,13 @@
               </div>
               <div class="form-group">
                 <label>رقم إضافي (اختياري)</label>
-                <input type="tel" name="phone2" class="form-control" placeholder="رقم آخر">
+                <input type="tel" name="phone2" id="phone2" class="form-control" placeholder="رقم آخر">
               </div>
             </div>
 
             <div class="form-group">
               <label>المحافظة</label>
-              <select name="governorate" class="form-control" required>
+              <select name="governorate" id="governorate" class="form-control" required>
                 <option value="">اختاري المحافظة</option>
                 <option value="القاهرة">القاهرة</option>
                 <option value="الجيزة">الجيزة</option>
@@ -3325,13 +3325,13 @@
 
             <div class="form-group">
               <label>العنوان بالتفصيل</label>
-              <textarea name="address" rows="2" class="form-control" required
+              <textarea name="address" id="address" rows="2" class="form-control" required
                 placeholder="الشارع - رقم البيت - الدور - علامة مميزة"></textarea>
             </div>
 
             <div class="form-group">
               <label>ملاحظات إضافية (اختياري)</label>
-              <input type="text" name="notes" class="form-control" placeholder="أي تفاصيل إضافية تخص الطلب">
+              <input type="text" name="notes" id="notes" class="form-control" placeholder="أي تفاصيل إضافية تخص الطلب">
             </div>
 
             <!-- Mobile Mini Summary (mobile only, above submit button) -->
@@ -4055,36 +4055,44 @@
         return;
       }
 
-      const activeOffer = document.querySelector('.offer-card.active, .offer-card.selected');
-      const offerTitle = activeOffer ? activeOffer.querySelector('.offer-title')?.textContent.trim() : 'العرض الأساسي';
-      const offerPrice = activeOffer ? parseInt(activeOffer.getAttribute('data-price')) : 600;
+      const form = this;
+      const formData = new FormData(form);
 
-      const name = document.getElementById('name').value.trim();
-      const phone = document.getElementById('phone').value.trim();
-      const phone2 = document.getElementById('phone2') ? document.getElementById('phone2').value.trim() : '';
-      const governorate = document.getElementById('governorate').value;
-      const address = document.getElementById('address').value.trim();
-      const notes = document.getElementById('notes') ? document.getElementById('notes').value.trim() : '';
+      const name = (formData.get('name') || form.querySelector('[name="name"]')?.value || document.getElementById('name')?.value || '').trim();
+      const phone = (formData.get('phone') || form.querySelector('[name="phone"]')?.value || document.getElementById('phone')?.value || document.getElementById('mainPhone')?.value || '').trim();
+      const phone2 = (formData.get('phone2') || form.querySelector('[name="phone2"]')?.value || document.getElementById('phone2')?.value || '').trim();
+      const governorate = (formData.get('governorate') || form.querySelector('[name="governorate"]')?.value || document.getElementById('governorate')?.value || '').trim();
+      const address = (formData.get('address') || form.querySelector('[name="address"]')?.value || document.getElementById('address')?.value || '').trim();
+      const notes = (formData.get('notes') || form.querySelector('[name="notes"]')?.value || document.getElementById('notes')?.value || '').trim();
 
-      // Determine bundle mapping for combo packaging
-      let logexaQuantity = 1;
-      let shippingVal = 50;
+      const select = document.getElementById('offerSelect');
+      const option = select ? select.options[select.selectedIndex] : null;
+      const priceVal = option ? (parseInt(option.value) || 600) : 600;
+      const selectedProductName = option ? (option.getAttribute('data-name') || option.textContent.trim()) : 'العرض المختار';
+
+      // Shipping: 50 for single jar/combo (500 or 600), free for 2+
+      const shippingVal = (priceVal === 500 || priceVal === 600) ? 50 : 0;
+      const totalPriceVal = priceVal + shippingVal;
+
+      // Determine product mapping & package quantity
+      const isMaskOffer = (priceVal === 500 || priceVal === 1000 || priceVal === 1450 || selectedProductName.includes('عبوة') || selectedProductName.includes('عبوتين') || selectedProductName.includes('عبوات'));
+
       let logexaProductId = 19;
       let logexaVariantId = 64;
       let logexaProductName = 'كريم كارسيل وسيرم';
+      let logexaQuantity = 1;
 
-      if (offerTitle.includes('3') || offerTitle.includes('ثلاث') || offerPrice >= 1600) {
-        logexaQuantity = 3;
-        shippingVal = 0;
-      } else if (offerTitle.includes('2') || offerTitle.includes('قطعتين') || (offerPrice >= 1100 && offerPrice <= 1300)) {
-        logexaQuantity = 2;
-        shippingVal = 0;
+      if (isMaskOffer) {
+        logexaProductId = 20;
+        logexaVariantId = 65;
+        logexaProductName = 'كريم كولاجين';
+        logexaQuantity = (priceVal === 1000 ? 2 : (priceVal === 1450 ? 3 : 1));
       } else {
-        logexaQuantity = 1;
-        shippingVal = 50;
+        logexaProductId = 19;
+        logexaVariantId = 64;
+        logexaProductName = 'كريم كارسيل وسيرم';
+        logexaQuantity = (priceVal === 1200 ? 2 : (priceVal === 1700 ? 3 : 1));
       }
-
-      const totalPriceVal = offerPrice + shippingVal;
 
       const data = {
         name: name,
@@ -4093,8 +4101,8 @@
         governorate: governorate,
         address: address,
         notes: notes,
-        product: `${offerTitle} - ${totalPriceVal} ج.م`,
-        price: offerPrice,
+        product: `${selectedProductName} - ${totalPriceVal} ج.م`,
+        price: priceVal,
         shipping: shippingVal,
         totalPrice: totalPriceVal,
         quantity: logexaQuantity,
