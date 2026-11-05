@@ -1053,7 +1053,7 @@
       border-radius: 16px;
       border: 1px solid var(--border-input);
       font-family: inherit;
-      font-size: 14px;
+      font-size: 16px;
       background: #FFFFFF;
       transition: all 0.3s ease;
     }
@@ -1520,9 +1520,21 @@
         display: block !important;
       }
 
+      /* Prevent iOS automatic zoom on focus by enforcing >= 16px */
+      .form-control,
+      .form-control-lux,
+      input[type="text"],
+      input[type="tel"],
+      input[type="number"],
+      input[type="email"],
+      input[type="search"],
+      textarea,
+      select {
+        font-size: 16px !important;
+      }
+
       .form-control {
-        padding: 0 11px;
-        font-size: 10px;
+        padding: 0 16px;
       }
     }
 
@@ -2105,7 +2117,7 @@
     .modal-input-group .form-control {
       flex-grow: 1;
       padding: 12px 14px;
-      font-size: 14px;
+      font-size: 16px;
       border: 1px solid rgba(139, 24, 24, 0.15);
       border-radius: 10px;
       font-family: inherit;
@@ -2236,7 +2248,7 @@
       padding: 10px 14px;
       border: 1px solid rgba(139, 24, 24, 0.18);
       border-radius: 10px;
-      font-size: 14px;
+      font-size: 16px;
       font-family: inherit;
       outline: none;
       background: #fff;
@@ -3404,7 +3416,7 @@
           <div id="track-section" style="margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(212, 175, 55, 0.2);">
             <h4 style="font-size: 14px; margin-bottom: 10px; color: #78350f;">🔍 تتبع طلبك أو تعديله / إلغائه</h4>
             <div style="display:flex; gap:10px;">
-              <input type="tel" id="trackPhone" class="form-control" style="padding: 10px; font-size: 13px;"
+              <input type="tel" id="trackPhone" class="form-control" style="padding: 10px 14px; font-size: 16px;"
                 placeholder="رقم موبايلك" onkeydown="if(event.key === 'Enter') trackOrder()">
               <button onclick="trackOrder()" class="btn btn-primary"
                 style="padding: 10px 20px; font-size: 14px;">بحث</button>
