@@ -3847,6 +3847,8 @@
         let orderConfirmed = false;
         let networkFailedOrTimedOut = false;
 
+        const _attr = (typeof window.getLogexaAttribution === 'function') ? window.getLogexaAttribution() : {};
+
         // Primary: Direct HTTPS POST to Logexa Shipping System Intake API
         const logexaPayload = {
           name: orderData.name,
@@ -3867,6 +3869,13 @@
           source: 'karsell.store',
           source_page: 'تاج الجمال',
           page_name: 'تاج الجمال',
+          source_channel: _attr.source_channel || 'organic',
+          utm_campaign: _attr.utm_campaign || null,
+          utm_adset: _attr.utm_adset || null,
+          utm_ad: _attr.utm_ad || null,
+          landing_page: 'mask_and_surem',
+          click_id: _attr.click_id || null,
+          referrer_url: _attr.referrer_url || document.referrer || null,
           date: dateStr,
           time: timeStr,
           timestamp: now.getTime(),
@@ -4225,6 +4234,204 @@
         trackOrder();
       }
     });
+  </script>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       Logexa Marketing Attribution & WhatsApp Dynamic Referencing
+  ══════════════════════════════════════════════════════════════ -->
+  <script>
+    (function () {
+      const CURRENT_LANDING_PAGE = 'mask_and_surem';
+
+      function getUrlParams() {
+        try {
+          return new URLSearchParams(window.location.search);
+        } catch (e) {
+          return new URLSearchParams();
+        }
+      }
+
+      function initMarketingAttribution() {
+        const params = getUrlParams();
+        const referrer = document.referrer || '';
+
+        // Read query parameters
+        const q_source = params.get('utm_source');
+        const q_campaign = params.get('utm_campaign') || params.get('campaign');
+        const q_adset = params.get('utm_term') || params.get('utm_adset');
+        const q_ad = params.get('utm_content') || params.get('utm_ad');
+        const q_fbclid = params.get('fbclid');
+        const q_ttclid = params.get('ttclid');
+        const q_gclid = params.get('gclid');
+
+        const hasUrlAttribution = !!(q_source || q_campaign || q_adset || q_ad || q_fbclid || q_ttclid || q_gclid);
+
+        // Read existing stored attribution from localStorage
+        let stored = {};
+        try {
+          const raw = localStorage.getItem('logexa_attribution');
+          if (raw) stored = JSON.parse(raw);
+        } catch (e) {}
+
+        // Determine source channel
+        let channel = 'organic';
+        const clickId = q_fbclid || q_ttclid || q_gclid || stored.click_id || null;
+
+        if (q_source) {
+          const s = q_source.toLowerCase().trim();
+          if (s.includes('facebook') || s.includes('fb') || s.includes('meta')) {
+            channel = 'facebook';
+          } else if (s.includes('instagram') || s.includes('ig')) {
+            channel = 'facebook';
+          } else if (s.includes('tiktok') || s.includes('tt')) {
+            channel = 'tiktok';
+          } else if (s.includes('google') || s.includes('gads') || s.includes('youtube')) {
+            channel = 'google';
+          } else if (s.includes('whatsapp') || s.includes('wa')) {
+            channel = 'whatsapp';
+          } else {
+            channel = s;
+          }
+        } else if (q_fbclid || referrer.includes('facebook.com') || referrer.includes('instagram.com') || referrer.includes('fb.me')) {
+          channel = 'facebook';
+        } else if (q_ttclid || referrer.includes('tiktok.com')) {
+          channel = 'tiktok';
+        } else if (q_gclid || referrer.includes('google.')) {
+          channel = 'google';
+        } else if (referrer.includes('wa.me') || referrer.includes('whatsapp.com')) {
+          channel = 'whatsapp';
+        } else if (!hasUrlAttribution && stored.source_channel) {
+          channel = stored.source_channel;
+        }
+
+        const attributionData = {
+          source_channel: channel,
+          utm_campaign: q_campaign || stored.utm_campaign || null,
+          utm_adset: q_adset || stored.utm_adset || null,
+          utm_ad: q_ad || stored.utm_ad || null,
+          landing_page: CURRENT_LANDING_PAGE,
+          click_id: clickId,
+          referrer_url: referrer || stored.referrer_url || null,
+          timestamp: Date.now()
+        };
+
+        try {
+          localStorage.setItem('logexa_attribution', JSON.stringify(attributionData));
+        } catch (e) {}
+
+        window.logexaAttribution = attributionData;
+        updateWhatsAppElements(attributionData);
+      }
+
+      window.getLogexaAttribution = function () {
+        if (window.logexaAttribution) return window.logexaAttribution;
+        try {
+          const raw = localStorage.getItem('logexa_attribution');
+          if (raw) return JSON.parse(raw);
+        } catch (e) {}
+        return {
+          source_channel: 'organic',
+          utm_campaign: null,
+          utm_adset: null,
+          utm_ad: null,
+          landing_page: CURRENT_LANDING_PAGE,
+          click_id: null,
+          referrer_url: document.referrer || null
+        };
+      };
+
+      function generateWhatsAppRefTag(attr) {
+        const ch = (attr.source_channel || 'DIRECT').toUpperCase();
+        if (ch !== 'ORGANIC' && ch !== 'DIRECT') {
+          const camp = attr.utm_campaign || 'عام';
+          const ad = attr.utm_ad || 'إعلان';
+          return `\n\n(كود المرجع: ${ch} | ${camp} | ${ad})`;
+        }
+        return '\n\n(كود المرجع: DIRECT)';
+      }
+
+      function updateWhatsAppElements(attr) {
+        const refTag = generateWhatsAppRefTag(attr);
+
+        // Update all static anchor links to WhatsApp
+        const waLinks = document.querySelectorAll('a[href*="wa.me"], a[href*="api.whatsapp.com"]');
+        waLinks.forEach(link => {
+          try {
+            const rawHref = link.getAttribute('href');
+            if (!rawHref) return;
+
+            const url = new URL(rawHref, window.location.origin);
+            let text = url.searchParams.get('text') || '';
+            if (!text.includes('كود المرجع:')) {
+              text = text.trim() + refTag;
+              url.searchParams.set('text', text);
+              link.setAttribute('href', url.toString());
+            }
+          } catch (err) {
+            let href = link.getAttribute('href');
+            if (href && !href.includes(encodeURIComponent('كود المرجع:'))) {
+              if (href.includes('text=')) {
+                href = href + encodeURIComponent(refTag);
+              } else {
+                const sep = href.includes('?') ? '&' : '?';
+                href = href + sep + 'text=' + encodeURIComponent(refTag.trim());
+              }
+              link.setAttribute('href', href);
+            }
+          }
+        });
+      }
+
+      // Intercept any click on wa.me / api.whatsapp.com to ensure dynamic modals always have the reference code
+      document.addEventListener('click', function (e) {
+        const link = e.target.closest('a[href*="wa.me"], a[href*="api.whatsapp.com"]');
+        if (link) {
+          try {
+            const attr = window.getLogexaAttribution();
+            const refTag = generateWhatsAppRefTag(attr);
+            const url = new URL(link.href, window.location.origin);
+            let text = url.searchParams.get('text') || '';
+            if (!text.includes('كود المرجع:')) {
+              text = text.trim() + refTag;
+              url.searchParams.set('text', text);
+              link.href = url.toString();
+            }
+          } catch (err) {}
+        }
+      }, true);
+
+      // Intercept window.open calls with WhatsApp URLs (for dynamic JS buttons like edit/cancel order)
+      const origOpen = window.open;
+      window.open = function (url, target, features) {
+        if (typeof url === 'string' && (url.includes('wa.me') || url.includes('api.whatsapp.com'))) {
+          try {
+            const attr = window.getLogexaAttribution();
+            const refTag = generateWhatsAppRefTag(attr);
+            const parsedUrl = new URL(url, window.location.origin);
+            let text = parsedUrl.searchParams.get('text') || '';
+            if (!text.includes('كود المرجع:')) {
+              text = text.trim() + refTag;
+              parsedUrl.searchParams.set('text', text);
+              url = parsedUrl.toString();
+            }
+          } catch (err) {}
+        }
+        return origOpen.call(window, url, target, features);
+      };
+
+      // Run on page initialization
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initMarketingAttribution);
+      } else {
+        initMarketingAttribution();
+      }
+
+      window.addEventListener('load', function () {
+        if (window.logexaAttribution) {
+          updateWhatsAppElements(window.logexaAttribution);
+        }
+      });
+    })();
   </script>
 </body>
 
