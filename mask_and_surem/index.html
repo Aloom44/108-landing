@@ -3988,15 +3988,7 @@
             order_id: effectiveOrderId
           }, { eventID: 'lead_' + effectiveOrderId });
 
-          // Step 4: Track Purchase ONLY after confirmed Logexa persistence
-          trackEvent('Purchase', {
-            content_name: orderData.product,
-            content_type: 'product',
-            value: finalPrice,
-            currency: 'EGP',
-            num_items: finalQuantity,
-            order_id: effectiveOrderId
-          }, { eventID: effectiveOrderId });
+          // Purchase لا يُطلق من المتصفح: يرسله Logexa مرة واحدة من السيرفر (CAPI) عند تأكيد الطلب فعلياً
         }
 
         // Step 5: Display receipt confirmation modal

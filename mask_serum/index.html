@@ -4306,14 +4306,7 @@
             sessionStorage.setItem(sessionKey, 'true');
           } catch (e) {}
 
-          // Track Purchase ONLY after confirmed Logexa persistence
-          trackEvent('Purchase', {
-            content_name: data.product,
-            value: totalPriceVal,
-            currency: 'EGP',
-            num_items: logexaQuantity,
-            order_id: effectiveOrderId
-          });
+          // Purchase لا يُطلق من المتصفح: يرسله Logexa مرة واحدة من السيرفر (CAPI) عند تأكيد الطلب فعلياً
         }
 
         // Calculate total and shipping for the receipt

@@ -2640,16 +2640,7 @@
             // Show loading
             loading.classList.add('active');
             
-            // Track Facebook Pixel Purchase Event
-            fbq('track', 'Purchase', {
-                content_name: '108 Herbs Hair Oil - ' + formData.bottleSize,
-                content_ids: ['108-herbs-oil-' + formData.bottleSize],
-                content_type: 'product',
-                value: formData.price,
-                currency: 'EGP',
-                num_items: 1
-            });
-            console.log('✅ FB Pixel: Purchase tracked - ' + formData.price + ' EGP');
+            // Purchase لا يُطلق من المتصفح: يرسله Logexa مرة واحدة من السيرفر (CAPI) عند تأكيد الطلب فعلياً
             
             // Track Lead Event
             fbq('track', 'Lead', {

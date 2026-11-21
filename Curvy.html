@@ -1246,16 +1246,7 @@
                     });
                     console.log('✅ Lead event sent');
                     
-                    fbq('track', 'Purchase', {
-                        content_name: 'Curvy Jeans',
-                        content_category: 'Jeans',
-                        content_ids: ['curvy-jeans'],
-                        content_type: 'product',
-                        value: total,
-                        currency: 'EGP',
-                        num_items: parseInt(quantity)
-                    });
-                    console.log('✅ Purchase event sent');
+                    // Purchase لا يُطلق من المتصفح: يرسله Logexa مرة واحدة من السيرفر (CAPI) عند تأكيد الطلب فعلياً
                     
                     // عرض رسالة تأكيد بسيطة
                     Swal.fire({

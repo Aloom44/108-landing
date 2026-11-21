@@ -891,14 +891,7 @@
             
             // Pixel Event - Purchase
             const totalWithShipping = parseInt(totalPrice) + parseInt(shipping);
-            fbq('track', 'Purchase', {
-                content_name: offerText,
-                content_category: 'بوكسرات كالفين كلاين',
-                content_ids: [offer === 'offer2' ? 'boxer_6pc' : 'boxer_3pc'],
-                content_type: 'product',
-                value: totalWithShipping,
-                num_items: quantity
-            });
+            // Purchase لا يُطلق من المتصفح: يرسله Logexa مرة واحدة من السيرفر (CAPI) عند تأكيد الطلب فعلياً
             
             // Pixel Event - Lead
             fbq('track', 'Lead', {

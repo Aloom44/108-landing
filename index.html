@@ -3764,15 +3764,7 @@
         timestamp: now.getTime()
       };
 
-      // Track Purchase
-      trackEvent('Purchase', {
-        content_name: orderData.product,
-        content_ids: ['karseell-' + selectedProduct],
-        content_type: 'product',
-        value: selectedProductPrice,
-        currency: 'EGP',
-        num_items: 1
-      });
+      // Purchase لا يُطلق من المتصفح: يرسله Logexa مرة واحدة من السيرفر (CAPI) عند تأكيد الطلب فعلياً
 
       try {
         await database.ref('karseell-orders').push(orderData);

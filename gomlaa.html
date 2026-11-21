@@ -2043,9 +2043,10 @@
                 document.getElementById('order-step-success').classList.add('active');
                 document.getElementById('order-form-section').scrollIntoView({ behavior: 'smooth' });
 
-                // Facebook Purchase Event
+                // Facebook Lead Event (submit)
                 if (typeof fbq !== 'undefined') {
-                    fbq('track', 'Purchase', {
+                    // Purchase لا يُطلق من المتصفح: يرسله Logexa مرة واحدة من السيرفر (CAPI) عند تأكيد الطلب فعلياً — هنا Lead فقط عند إرسال الطلب
+                    fbq('track', 'Lead', {
                         content_name: offer.name,
                         value: offer.price + offer.shipping,
                         currency: 'EGP'
