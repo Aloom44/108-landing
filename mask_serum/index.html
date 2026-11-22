@@ -4171,6 +4171,7 @@
 
       try {
         let logexaOrderCode = null;
+        let logexaCapiEventId = null; // event_id حدث Purchase من Logexa (logexa_order_<id>) لدمج المتصفح مع السيرفر
         let orderConfirmed = false;
         let networkFailedOrTimedOut = false;
 
@@ -4227,6 +4228,7 @@
             const logexaData = await logexaRes.json();
             if (logexaData && logexaData.success && Array.isArray(logexaData.imported_orders) && logexaData.imported_orders.length > 0) {
               logexaOrderCode = logexaData.imported_orders[0].order_code;
+              logexaCapiEventId = logexaData.imported_orders[0].capi_event_id || logexaData.capi_event_id || null;
               orderConfirmed = true;
               console.log('✅ [Logexa] Order synced with code:', logexaOrderCode);
             } else {
@@ -4260,6 +4262,7 @@
               const verifyData = await verifyRes.json();
               if (verifyData && verifyData.success && verifyData.exists && verifyData.order_code) {
                 logexaOrderCode = verifyData.order_code;
+                logexaCapiEventId = verifyData.capi_event_id || null;
                 orderConfirmed = true;
                 console.log('✅ [Logexa] Order confirmed via server idempotency verification:', logexaOrderCode);
               }
@@ -4306,7 +4309,18 @@
             sessionStorage.setItem(sessionKey, 'true');
           } catch (e) {}
 
-          // Purchase لا يُطلق من المتصفح: يرسله Logexa مرة واحدة من السيرفر (CAPI) عند تأكيد الطلب فعلياً
+          // Purchase مرة واحدة بنفس event_id حدث السيرفر (Logexa CAPI يرسله لحظة إنشاء الطلب) فيدمجهما فيسبوك كعملية شراء واحدة.
+          // بدون event_id من السيرفر لا يُطلق إطلاقاً حتى لا يتضاعف الحدث.
+          if (logexaCapiEventId && typeof fbq === 'function') {
+            fbq('track', 'Purchase', {
+              content_name: data.product,
+              value: Number(totalPriceVal) || 0,
+              currency: 'EGP',
+              num_items: logexaQuantity,
+              order_id: effectiveOrderId
+            }, { eventID: logexaCapiEventId });
+            console.log('✅ Pixel Purchase (dedup eventID):', logexaCapiEventId);
+          }
         }
 
         // Calculate total and shipping for the receipt
