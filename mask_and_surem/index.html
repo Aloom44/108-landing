@@ -4076,6 +4076,13 @@
 
     // Track Order System (Direct from Logexa)
     let currentOrderData = null;
+    let currentTrackedPhone = '';
+    // الاستعلام بالهاتف لا يرجع الاسم/العنوان/الهاتف (خصوصية)
+    function lgxEsc(v) {
+      return String(v === null || v === undefined ? '' : v).replace(/[&<>"']/g, function (c) {
+        return {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c];
+      });
+    }
     let currentOrderKey = null;
 
     async function trackOrder() {
@@ -4117,9 +4124,14 @@
         const res = await fetch('https://logexa.tech/api/import-firebase-orders/?phone=' + encodeURIComponent(phone));
         Swal.close();
 
+        if (res.status === 429) {
+          Swal.fire({ title: 'محاولات كثيرة', text: 'يرجى المحاولة بعد قليل أو التواصل معنا على واتساب', icon: 'warning', confirmButtonText: 'تمام', confirmButtonColor: '#f59e0b' });
+          return;
+        }
         if (res.ok) {
           const resData = await res.json();
           if (resData.success && resData.found && resData.order) {
+            currentTrackedPhone = phone;
             currentOrderData = resData.order;
             displayOrderDetails(currentOrderData);
             document.getElementById('trackResults').style.display = 'block';
@@ -4145,59 +4157,28 @@
 
     function displayOrderDetails(order) {
       const detailsDiv = document.getElementById('orderDetails');
-      detailsDiv.innerHTML = `
+      const row = (label, value, style) => `
         <div style="margin-bottom: 10px;">
-          <div style="color: #78350f; font-size: 13px; font-weight: 600; margin-bottom: 4px;">👤 الاسم:</div>
-          <div style="color: #92400e; font-size: 16px; font-weight: 700;">${order.name}</div>
-        </div>
-        <div style="margin-bottom: 10px;">
-          <div style="color: #78350f; font-size: 13px; font-weight: 600; margin-bottom: 4px;">📱 الهاتف:</div>
-          <div style="color: #92400e; font-size: 16px; font-weight: 700;">${order.phone}</div>
-        </div>
-        ${order.phone2 ? `
-        <div style="margin-bottom: 10px;">
-          <div style="color: #78350f; font-size: 13px; font-weight: 600; margin-bottom: 4px;">📱 الهاتف البديل:</div>
-          <div style="color: #92400e; font-size: 16px; font-weight: 700;">${order.phone2}</div>
-        </div>
-        ` : ''}
-        <div style="margin-bottom: 10px;">
-          <div style="color: #78350f; font-size: 13px; font-weight: 600; margin-bottom: 4px;">📍 المحافظة:</div>
-          <div style="color: #92400e; font-size: 16px; font-weight: 700;">${order.governorate}</div>
-        </div>
-        <div style="margin-bottom: 10px;">
-          <div style="color: #78350f; font-size: 13px; font-weight: 600; margin-bottom: 4px;">📍 العنوان:</div>
-          <div style="color: #92400e; font-size: 15px; font-weight: 600;">${order.address}</div>
-        </div>
-        <div style="margin-bottom: 10px;">
-          <div style="color: #78350f; font-size: 13px; font-weight: 600; margin-bottom: 4px;">📦 المنتج:</div>
-          <div style="color: #92400e; font-size: 16px; font-weight: 700;">${order.product}</div>
-        </div>
-        <div style="margin-bottom: 10px;">
-          <div style="color: #78350f; font-size: 13px; font-weight: 600; margin-bottom: 4px;">🔢 الكمية:</div>
-          <div style="color: #92400e; font-size: 16px; font-weight: 700;">${order.quantity || 1}</div>
-        </div>
-        <div style="margin-bottom: 10px;">
-          <div style="color: #78350f; font-size: 13px; font-weight: 600; margin-bottom: 4px;">💰 الإجمالي:</div>
-          <div style="color: #16a34a; font-size: 20px; font-weight: 900;">${order.price} جنيه</div>
-        </div>
-        ${order.notes ? `
-        <div style="margin-bottom: 10px;">
-          <div style="color: #78350f; font-size: 13px; font-weight: 600; margin-bottom: 4px;">📝 ملاحظات:</div>
-          <div style="color: #92400e; font-size: 14px; font-weight: 600;">${order.notes}</div>
-        </div>
-        ` : ''}
-        <div style="margin-top: 12px; padding-top: 12px; border-top: 2px dashed #fbbf24;">
+          <div style="color: #78350f; font-size: 13px; font-weight: 600; margin-bottom: 4px;">${label}</div>
+          <div style="${style || 'color: #92400e; font-size: 16px; font-weight: 700;'}">${lgxEsc(value)}</div>
+        </div>`;
+      detailsDiv.innerHTML =
+        row('🧾 رقم الطلب:', '#' + order.order_code) +
+        row('📦 المنتج:', order.product) +
+        row('🔢 الكمية:', order.quantity || 1) +
+        row('💰 الإجمالي:', order.price + ' جنيه', 'color: #16a34a; font-size: 20px; font-weight: 900;') +
+        row('🚚 الحالة:', order.status || 'قيد التجهيز') +
+        `<div style="margin-top: 12px; padding-top: 12px; border-top: 2px dashed #fbbf24;">
           <div style="color: #78350f; font-size: 13px; font-weight: 600; margin-bottom: 4px;">📅 تاريخ الطلب:</div>
-          <div style="color: #92400e; font-size: 14px; font-weight: 600;">${order.date} - ${order.time}</div>
-        </div>
-      `;
+          <div style="color: #92400e; font-size: 14px; font-weight: 600;">${lgxEsc(order.date)} - ${lgxEsc(order.time)}</div>
+        </div>`;
     }
 
     function requestEditOrder() {
       if (!currentOrderData) return;
 
-      const message = `مرحباً، أنا ${currentOrderData.name}
-📱 رقم الهاتف: ${currentOrderData.phone}
+      const message = `مرحباً، بخصوص طلبي رقم #${currentOrderData.order_code}
+📱 رقم الهاتف: ${currentTrackedPhone}
 📦 المنتج: ${currentOrderData.product}
 💰 الإجمالي: ${currentOrderData.price} جنيه
 
@@ -4221,8 +4202,8 @@
         cancelButtonText: 'تراجع'
       }).then((result) => {
         if (result.isConfirmed) {
-          const message = `مرحباً، أنا ${currentOrderData.name}
-📱 رقم الهاتف: ${currentOrderData.phone}
+          const message = `مرحباً، بخصوص طلبي رقم #${currentOrderData.order_code}
+📱 رقم الهاتف: ${currentTrackedPhone}
 📦 المنتج: ${currentOrderData.product}
 💰 الإجمالي: ${currentOrderData.price} جنيه
 

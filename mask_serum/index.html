@@ -3544,20 +3544,12 @@
           </div>
           <div class="return-info-body">
             <div class="return-info-row">
-              <span class="lbl">اسم العميل:</span>
-              <strong id="returnCustomerNameVal">-</strong>
-            </div>
-            <div class="return-info-row">
               <span class="lbl">رقم الطلب:</span>
               <strong id="returnOrderIdVal" style="font-family: monospace; color: #8B1818;">-</strong>
             </div>
             <div class="return-info-row">
               <span class="lbl">المنتج:</span>
               <strong id="returnProductVal">-</strong>
-            </div>
-            <div class="return-info-row">
-              <span class="lbl">عنوان العميل:</span>
-              <strong id="returnCustomerAddressVal" style="text-align: left; max-width: 65%; color: #333;">-</strong>
             </div>
             <div class="return-info-row">
               <span class="lbl">إجمالي السعر:</span>
@@ -4452,6 +4444,14 @@
       }
     }
 
+    // استعلام الطلب بالهاتف لا يرجع الاسم/العنوان/الهاتف (خصوصية)، ويُحدَّد معدل المحاولات
+    function lgxEsc(v) {
+      return String(v === null || v === undefined ? '' : v).replace(/[&<>"']/g, function (c) {
+        return {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c];
+      });
+    }
+    const LGX_RATE_LIMIT_MSG = '<p style="text-align: center; color: #ea580c; font-weight: 600;">محاولات كثيرة، يرجى المحاولة بعد قليل أو التواصل معنا على واتساب.</p>';
+
     async function trackOrderModal() {
       const phone = document.getElementById('modalTrackPhone').value.trim();
       if (!phone) return;
@@ -4463,6 +4463,7 @@
       try {
         const res = await fetch(`https://logexa.tech/api/import-firebase-orders/?phone=${encodeURIComponent(phone)}`);
         let val = null;
+        if (res.status === 429) { results.innerHTML = LGX_RATE_LIMIT_MSG; return; }
         if (res.ok) {
           const resData = await res.json();
           if (resData.success && resData.found && resData.order) {
@@ -4472,11 +4473,10 @@
         if (val) {
           results.innerHTML = `
             <div style="text-align: right;">
-              <p><strong>رقم الطلب:</strong> #${val.order_code}</p>
-              <p><strong>الاسم:</strong> ${val.customer_name || val.name}</p>
-              <p><strong>المنتج:</strong> ${val.product}</p>
-              <p><strong>الإجمالي:</strong> ${val.price} ج.م</p>
-              <p style="color: #ea580c; font-weight: 800; margin-top: 10px; margin-bottom: 15px;">الحالة: ${val.status || 'قيد التجهيز'} 🚚</p>
+              <p><strong>رقم الطلب:</strong> #${lgxEsc(val.order_code)}</p>
+              <p><strong>المنتج:</strong> ${lgxEsc(val.product)}</p>
+              <p><strong>الإجمالي:</strong> ${lgxEsc(val.price)} ج.م</p>
+              <p style="color: #ea580c; font-weight: 800; margin-top: 10px; margin-bottom: 15px;">الحالة: ${lgxEsc(val.status || 'قيد التجهيز')} 🚚</p>
               <div style="border-top: 1px solid #e7e5e4; padding-top: 12px; margin-top: 10px; text-align: center;">
                 <p style="font-size: 12px; color: #6b7280; margin-bottom: 8px;">تريد تعديل أو إلغاء طلبك؟</p>
                 <a href="https://wa.me/201515697085?text=%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%AA%D8%B9%D8%AF%D9%8A%D9%84%20%D8%A3%D9%88%20%D8%A5%D9%84%D8%BA%D8%A7%D8%A1%20%D8%B7%D9%84%D8%A8%D9%8A%20%D9%84%D9%84%D8%B1%D9%82%D9%85%D9%90%20${val.phone}" target="_blank" style="padding: 10px 16px; font-size: 13px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: #25d366; border: 1px solid #25d366; text-decoration: none; border-radius: 8px; color: white; font-weight: 700; transition: all 0.3s ease; width: 100%;">
@@ -4503,6 +4503,7 @@
       try {
         const res = await fetch(`https://logexa.tech/api/import-firebase-orders/?phone=${encodeURIComponent(phone)}`);
         let val = null;
+        if (res.status === 429) { results.innerHTML = LGX_RATE_LIMIT_MSG; return; }
         if (res.ok) {
           const resData = await res.json();
           if (resData.success && resData.found && resData.order) {
@@ -4512,11 +4513,10 @@
         if (val) {
           results.innerHTML = `
             <div style="text-align: right;">
-              <p><strong>رقم الطلب:</strong> #${val.order_code}</p>
-              <p><strong>الاسم:</strong> ${val.customer_name || val.name}</p>
-              <p><strong>المنتج:</strong> ${val.product}</p>
-              <p><strong>الإجمالي:</strong> ${val.price} ج.م</p>
-              <p style="color: #ea580c; font-weight: 800; margin-top: 10px; margin-bottom: 15px;">الحالة: ${val.status || 'قيد التجهيز'} 🚚</p>
+              <p><strong>رقم الطلب:</strong> #${lgxEsc(val.order_code)}</p>
+              <p><strong>المنتج:</strong> ${lgxEsc(val.product)}</p>
+              <p><strong>الإجمالي:</strong> ${lgxEsc(val.price)} ج.م</p>
+              <p style="color: #ea580c; font-weight: 800; margin-top: 10px; margin-bottom: 15px;">الحالة: ${lgxEsc(val.status || 'قيد التجهيز')} 🚚</p>
               <div style="border-top: 1px solid #e7e5e4; padding-top: 12px; margin-top: 10px; text-align: center;">
                 <p style="font-size: 12px; color: #6b7280; margin-bottom: 8px;">تريد تعديل أو إلغاء طلبك؟</p>
                 <a href="https://wa.me/201515697085?text=%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%AA%D8%B9%D8%AF%D9%8A%D9%84%20%D8%A3%D9%88%20%D8%A5%D9%84%D8%BA%D8%A7%D8%A1%20%D8%B7%D9%84%D8%A8%D9%8A%20%D9%84%D9%84%D8%B1%D9%82%D9%85%D9%90%20${val.phone}" target="_blank" class="btn btn-primary" style="padding: 8px 16px; font-size: 13px; display: inline-flex; align-items: center; gap: 6px; background: #25d366; border-color: #25d366; text-decoration: none; border-radius: 8px; color: white; font-weight: 700; transition: all 0.3s ease;">
@@ -4797,6 +4797,10 @@
       try {
         const res = await fetch(`https://logexa.tech/api/import-firebase-orders/?phone=${encodeURIComponent(phone)}`);
         let foundVal = null;
+        if (res.status === 429) {
+          if (statusDiv) { statusDiv.style.display = 'block'; statusDiv.innerHTML = LGX_RATE_LIMIT_MSG; }
+          return;
+        }
         if (res.ok) {
           const resData = await res.json();
           if (resData.success && resData.found && resData.order) {
@@ -4805,13 +4809,14 @@
         }
 
         if (foundVal) {
-          const fullAddr = [foundVal.governorate, foundVal.address].filter(Boolean).join(' - ') || 'غير محدد';
+          // الاسم والعنوان لم يعودا يُرجعان من السيرفر (خصوصية): يُراجعان داخلياً برقم الطلب
+          const fullAddr = 'يُراجع من النظام برقم الطلب';
 
           activeReturnOrder = {
             key: foundVal.order_code,
             orderId: foundVal.order_code,
-            name: foundVal.customer_name || foundVal.name || 'عميل كارسيل',
-            phone: foundVal.phone || phone,
+            name: 'يُراجع من النظام برقم الطلب',
+            phone: phone,
             product: foundVal.product || 'ماسك كارسيل',
             address: fullAddr,
             totalPrice: foundVal.price ? (foundVal.price + ' ج.م') : 'غير محدد',
@@ -4819,10 +4824,8 @@
             status: foundVal.status || 'مكتمل / قيد التجهيز'
           };
 
-          document.getElementById('returnCustomerNameVal').textContent = activeReturnOrder.name;
           document.getElementById('returnOrderIdVal').textContent = '#' + (activeReturnOrder.orderId.substring(0, 10));
           document.getElementById('returnProductVal').textContent = activeReturnOrder.product;
-          document.getElementById('returnCustomerAddressVal').textContent = activeReturnOrder.address;
           document.getElementById('returnTotalPriceVal').textContent = activeReturnOrder.totalPrice;
           
           const orderDate = new Date(activeReturnOrder.timestamp);
