@@ -38,10 +38,6 @@
       src="https://www.facebook.com/tr?id=25914318858170088&ev=PageView&noscript=1" /></noscript>
   <!-- End Meta Pixel Code -->
 
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
-
   <!-- SweetAlert2 -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <!-- Swiper.js & Fancybox -->
@@ -1042,7 +1038,7 @@
       background: #fff;
       color: #1f2937;
       font-family: inherit;
-      font-size: 14px;
+      font-size: 16px; /* 16px يمنع الزووم التلقائي في iOS Safari عند الضغط على الحقل */
       transition: border-color 0.2s ease;
     }
 
@@ -2419,7 +2415,7 @@
       #orderForm input,
       #orderForm select,
       #orderForm textarea {
-        font-size: 14px;
+        font-size: 16px; /* لا تقل عن 16px (منع زووم iOS) */
         padding: 10px 12px;
       }
 
@@ -2703,11 +2699,46 @@
         padding: 8px 10px;
       }
     }
+
+    /* ===== رسائل الخطأ تحت الحقل (بدل النافذة المنبثقة) ===== */
+    .field-error {
+      display: none;
+      color: #dc2626;
+      font-size: 13px;
+      font-weight: 600;
+      margin-top: 6px;
+    }
+    .field-error.show { display: block; }
+    #orderForm .input-invalid { border-color: #dc2626 !important; }
+
+    /* ملخص العرض المختار */
+    .offer-breakdown { margin-top: 8px; font-size: 14px; color: #065f46; line-height: 1.8; }
+    .offer-breakdown .ob-row { display: flex; justify-content: space-between; gap: 8px; }
+    .offer-breakdown .ob-total { font-weight: 900; font-size: 16px; border-top: 1px dashed #16a34a; margin-top: 4px; padding-top: 4px; }
+    .free-ship-note { font-size: 13px; font-weight: 700; color: #b45309; margin-top: 6px; }
+    .bulk-note { text-align: center; font-size: 14px; font-weight: 700; color: #065f46; background: #f0fdf4; border: 1px dashed #16a34a; border-radius: 10px; padding: 10px; margin-top: 14px; }
+    .bulk-note a { color: #15803d; text-decoration: underline; }
+
+    /* ===== الموبايل: الشريط الأحمر الثابت وزر واتساب ===== */
+    @media (max-width: 900px) {
+      html { scroll-padding-bottom: 90px; }
+      body { padding-bottom: 80px; }
+      #orderForm { padding-bottom: 80px; }
+      .whatsapp-float {
+        top: auto;
+        bottom: 80px;
+        transform: none;
+        left: 10px;
+        transition: opacity 0.25s ease;
+      }
+      .whatsapp-float a { width: 46px; height: 46px; }
+      .whatsapp-float.wa-hidden { opacity: 0; pointer-events: none; }
+    }
   </style>
 </head>
 
 <body>
-  <div class="promo-bar">🎉 عرض القطعتين بسعر قطعة واحدة مع شحن مجاني على القطعتين لفترة محدودة 🔥</div>
+  <div class="promo-bar">🎉 عرض 2 بوكس بسعر بوكس واحد – شحن مجاني على 2 و3 بوكس لفترة محدودة 🔥</div>
   <!-- HEADER -->
   <header>
     <div class="container">
@@ -2732,7 +2763,7 @@
             ✨ الحل الأكيد لكل مشاكل شعرِك
           </div>
           <h1 class="hero-title">
-            <span class="hero-label">عرض القطعتين بسعر قطعة واحدة</span><br>
+            <span class="hero-label">عرض 2 بوكس بسعر بوكس واحد</span><br>
             شعرك محتاج إنقاذ وتنعيم فوري؟
             <span class="hero-highlight">كارسيل كولاجين</span> هيرجعه ناعم ولامع من أول أسبوع.
           </h1>
@@ -2741,7 +2772,7 @@
             ويحمي شعرك من الحرارة والتصفيف اليومي.
           </p>
           <p class="hero-offer-subtext">
-            احصلي على عرض القطعتين بسعر قطعة واحدة… <span>وشحن مجاني لفترة محدودة</span>
+            احصلي على عرض 2 بوكس بسعر بوكس واحد… <span>وشحن مجاني على 2 و3 بوكس لفترة محدودة</span>
           </p>
 
           <div class="hero-benefits">
@@ -2754,7 +2785,7 @@
           <div class="hero-cta-row">
             <button class="btn btn-primary" onclick="scrollToOrder()"
               style="background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%); box-shadow: 0 10px 25px rgba(234, 88, 12, 0.35); border: none;">
-              احصلي على عرض القطعتين بسعر قطعة واحدة الآن 🔥
+              احصلي على عرض 2 بوكس بسعر بوكس واحد الآن 🔥
             </button>
             <button class="btn btn-outline" onclick="scrollToFaq()" type="button"
               style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border: 2px solid #f59e0b; color: #92400e; font-weight: 700; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);">
@@ -2762,13 +2793,13 @@
             </button>
           </div>
           <div class="hero-trust-line">
-            ✔ الدفع عند الاستلام ✔ معاينة قبل الدفع ✔ شحن مجاني اليوم فقط
+            ✔ الدفع عند الاستلام ✔ معاينة قبل الدفع ✔ شحن مجاني على 2 و3 بوكس
           </div>
 
         </div>
 
         <div class="hero-img-card">
-          <div class="hero-img-badge">🔥 عرض القطعتين بسعر قطعة واحدة</div>
+          <div class="hero-img-badge">🔥 عرض 2 بوكس بسعر بوكس واحد</div>
           <div class="carousel" id="heroCarousel">
             <button class="carousel-btn prev" onclick="changeSlide(-1)" aria-label="Previous">❮</button>
             <button class="carousel-btn next" onclick="changeSlide(1)" aria-label="Next">❯</button>
@@ -2881,67 +2912,71 @@
     <div class="container">
       <div class="order-grid">
         <div class="offers-section">
-          <h2 class="order-title">احصلي على عرض القطعتين بسعر قطعة واحدة</h2>
+          <h2 class="order-title">احصلي على عرض 2 بوكس بسعر بوكس واحد</h2>
           <p class="order-sub" style="color: #6b7280; margin-bottom: 20px;">
-            كل العروض شاملة الشحن مع إمكانية الدفع عند الاستلام
+            البوكس = ماسك + سيروم • عرض 2 بوكس و3 بوكس شاملين الشحن • البوكس الواحد 600 ج.م + 50 ج.م شحن • الدفع عند الاستلام
           </p>
 
           <div style="text-align: center; margin-bottom: 18px;">
-            <div style="font-size: 15px; font-weight: 800; color: #991b1b;">🔥 احصل على عرض القطعتين بسعر قطعة واحدة</div>
+            <div style="font-size: 15px; font-weight: 800; color: #991b1b;">🔥 احصل على عرض 2 بوكس بسعر بوكس واحد
+            </div>
             <div style="font-size: 13px; font-weight: 700; color: #b45309; margin-top: 4px;">⏳ الكمية محدودة</div>
+            <div class="free-ship-note">🚚 الشحن مجاني في حالة الاستلام فقط</div>
           </div>
 
           <div class="offers-row offers-eid">
-            <div class="offer-card featured" onclick="selectOffer('عرض القطعتين - 2 كريم + 2 سيرم', 1200, 0)">
+            <div class="offer-card featured" data-boxes="2" onclick="selectOffer(2, this)">
               <span class="offer-badge">👑 الأكثر طلبًا</span>
-              <div class="offer-title">عرض القطعتين</div>
-              <div class="offer-value">خدي 2 كريم + 2 سيرم بسعر خاص</div>
+              <div class="offer-title">عرض 2 بوكس</div>
+              <div class="offer-value">2 بوكس (2 ماسك + 2 سيروم) بسعر خاص</div>
               <div class="offer-save">توفير يصل إلى 1200 جنيه</div>
               <div class="offer-price">
                 <span class="offer-price-old">2400 جنيه</span>
-                <span class="offer-price-new">1200 جنيه فقط بالشحن</span>
+                <span class="offer-price-new">1200 جنيه شامل الشحن</span>
               </div>
               <ul class="offer-list">
-                <li>✔ شحن مجاني</li>
+                <li>✔ الشحن مجاني في حالة الاستلام فقط</li>
                 <li>✔ الدفع عند الاستلام</li>
                 <li>✔ معاينة قبل الدفع</li>
               </ul>
               <button class="offer-cta">اطلبي الآن</button>
             </div>
 
-            <div class="offer-card side secondary" onclick="selectOffer('العرض الأقوى - 3 كريم + 3 سيرم', 1700, 0)">
+            <div class="offer-card side secondary" data-boxes="3" onclick="selectOffer(3, this)">
               <span class="offer-badge">🔥 عرض ممتاز</span>
-              <div class="offer-title">العرض الأقوى</div>
-              <div class="offer-value">خدي 3 كريم + 3 سيرم بسعر خاص</div>
+              <div class="offer-title">العرض الأقوى – 3 بوكس</div>
+              <div class="offer-value">3 بوكس (3 ماسك + 3 سيروم) بسعر خاص</div>
               <div class="offer-save">توفير يصل إلى 1900 جنيه</div>
               <div class="offer-price">
                 <span class="offer-price-old">3600 جنيه</span>
-                <span class="offer-price-new">1700 جنيه</span>
+                <span class="offer-price-new">1700 جنيه شامل الشحن</span>
               </div>
               <ul class="offer-list">
-                <li>✔ شحن مجاني</li>
+                <li>✔ الشحن مجاني في حالة الاستلام فقط</li>
                 <li>✔ الدفع عند الاستلام</li>
                 <li>✔ معاينة قبل الدفع</li>
               </ul>
               <button class="offer-cta">اطلبي الآن</button>
             </div>
 
-            <div class="offer-card side entry" onclick="selectOffer('عرض القطعة الواحدة - كريم كارسيل + سيرم', 650, 0)">
+            <div class="offer-card side entry" data-boxes="1" onclick="selectOffer(1, this)">
               <span class="offer-badge">🔥 العرض الأساسي</span>
-              <div class="offer-title">عرض القطعة الواحدة</div>
-              <div class="offer-value">خدي كريم + سيرم بسعر خاص</div>
+              <div class="offer-title">عرض 1 بوكس</div>
+              <div class="offer-value">1 بوكس (ماسك + سيروم)</div>
               <div class="offer-save">توفير لفترة محدودة</div>
               <div class="offer-price">
                 <span class="offer-price-old">1200 جنيه</span>
                 <span class="offer-price-new">650 جنيه</span>
               </div>
               <ul class="offer-list">
+                <li>🚚 600 ج.م + 50 ج.م شحن</li>
                 <li>✔ الدفع عند الاستلام</li>
                 <li>✔ معاينة قبل الدفع</li>
               </ul>
               <button class="offer-cta">اطلبي الآن</button>
             </div>
           </div>
+          <div class="bulk-note">🤝 للتجار والكميات الكبيرة عندنا عروض خاصة – <a href="https://wa.me/201515697085?text=مرحباً،%20عايزة%20أستفسر%20عن%20عروض%20التجار%20والكميات%20الكبيرة%20لماسك%20وسيروم%20كارسيل" target="_blank" rel="noopener">كلمينا على واتساب</a></div>
         </div>
 
         <div>
@@ -2972,12 +3007,13 @@
                       style="font-size: 12px; color: #047857; background: rgba(16, 185, 129, 0.1); padding: 4px 10px; border-radius: 6px; font-weight: 600;">
                       + 50 ج.م شحن</div>
                   </div>
+                  <div id="offerBreakdown" class="offer-breakdown"></div>
                 </div>
               </div>
             </div>
 
             <div>
-              <label for="quantity">الكمية</label>
+              <label for="quantity">عدد البوكسات (البوكس = ماسك + سيروم)</label>
               <div style="display: flex; align-items: center; gap: 8px; max-width: 200px; margin: 0 auto;">
                 <button type="button" onclick="decreaseQuantity()"
                   style="background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%); color: white; border: none; border-radius: 8px; width: 45px; height: 45px; font-size: 24px; font-weight: 700; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);"
@@ -2992,20 +3028,23 @@
                   +
                 </button>
               </div>
-              <div style="font-size: 11px; color: #6b7280; margin-top: 6px; text-align: center;">📦 الشحن مجاني على عرض القطعتين</div>
+              <div style="font-size: 12px; color: #6b7280; margin-top: 6px; text-align: center;">📦 1 بوكس = 650 ج.م (600 + 50 شحن) • 2 بوكس = 1200 ج.م • 3 بوكس = 1700 ج.م</div>
+              <div id="bulkInquiry" class="bulk-note" style="display: none;">🤝 أكتر من 3 بوكس؟ للتجار والكميات الكبيرة عندنا عروض خاصة – <a href="https://wa.me/201515697085?text=مرحباً،%20عايزة%20أستفسر%20عن%20عروض%20التجار%20والكميات%20الكبيرة%20لماسك%20وسيروم%20كارسيل" target="_blank" rel="noopener">استفسري على واتساب</a></div>
             </div>
 
             <div>
               <label for="name">الاسم الكامل</label>
-              <input type="text" id="name" name="name" required placeholder="اكتبي اسمك كما هو في بطاقة الاستلام" />
+              <input type="text" id="name" name="name" required autocomplete="name" inputmode="text" placeholder="اكتبي اسمك كما هو في بطاقة الاستلام" />
             </div>
             <div>
               <label for="phone">رقم الموبايل الأساسي</label>
-              <input type="tel" id="phone" name="phone" required placeholder="01xxxxxxxxx" />
+              <input type="tel" id="phone" name="phone" required autocomplete="tel" inputmode="tel" placeholder="01xxxxxxxxx" aria-describedby="phoneError" />
+              <div class="field-error" id="phoneError" role="alert"></div>
             </div>
             <div>
               <label for="phone2">رقم موبايل بديل (اختياري)</label>
-              <input type="tel" id="phone2" name="phone2" placeholder="01xxxxxxxxx" />
+              <input type="tel" id="phone2" name="phone2" autocomplete="tel" inputmode="tel" placeholder="01xxxxxxxxx" aria-describedby="phone2Error" />
+              <div class="field-error" id="phone2Error" role="alert"></div>
             </div>
             <div>
               <label for="governorate">المحافظة</label>
@@ -3031,33 +3070,19 @@
                 <option value="قنا">قنا</option>
                 <option value="أسوان">أسوان</option>
                 <option value="الأقصر">الأقصر</option>
+                <option value="الفيوم">الفيوم</option>
+                <option value="بني سويف">بني سويف</option>
+                <option value="البحر الأحمر">البحر الأحمر</option>
+                <option value="جنوب سيناء">جنوب سيناء</option>
+                <option value="مطروح">مطروح</option>
+                <option value="الوادي الجديد">الوادي الجديد</option>
               </select>
             </div>
             <div>
               <label for="address">العنوان بالتفصيل</label>
-              <textarea id="address" name="address" rows="2" required
+              <textarea id="address" name="address" rows="2" required autocomplete="street-address" inputmode="text"
                 placeholder="الشارع، رقم البيت / العمارة، العلامة المميزة"></textarea>
             </div>
-            <!-- Hidden inputs للعرض المختار -->
-            <input type="hidden" id="offer_type" name="offer_type">
-            <input type="hidden" id="offer_price" name="offer_price">
-
-            <!-- رسالة تأكيد العرض المختار -->
-            <div id="selectedOfferDisplay"
-              style="display: none; background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border: 3px solid #16a34a; border-radius: 12px; padding: 16px; margin-bottom: 20px; box-shadow: 0 8px 25px rgba(22, 163, 74, 0.3); animation: slideDown 0.4s ease;">
-              <div style="display: flex; align-items: center; gap: 12px;">
-                <span style="font-size: 32px;">✅</span>
-                <div style="flex: 1;">
-                  <div
-                    style="font-size: 13px; color: #047857; font-weight: 700; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px;">
-                    تم اختيار العرض:</div>
-                  <div id="offerNameDisplay"
-                    style="font-size: 17px; font-weight: 900; color: #065f46; margin-bottom: 2px;"></div>
-                  <div id="offerPriceDisplay" style="font-size: 22px; font-weight: 900; color: #16a34a;"></div>
-                </div>
-              </div>
-            </div>
-
             <style>
               @keyframes slideDown {
                 from {
@@ -3316,7 +3341,7 @@
           </div>
           <div class="faq-a">
             <div class="faq-a-content">
-              من 2 لـ 4 أيام عمل في كل المحافظات. السعر شامل مصاريف الشحن 🚚 والدفع عند الاستلام! 💰
+              من 2 لـ 4 أيام عمل في كل المحافظات. عرض 2 بوكس و3 بوكس شامل الشحن، وعرض البوكس الواحد 600 ج.م + 50 ج.م شحن 🚚 والدفع عند الاستلام! 💰
             </div>
           </div>
         </div>
@@ -3327,7 +3352,7 @@
   <!-- STICKY CTA MOBILE -->
   <div class="sticky-cta">
     <div>
-      <p>عرض القطعتين 🔥 (2 كريم + 2 سيرم) بـ 1200 ج.م</p>
+      <p id="stickyCtaText">ماسك + سيروم كارسيل 🔥 اختاري عرضك</p>
     </div>
     <button class="btn btn-primary" onclick="scrollToOrder()">
       اطلب الآن
@@ -3340,7 +3365,7 @@
   </footer>
 
   <!-- Floating WhatsApp Button -->
-  <div class="whatsapp-float">
+  <div class="whatsapp-float" id="whatsappFloat">
     <a href="https://wa.me/201515697085?text=مرحباً%20عندي%20استفسار%20عن%20منتج%20كارسيل" target="_blank"
       aria-label="تواصل معنا على واتساب">
       <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
@@ -3497,125 +3522,154 @@
       }, 4000);
     }
 
-    // Product Selection
+    // Product Selection — العروض بعدد البوكسات (البوكس = ماسك + سيروم)
+    // name = قيمة offer_type المُرسلة لـ Logexa كما هي بدون تغيير (Logexa يستنتج منها الكمية) — النص الظاهر للعميل هو label
+    const BOX_OFFERS = {
+      1: { name: 'عرض القطعة الواحدة - كريم كارسيل + سيرم', label: 'عرض 1 بوكس (ماسك + سيروم)', short: '1 بوكس', product: 600, shipping: 50 },
+      2: { name: 'عرض القطعتين - 2 كريم + 2 سيرم', label: 'عرض 2 بوكس (2 ماسك + 2 سيروم)', short: '2 بوكس', product: 1200, shipping: 0 },
+      3: { name: 'العرض الأقوى - 3 كريم + 3 سيرم', label: 'العرض الأقوى – 3 بوكس (3 ماسك + 3 سيروم)', short: '3 بوكس', product: 1700, shipping: 0 }
+    };
+    const FREE_SHIPPING_TEXT = 'الشحن مجاني في حالة الاستلام فقط';
+    const STICKY_DEFAULT_TEXT = 'ماسك + سيروم كارسيل 🔥 اختاري عرضك';
+
     let selectedProduct = null;
     let selectedProductName = '';
     let selectedProductPrice = 0;
     let selectedShippingCost = 0;
+    let selectedOfferBoxes = 0; // 1 / 2 / 3
+    // مُضاعِف العرض: يزيد فقط فوق 3 بوكس (نفس المعادلة الحالية: سعر العرض × الكمية). أي تسعير جملة جديد ينتظر قرار أحمد.
+    let offerMultiplier = 1;
 
-    function selectOffer(offerName, totalPrice, shippingCost = 0) {
-      // السعر الأساسي = السعر الإجمالي - تكلفة الشحن
-      const basePrice = totalPrice - shippingCost;
-
-      // تحديث الـ hidden inputs
-      document.getElementById('offer_type').value = offerName;
-      document.getElementById('base_price').value = basePrice;
-
-      // إعادة تعيين الكمية لـ 1
-      document.getElementById('quantity').value = 1;
-
-      // حساب وتحديث السعر
-      updatePrice();
-
-      selectedProduct = offerName;
-      selectedProductName = offerName;
-      selectedProductPrice = totalPrice;
-      selectedShippingCost = shippingCost;
-
-      // عرض رسالة التأكيد
-      const display = document.getElementById('selectedOfferDisplay');
-      const nameDisplay = document.getElementById('offerNameDisplay');
-      const shippingInfo = document.getElementById('shippingInfo');
-
-      nameDisplay.textContent = offerName;
-      if (shippingInfo) {
-        if (shippingCost > 0) {
-          shippingInfo.textContent = `+ ${shippingCost} ج.م شحن`;
-          shippingInfo.style.display = 'inline-flex';
-        } else {
-          shippingInfo.textContent = 'شحن مجاني';
-          shippingInfo.style.display = 'inline-flex';
-        }
-      }
-      display.style.display = 'block';
-
-      // إزالة highlight من جميع الكروت
-      document.querySelectorAll('.product-card, .offer-card').forEach(card => {
-        card.classList.remove('selected');
-      });
-
-      // إضافة highlight للكارد المختار
-      event.currentTarget.classList.add('selected');
-
-      // Scroll للفورم بشكل سلس
-      setTimeout(() => {
-        document.getElementById('orderForm').scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
-      }, 300);
-
-      // Track pixel event
-      trackEvent('InitiateCheckout', {
-        content_name: offerName,
-        value: totalPrice,
-        currency: 'EGP'
-      });
-
-      console.log('✅ Selected offer:', offerName, '-', totalPrice, 'EGP');
+    function getOrderTotals() {
+      const offer = BOX_OFFERS[selectedOfferBoxes];
+      if (!offer) return null;
+      const m = offerMultiplier;
+      const productTotal = offer.product * m;
+      const shipping = offer.shipping;
+      return { offer, multiplier: m, boxes: selectedOfferBoxes * m, productTotal, shipping, total: productTotal + shipping };
     }
 
-    // دوال زيادة وتقليل الكمية
-    function increaseQuantity() {
-      const quantityInput = document.getElementById('quantity');
-      let currentValue = parseInt(quantityInput.value) || 1;
-      quantityInput.value = currentValue + 1;
+    function getOfferLabel(t) {
+      return t.multiplier > 1 ? `${t.offer.label} × ${t.multiplier} (إجمالي ${t.boxes} بوكس)` : t.offer.label;
+    }
+
+    function selectOffer(boxes, cardEl) {
+      applyOffer(boxes, 1, cardEl || null);
+    }
+
+    function applyOffer(boxes, multiplier, cardEl) {
+      const offer = BOX_OFFERS[boxes];
+      if (!offer) return;
+      selectedOfferBoxes = boxes;
+      offerMultiplier = Math.max(1, multiplier || 1);
+
+      document.getElementById('offer_type').value = offer.name;
+      document.getElementById('base_price').value = offer.product;
+      selectedProduct = offer.name;
+      selectedProductName = offer.name;
+      selectedShippingCost = offer.shipping;
+
       updatePrice();
+      document.getElementById('selectedOfferDisplay').style.display = 'block';
+
+      document.querySelectorAll('.product-card, .offer-card').forEach(card => card.classList.remove('selected'));
+      const card = document.querySelector('.offer-card[data-boxes="' + boxes + '"]');
+      if (card) card.classList.add('selected');
+
+      if (cardEl) {
+        // اختيار عرض من الكروت: Scroll للفورم + حدث SelectOffer (بدون InitiateCheckout) كما كان
+        setTimeout(() => {
+          document.getElementById('orderForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 300);
+        trackEvent('SelectOffer', {
+          offer_name: offer.name,
+          quantity: 1,
+          value: Number(selectedProductPrice),
+          currency: 'EGP'
+        });
+        console.log('✅ Selected offer:', offer.name, '-', selectedProductPrice, 'EGP');
+      }
+    }
+
+    // زيادة/تقليل عدد البوكسات: 1 → 2 → 3 بوكس بأسعار العروض (650 / 1200 / 1700)
+    // فوق 3 بوكس: نفس السلوك الحالي (العرض الأقوى × الكمية) بدون منع أو سعر جديد + رابط واتساب للتجار
+    function increaseQuantity() {
+      if (!selectedOfferBoxes) { applyOffer(2, 1); return; }
+      const boxes = selectedOfferBoxes * offerMultiplier;
+      if (boxes < 3) applyOffer(boxes + 1, 1);
+      else applyOffer(3, offerMultiplier + 1);
     }
 
     function decreaseQuantity() {
-      const quantityInput = document.getElementById('quantity');
-      let currentValue = parseInt(quantityInput.value) || 1;
-      if (currentValue > 1) {
-        quantityInput.value = currentValue - 1;
-        updatePrice();
-      }
+      if (!selectedOfferBoxes) return;
+      if (offerMultiplier > 1) applyOffer(3, offerMultiplier - 1);
+      else if (selectedOfferBoxes > 1) applyOffer(selectedOfferBoxes - 1, 1);
     }
 
-    // دالة حساب السعر حسب الكمية
+    // تحديث الملخص: سعر المنتج + الشحن = الإجمالي (نفس الأرقام اللي بتتبعت لـ Logexa)
     function updatePrice() {
-      const basePrice = parseInt(document.getElementById('base_price').value) || 0;
-      const quantity = parseInt(document.getElementById('quantity').value) || 1;
-      const shippingCost = selectedShippingCost || 0;
-
-      // حساب السعر النهائي = (السعر الأساسي × الكمية) + مصاريف الشحن
-      const finalPrice = (basePrice * quantity) + shippingCost;
-
-      // تحديث السعر في hidden input
-      document.getElementById('offer_price').value = finalPrice;
-
-      // تحديث العرض
-      const priceDisplay = document.getElementById('offerPriceDisplay');
-      if (quantity > 1) {
-        priceDisplay.innerHTML = `<span style="font-size: 16px; color: #047857;">${basePrice} ج.م × ${quantity} =</span> <span style="font-size: 22px;">${basePrice * quantity} ج.م</span>`;
-      } else {
-        priceDisplay.textContent = basePrice + ' ج.م';
+      const t = getOrderTotals();
+      const quantityInput = document.getElementById('quantity');
+      const bulk = document.getElementById('bulkInquiry');
+      const sticky = document.getElementById('stickyCtaText');
+      if (!t) {
+        quantityInput.value = 1;
+        document.getElementById('offer_price').value = '';
+        if (bulk) bulk.style.display = 'none';
+        if (sticky) sticky.textContent = STICKY_DEFAULT_TEXT;
+        return;
       }
 
-      selectedProductPrice = finalPrice;
+      quantityInput.value = t.boxes;
+      document.getElementById('offer_price').value = t.total;
+      selectedProductPrice = t.total;
+
+      document.getElementById('offerNameDisplay').textContent = getOfferLabel(t);
+      document.getElementById('offerPriceDisplay').textContent = t.total + ' ج.م';
+      const shippingInfo = document.getElementById('shippingInfo');
+      if (shippingInfo) {
+        shippingInfo.textContent = t.shipping > 0 ? `شامل ${t.shipping} ج.م شحن` : 'شحن مجاني';
+        shippingInfo.style.display = 'inline-flex';
+      }
+      const breakdown = document.getElementById('offerBreakdown');
+      if (breakdown) {
+        breakdown.innerHTML =
+          `<div class="ob-row"><span>سعر المنتج (${t.boxes} بوكس)</span><span>${t.productTotal} ج.م</span></div>` +
+          `<div class="ob-row"><span>الشحن</span><span>${t.shipping > 0 ? t.shipping + ' ج.م' : 'مجاني'}</span></div>` +
+          `<div class="ob-row ob-total"><span>الإجمالي</span><span>${t.total} ج.م</span></div>` +
+          (t.shipping === 0 ? `<div class="free-ship-note">🚚 ${FREE_SHIPPING_TEXT}</div>` : '');
+      }
+      if (bulk) bulk.style.display = t.boxes > 3 ? 'block' : 'none';
+      if (sticky) sticky.textContent = `${t.multiplier > 1 ? t.boxes + ' بوكس' : t.offer.short} 🔥 ${t.total} ج.م`;
     }
 
+    // Meta Standard Events Set
+    const META_STANDARD_EVENTS = new Set([
+      'PageView', 'ViewContent', 'Search', 'AddToCart', 'AddToWishlist',
+      'InitiateCheckout', 'AddPaymentInfo', 'Purchase', 'Lead',
+      'CompleteRegistration', 'Contact', 'CustomizeProduct', 'Donate',
+      'FindLocation', 'Schedule', 'StartTrial', 'SubmitApplication', 'Subscribe'
+    ]);
 
-    // Meta Pixel Events
-    function trackEvent(eventName, data = {}) {
+    // Enhanced trackEvent supporting Standard and Custom events plus eventID options for CAPI deduplication
+    function trackEvent(eventName, data = {}, options = {}) {
       if (typeof fbq !== 'undefined') {
-        fbq('track', eventName, data);
-        console.log('✅ Pixel Event:', eventName, data);
+        const isStandard = META_STANDARD_EVENTS.has(eventName);
+        const method = isStandard ? 'track' : 'trackCustom';
+        if (options && options.eventID) {
+          fbq(method, eventName, data, options);
+        } else {
+          fbq(method, eventName, data);
+        }
+        console.log(`✅ Pixel Event [${method}]:`, eventName, data, options);
       }
     }
 
-    // Track ViewContent
-    setTimeout(function () {
+    // Track ViewContent (Protected against duplicate firing during the same page load)
+    let viewContentTracked = false;
+    function triggerViewContent() {
+      if (viewContentTracked) return;
+      viewContentTracked = true;
       trackEvent('ViewContent', {
         content_name: 'Karseell Hair Set',
         content_category: 'Hair Care',
@@ -3624,25 +3678,41 @@
         value: 650,
         currency: 'EGP'
       });
-    }, 1000);
-
-    // Firebase Configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyCVJYD2adDrZD2C7jnTjVhiewxVohZzM38",
-      authDomain: "herbs-orders.firebaseapp.com",
-      databaseURL: "https://herbs-orders-default-rtdb.firebaseio.com",
-      projectId: "herbs-orders",
-      storageBucket: "herbs-orders.firebasestorage.app",
-      messagingSenderId: "866663461200",
-      appId: "1:866663461200:web:0b891e0eb53a16c555fc55"
-    };
-
-    // Initialize Firebase
-    if (!firebase.apps.length) {
-      firebase.initializeApp(firebaseConfig);
     }
-    const database = firebase.database();
-    console.log('🔥 Firebase initialized for Karseell orders!');
+
+    setTimeout(triggerViewContent, 1000);
+
+    // InitiateCheckout Tracking State & Handler
+    let initiateCheckoutTracked = false;
+
+    function triggerInitiateCheckout() {
+      if (initiateCheckoutTracked) return;
+      initiateCheckoutTracked = true;
+
+      const offerName = document.getElementById('offer_type')?.value || selectedProductName || 'Karseell Hair Set';
+      const offerPrice = Number(document.getElementById('offer_price')?.value) || Number(selectedProductPrice) || 650;
+      const quantity = parseInt(document.getElementById('quantity')?.value, 10) || 1;
+
+      trackEvent('InitiateCheckout', {
+        content_name: offerName,
+        content_type: 'product',
+        value: offerPrice,
+        currency: 'EGP',
+        num_items: quantity
+      });
+    }
+
+    // Attach listeners for InitiateCheckout to fire strictly on user interaction with order form fields
+    document.addEventListener('DOMContentLoaded', function () {
+      const orderForm = document.getElementById('orderForm');
+      if (orderForm) {
+        const interactiveInputs = orderForm.querySelectorAll('input:not([type="hidden"]), select, textarea');
+        interactiveInputs.forEach(function (input) {
+          input.addEventListener('focus', triggerInitiateCheckout, { passive: true });
+          input.addEventListener('input', triggerInitiateCheckout, { passive: true });
+        });
+      }
+    });
 
     // إضافة event listener لتغيير الكمية
     document.addEventListener('DOMContentLoaded', function () {
@@ -3664,39 +3734,59 @@
       return egyptianPattern.test(cleaned);
     }
 
-    // Add validation for phone inputs
-    document.getElementById('phone').addEventListener('blur', function () {
-      if (this.value && !validatePhone(this.value)) {
-        Swal.fire({
-          title: '⚠️ رقم هاتف غير صحيح',
-          text: 'برجاء إدخال رقم موبايل مصري صحيح يبدأ بـ 01',
-          icon: 'warning',
-          confirmButtonText: 'تمام',
-          confirmButtonColor: '#f59e0b'
-        });
+    // رسالة خطأ حمراء تحت الحقل بدل النافذة المنبثقة (لا تقاطع الكتابة)
+    const PHONE_ERROR_TEXT = 'رقم موبايل غير صحيح — لازم 11 رقم ويبدأ بـ 01';
+    function setFieldError(input, message) {
+      const box = document.getElementById(input.id + 'Error');
+      if (message) {
+        input.classList.add('input-invalid');
+        input.setAttribute('aria-invalid', 'true');
+        if (box) { box.textContent = message; box.classList.add('show'); }
+      } else {
+        input.classList.remove('input-invalid');
+        input.removeAttribute('aria-invalid');
+        if (box) { box.textContent = ''; box.classList.remove('show'); }
       }
+    }
+    function focusFieldWithError(input, message) {
+      setFieldError(input, message);
+      input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(() => input.focus({ preventScroll: true }), 350);
+    }
+    ['phone', 'phone2'].forEach(function (id) {
+      const input = document.getElementById(id);
+      input.addEventListener('blur', function () {
+        setFieldError(this, this.value && !validatePhone(this.value) ? PHONE_ERROR_TEXT : '');
+      });
+      input.addEventListener('input', function () {
+        // نشيل الرسالة أول ما الرقم يبقى صحيح أو الحقل يتمسح
+        if (!this.value || validatePhone(this.value)) setFieldError(this, '');
+      });
     });
 
-    document.getElementById('phone2').addEventListener('blur', function () {
-      if (this.value && !validatePhone(this.value)) {
-        Swal.fire({
-          title: '⚠️ رقم هاتف غير صحيح',
-          text: 'برجاء إدخال رقم موبايل مصري صحيح يبدأ بـ 01',
-          icon: 'warning',
-          confirmButtonText: 'تمام',
-          confirmButtonColor: '#f59e0b'
-        });
-      }
-    });
+    // Form Submission & Direct Logexa Order Processing (Zero Firebase)
+    let isSubmitting = false;
+    let activeSubmissionIdempotencyKey = null;
+    const processedOrderIds = new Set();
 
-    // Form Submission
+    function generateIdempotencyKey() {
+      return 'ik_' + Date.now() + '_' + Math.random().toString(36).substring(2, 9);
+    }
+
     document.getElementById('orderForm').addEventListener('submit', async function (e) {
       e.preventDefault();
+
+      // Prevent repeated button clicks / double submissions
+      if (isSubmitting) {
+        console.warn('⚠️ Order submission already in progress.');
+        return;
+      }
 
       // Get offer data from hidden inputs
       const offerType = document.getElementById('offer_type').value;
       const offerPrice = document.getElementById('offer_price').value;
-      const quantity = document.getElementById('quantity').value;
+      // الكمية المُرسلة كما كانت = مُضاعِف العرض (عدد البوكسات = بوكسات العرض × المُضاعِف)
+      const quantity = String(offerMultiplier || 1);
 
       // Check if offer is selected
       if (!offerType || !offerPrice) {
@@ -3720,32 +3810,53 @@
       // Validate primary phone
       const primaryPhone = formData.get('phone');
       if (!validatePhone(primaryPhone)) {
-        Swal.fire({
-          title: '⚠️ رقم الهاتف الأساسي غير صحيح',
-          text: 'برجاء إدخال رقم موبايل مصري صحيح يبدأ بـ 01',
-          icon: 'error',
-          confirmButtonText: 'تمام',
-          confirmButtonColor: '#f59e0b'
-        });
+        focusFieldWithError(document.getElementById('phone'), PHONE_ERROR_TEXT);
         return;
       }
 
       // Validate secondary phone if provided
       const secondaryPhone = formData.get('phone2');
       if (secondaryPhone && !validatePhone(secondaryPhone)) {
-        Swal.fire({
-          title: '⚠️ رقم الهاتف البديل غير صحيح',
-          text: 'برجاء إدخال رقم موبايل مصري صحيح يبدأ بـ 01',
-          icon: 'error',
-          confirmButtonText: 'تمام',
-          confirmButtonColor: '#f59e0b'
-        });
+        focusFieldWithError(document.getElementById('phone2'), PHONE_ERROR_TEXT);
         return;
+      }
+
+      // Maintain session idempotency key across retries
+      if (!activeSubmissionIdempotencyKey) {
+        activeSubmissionIdempotencyKey = generateIdempotencyKey();
+      }
+
+      // Lock submit button to prevent double-clicks
+      isSubmitting = true;
+      const submitBtn = this.querySelector('button[type="submit"]');
+      const originalBtnHtml = submitBtn ? submitBtn.innerHTML : '';
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '⏳ جاري تأكيد وتسجيل طلبك...';
       }
 
       const now = new Date();
       const dateStr = now.toLocaleDateString('ar-EG');
       const timeStr = now.toLocaleTimeString('ar-EG');
+
+      const finalPrice = Number(offerPrice) || Number(selectedProductPrice) || 0;
+      const finalQuantity = parseInt(quantity, 10) || 1;
+      const orderTotals = getOrderTotals(); // للعرض فقط في رسالة التأكيد
+
+      // Normalize package count & shipping for Karseell Combo Model
+      let packageQuantity = finalQuantity;
+      let finalShipping = Number(selectedShippingCost) || 0;
+
+      if (offerType.includes('3 كريم') || offerType.includes('العرض الأقوى')) {
+        packageQuantity = 3 * finalQuantity;
+        finalShipping = 0;
+      } else if (offerType.includes('2 كريم') || offerType.includes('عرض القطعتين')) {
+        packageQuantity = 2 * finalQuantity;
+        finalShipping = 0;
+      } else {
+        packageQuantity = 1 * finalQuantity;
+        finalShipping = 50;
+      }
 
       const orderData = {
         name: formData.get('name'),
@@ -3755,35 +3866,198 @@
         address: formData.get('address'),
         notes: formData.get('notes') || '',
         product: offerType,
-        quantity: quantity,
-        price: offerPrice,
-        shipping: selectedShippingCost || 0,
+        quantity: finalQuantity,
+        price: finalPrice,
+        shipping: finalShipping,
         productType: selectedProduct,
         date: dateStr,
         time: timeStr,
         timestamp: now.getTime()
       };
 
-      // Purchase لا يُطلق من المتصفح: يرسله Logexa مرة واحدة من السيرفر (CAPI) عند تأكيد الطلب فعلياً
-
       try {
-        await database.ref('karseell-orders').push(orderData);
-        console.log('✅ Order saved to Firebase!');
+        let logexaOrderCode = null;
+        let logexaCapiEventId = null; // event_id حدث Purchase من Logexa (logexa_order_<id>) لدمج المتصفح مع السيرفر
+        let orderConfirmed = false;
+        let networkFailedOrTimedOut = false;
 
+        const _attr = (typeof window.getLogexaAttribution === 'function') ? window.getLogexaAttribution() : {};
+
+        // Primary: Direct HTTPS POST to Logexa Shipping System Intake API
+        const logexaPayload = {
+          name: orderData.name,
+          phone: orderData.phone,
+          phone2: orderData.phone2 || '',
+          governorate: orderData.governorate,
+          address: orderData.address,
+          notes: orderData.notes || '',
+          product: orderData.product,
+          product_name: 'كريم كارسيل وسيرم',
+          product_id: 19,
+          variant_id: 64,
+          quantity: packageQuantity,
+          price: finalPrice,
+          total: finalPrice,
+          shipping: finalShipping,
+          shipping_cost: finalShipping,
+          source: 'karsell.store',
+          source_page: 'تاج الجمال',
+          page_name: 'تاج الجمال',
+          source_channel: _attr.source_channel || 'organic',
+          utm_campaign: _attr.utm_campaign || null,
+          utm_adset: _attr.utm_adset || null,
+          utm_ad: _attr.utm_ad || null,
+          landing_page: 'mask_and_surem',
+          click_id: _attr.click_id || null,
+          referrer_url: _attr.referrer_url || document.referrer || null,
+          date: dateStr,
+          time: timeStr,
+          timestamp: now.getTime(),
+          idempotency_key: activeSubmissionIdempotencyKey
+        };
+
+        try {
+          const logexaController = new AbortController();
+          const logexaTimeout = setTimeout(() => logexaController.abort(), 15000); // 15 seconds timeout
+
+          const logexaRes = await fetch('https://logexa.tech/api/import-firebase-orders/', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-Idempotency-Key': activeSubmissionIdempotencyKey
+            },
+            body: JSON.stringify(logexaPayload),
+            signal: logexaController.signal
+          });
+          clearTimeout(logexaTimeout);
+
+          if (logexaRes.ok) {
+            const logexaData = await logexaRes.json();
+            if (logexaData && logexaData.success && Array.isArray(logexaData.imported_orders) && logexaData.imported_orders.length > 0) {
+              logexaOrderCode = logexaData.imported_orders[0].order_code;
+              logexaCapiEventId = logexaData.imported_orders[0].capi_event_id || logexaData.capi_event_id || null;
+              orderConfirmed = true;
+              console.log('✅ [Logexa] Order synced with code:', logexaOrderCode);
+            } else {
+              throw new Error(logexaData?.message || logexaData?.error || 'تعذر معالجة الطلب في خادم الشحن');
+            }
+          } else {
+            const errData = await logexaRes.json().catch(() => ({}));
+            throw new Error(errData?.error || errData?.message || ('HTTP ' + logexaRes.status));
+          }
+        } catch (logexaErr) {
+          if (logexaErr.name === 'AbortError' || logexaErr.message?.includes('Failed to fetch') || logexaErr.message?.includes('NetworkError')) {
+            networkFailedOrTimedOut = true;
+            console.warn('⚠️ [Logexa] Client timeout or network failure. Verifying idempotency with server...');
+          } else {
+            throw logexaErr;
+          }
+        }
+
+        // Idempotency check upon client timeout or network disconnect
+        if (networkFailedOrTimedOut && !orderConfirmed) {
+          try {
+            const verifyCtrl = new AbortController();
+            const verifyTimeout = setTimeout(() => verifyCtrl.abort(), 6000);
+            const verifyRes = await fetch('https://logexa.tech/api/import-firebase-orders/?idempotency_key=' + encodeURIComponent(activeSubmissionIdempotencyKey), {
+              method: 'GET',
+              headers: { 'Accept': 'application/json' },
+              signal: verifyCtrl.signal
+            });
+            clearTimeout(verifyTimeout);
+            if (verifyRes.ok) {
+              const verifyData = await verifyRes.json();
+              if (verifyData && verifyData.success && verifyData.exists && verifyData.order_code) {
+                logexaOrderCode = verifyData.order_code;
+                logexaCapiEventId = verifyData.capi_event_id || null;
+                orderConfirmed = true;
+                console.log('✅ [Logexa] Order confirmed via idempotency verification:', logexaOrderCode);
+              }
+            }
+          } catch (verifyErr) {
+            console.warn('⚠️ [Logexa] Idempotency probe also timed out:', verifyErr);
+          }
+        }
+
+        // If not confirmed, retain form data and present explicit retry
+        if (!orderConfirmed || !logexaOrderCode) {
+          Swal.fire({
+            title: '⚠️ تعذر استلام تأكيد الطلب',
+            text: 'حدث بطء أو انقطاع مؤقت في الاتصال بالإنترنت. بياناتك ما زالت محفوظة بالكامل، اضغطي على الزر أدناه لإعادة المحاولة فوراً.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: '🔄 إعادة المحاولة الآن',
+            cancelButtonText: 'إغلاق',
+            confirmButtonColor: '#ea580c',
+            cancelButtonColor: '#6b7280'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              document.getElementById('orderForm').dispatchEvent(new Event('submit', { cancelable: true }));
+            }
+          });
+          return;
+        }
+
+        const effectiveOrderId = logexaOrderCode;
+        activeSubmissionIdempotencyKey = null; // Clear key on confirmed success
+
+        // Step 2: Deduplication guard for Pixel events
+        const sessionKey = 'karseell_order_processed_' + effectiveOrderId;
+        let isAlreadyTracked = processedOrderIds.has(effectiveOrderId);
+        try {
+          if (sessionStorage.getItem(sessionKey)) {
+            isAlreadyTracked = true;
+          }
+        } catch (e) {}
+
+        if (!isAlreadyTracked) {
+          processedOrderIds.add(effectiveOrderId);
+          try {
+            sessionStorage.setItem(sessionKey, 'true');
+          } catch (e) {}
+
+          // Step 3: Track Lead ONLY after confirmed Logexa persistence
+          trackEvent('Lead', {
+            content_name: orderData.product,
+            value: finalPrice,
+            currency: 'EGP',
+            order_id: effectiveOrderId
+          }, { eventID: 'lead_' + effectiveOrderId });
+
+          // Purchase مرة واحدة بنفس event_id حدث السيرفر (Logexa CAPI يرسله لحظة إنشاء الطلب) فيدمجهما فيسبوك كعملية شراء واحدة.
+          // بدون event_id من السيرفر لا يُطلق إطلاقاً حتى لا يتضاعف الحدث.
+          if (logexaCapiEventId && typeof fbq === 'function') {
+            fbq('track', 'Purchase', {
+              content_name: orderData.product,
+              value: Number(finalPrice) || 0,
+              currency: 'EGP',
+              num_items: finalQuantity,
+              order_id: effectiveOrderId
+            }, { eventID: logexaCapiEventId });
+            console.log('✅ Pixel Purchase (dedup eventID):', logexaCapiEventId);
+          }
+        }
+
+        // Step 5: Display receipt confirmation modal
         Swal.fire({
           title: '🎉 تم تأكيد طلبك بنجاح!',
           html: `
             <div style="text-align: right; padding: 15px;">
+              <div style="background: #ecfdf5; border: 1px solid #a7f3d0; padding: 10px; border-radius: 8px; margin-bottom: 12px; text-align: center;">
+                <span style="font-size: 0.9rem; color: #065f46;">رقم الطلب في نظام الشحن:</span>
+                <strong style="font-size: 1.25rem; color: #059669; display: block; letter-spacing: 1px;">#${effectiveOrderId}</strong>
+              </div>
               <p style="font-size: 0.95rem; margin-bottom: 12px;"><strong>📋 بيانات الطلب:</strong></p>
               <p style="margin: 6px 0; font-size: 0.9rem;"><strong>👤 الاسم:</strong> ${orderData.name}</p>
               <p style="margin: 6px 0; font-size: 0.9rem;"><strong>📱 الهاتف الأساسي:</strong> ${orderData.phone}</p>
               ${orderData.phone2 ? `<p style="margin: 6px 0; font-size: 0.9rem;"><strong>📱 الهاتف البديل:</strong> ${orderData.phone2}</p>` : ''}
               <p style="margin: 6px 0; font-size: 0.9rem;"><strong>📍 المحافظة:</strong> ${orderData.governorate}</p>
               ${orderData.notes ? `<p style="margin: 6px 0; font-size: 0.9rem;"><strong>📝 ملاحظات:</strong> ${orderData.notes}</p>` : ''}
-              <p style="margin: 6px 0; font-size: 0.9rem;"><strong>📦 المنتج:</strong> ${orderData.product}</p>
-              <p style="margin: 6px 0; font-size: 0.9rem;"><strong>🔢 الكمية:</strong> ${orderData.quantity}</p>
-              <p style="margin: 6px 0; font-size: 0.9rem;"><strong>💵 سعر المنتج:</strong> ${Math.round((orderData.price - (orderData.shipping || 0)) / orderData.quantity)} ج.م × ${orderData.quantity} = <strong style="color: #ea580c;">${orderData.price - (orderData.shipping || 0)} ج.م</strong></p>
+              <p style="margin: 6px 0; font-size: 0.9rem;"><strong>📦 العرض:</strong> ${orderTotals ? getOfferLabel(orderTotals) : orderData.product}</p>
+              <p style="margin: 6px 0; font-size: 0.9rem;"><strong>🔢 عدد البوكسات:</strong> ${packageQuantity} بوكس (البوكس = ماسك + سيروم)</p>
+              <p style="margin: 6px 0; font-size: 0.9rem;"><strong>💵 سعر المنتج:</strong> <strong style="color: #ea580c;">${orderData.price - (orderData.shipping || 0)} ج.م</strong></p>
               <p style="margin: 6px 0; font-size: 0.9rem;"><strong>🚚 الشحن:</strong> <strong style="color: #059669;">${orderData.shipping > 0 ? orderData.shipping + ' ج.م' : 'مجاني'}</strong></p>
+              ${orderData.shipping > 0 ? '' : `<p style="margin: 6px 0; font-size: 0.85rem; color: #b45309; font-weight: 700;">🚚 ${FREE_SHIPPING_TEXT}</p>`}
               <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); padding: 10px; border-radius: 8px; margin: 10px 0; border: 2px solid #fbbf24;">
                 <p style="margin: 0; font-size: 1.1rem; font-weight: 800; color: #92400e;"><strong>💰 الإجمالي النهائي:</strong> <span style="font-size: 1.3rem; color: #ea580c;">${orderData.price} جنيه</span></p>
               </div>
@@ -3802,53 +4076,49 @@
           }
         });
 
-        // Reset form and selection
+        // Step 6: Reset form and selection state ONLY on verified success
         this.reset();
         selectedProduct = null;
         selectedProductName = '';
         selectedProductPrice = 0;
+        selectedShippingCost = 0;
+        selectedOfferBoxes = 0;
+        offerMultiplier = 1;
+        initiateCheckoutTracked = false;
         document.getElementById('selectedOfferDisplay').style.display = 'none';
         document.getElementById('offer_type').value = '';
-        document.getElementById('offer_price').value = '';
+        updatePrice();
         document.querySelectorAll('.product-card, .offer-card').forEach(card => {
           card.classList.remove('selected');
         });
+
       } catch (error) {
-        console.error('❌ Firebase Error:', error);
+        console.error('❌ Error during order creation:', error.message || error);
         Swal.fire({
-          title: '✅ تم حفظ طلبك!',
-          text: 'سيتم التواصل معك قريباً 💖',
-          icon: 'success',
-          confirmButtonText: 'تمام',
-          confirmButtonColor: '#f59e0b'
+          title: '❌ تعذر إرسال الطلب',
+          text: error.message || 'حدث خطأ في الاتصال بالخادم. يرجى التحقق من اتصال الإنترنت والمحاولة مرة أخرى.',
+          icon: 'error',
+          confirmButtonText: 'حسناً',
+          confirmButtonColor: '#ea580c'
         });
-        // Reset form and selection
-        this.reset();
-        selectedProduct = null;
-        selectedProductName = '';
-        selectedProductPrice = 0;
-        document.getElementById('selectedProductDisplay').style.display = 'none';
-        document.querySelectorAll('.product-card, .offer-card').forEach(card => {
-          card.classList.remove('selected');
-        });
+      } finally {
+        isSubmitting = false;
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnHtml;
+        }
       }
     });
 
-    // Track Lead when phone number entered
-    let leadTracked = false;
-    document.querySelector('input[name="phone"]').addEventListener('input', function (e) {
-      if (!leadTracked && e.target.value.length >= 10) {
-        trackEvent('Lead', {
-          content_name: 'Karseell Hair Set',
-          content_category: 'Hair Care',
-          currency: 'EGP'
-        });
-        leadTracked = true;
-      }
-    });
-
-    // Track Order System
+    // Track Order System (Direct from Logexa)
     let currentOrderData = null;
+    let currentTrackedPhone = '';
+    // الاستعلام بالهاتف لا يرجع الاسم/العنوان/الهاتف (خصوصية)
+    function lgxEsc(v) {
+      return String(v === null || v === undefined ? '' : v).replace(/[&<>"']/g, function (c) {
+        return {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c];
+      });
+    }
     let currentOrderKey = null;
 
     async function trackOrder() {
@@ -3887,27 +4157,30 @@
       });
 
       try {
-        const ordersRef = database.ref('karseell-orders');
-        const snapshot = await ordersRef.orderByChild('phone').equalTo(phone).limitToLast(1).once('value');
-
+        const res = await fetch('https://logexa.tech/api/import-firebase-orders/?phone=' + encodeURIComponent(phone));
         Swal.close();
 
-        if (snapshot.exists()) {
-          // Get the first (and only) order
-          snapshot.forEach((childSnapshot) => {
-            currentOrderKey = childSnapshot.key;
-            currentOrderData = childSnapshot.val();
-          });
-
-          displayOrderDetails(currentOrderData);
-          document.getElementById('trackResults').style.display = 'block';
-          document.getElementById('trackNoResults').style.display = 'none';
-        } else {
-          document.getElementById('trackResults').style.display = 'none';
-          document.getElementById('trackNoResults').style.display = 'block';
+        if (res.status === 429) {
+          Swal.fire({ title: 'محاولات كثيرة', text: 'يرجى المحاولة بعد قليل أو التواصل معنا على واتساب', icon: 'warning', confirmButtonText: 'تمام', confirmButtonColor: '#f59e0b' });
+          return;
         }
+        if (res.ok) {
+          const resData = await res.json();
+          if (resData.success && resData.found && resData.order) {
+            currentTrackedPhone = phone;
+            currentOrderData = resData.order;
+            displayOrderDetails(currentOrderData);
+            document.getElementById('trackResults').style.display = 'block';
+            document.getElementById('trackNoResults').style.display = 'none';
+            return;
+          }
+        }
+
+        document.getElementById('trackResults').style.display = 'none';
+        document.getElementById('trackNoResults').style.display = 'block';
       } catch (error) {
         console.error('Error tracking order:', error);
+        Swal.close();
         Swal.fire({
           title: '❌ حدث خطأ',
           text: 'برجاء المحاولة مرة أخرى',
@@ -3920,59 +4193,28 @@
 
     function displayOrderDetails(order) {
       const detailsDiv = document.getElementById('orderDetails');
-      detailsDiv.innerHTML = `
+      const row = (label, value, style) => `
         <div style="margin-bottom: 10px;">
-          <div style="color: #78350f; font-size: 13px; font-weight: 600; margin-bottom: 4px;">👤 الاسم:</div>
-          <div style="color: #92400e; font-size: 16px; font-weight: 700;">${order.name}</div>
-        </div>
-        <div style="margin-bottom: 10px;">
-          <div style="color: #78350f; font-size: 13px; font-weight: 600; margin-bottom: 4px;">📱 الهاتف:</div>
-          <div style="color: #92400e; font-size: 16px; font-weight: 700;">${order.phone}</div>
-        </div>
-        ${order.phone2 ? `
-        <div style="margin-bottom: 10px;">
-          <div style="color: #78350f; font-size: 13px; font-weight: 600; margin-bottom: 4px;">📱 الهاتف البديل:</div>
-          <div style="color: #92400e; font-size: 16px; font-weight: 700;">${order.phone2}</div>
-        </div>
-        ` : ''}
-        <div style="margin-bottom: 10px;">
-          <div style="color: #78350f; font-size: 13px; font-weight: 600; margin-bottom: 4px;">📍 المحافظة:</div>
-          <div style="color: #92400e; font-size: 16px; font-weight: 700;">${order.governorate}</div>
-        </div>
-        <div style="margin-bottom: 10px;">
-          <div style="color: #78350f; font-size: 13px; font-weight: 600; margin-bottom: 4px;">📍 العنوان:</div>
-          <div style="color: #92400e; font-size: 15px; font-weight: 600;">${order.address}</div>
-        </div>
-        <div style="margin-bottom: 10px;">
-          <div style="color: #78350f; font-size: 13px; font-weight: 600; margin-bottom: 4px;">📦 المنتج:</div>
-          <div style="color: #92400e; font-size: 16px; font-weight: 700;">${order.product}</div>
-        </div>
-        <div style="margin-bottom: 10px;">
-          <div style="color: #78350f; font-size: 13px; font-weight: 600; margin-bottom: 4px;">🔢 الكمية:</div>
-          <div style="color: #92400e; font-size: 16px; font-weight: 700;">${order.quantity || 1}</div>
-        </div>
-        <div style="margin-bottom: 10px;">
-          <div style="color: #78350f; font-size: 13px; font-weight: 600; margin-bottom: 4px;">💰 الإجمالي:</div>
-          <div style="color: #16a34a; font-size: 20px; font-weight: 900;">${order.price} جنيه</div>
-        </div>
-        ${order.notes ? `
-        <div style="margin-bottom: 10px;">
-          <div style="color: #78350f; font-size: 13px; font-weight: 600; margin-bottom: 4px;">📝 ملاحظات:</div>
-          <div style="color: #92400e; font-size: 14px; font-weight: 600;">${order.notes}</div>
-        </div>
-        ` : ''}
-        <div style="margin-top: 12px; padding-top: 12px; border-top: 2px dashed #fbbf24;">
+          <div style="color: #78350f; font-size: 13px; font-weight: 600; margin-bottom: 4px;">${label}</div>
+          <div style="${style || 'color: #92400e; font-size: 16px; font-weight: 700;'}">${lgxEsc(value)}</div>
+        </div>`;
+      detailsDiv.innerHTML =
+        row('🧾 رقم الطلب:', '#' + order.order_code) +
+        row('📦 المنتج:', order.product) +
+        row('🔢 الكمية:', order.quantity || 1) +
+        row('💰 الإجمالي:', order.price + ' جنيه', 'color: #16a34a; font-size: 20px; font-weight: 900;') +
+        row('🚚 الحالة:', order.status || 'قيد التجهيز') +
+        `<div style="margin-top: 12px; padding-top: 12px; border-top: 2px dashed #fbbf24;">
           <div style="color: #78350f; font-size: 13px; font-weight: 600; margin-bottom: 4px;">📅 تاريخ الطلب:</div>
-          <div style="color: #92400e; font-size: 14px; font-weight: 600;">${order.date} - ${order.time}</div>
-        </div>
-      `;
+          <div style="color: #92400e; font-size: 14px; font-weight: 600;">${lgxEsc(order.date)} - ${lgxEsc(order.time)}</div>
+        </div>`;
     }
 
     function requestEditOrder() {
       if (!currentOrderData) return;
 
-      const message = `مرحباً، أنا ${currentOrderData.name}
-📱 رقم الهاتف: ${currentOrderData.phone}
+      const message = `مرحباً، بخصوص طلبي رقم #${currentOrderData.order_code}
+📱 رقم الهاتف: ${currentTrackedPhone}
 📦 المنتج: ${currentOrderData.product}
 💰 الإجمالي: ${currentOrderData.price} جنيه
 
@@ -3996,8 +4238,8 @@
         cancelButtonText: 'تراجع'
       }).then((result) => {
         if (result.isConfirmed) {
-          const message = `مرحباً، أنا ${currentOrderData.name}
-📱 رقم الهاتف: ${currentOrderData.phone}
+          const message = `مرحباً، بخصوص طلبي رقم #${currentOrderData.order_code}
+📱 رقم الهاتف: ${currentTrackedPhone}
 📦 المنتج: ${currentOrderData.product}
 💰 الإجمالي: ${currentOrderData.price} جنيه
 
@@ -4015,6 +4257,220 @@
         trackOrder();
       }
     });
+  </script>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       Logexa Marketing Attribution & WhatsApp Dynamic Referencing
+  ══════════════════════════════════════════════════════════════ -->
+  <script>
+    (function () {
+      const CURRENT_LANDING_PAGE = 'mask_and_surem';
+
+      function getUrlParams() {
+        try {
+          return new URLSearchParams(window.location.search);
+        } catch (e) {
+          return new URLSearchParams();
+        }
+      }
+
+      function initMarketingAttribution() {
+        const params = getUrlParams();
+        const referrer = document.referrer || '';
+
+        // Read query parameters
+        const q_source = params.get('utm_source');
+        const q_campaign = params.get('utm_campaign') || params.get('campaign');
+        const q_adset = params.get('utm_term') || params.get('utm_adset');
+        const q_ad = params.get('utm_content') || params.get('utm_ad');
+        const q_fbclid = params.get('fbclid');
+        const q_ttclid = params.get('ttclid');
+        const q_gclid = params.get('gclid');
+
+        const hasUrlAttribution = !!(q_source || q_campaign || q_adset || q_ad || q_fbclid || q_ttclid || q_gclid);
+
+        // Read existing stored attribution from localStorage
+        let stored = {};
+        try {
+          const raw = localStorage.getItem('logexa_attribution');
+          if (raw) stored = JSON.parse(raw);
+        } catch (e) {}
+
+        // Determine source channel
+        let channel = 'organic';
+        const clickId = q_fbclid || q_ttclid || q_gclid || stored.click_id || null;
+
+        if (q_source) {
+          const s = q_source.toLowerCase().trim();
+          if (s.includes('facebook') || s.includes('fb') || s.includes('meta')) {
+            channel = 'facebook';
+          } else if (s.includes('instagram') || s.includes('ig')) {
+            channel = 'facebook';
+          } else if (s.includes('tiktok') || s.includes('tt')) {
+            channel = 'tiktok';
+          } else if (s.includes('google') || s.includes('gads') || s.includes('youtube')) {
+            channel = 'google';
+          } else if (s.includes('whatsapp') || s.includes('wa')) {
+            channel = 'whatsapp';
+          } else {
+            channel = s;
+          }
+        } else if (q_fbclid || referrer.includes('facebook.com') || referrer.includes('instagram.com') || referrer.includes('fb.me')) {
+          channel = 'facebook';
+        } else if (q_ttclid || referrer.includes('tiktok.com')) {
+          channel = 'tiktok';
+        } else if (q_gclid || referrer.includes('google.')) {
+          channel = 'google';
+        } else if (referrer.includes('wa.me') || referrer.includes('whatsapp.com')) {
+          channel = 'whatsapp';
+        } else if (!hasUrlAttribution && stored.source_channel) {
+          channel = stored.source_channel;
+        }
+
+        const attributionData = {
+          source_channel: channel,
+          utm_campaign: q_campaign || stored.utm_campaign || null,
+          utm_adset: q_adset || stored.utm_adset || null,
+          utm_ad: q_ad || stored.utm_ad || null,
+          landing_page: CURRENT_LANDING_PAGE,
+          click_id: clickId,
+          referrer_url: referrer || stored.referrer_url || null,
+          timestamp: Date.now()
+        };
+
+        try {
+          localStorage.setItem('logexa_attribution', JSON.stringify(attributionData));
+        } catch (e) {}
+
+        window.logexaAttribution = attributionData;
+        updateWhatsAppElements(attributionData);
+      }
+
+      window.getLogexaAttribution = function () {
+        if (window.logexaAttribution) return window.logexaAttribution;
+        try {
+          const raw = localStorage.getItem('logexa_attribution');
+          if (raw) return JSON.parse(raw);
+        } catch (e) {}
+        return {
+          source_channel: 'organic',
+          utm_campaign: null,
+          utm_adset: null,
+          utm_ad: null,
+          landing_page: CURRENT_LANDING_PAGE,
+          click_id: null,
+          referrer_url: document.referrer || null
+        };
+      };
+
+      function generateWhatsAppRefTag(attr) {
+        const ch = (attr.source_channel || 'DIRECT').toUpperCase();
+        if (ch !== 'ORGANIC' && ch !== 'DIRECT') {
+          const camp = attr.utm_campaign || 'عام';
+          const ad = attr.utm_ad || 'إعلان';
+          return `\n\n(كود المرجع: ${ch} | ${camp} | ${ad})`;
+        }
+        return '\n\n(كود المرجع: DIRECT)';
+      }
+
+      function updateWhatsAppElements(attr) {
+        const refTag = generateWhatsAppRefTag(attr);
+
+        // Update all static anchor links to WhatsApp
+        const waLinks = document.querySelectorAll('a[href*="wa.me"], a[href*="api.whatsapp.com"]');
+        waLinks.forEach(link => {
+          try {
+            const rawHref = link.getAttribute('href');
+            if (!rawHref) return;
+
+            const url = new URL(rawHref, window.location.origin);
+            let text = url.searchParams.get('text') || '';
+            if (!text.includes('كود المرجع:')) {
+              text = text.trim() + refTag;
+              url.searchParams.set('text', text);
+              link.setAttribute('href', url.toString());
+            }
+          } catch (err) {
+            let href = link.getAttribute('href');
+            if (href && !href.includes(encodeURIComponent('كود المرجع:'))) {
+              if (href.includes('text=')) {
+                href = href + encodeURIComponent(refTag);
+              } else {
+                const sep = href.includes('?') ? '&' : '?';
+                href = href + sep + 'text=' + encodeURIComponent(refTag.trim());
+              }
+              link.setAttribute('href', href);
+            }
+          }
+        });
+      }
+
+      // Intercept any click on wa.me / api.whatsapp.com to ensure dynamic modals always have the reference code
+      document.addEventListener('click', function (e) {
+        const link = e.target.closest('a[href*="wa.me"], a[href*="api.whatsapp.com"]');
+        if (link) {
+          try {
+            const attr = window.getLogexaAttribution();
+            const refTag = generateWhatsAppRefTag(attr);
+            const url = new URL(link.href, window.location.origin);
+            let text = url.searchParams.get('text') || '';
+            if (!text.includes('كود المرجع:')) {
+              text = text.trim() + refTag;
+              url.searchParams.set('text', text);
+              link.href = url.toString();
+            }
+          } catch (err) {}
+        }
+      }, true);
+
+      // Intercept window.open calls with WhatsApp URLs (for dynamic JS buttons like edit/cancel order)
+      const origOpen = window.open;
+      window.open = function (url, target, features) {
+        if (typeof url === 'string' && (url.includes('wa.me') || url.includes('api.whatsapp.com'))) {
+          try {
+            const attr = window.getLogexaAttribution();
+            const refTag = generateWhatsAppRefTag(attr);
+            const parsedUrl = new URL(url, window.location.origin);
+            let text = parsedUrl.searchParams.get('text') || '';
+            if (!text.includes('كود المرجع:')) {
+              text = text.trim() + refTag;
+              parsedUrl.searchParams.set('text', text);
+              url = parsedUrl.toString();
+            }
+          } catch (err) {}
+        }
+        return origOpen.call(window, url, target, features);
+      };
+
+      // Run on page initialization
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initMarketingAttribution);
+      } else {
+        initMarketingAttribution();
+      }
+
+      window.addEventListener('load', function () {
+        if (window.logexaAttribution) {
+          updateWhatsAppElements(window.logexaAttribution);
+        }
+      });
+    })();
+  </script>
+  <script>
+    // إخفاء زر واتساب العائم على الموبايل وقت ظهور الفورم / الأسئلة الشائعة / تتبع الطلب حتى لا يغطي الحقول والنصوص
+    (function () {
+      const wa = document.getElementById('whatsappFloat');
+      if (!wa || !('IntersectionObserver' in window)) return;
+      const targets = [document.getElementById('order'), document.getElementById('faq'),
+        (document.querySelector('.track-order-form') || {}).closest ? document.querySelector('.track-order-form').closest('section') : null]
+        .filter(Boolean);
+      const visible = new Set();
+      const io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) { if (en.isIntersecting) visible.add(en.target); else visible.delete(en.target); });
+        wa.classList.toggle('wa-hidden', visible.size > 0 && window.matchMedia('(max-width: 900px)').matches);
+      }, { threshold: 0 });
+      targets.forEach(function (t) { io.observe(t); });
+    })();
   </script>
 </body>
 
