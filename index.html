@@ -2772,11 +2772,19 @@
       .sticky-wa svg { width: 24px; height: 24px; fill: #fff; }
       .whatsapp-float { display: none !important; }
     }
+    /* كروت آراء العملاء (نص الرسائل كما هو) */
+    .swiper-testimonials .swiper-slide { height: auto; }
+    .review-card { margin: 0; height: 100%; background: #fff; border: 1px solid #F2D9A6; border-top: 4px solid #F2C14E; border-radius: 16px; padding: 18px 18px 16px; box-shadow: 0 4px 16px rgba(59, 36, 22, 0.06); text-align: right; display: flex; flex-direction: column; }
+    .review-quote { font-size: 44px; line-height: 0.6; color: #F2C14E; font-family: Georgia, serif; margin-bottom: 6px; }
+    .review-card blockquote { margin: 0; font-size: 15.5px; line-height: 1.9; color: #3B2416; flex: 1; }
+    .review-card figcaption { margin-top: 12px; font-weight: 800; color: #C2410C; font-size: 15px; }
+    .swiper-testimonials { padding-bottom: 36px; }
+    .swiper-testimonials .swiper-pagination-bullet-active { background: #EA580C; }
   </style>
 </head>
 
 <body>
-  <div class="promo-bar">🎉 عرض 2 بوكس بسعر بوكس واحد – شحن مجاني على 2 و3 بوكس لفترة محدودة 🔥</div>
+  <div class="promo-bar">عرض 2 بوكس بسعر بوكس واحد – شحن مجاني على 2 و3 بوكس لفترة محدودة</div>
   <!-- HEADER -->
   <header>
     <div class="container">
@@ -2798,7 +2806,7 @@
       <div class="hero-grid">
         <div>
           <div class="hero-kicker">
-            ✨ الحل الأكيد لكل مشاكل شعرِك
+            الحل الأكيد لكل مشاكل شعرِك
           </div>
           <h1 class="hero-title">
             <span class="hero-label">عرض 2 بوكس بسعر بوكس واحد</span><br>
@@ -2823,11 +2831,11 @@
           <div class="hero-cta-row">
             <button class="btn btn-primary" onclick="scrollToOrder()"
               style="background: linear-gradient(135deg, #F59E0B 0%, #EA580C 100%); box-shadow: 0 6px 16px rgba(234, 88, 12, 0.22); border: none;">
-              احصلي على عرض 2 بوكس بسعر بوكس واحد الآن 🔥
+              احصلي على عرض 2 بوكس بسعر بوكس واحد الآن
             </button>
             <button class="btn btn-outline" onclick="scrollToFaq()" type="button"
               style="background: linear-gradient(135deg, #FFFDF8 0%, #FFF1D6 100%); border: 2px solid #E0A526; color: #3B2416; font-weight: 700; box-shadow: 0 4px 15px rgba(224, 165, 38, 0.3);">
-              ❓ عندك أسئلة؟ اقري هنا
+              عندك أسئلة؟ اقري هنا
             </button>
           </div>
           <div class="hero-trust-line">
@@ -2837,7 +2845,7 @@
         </div>
 
         <div class="hero-img-card">
-          <div class="hero-img-badge">🔥 عرض 2 بوكس بسعر بوكس واحد</div>
+          <div class="hero-img-badge">عرض 2 بوكس بسعر بوكس واحد</div>
           <div class="carousel" id="heroCarousel">
             <button class="carousel-btn prev" onclick="changeSlide(-1)" aria-label="Previous">❮</button>
             <button class="carousel-btn next" onclick="changeSlide(1)" aria-label="Next">❯</button>
@@ -2869,7 +2877,7 @@
       <div class="before-after">
         <div class="ba-content">
           <h2 class="sec-title" style="text-align: right; margin-bottom: 16px;">قبل وبعد استخدام كارسيل</h2>
-          <h3>نتائج واضحة من أول استخدام! 🌟</h3>
+          <h3>نتائج واضحة من أول استخدام!</h3>
           <p>
             شاهدي التحول الحقيقي للشعر من تالف وهايش لناعم وحيوي بعد استخدام مجموعة كارسيل كولاجين
           </p>
@@ -2940,7 +2948,7 @@
       <div style="text-align: center; margin-top: 40px;">
         <button class="btn btn-primary" onclick="scrollToOrder()"
           style="padding: 18px 50px; font-size: 1.3rem; box-shadow: 0 6px 16px rgba(234, 88, 12, 0.22);">اطلبي المنتج
-          الأصلي الآن ✨</button>
+          الأصلي الآن</button>
       </div>
     </div>
   </section>
@@ -2956,15 +2964,15 @@
           </p>
 
           <div style="text-align: center; margin-bottom: 18px;">
-            <div style="font-size: 15px; font-weight: 800; color: #3B2416;">🔥 احصل على عرض 2 بوكس بسعر بوكس واحد
+            <div style="font-size: 15px; font-weight: 800; color: #3B2416;">احصل على عرض 2 بوكس بسعر بوكس واحد
             </div>
-            <div style="font-size: 13px; font-weight: 700; color: #6B5344; margin-top: 4px;">⏳ الكمية محدودة</div>
-            <div class="free-ship-note">🚚 الشحن مجاني في حالة الاستلام فقط</div>
+            <div style="font-size: 13px; font-weight: 700; color: #6B5344; margin-top: 4px;">الكمية محدودة</div>
+            <div class="free-ship-note">الشحن مجاني في حالة الاستلام فقط</div>
           </div>
 
           <div class="offers-row offers-eid">
             <div class="offer-card featured" data-boxes="2" onclick="selectOffer(2, this)">
-              <span class="offer-badge">👑 الأكثر طلبًا</span>
+              <span class="offer-badge">الأكثر طلبًا</span>
               <div class="offer-title">عرض 2 بوكس</div>
               <div class="offer-value">2 بوكس (2 ماسك + 2 سيروم) بسعر خاص</div>
               <div class="offer-save">توفير يصل إلى 1200 جنيه</div>
@@ -2981,7 +2989,7 @@
             </div>
 
             <div class="offer-card side secondary" data-boxes="3" onclick="selectOffer(3, this)">
-              <span class="offer-badge">🔥 عرض ممتاز</span>
+              <span class="offer-badge">عرض ممتاز</span>
               <div class="offer-title">العرض الأقوى – 3 بوكس</div>
               <div class="offer-value">3 بوكس (3 ماسك + 3 سيروم) بسعر خاص</div>
               <div class="offer-save">توفير يصل إلى 1900 جنيه</div>
@@ -2998,7 +3006,7 @@
             </div>
 
             <div class="offer-card side entry" data-boxes="1" onclick="selectOffer(1, this)">
-              <span class="offer-badge">🔥 العرض الأساسي</span>
+              <span class="offer-badge">العرض الأساسي</span>
               <div class="offer-title">عرض 1 بوكس</div>
               <div class="offer-value">1 بوكس (ماسك + سيروم)</div>
               <div class="offer-save">توفير لفترة محدودة</div>
@@ -3007,19 +3015,19 @@
                 <span class="offer-price-new">650 جنيه</span>
               </div>
               <ul class="offer-list">
-                <li>🚚 600 ج.م + 50 ج.م شحن</li>
+                <li>600 ج.م + 50 ج.م شحن</li>
                 <li>✔ الدفع عند الاستلام</li>
                 <li>✔ معاينة قبل الدفع</li>
               </ul>
               <button class="offer-cta">اطلبي الآن</button>
             </div>
           </div>
-          <div class="bulk-note">🤝 للتجار والكميات الكبيرة عندنا عروض خاصة – <a href="https://wa.me/201515697085?text=مرحباً،%20عايزة%20أستفسر%20عن%20عروض%20التجار%20والكميات%20الكبيرة%20لماسك%20وسيروم%20كارسيل" target="_blank" rel="noopener">كلمينا على واتساب</a></div>
+          <div class="bulk-note">للتجار والكميات الكبيرة عندنا عروض خاصة – <a href="https://wa.me/201515697085?text=مرحباً،%20عايزة%20أستفسر%20عن%20عروض%20التجار%20والكميات%20الكبيرة%20لماسك%20وسيروم%20كارسيل" target="_blank" rel="noopener">كلمينا على واتساب</a></div>
         </div>
 
         <div>
           <div class="order-form-separator">
-            <span>🛍️ اطلب الآن</span>
+            <span>اطلب الآن</span>
           </div>
 
           <form id="orderForm">
@@ -3066,8 +3074,8 @@
                   +
                 </button>
               </div>
-              <div style="font-size: 12px; color: #6B5344; margin-top: 6px; text-align: center;">📦 1 بوكس = 650 ج.م (600 + 50 شحن) • 2 بوكس = 1200 ج.م • 3 بوكس = 1700 ج.م • أكتر من 3: كل 3 بوكس بـ 1700 + كل بوكس زيادة بـ 600 (شحن مجاني)</div>
-              <div id="bulkInquiry" class="bulk-note" style="display: none;">🤝 أكتر من 3 بوكس؟ للتجار والكميات الكبيرة عندنا عروض خاصة – <a href="https://wa.me/201515697085?text=مرحباً،%20عايزة%20أستفسر%20عن%20عروض%20التجار%20والكميات%20الكبيرة%20لماسك%20وسيروم%20كارسيل" target="_blank" rel="noopener">استفسري على واتساب</a></div>
+              <div style="font-size: 12px; color: #6B5344; margin-top: 6px; text-align: center;">1 بوكس = 650 ج.م (600 + 50 شحن) • 2 بوكس = 1200 ج.م • 3 بوكس = 1700 ج.م • أكتر من 3: كل 3 بوكس بـ 1700 + كل بوكس زيادة بـ 600 (شحن مجاني)</div>
+              <div id="bulkInquiry" class="bulk-note" style="display: none;">أكتر من 3 بوكس؟ للتجار والكميات الكبيرة عندنا عروض خاصة – <a href="https://wa.me/201515697085?text=مرحباً،%20عايزة%20أستفسر%20عن%20عروض%20التجار%20والكميات%20الكبيرة%20لماسك%20وسيروم%20كارسيل" target="_blank" rel="noopener">استفسري على واتساب</a></div>
             </div>
 
             <div>
@@ -3144,12 +3152,12 @@
               <div class="order-warning-header">
                 <div class="order-warning-icon">⚠️</div>
                 <div class="order-warning-content">
-                  <h4>💚 وصولك للطلب يكمّل الفرحة.. شكراً لثقتك</h4>
+                  <h4>وصولك للطلب يكمّل الفرحة.. شكراً لثقتك</h4>
                 </div>
               </div>
               <div class="order-warning-body">
                 <p>
-                  بنجهز طلبك بكل حب علشان يوصل بأفضل حالة 💚
+                  بنجهز طلبك بكل حب علشان يوصل بأفضل حالة
                 </p>
                 <p style="margin-top: 10px;">
                   لو كنتي جاهزة للاستلام، دوسي تأكيد وهنبقى معاكي خطوة بخطوة.
@@ -3181,47 +3189,32 @@
       <div class="swiper swiper-testimonials">
         <div class="swiper-wrapper">
           <div class="swiper-slide">
-            <div class="verify-card">
-              <div class="verify-img-wrapper">
-                <a href="https://i.ibb.co/vxPV0CVq/Chat-GPT-Image-May-11-2026-07-43-11-PM.png"
-                  data-fancybox="testimonials">
-                  <img src="https://i.ibb.co/vxPV0CVq/Chat-GPT-Image-May-11-2026-07-43-11-PM.png" alt="تجربة عميلة 1">
-                </a>
-              </div>
-            </div>
+            <figure class="review-card">
+              <div class="review-quote" aria-hidden="true">”</div>
+              <blockquote>المنتج ده خفيف على الشعر جدا وما بيثقلهوش، بيدي نعومة من غير ما يسيب دهون أو يبان. كمان سهل الاستخدام وريحته هادية ومريحة وتفضل فترة طويلة. من أول استخدام حسيت فرق في ملمس وشكل الشعر، بقى أسهل في التصفيف ومظهره صحي وأكثر حيوية.</blockquote>
+              <figcaption>— هبة</figcaption>
+            </figure>
           </div>
-
           <div class="swiper-slide">
-            <div class="verify-card">
-              <div class="verify-img-wrapper">
-                <a href="https://i.ibb.co/s9dFzCcq/Chat-GPT-Image-May-11-2026-07-38-50-PM.png"
-                  data-fancybox="testimonials">
-                  <img src="https://i.ibb.co/s9dFzCcq/Chat-GPT-Image-May-11-2026-07-38-50-PM.png" alt="تجربة عميلة 2">
-                </a>
-              </div>
-            </div>
+            <figure class="review-card">
+              <div class="review-quote" aria-hidden="true">”</div>
+              <blockquote>من أفضل المنتجات اللي جربتها للشعر بجد. الماسك غني بالكولاجين بيرطب الشعر من العمق ويعالج التلف والهيشان والسيروم خفيف ومميز وبيحمي من الحرارة ويسيب الشعر ناعم واللمعة بتفضل طول اليوم. من أول استخدام حسيت بالفرق، ومع الالتزام بالمنتج النتيجة بتكون مذهلة. المنتج أصلي وعالي الجودة وفيه كل علامات الأصالة من الباركود لحد تاريخ الإنتاج. بصراحة يستحق كل جنيه وأنصح بيه لكل حد عايز شعر صحي ولامع</blockquote>
+              <figcaption>— علا</figcaption>
+            </figure>
           </div>
-
           <div class="swiper-slide">
-            <div class="verify-card">
-              <div class="verify-img-wrapper">
-                <a href="https://i.ibb.co/bjykkq52/Chat-GPT-Image-May-11-2026-04-17-53-PM.png"
-                  data-fancybox="testimonials">
-                  <img src="https://i.ibb.co/bjykkq52/Chat-GPT-Image-May-11-2026-04-17-53-PM.png" alt="تجربة عميلة 3">
-                </a>
-              </div>
-            </div>
+            <figure class="review-card">
+              <div class="review-quote" aria-hidden="true">”</div>
+              <blockquote>كصاحبة صالون وبشتغل مع عميلات كتير، المنتج ده من أفضل المنتجات اللي جربتها! بستخدمه في الصالون مع العميلات وبوصي بيه دايماً. النتائج واضحة وسريعة، خصوصاً للشعر التالف من الصبغات والبروتين. العميلات كلهم راضيين ومعظمهم بيرجعوا يشتروه تاني. منتج اصلي 100% وجودة ممتازة، أنصح بيه بقوة!</blockquote>
+              <figcaption>— سارة</figcaption>
+            </figure>
           </div>
-
           <div class="swiper-slide">
-            <div class="verify-card">
-              <div class="verify-img-wrapper">
-                <a href="https://i.ibb.co/zTFfBLfJ/Chat-GPT-Image-May-11-2026-04-08-30-PM.png"
-                  data-fancybox="testimonials">
-                  <img src="https://i.ibb.co/zTFfBLfJ/Chat-GPT-Image-May-11-2026-04-08-30-PM.png" alt="تجربة عميلة 4">
-                </a>
-              </div>
-            </div>
+            <figure class="review-card">
+              <div class="review-quote" aria-hidden="true">”</div>
+              <blockquote>المنتج ده فعلاً غيّر شعري! كان عندي مشكلة تقصف رهيبة وجفاف، بس الماسك بيرطب بعمق والسيروم بيحمي من الحرارة. النتيجة واضحة من أول استخدام - شعري بقى أكثر حيوية ولمعان. الريحة كمان لطيفة جداً مش زي المنتجات التانية.</blockquote>
+              <figcaption>— نورهان</figcaption>
+            </figure>
           </div>
         </div>
         <div class="swiper-pagination"></div>
@@ -3303,7 +3296,7 @@
   <!-- TRACK ORDER SECTION -->
   <section class="sec" style="background: linear-gradient(135deg, #FFFDF8 0%, #FFF1D6 100%);">
     <div class="container">
-      <h2 class="sec-title" style="color: #3B2416;">🔍 تتبع طلبك</h2>
+      <h2 class="sec-title" style="color: #3B2416;">تتبع طلبك</h2>
       <p class="sec-sub" style="color: #3B2416;">
         ادخل رقم الهاتف للاطلاع على بيانات طلبك
       </p>
@@ -3317,7 +3310,7 @@
               <div style="flex: 1;">
                 <label for="trackPhone"
                   style="display: block; margin-bottom: 8px; font-weight: 700; color: #3B2416; font-size: 15px;">
-                  📱 رقم الهاتف
+                  رقم الهاتف
                 </label>
                 <input type="tel" id="trackPhone" placeholder="01234567890"
                   style="width: 100%; padding: 16px; border: 2px solid #F2C14E; border-radius: 10px; font-size: 17px; text-align: center; font-weight: 700; transition: all 0.3s; box-shadow: 0 2px 8px rgba(224, 165, 38, 0.2);"
@@ -3331,7 +3324,7 @@
                   style="padding: 16px 24px; background: #3B2416; color: white; border: none; border-radius: 10px; font-weight: 800; font-size: 16px; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 15px rgba(224, 165, 38, 0.4); white-space: nowrap; height: 58px;"
                   onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(224, 165, 38, 0.5)';"
                   onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(224, 165, 38, 0.4)';">
-                  🔍 بحث
+                  بحث
                 </button>
               </div>
             </div>
@@ -3390,7 +3383,7 @@
   <!-- STICKY CTA MOBILE -->
   <div class="sticky-cta">
     <div>
-      <p id="stickyCtaText">ماسك + سيروم كارسيل 🔥 اختاري عرضك</p>
+      <p id="stickyCtaText">ماسك + سيروم كارسيل – اختاري عرضك</p>
     </div>
     <a class="sticky-wa" href="https://wa.me/201515697085?text=مرحباً%20عندي%20استفسار%20عن%20منتج%20كارسيل" target="_blank" rel="noopener" aria-label="تواصل معنا على واتساب"><svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
         <path
@@ -3519,6 +3512,7 @@
         slidesPerView: 1,
         spaceBetween: 16,
         loop: true,
+        autoHeight: true,
         pagination: {
           el: '.swiper-testimonials .swiper-pagination',
           clickable: true,
@@ -3528,8 +3522,8 @@
           1024: { slidesPerView: 3 }
         },
         autoplay: {
-          delay: 3500,
-          disableOnInteraction: false,
+          delay: 7000,
+          disableOnInteraction: true,
         }
       });
     });
@@ -3572,7 +3566,7 @@
       3: { name: 'العرض الأقوى - 3 كريم + 3 سيرم', label: 'العرض الأقوى – 3 بوكس (3 ماسك + 3 سيروم)', short: '3 بوكس', product: 1700, shipping: 0 }
     };
     const FREE_SHIPPING_TEXT = 'الشحن مجاني في حالة الاستلام فقط';
-    const STICKY_DEFAULT_TEXT = 'ماسك + سيروم كارسيل 🔥 اختاري عرضك';
+    const STICKY_DEFAULT_TEXT = 'ماسك + سيروم كارسيل – اختاري عرضك';
 
     let selectedProduct = null;
     let selectedProductName = '';
@@ -3680,10 +3674,10 @@
           `<div class="ob-row"><span>سعر المنتج (${t.boxes} بوكس)</span><span>${t.productTotal} ج.م</span></div>` +
           `<div class="ob-row"><span>الشحن</span><span>${t.shipping > 0 ? t.shipping + ' ج.م' : 'مجاني'}</span></div>` +
           `<div class="ob-row ob-total"><span>الإجمالي</span><span>${t.total} ج.م</span></div>` +
-          (t.shipping === 0 ? `<div class="free-ship-note">🚚 ${FREE_SHIPPING_TEXT}</div>` : '');
+          (t.shipping === 0 ? `<div class="free-ship-note">${FREE_SHIPPING_TEXT}</div>` : '');
       }
       if (bulk) bulk.style.display = t.boxes > 3 ? 'block' : 'none';
-      if (sticky) sticky.textContent = `${t.boxes} بوكس 🔥 ${t.total} ج.م`;
+      if (sticky) sticky.textContent = `${t.boxes} بوكس – ${t.total} ج.م`;
     }
 
     // Meta Standard Events Set
