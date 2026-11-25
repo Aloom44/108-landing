@@ -3028,7 +3028,7 @@
                   +
                 </button>
               </div>
-              <div style="font-size: 12px; color: #6b7280; margin-top: 6px; text-align: center;">📦 1 بوكس = 650 ج.م (600 + 50 شحن) • 2 بوكس = 1200 ج.م • 3 بوكس = 1700 ج.م</div>
+              <div style="font-size: 12px; color: #6b7280; margin-top: 6px; text-align: center;">📦 1 بوكس = 650 ج.م (600 + 50 شحن) • 2 بوكس = 1200 ج.م • 3 بوكس = 1700 ج.م • أكتر من 3: كل 3 بوكس بـ 1700 + كل بوكس زيادة بـ 600 (شحن مجاني)</div>
               <div id="bulkInquiry" class="bulk-note" style="display: none;">🤝 أكتر من 3 بوكس؟ للتجار والكميات الكبيرة عندنا عروض خاصة – <a href="https://wa.me/201515697085?text=مرحباً،%20عايزة%20أستفسر%20عن%20عروض%20التجار%20والكميات%20الكبيرة%20لماسك%20وسيروم%20كارسيل" target="_blank" rel="noopener">استفسري على واتساب</a></div>
             </div>
 
@@ -3536,44 +3536,51 @@
     let selectedProductName = '';
     let selectedProductPrice = 0;
     let selectedShippingCost = 0;
-    let selectedOfferBoxes = 0; // 1 / 2 / 3
-    // مُضاعِف العرض: يزيد فقط فوق 3 بوكس (نفس المعادلة الحالية: سعر العرض × الكمية). أي تسعير جملة جديد ينتظر قرار أحمد.
-    let offerMultiplier = 1;
+    // عدد البوكسات الإجمالي المختار. العرض المستخدم (offer_type) = عرض 1 أو 2 أو 3 بوكس، وفوق 3 = العرض الأقوى
+    let selectedBoxes = 0;
 
+    // التسعير: 1 = 650 (600 + 50 شحن)، 2 = 1200، 3 = 1700 (شحن مجاني)
+    // فوق 3 بوكس: كل 3 بوكس بسعر العرض الأقوى (1700) + كل بوكس زيادة بسعر البوكس الواحد (600)، والشحن مجاني
+    // مثال: 4 = 2300، 5 = 2900، 6 = 3400 — بأسعار العروض الحالية بدون أسعار جديدة
     function getOrderTotals() {
-      const offer = BOX_OFFERS[selectedOfferBoxes];
-      if (!offer) return null;
-      const m = offerMultiplier;
-      const productTotal = offer.product * m;
-      const shipping = offer.shipping;
-      return { offer, multiplier: m, boxes: selectedOfferBoxes * m, productTotal, shipping, total: productTotal + shipping };
+      const n = selectedBoxes;
+      if (!n) return null;
+      const offer = BOX_OFFERS[Math.min(n, 3)];
+      let productTotal, shipping;
+      if (n <= 3) {
+        productTotal = offer.product;
+        shipping = offer.shipping;
+      } else {
+        productTotal = Math.floor(n / 3) * BOX_OFFERS[3].product + (n % 3) * BOX_OFFERS[1].product;
+        shipping = 0;
+      }
+      return { offer, boxes: n, productTotal, shipping, total: productTotal + shipping };
     }
 
     function getOfferLabel(t) {
-      return t.multiplier > 1 ? `${t.offer.label} × ${t.multiplier} (إجمالي ${t.boxes} بوكس)` : t.offer.label;
+      return t.boxes > 3 ? `${t.boxes} بوكس (${t.boxes} ماسك + ${t.boxes} سيروم)` : t.offer.label;
     }
 
     function selectOffer(boxes, cardEl) {
-      applyOffer(boxes, 1, cardEl || null);
+      applyOffer(boxes, cardEl || null);
     }
 
-    function applyOffer(boxes, multiplier, cardEl) {
-      const offer = BOX_OFFERS[boxes];
-      if (!offer) return;
-      selectedOfferBoxes = boxes;
-      offerMultiplier = Math.max(1, multiplier || 1);
+    function applyOffer(boxes, cardEl) {
+      if (!boxes || boxes < 1) return;
+      selectedBoxes = boxes;
+      const offer = BOX_OFFERS[Math.min(boxes, 3)];
 
       document.getElementById('offer_type').value = offer.name;
       document.getElementById('base_price').value = offer.product;
       selectedProduct = offer.name;
       selectedProductName = offer.name;
-      selectedShippingCost = offer.shipping;
+      selectedShippingCost = boxes === 1 ? offer.shipping : 0;
 
       updatePrice();
       document.getElementById('selectedOfferDisplay').style.display = 'block';
 
       document.querySelectorAll('.product-card, .offer-card').forEach(card => card.classList.remove('selected'));
-      const card = document.querySelector('.offer-card[data-boxes="' + boxes + '"]');
+      const card = document.querySelector('.offer-card[data-boxes="' + Math.min(boxes, 3) + '"]');
       if (card) card.classList.add('selected');
 
       if (cardEl) {
@@ -3591,19 +3598,13 @@
       }
     }
 
-    // زيادة/تقليل عدد البوكسات: 1 → 2 → 3 بوكس بأسعار العروض (650 / 1200 / 1700)
-    // فوق 3 بوكس: نفس السلوك الحالي (العرض الأقوى × الكمية) بدون منع أو سعر جديد + رابط واتساب للتجار
+    // زيادة/تقليل عدد البوكسات بوكس بوكس
     function increaseQuantity() {
-      if (!selectedOfferBoxes) { applyOffer(2, 1); return; }
-      const boxes = selectedOfferBoxes * offerMultiplier;
-      if (boxes < 3) applyOffer(boxes + 1, 1);
-      else applyOffer(3, offerMultiplier + 1);
+      applyOffer(selectedBoxes ? selectedBoxes + 1 : 2);
     }
 
     function decreaseQuantity() {
-      if (!selectedOfferBoxes) return;
-      if (offerMultiplier > 1) applyOffer(3, offerMultiplier - 1);
-      else if (selectedOfferBoxes > 1) applyOffer(selectedOfferBoxes - 1, 1);
+      if (selectedBoxes > 1) applyOffer(selectedBoxes - 1);
     }
 
     // تحديث الملخص: سعر المنتج + الشحن = الإجمالي (نفس الأرقام اللي بتتبعت لـ Logexa)
@@ -3640,7 +3641,7 @@
           (t.shipping === 0 ? `<div class="free-ship-note">🚚 ${FREE_SHIPPING_TEXT}</div>` : '');
       }
       if (bulk) bulk.style.display = t.boxes > 3 ? 'block' : 'none';
-      if (sticky) sticky.textContent = `${t.multiplier > 1 ? t.boxes + ' بوكس' : t.offer.short} 🔥 ${t.total} ج.م`;
+      if (sticky) sticky.textContent = `${t.boxes} بوكس 🔥 ${t.total} ج.م`;
     }
 
     // Meta Standard Events Set
@@ -3785,8 +3786,7 @@
       // Get offer data from hidden inputs
       const offerType = document.getElementById('offer_type').value;
       const offerPrice = document.getElementById('offer_price').value;
-      // الكمية المُرسلة كما كانت = مُضاعِف العرض (عدد البوكسات = بوكسات العرض × المُضاعِف)
-      const quantity = String(offerMultiplier || 1);
+      const quantity = String(selectedBoxes || 1); // عدد البوكسات الإجمالي
 
       // Check if offer is selected
       if (!offerType || !offerPrice) {
@@ -3841,22 +3841,12 @@
 
       const finalPrice = Number(offerPrice) || Number(selectedProductPrice) || 0;
       const finalQuantity = parseInt(quantity, 10) || 1;
-      const orderTotals = getOrderTotals(); // للعرض فقط في رسالة التأكيد
+      const orderTotals = getOrderTotals();
 
-      // Normalize package count & shipping for Karseell Combo Model
-      let packageQuantity = finalQuantity;
-      let finalShipping = Number(selectedShippingCost) || 0;
-
-      if (offerType.includes('3 كريم') || offerType.includes('العرض الأقوى')) {
-        packageQuantity = 3 * finalQuantity;
-        finalShipping = 0;
-      } else if (offerType.includes('2 كريم') || offerType.includes('عرض القطعتين')) {
-        packageQuantity = 2 * finalQuantity;
-        finalShipping = 0;
-      } else {
-        packageQuantity = 1 * finalQuantity;
-        finalShipping = 50;
-      }
+      // عدد البوكسات المُرسل لـ Logexa = العدد الإجمالي، والشحن 50 للبوكس الواحد فقط
+      // (offer_type فوق 3 = العرض الأقوى؛ Logexa بياخد الكمية الصريحة لأن 3 × الكمية > 10)
+      const packageQuantity = finalQuantity;
+      const finalShipping = orderTotals ? orderTotals.shipping : (finalQuantity === 1 ? 50 : 0);
 
       const orderData = {
         name: formData.get('name'),
@@ -4031,7 +4021,7 @@
               content_name: orderData.product,
               value: Number(finalPrice) || 0,
               currency: 'EGP',
-              num_items: finalQuantity,
+              num_items: packageQuantity, // عدد البوكسات (زي InitiateCheckout)
               order_id: effectiveOrderId
             }, { eventID: logexaCapiEventId });
             console.log('✅ Pixel Purchase (dedup eventID):', logexaCapiEventId);
@@ -4082,8 +4072,7 @@
         selectedProductName = '';
         selectedProductPrice = 0;
         selectedShippingCost = 0;
-        selectedOfferBoxes = 0;
-        offerMultiplier = 1;
+        selectedBoxes = 0;
         initiateCheckoutTracked = false;
         document.getElementById('selectedOfferDisplay').style.display = 'none';
         document.getElementById('offer_type').value = '';
